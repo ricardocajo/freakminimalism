@@ -1,0 +1,10 @@
+{
+    "XXS":  false,
+    "XS":   true,
+    "S":    true,
+    "M":    true,
+    "L":    true,
+    "XL":   true,
+    "XXL:": true,
+    "3XL":  false
+}
