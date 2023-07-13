@@ -1,9 +1,4 @@
 function initialize_sizes() {
-    let sizes_DOM = document.getElementById( "sizes_list" );
-    sizes_DOM.innerText = fetch("./db/sizes/sizes.json");
-}
-
-/*function initialize_sizes() {
   let sizes_DOM = document.getElementById("sizes_list");
   fetch("./db/sizes/sizes.json")
     .then(response => response.json())
@@ -13,4 +8,4 @@ function initialize_sizes() {
     .catch(error => {
       console.error('Error:', error);
     });
-}*/
+}
