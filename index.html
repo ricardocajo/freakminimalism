@@ -46,7 +46,6 @@
                         </h2>
                         <!--<img src="assets/img/my_photo.png" alt="...">-->
                         <p>Alguma descrição ou imagem?</p>
-                        <p>(Também mudar o icone lá de cima da página do website)</p>
                     </div>
                 </div>
             </div>
@@ -59,13 +58,10 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
                         <!--<h1 class="title">Preçário</h1>-->
-                        <ul>
-                            <li>CHAPÉUS .......... 16</li>
-                            <li>QUEEN SHIRT | KING SHIRT ...... 17</li>
-                            <li>(ir buscar esta lista dinâmicamente de uma DB)</li>
+                        <h2>DESDE</h2>
+                        <ul id="prices_list">
                         </ul>
                         <p id="sizes_list"></p>
-                        <p>(provavelmente também os tamanhos na DB para poder alterar ou indicar esgotados)</p>
                     </div>
                 </div>
                 <!--<img class="img-fluid" src="assets/img/fcul_logo.png" alt="..." />-->
@@ -159,6 +155,7 @@
         <!-- Initialize page with DB values -->
         <script>
             initialize_sizes();
+            initialize_prices();
         </script>
         
     </body>
