@@ -1,11 +1,11 @@
 {
-    "CHAPÉUS":                      "16",
-    "QUEEN SHIRT | KING SHIRT":     "17",
-    "QUEEN SWEAT | KING SHIRT":     "34",
-    "QUEEN ZIPP | KING ZIPP":       "42",
-    "QUEEN HOODED | KING HOODED":   "37",
-    "QUEEN POLO | KING POLO":       "18",
-    "BOLSAS":                       "19",
-    "TOALHAS DE GINÁSIO":           "16",
-    "PORTA-CHAVES":                 "2"
+    "CHAPÉUS":                      "16€",
+    "QUEEN SHIRT | KING SHIRT":     "17€",
+    "QUEEN SWEAT | KING SHIRT":     "34€",
+    "QUEEN ZIPP | KING ZIPP":       "42€",
+    "QUEEN HOODED | KING HOODED":   "37€",
+    "QUEEN POLO | KING POLO":       "18€",
+    "BOLSAS":                       "19€",
+    "TOALHAS DE GINÁSIO":           "16€",
+    "PORTA-CHAVES":                 "2€"
 }
