@@ -46,7 +46,7 @@ function initialize_works() {
         Object.keys(data).forEach(key => {
           if(data[key]) {
             let listItem = document.createElement("li");
-            listItem.innerHTML = `<img src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
+            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
             prices_DOM.appendChild(listItem);
           }
         });
