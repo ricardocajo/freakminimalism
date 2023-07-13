@@ -37,4 +37,21 @@ function initialize_prices() {
     });
 }
 
-
+/* Fetches available works data and adds it to the Webpage */
+function initialize_works() {
+    let prices_DOM = document.getElementById("works_list");
+    fetch(ABSOLUTE_PATH + "/db/works/works.json")
+      .then(response => response.json())
+      .then(data => {
+        Object.keys(data).forEach(key => {
+          if(data[key]) {
+            let listItem = document.createElement("li");
+            listItem.innerHTML = `<img src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
+            prices_DOM.appendChild(listItem);
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
