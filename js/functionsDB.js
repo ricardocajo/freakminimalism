@@ -1,4 +1,4 @@
-let ABSOLUTE_PATH = "https://ricardocajo.github.io/freakminimalism"
+let ABSOLUTE_PATH = "https://freak-minimalism.com"
 
 /* Fetches available sizes data and adds it to the Webpage */
 function initialize_sizes() {
