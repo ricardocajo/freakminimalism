@@ -11709,12 +11709,24 @@ body {
 
 
 .worksimg {
-    display: grid;
-    height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Add this line to create 3 columns */
+  grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
+  height: 100%;
 }
 
 .workscenter-fit {
   max-width: 100%;
   max-height: 100vh;
   margin: auto;
+}
+
+.column-item {
+  /* Remove the column-width property */
+  break-inside: avoid;
+}
+
+.column-item img {
+  /* Add any additional styling for the images */
+  width: 100%;
 }
