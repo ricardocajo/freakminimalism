@@ -1,6 +1,6 @@
 This is the website for the brand freakMinimalism
 
-The website link: https://ricardocajo.github.io/freakminimalism/
+The website link: https://freak-minimalism.com
 
 
 Mudar:
@@ -8,6 +8,7 @@ Mudar:
   entre preceraio e roupas por a ultima publicacao de instagram /3 publicacoes
   fazer seccao das roupas
 
+<<<<<<< HEaaaaAD
 
 
   codigo para por ultima publicacao no instagram acho eu hahaha
@@ -65,3 +66,7 @@ Mudar:
   </script>
 </body>
 </html>
+=======
+  mudar link redirecionado de http para https
+  mudar o tipo de letra dos menus / sobre nós? Para ficar igual ao DESDE e PORTFOLIO ?
+>>>>>>> c99194d5ec134f69aa1536d8d1da8d4daeb6c8df
