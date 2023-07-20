@@ -100,36 +100,41 @@
 
         <!-- Clothing -->
         <section class="projects-section bg-light" id="clothing">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/freakminimalism_icon.jpeg" alt="..." /></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h2>ʀᴏᴜᴘa</h2>
-                            <p>
-                                Ter algo tipo motor de pesquisa para ir selecionando/filtrando artigos?
-                                (Ter esta informação toda numa DB e ir buscá-la dinâmicamente)
-                            </p>
-                        </div>
-                    </div>
+            <h2 class="text-center">ʀᴏᴜᴘa</h2>
+            <div class="container px-4 px-lg-5">  
+              <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+                <div class="col-xl-8 col-lg-7">
+                  <img class="img-fluid mb-3 mb-lg-0" src="assets/img/freakminimalism_icon.jpeg" alt="..." />
                 </div>
-            </div>  
-        </section>
-        <!--<section class="projects-section bg-light" id="experience2">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                    <div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/roff.jpg" alt="..." /></div>
-                    <div class="col-xl-4 col-lg-5">
-                        <div class="featured-text text-center text-lg-left">
-                            <h2>Sep 2019 - Jul 2020, Junior Consultant at ROFF</h2>
-                            <p>
-                                Working at a support service, mainly with SAP Portal/SAP Netweaver as a frontend Java framework and using Oracle SQL Developer as a persistence framework, I often had to access SAP ERP and ABAP code as a backend framework. This means I am somewhat familiar with their Model View Controller architecture. There were also different types of Data Services handled either by SAP BI or directly with Java code. When there was not much support service work-related stuff, I would help the development team or develop helpful tools myself.
-                            </p>
-                        </div>
+                <div class="col-xl-4 col-lg-5">
+                  <div class="featured-text text-center text-lg-left">
+          
+                    <!-- Clothing Type Select -->
+                    <div>
+                        <label for="clothing-type">Artigo:</label>
+                        <select id="clothing-type">
+                        <option value="all">All</option>
+                        <option value="shirt">Shirt</option>
+                        <option value="pants">Pants</option>
+                        </select>
                     </div>
+          
+                    <br>
+
+                    <!-- Clothing Color Select -->
+                    <div>
+                        <label for="clothing-color">Cor:</label>
+                        <select id="clothing-color">
+                        <option value="all">All</option>
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        </select>
+                    </div>
+                  </div>
                 </div>
-            </div>  
-        </section>-->
+              </div>
+            </div>
+          </section>
 
 
 
@@ -139,6 +144,7 @@
               <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <div id="instagram-post"></div>
+                    <p>Instagram part</p>
                 </div>
               </div>
             </div>
