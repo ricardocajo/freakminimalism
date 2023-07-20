@@ -60,6 +60,7 @@ function initialize_works() {
     });
 }
 
+
 /* Fetches available prices data to add it to the clothing section */
 function initialize_clothingItems() {
   let items_DOM = document.getElementById("clothing-type");
@@ -78,4 +79,11 @@ function initialize_clothingItems() {
     .catch(error => {
       console.error('Error:', error);
     });
+}
+
+
+// Function to handle the selection (you can replace this with your desired logic)
+function handleClothingTypeSelected(selectedValue) {
+  console.log("Selected option:", selectedValue);
+  // Add your custom logic here based on the selectedValue
 }
