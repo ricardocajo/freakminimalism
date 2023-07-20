@@ -1,5 +1,6 @@
 let ABSOLUTE_PATH = "https://freak-minimalism.com"
 
+
 /* Fetches available sizes data and adds it to the Webpage */
 function initialize_sizes() {
   let sizes_DOM = document.getElementById("sizes_list");
@@ -14,6 +15,7 @@ function initialize_sizes() {
       console.error('Error:', error);
     });
 }
+
 
 /* Fetches available prices data and adds it to the Webpage */
 function initialize_prices() {
@@ -37,8 +39,10 @@ function initialize_prices() {
     });
 }
 
+
+/* Fetches available works data and adds it to the Webpage */
 function initialize_works() {
-  let works_DOM = document.getElementById("works_list"); // Renamed prices_DOM to works_DOM
+  let works_DOM = document.getElementById("works_list");
   fetch(ABSOLUTE_PATH + "/db/works/works.json")
     .then(response => response.json())
     .then(data => {
@@ -47,7 +51,27 @@ function initialize_works() {
           let listItem = document.createElement("li");
           listItem.classList.add("column-item");
           listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
-          works_DOM.appendChild(listItem); // Renamed prices_DOM to works_DOM
+          works_DOM.appendChild(listItem);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+/* Fetches available prices data to add it to the clothing section */
+function initialize_clothingItems() {
+  let items_DOM = document.getElementById("clothing-type");
+  fetch(ABSOLUTE_PATH + "/db/prices/prices.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.keys(data).forEach(key => {
+        if (data[key]) {
+          let listItem = document.createElement("option");
+          listItem.value = key;
+          listItem.innerHTML = key;
+          items_DOM.appendChild(listItem);
         }
       });
     })

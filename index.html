@@ -16,8 +16,8 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
     </head>
-    <body id="page-top">
 
+    <body id="page-top">
 
 
         <!-- Navigation-->
@@ -112,11 +112,7 @@
                     <!-- Clothing Type Select -->
                     <div>
                         <label for="clothing-type">Artigo:</label>
-                        <select id="clothing-type">
-                        <option value="all">All</option>
-                        <option value="shirt">Shirt</option>
-                        <option value="pants">Pants</option>
-                        </select>
+                        <select id="clothing-type"></select>
                     </div>
           
                     <br>
@@ -198,6 +194,7 @@
             //initialize_sizes();
             initialize_prices();
             initialize_works();
+            initialize_clothingItems();
         </script>
         
     </body>
