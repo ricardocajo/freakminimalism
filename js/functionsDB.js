@@ -88,15 +88,34 @@ function handleClothingTypeSelected(selectedValue) {
   fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue + "/roupa.json")
     .then(response => response.json())
     .then(data => {
-      Object.values(data.colors).forEach(color => {
+      const firstType = data.types[0];
+      // Show the colors of the first clothing type
+      color_DOM.innerHTML = '';
+      firstType.colors.forEach(color => {
         let listItem = document.createElement("option");
         listItem.value = color;
         listItem.innerHTML = color;
         color_DOM.appendChild(listItem);
       });
+      //initialize colors with 1st cloth being shown
+      handleClothingTypeSelected(firstType, data);
     })
     .catch(error => {
       console.error('Error:', error);
     });
 }
 
+
+// Function to handle the selection (you can replace this with your desired logic)
+function handleClothingSubTypeSelected(firstValue, data) {
+  let subtype_DOM = document.getElementById("clothing-subtype");
+  subtype_DOM.innerHTML = '';
+  const types = data.types.map(item => item.type);
+  types.forEach(type => {
+    let listItem = document.createElement("option");
+    listItem.value = type;
+    listItem.innerHTML = type;
+    subtype_DOM.appendChild(listItem);
+  });
+  //handleClothingImageSelected(firstValue);
+}
