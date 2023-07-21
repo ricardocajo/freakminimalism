@@ -68,13 +68,13 @@ function initialize_clothingItems() {
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
-        if (data[key]) {
-          let listItem = document.createElement("option");
-          listItem.value = key;
-          listItem.innerHTML = key;
-          items_DOM.appendChild(listItem);
-        }
+        let listItem = document.createElement("option");
+        listItem.value = key;
+        listItem.innerHTML = key;
+        items_DOM.appendChild(listItem);
       });
+      //initialize colors with 1st cloth being shown
+      handleClothingTypeSelected(Object.keys(data)[0]);
     })
     .catch(error => {
       console.error('Error:', error);
@@ -84,6 +84,19 @@ function initialize_clothingItems() {
 
 // Function to handle the selection (you can replace this with your desired logic)
 function handleClothingTypeSelected(selectedValue) {
-  console.log("Selected option:", selectedValue);
-  // Add your custom logic here based on the selectedValue
+  let color_DOM = document.getElementById("clothing-color");
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue + "/roupa.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.values(data.colors).forEach(color => {
+        let listItem = document.createElement("option");
+        listItem.value = color;
+        listItem.innerHTML = color;
+        color_DOM.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
+
