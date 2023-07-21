@@ -85,6 +85,7 @@ function initialize_clothingItems() {
 // Function to handle the selection (you can replace this with your desired logic)
 function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("clothing-color");
+  let subtype_DOM = document.getElementById("clothing-subtype");
   fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue + "/roupa.json")
     .then(response => response.json())
     .then(data => {
@@ -97,25 +98,21 @@ function handleClothingTypeSelected(selectedValue) {
         listItem.innerHTML = color;
         color_DOM.appendChild(listItem);
       });
+
+      subtype_DOM.innerHTML = '';
+      const types = data.types.map(item => item.type);
+      types.forEach(type => {
+        let listItem = document.createElement("option");
+        listItem.value = type;
+        listItem.innerHTML = type;
+        subtype_DOM.appendChild(listItem);
+      });
+      
       //initialize colors with 1st cloth being shown
-      handleClothingTypeSelected(firstType, data);
+      //handleClothingSubTypeSelected(firstType, data);
+      //handleClothingImageSelected(firstValue);
     })
     .catch(error => {
       console.error('Error:', error);
     });
-}
-
-
-// Function to handle the selection (you can replace this with your desired logic)
-function handleClothingSubTypeSelected(firstValue, data) {
-  let subtype_DOM = document.getElementById("clothing-subtype");
-  subtype_DOM.innerHTML = '';
-  const types = data.types.map(item => item.type);
-  types.forEach(type => {
-    let listItem = document.createElement("option");
-    listItem.value = type;
-    listItem.innerHTML = type;
-    subtype_DOM.appendChild(listItem);
-  });
-  //handleClothingImageSelected(firstValue);
 }
