@@ -86,6 +86,7 @@ function initialize_clothingItems() {
 function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("clothing-color");
   let subtype_DOM = document.getElementById("clothing-subtype");
+  selectedValue.replace(/[^a-zA-Z ]/g, "");
   fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue + "/roupa.json")
     .then(response => response.json())
     .then(data => {
