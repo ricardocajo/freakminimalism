@@ -1,11 +1,11 @@
 {"types": 
     [
         {
-            "type": "snap five",
+            "type": "Snap Five",
             "colors": ["azul", "vermelho", "preto"]
         },
         {
-            "type": "tradicional",
+            "type": "Tradicional",
             "colors": ["azul", "preto"]
         }
     ]

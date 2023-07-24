@@ -83,11 +83,11 @@ function initialize_clothingItems() {
 
 
 // Function to handle the selection (you can replace this with your desired logic)
+var theSelectedType = "a";
 function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("clothing-color");
   let subtype_DOM = document.getElementById("clothing-subtype");
-  selectedValue.replace(/[^a-zA-Z ]/g, "");
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue + "/roupa.json")
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue.replace("|", "") + "/roupa.json")
     .then(response => response.json())
     .then(data => {
       const firstType = data.types[0];
@@ -110,10 +110,47 @@ function handleClothingTypeSelected(selectedValue) {
       });
       
       //initialize colors with 1st cloth being shown
-      //handleClothingSubTypeSelected(firstType, data);
-      //handleClothingImageSelected(firstValue);
+      handleClothingSubTypeSelected("Snap Five");//TODO
+      //handleClothingColorSelected(firstValue);
+
+      theSelectedType = selectedValue;
     })
     .catch(error => {
       console.error('Error:', error);
     });
 }
+
+var theSelectedSubType = "a";
+function handleClothingSubTypeSelected(selectedValue) {
+  let image_DOM = document.getElementById("clothing-image");
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedSubType + "/" + selectedValue + "/" + theSelectedColor + ".jpg")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.blob();
+    })
+    .then(imageBlob => {
+      const imageUrl = URL.createObjectURL(imageBlob);
+      image_DOM.src = imageUrl;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+
+var theSelectedColor = "00";
+/*function handleClothingColorSelected(selectedValue) {
+  //let color_DOM = document.getElementById("clothing-color");
+  //let subtype_DOM = document.getElementById("clothing-subtype");
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue.replace("|", "") + "/roupa.json")
+    .then(response => response.json())
+    .then(data => {
+
+      
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}*/

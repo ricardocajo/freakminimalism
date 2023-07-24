@@ -1,11 +1,11 @@
 {"types": 
     [
         {
-            "type": "king",
+            "type": "KING",
             "colors": ["branco", "preto"]
         },
         {
-            "type": "queen",
+            "type": "QUEEN",
             "colors": ["azul", "vermelho"]
         }
     ]

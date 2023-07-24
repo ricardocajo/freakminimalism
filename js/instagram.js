@@ -1,9 +1,9 @@
 // Função para obter a última publicação do Instagram
 function getLatestInstagramPost() {
     // Insira o seu nome de usuário do Instagram abaixo
-    var username = 'seu_nome_de_usuario';
+    var username = 'freakminimalism';
     // Insira o seu token de acesso à API do Instagram abaixo
-    var accessToken = 'seu_token_de_acesso';
+    var accessToken = 'IGQVJXMUFYclFiMlVwY1lES0ozOGptLW1aWDJwWEFjTk1tamFtVzMzbmJqcWtPVlVSa2N0cWJWelVnZAlp6aENTaXdBYXRzTk4yNVZAYaFA0TTBsN1M3NE9reEhPLVdrUlpVV1pIT0s1QlJ0V0JzdG5mRwZDZD';
 
     // Faz a requisição para a API do Instagram
     $.ajax({
