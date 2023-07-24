@@ -83,7 +83,7 @@ function initialize_clothingItems() {
 
 
 // Function to handle the selection (you can replace this with your desired logic)
-var theSelectedType = "a";
+var theSelectedType = "CHAPÉUS";
 function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("clothing-color");
   let subtype_DOM = document.getElementById("clothing-subtype");
@@ -123,7 +123,8 @@ function handleClothingTypeSelected(selectedValue) {
 var theSelectedSubType = "a";
 function handleClothingSubTypeSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedSubType + "/" + selectedValue + "/" + theSelectedColor + ".jpg")
+  console.log(theSelectedSubType);
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + selectedValue + "/" + theSelectedColor + ".jpg")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
