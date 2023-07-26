@@ -105,16 +105,17 @@ function handleClothingTypeSelected(selectedValue) {
         let listItem = document.createElement("option");
         listItem.value = color;
         
-        // Create an image element and set its attributes
+        listItem.innerHTML = color;
+        /* // Create an image element and set its attributes
         let colorImage = document.createElement("img");
-        colorImage.src = `/db/colors/${color}.png`; // Replace with the correct image path
+        colorImage.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`; // Replace with the correct image path
         colorImage.alt = color;
         colorImage.width = 20; // Set the desired width for the small image
   
         // Append the image to the option element
         listItem.appendChild(colorImage);
   
-        // Append the option to the select box
+        // Append the option to the select box */
         color_DOM.appendChild(listItem);
       });
 
@@ -167,16 +168,17 @@ function handleClothingSubTypeSelected(selectedValue) {
         let listItem = document.createElement("option");
         listItem.value = color;
 
-        // Create an image element and set its attributes
+        listItem.innerHTML = color;
+        /* // Create an image element and set its attributes
         let colorImage = document.createElement("img");
-        colorImage.src = `/db/colors/${color}.png`; // Replace with the correct image path
+        colorImage.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`; // Replace with the correct image path
         colorImage.alt = color;
         colorImage.width = 20; // Set the desired width for the small image
   
         // Append the image to the option element
         listItem.appendChild(colorImage);
   
-        // Append the option to the select box
+        // Append the option to the select box */
         color_DOM.appendChild(listItem);
       });
 
