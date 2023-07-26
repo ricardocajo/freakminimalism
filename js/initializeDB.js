@@ -27,5 +27,5 @@ selectElementColor.onchange = function() {
     // Get the selected value
     const selectedValue = selectElementColor.value;
     // Call the function with the selected value
-    handleClothingSubTypeSelected(selectedValue);
+    handleClothingColorSelected(selectedValue);
 };

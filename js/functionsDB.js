@@ -88,12 +88,13 @@ function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("clothing-color");
   let subtype_DOM = document.getElementById("clothing-subtype");
   theSelectedType = selectedValue.replace(/[\s|]/g, "");
+
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
     .then(response => response.json())
     .then(data => {
       const firstType = data.types[0];
       // Show the colors of the first clothing type
-      color_DOM.innerHTML = '';
+      color_DOM.innerHTML = '';  //TODO this can be removed because it will be done in the subtype?
       firstType.colors.forEach(color => {
         let listItem = document.createElement("option");
         listItem.value = color;
@@ -113,7 +114,7 @@ function handleClothingTypeSelected(selectedValue) {
       //initialize colors with 1st cloth being shown
       theSelectedSubType = firstType.type;
       theSelectedColor = firstType.colors[0];
-      handleClothingSubTypeSelected(firstType.type);
+      handleClothingSubTypeSelected(theSelectedSubType);
       //handleClothingColorSelected(firstType.colors[0]);
     })
     .catch(error => {
@@ -124,8 +125,69 @@ function handleClothingTypeSelected(selectedValue) {
 var theSelectedSubType = "";
 function handleClothingSubTypeSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
-  theSelectedSubType = selectedValue;
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + selectedValue + "/" + theSelectedColor + ".jpg")
+  let color_DOM = document.getElementById("clothing-color");
+  theSelectedSubType = selectedValue.replace(/[\s|]/g, "");
+
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
+    .then(response => response.json())
+    .then(data => {
+      let matchingType = null;
+
+      // Iterate through the types array to find the matching entry
+      for (const typeEntry of data.types) {
+        if (typeEntry.type === selectedValue) {
+          matchingType = typeEntry;
+          break; // Stop iterating once a match is found
+        }
+      }
+
+      if (!matchingType) {
+        console.error("No matching type found for:", selectedValue);
+        return;
+      }
+
+      // Show the colors of the matching clothing type
+      color_DOM.innerHTML = '';
+      matchingType.colors.forEach(color => {
+        let listItem = document.createElement("option");
+        listItem.value = color;
+        listItem.innerHTML = color;
+        color_DOM.appendChild(listItem);
+      });
+
+      // Update theSelectedColor with the first color of the matching type
+      theSelectedColor = matchingType.colors[0];
+      handleClothingColorSelected(theSelectedColor);
+
+      // Now, initiate the second fetch with the updated theSelectedColor value
+      fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".jpg")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.blob();
+        })
+        .then(imageBlob => {
+          const imageUrl = URL.createObjectURL(imageBlob);
+          image_DOM.src = imageUrl;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+
+
+var theSelectedColor = "";
+function handleClothingColorSelected(selectedValue) {
+  let image_DOM = document.getElementById("clothing-image");
+  theSelectedColor = selectedValue;
+
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".jpg")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -140,20 +202,3 @@ function handleClothingSubTypeSelected(selectedValue) {
       console.error('Error:', error);
     });
 }
-
-
-var theSelectedColor = "";
-/*function handleClothingColorSelected(selectedValue) {
-  //let color_DOM = document.getElementById("clothing-color");
-  //let subtype_DOM = document.getElementById("clothing-subtype");
-  theSelectedColor = selectedValue;
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue.replace("|", "") + "/roupa.json")
-    .then(response => response.json())
-    .then(data => {
-
-      
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}*/
