@@ -1,0 +1,12 @@
+{"types": 
+    [
+        {
+            "type": "KING",
+            "colors": ["2C", "3E", "4F", "4K", "4L", "6T"]
+        },
+        {
+            "type": "QUEEN",
+            "colors": ["2C", "4F", "4K"]
+        }
+    ]
+}

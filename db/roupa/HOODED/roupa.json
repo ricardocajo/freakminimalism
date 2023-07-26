@@ -2,11 +2,11 @@
     [
         {
             "type": "KING",
-            "colors": ["branco", "preto"]
+            "colors": ["6L", "00"]
         },
         {
             "type": "QUEEN",
-            "colors": ["azul", "vermelho"]
+            "colors": ["00", "3H"]
         }
     ]
 }

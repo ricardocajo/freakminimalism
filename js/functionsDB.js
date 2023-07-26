@@ -69,8 +69,14 @@ function initialize_clothingItems() {
     .then(data => {
       Object.keys(data).forEach(key => {
         let listItem = document.createElement("option");
-        listItem.value = key;
-        listItem.innerHTML = key;
+        let new_key_name = key
+        .replace(/[|]|KING|QUEEN/gi, "") // Remove spaces, pipe characters, "KING," and "QUEEN"
+        .split(/\s+/) // Split the string into an array of words
+        .filter((word, index, arr) => arr.indexOf(word) === index) // Filter out duplicate words
+        .join(" "); // Join the filtered words back into a string with a space between them
+      
+        listItem.value = new_key_name;
+        listItem.innerHTML = new_key_name;
         items_DOM.appendChild(listItem);
       });
       //initialize colors with 1st cloth being shown
@@ -93,8 +99,8 @@ function handleClothingTypeSelected(selectedValue) {
     .then(response => response.json())
     .then(data => {
       const firstType = data.types[0];
-      // Show the colors of the first clothing type
-      color_DOM.innerHTML = '';  //TODO this can be removed because it will be done in the subtype?
+
+      color_DOM.innerHTML = '';
       firstType.colors.forEach(color => {
         let listItem = document.createElement("option");
         listItem.value = color;
@@ -111,7 +117,6 @@ function handleClothingTypeSelected(selectedValue) {
         subtype_DOM.appendChild(listItem);
       });
       
-      //initialize colors with 1st cloth being shown
       theSelectedSubType = firstType.type;
       theSelectedColor = firstType.colors[0];
       handleClothingSubTypeSelected(theSelectedSubType);

@@ -1,0 +1,12 @@
+{"types": 
+    [
+        {
+            "type": "KING",
+            "colors": ["1D", "5Z"]
+        },
+        {
+            "type": "QUEEN",
+            "colors": ["00", "1D"]
+        }
+    ]
+}
