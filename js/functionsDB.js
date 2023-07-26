@@ -87,8 +87,8 @@ var theSelectedType = "";
 function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("clothing-color");
   let subtype_DOM = document.getElementById("clothing-subtype");
-  theSelectedType = selectedValue;
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue.replace("|", "") + "/roupa.json")
+  theSelectedType = selectedValue.replace(/[\s|]/g, "");
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
     .then(response => response.json())
     .then(data => {
       const firstType = data.types[0];
@@ -112,8 +112,8 @@ function handleClothingTypeSelected(selectedValue) {
       
       //initialize colors with 1st cloth being shown
       theSelectedSubType = firstType.type;
-      handleClothingSubTypeSelected(firstType.type);
       theSelectedColor = firstType.colors[0];
+      handleClothingSubTypeSelected(firstType.type);
       //handleClothingColorSelected(firstType.colors[0]);
     })
     .catch(error => {
