@@ -83,10 +83,11 @@ function initialize_clothingItems() {
 
 
 // Function to handle the selection (you can replace this with your desired logic)
-var theSelectedType = "CHAPÉUS";
+var theSelectedType = "";
 function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("clothing-color");
   let subtype_DOM = document.getElementById("clothing-subtype");
+  theSelectedType = selectedValue;
   fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue.replace("|", "") + "/roupa.json")
     .then(response => response.json())
     .then(data => {
@@ -110,20 +111,20 @@ function handleClothingTypeSelected(selectedValue) {
       });
       
       //initialize colors with 1st cloth being shown
-      handleClothingSubTypeSelected("Snap Five");//TODO
-      //handleClothingColorSelected(firstValue);
-
-      theSelectedType = selectedValue;
+      theSelectedSubType = firstType.type;
+      handleClothingSubTypeSelected(firstType.type);
+      theSelectedColor = firstType.colors[0];
+      //handleClothingColorSelected(firstType.colors[0]);
     })
     .catch(error => {
       console.error('Error:', error);
     });
 }
 
-var theSelectedSubType = "a";
+var theSelectedSubType = "";
 function handleClothingSubTypeSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
-  console.log(theSelectedSubType);
+  theSelectedSubType = selectedValue;
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + selectedValue + "/" + theSelectedColor + ".jpg")
     .then(response => {
       if (!response.ok) {
@@ -141,10 +142,11 @@ function handleClothingSubTypeSelected(selectedValue) {
 }
 
 
-var theSelectedColor = "00";
+var theSelectedColor = "";
 /*function handleClothingColorSelected(selectedValue) {
   //let color_DOM = document.getElementById("clothing-color");
   //let subtype_DOM = document.getElementById("clothing-subtype");
+  theSelectedColor = selectedValue;
   fetch(ABSOLUTE_PATH + "/db/roupa/" + selectedValue.replace("|", "") + "/roupa.json")
     .then(response => response.json())
     .then(data => {

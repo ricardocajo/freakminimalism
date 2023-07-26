@@ -1,12 +1,36 @@
 {"types": 
     [
         {
-            "type": "Snap Five",
-            "colors": ["azul", "vermelho", "preto"]
+            "type": "SNAP FIVE",
+            "colors": ["00", "11", "47", "52", "54", "64", "65", "95", "141", "CM"]
         },
         {
-            "type": "Tradicional",
-            "colors": ["azul", "preto"]
+            "type": "TRADICIONAL",
+            "colors": ["00", "11", "47", "64", "65", "96"]
+        },
+        {
+            "type": "ZION",
+            "colors": ["00", "11", "39", "47", "64", "65", "96"]   
+        },
+        {
+            "type": "RECY",
+            "colors": ["00", "11", "47", "52", "64", "65", "96"]
+        },
+        {
+            "type": "PANAMÁ",
+            "colors": ["00", "11", "39", "47", "65", "96"]
+        },
+        {
+            "type": "CLÁSSICO",
+            "colors": ["00", "11", "39", "44", "47", "52", "64", "65", "96"]
+        },
+        {
+            "type": "BOINA",
+            "colors":["11", "39", "47"]
+        },
+        {
+            "type": "BASEBOL",
+            "colors":["00", "11", "39", "47", "64", "65", "96"]
         }
     ]
 }

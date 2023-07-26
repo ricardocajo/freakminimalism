@@ -7,5 +7,5 @@ Mudar:
 
   - fazer seccao das roupas
   - ver redirecionar http para https
-  - Codigo para por ultima publicacao no instagram é preciso o acess token para testar
-  - traduzir para chines ver porque isto aparece
+  - Codigo para por ultima publicacao no instagram
+
