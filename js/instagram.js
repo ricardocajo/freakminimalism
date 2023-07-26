@@ -5,9 +5,12 @@ function getLatestInstagramPost() {
     // Insira o seu token de acesso à API do Instagram abaixo
     var accessToken = 'IGQVJXMUFYclFiMlVwY1lES0ozOGptLW1aWDJwWEFjTk1tamFtVzMzbmJqcWtPVlVSa2N0cWJWelVnZAlp6aENTaXdBYXRzTk4yNVZAYaFA0TTBsN1M3NE9reEhPLVdrUlpVV1pIT0s1QlJ0V0JzdG5mRwZDZD';
 
-    // Faz a requisição para a API do Instagram
+    var user_id = '57252701960';
+
+    //const url = `https://api.instagram.com/v1/users/1470414259/media/recent/?access_token=${accessToken}&count=10`;
+    // Faz a requisição para a API do Instagram   //self
     $.ajax({
-      url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token=' + accessToken,
+      url: 'https://api.instagram.com/v1/users/' + user_id + '/media/recent/?access_token=' + accessToken,
       dataType: 'jsonp',
       type: 'GET',
       data: { count: 1 },
