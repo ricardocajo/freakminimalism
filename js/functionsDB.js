@@ -104,7 +104,17 @@ function handleClothingTypeSelected(selectedValue) {
       firstType.colors.forEach(color => {
         let listItem = document.createElement("option");
         listItem.value = color;
-        listItem.innerHTML = color;
+        
+        // Create an image element and set its attributes
+        let colorImage = document.createElement("img");
+        colorImage.src = `/db/colors/${color}.png`; // Replace with the correct image path
+        colorImage.alt = color;
+        colorImage.width = 20; // Set the desired width for the small image
+  
+        // Append the image to the option element
+        listItem.appendChild(colorImage);
+  
+        // Append the option to the select box
         color_DOM.appendChild(listItem);
       });
 
@@ -156,7 +166,17 @@ function handleClothingSubTypeSelected(selectedValue) {
       matchingType.colors.forEach(color => {
         let listItem = document.createElement("option");
         listItem.value = color;
-        listItem.innerHTML = color;
+
+        // Create an image element and set its attributes
+        let colorImage = document.createElement("img");
+        colorImage.src = `/db/colors/${color}.png`; // Replace with the correct image path
+        colorImage.alt = color;
+        colorImage.width = 20; // Set the desired width for the small image
+  
+        // Append the image to the option element
+        listItem.appendChild(colorImage);
+  
+        // Append the option to the select box
         color_DOM.appendChild(listItem);
       });
 
