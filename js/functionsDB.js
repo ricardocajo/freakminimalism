@@ -91,7 +91,7 @@ function initialize_clothingItems() {
 // Function to handle the selection (you can replace this with your desired logic)
 var theSelectedType = "";
 function handleClothingTypeSelected(selectedValue) {
-  let color_DOM = document.getElementById("clothing-color");
+  let color_DOM = document.getElementById("color-list");
   let subtype_DOM = document.getElementById("clothing-subtype");
   theSelectedType = selectedValue.replace(/[\s|]/g, "");
 
@@ -100,24 +100,42 @@ function handleClothingTypeSelected(selectedValue) {
     .then(data => {
       const firstType = data.types[0];
 
-      color_DOM.innerHTML = '';
+      while(color_DOM.firstChild){
+        color_DOM.removeChild(color_DOM.firstChild);
+      }
       firstType.colors.forEach(color => {
-        let listItem = document.createElement("option");
-        listItem.value = color;
         
-        listItem.innerHTML = color;
-        /* // Create an image element and set its attributes
-        let colorImage = document.createElement("img");
-        colorImage.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`; // Replace with the correct image path
-        colorImage.alt = color;
-        colorImage.width = 20; // Set the desired width for the small image
-  
-        // Append the image to the option element
-        listItem.appendChild(colorImage);
-  
-        // Append the option to the select box */
-        color_DOM.appendChild(listItem);
+        // Create the div element with class "color-item"
+        const colorItemDiv = document.createElement("div");
+        colorItemDiv.className = "color-item";
+
+        // Create the button element with class "color-button"
+        const colorButton = document.createElement("button");
+        colorButton.className = "color-button";
+
+        // Create the img element and set its src and alt attributes
+        const img = document.createElement("img");
+        img.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`;
+        img.alt = color;
+
+        // Append the img element to the button element
+        colorButton.appendChild(img);
+        // Append the button element to the div element
+        colorItemDiv.appendChild(colorButton);
+        
+        color_DOM.appendChild(colorItemDiv);
       });
+
+      // Add the event listener to the parent element (event delegation)
+      document.getElementById("color-list").addEventListener("click", function(event) {
+        const button = event.target.closest(".color-button");
+        if (button) {
+          const image = button.querySelector("img");
+          const altValue = image.getAttribute("alt");
+          handleClothingColorSelected(altValue);
+        }
+      });
+
 
       subtype_DOM.innerHTML = '';
       const types = data.types.map(item => item.type);
@@ -141,7 +159,7 @@ function handleClothingTypeSelected(selectedValue) {
 var theSelectedSubType = "";
 function handleClothingSubTypeSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
-  let color_DOM = document.getElementById("clothing-color");
+  let color_DOM = document.getElementById("color-list");
   theSelectedSubType = selectedValue.replace(/[\s|]/g, "");
 
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
@@ -163,23 +181,40 @@ function handleClothingSubTypeSelected(selectedValue) {
       }
 
       // Show the colors of the matching clothing type
-      color_DOM.innerHTML = '';
+      while(color_DOM.firstChild){
+        color_DOM.removeChild(color_DOM.firstChild);
+      }
       matchingType.colors.forEach(color => {
-        let listItem = document.createElement("option");
-        listItem.value = color;
+        
+        // Create the div element with class "color-item"
+        const colorItemDiv = document.createElement("div");
+        colorItemDiv.className = "color-item";
 
-        listItem.innerHTML = color;
-        /* // Create an image element and set its attributes
-        let colorImage = document.createElement("img");
-        colorImage.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`; // Replace with the correct image path
-        colorImage.alt = color;
-        colorImage.width = 20; // Set the desired width for the small image
-  
-        // Append the image to the option element
-        listItem.appendChild(colorImage);
-  
-        // Append the option to the select box */
-        color_DOM.appendChild(listItem);
+        // Create the button element with class "color-button"
+        const colorButton = document.createElement("button");
+        colorButton.className = "color-button";
+
+        // Create the img element and set its src and alt attributes
+        const img = document.createElement("img");
+        img.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`;
+        img.alt = color;
+
+        // Append the img element to the button element
+        colorButton.appendChild(img);
+        // Append the button element to the div element
+        colorItemDiv.appendChild(colorButton);
+        
+        color_DOM.appendChild(colorItemDiv);
+      });
+
+      // Add the event listener to the parent element (event delegation)
+      document.getElementById("color-list").addEventListener("click", function(event) {
+        const button = event.target.closest(".color-button");
+        if (button) {
+          const image = button.querySelector("img");
+          const altValue = image.getAttribute("alt");
+          handleClothingColorSelected(altValue);
+        }
       });
 
       // Update theSelectedColor with the first color of the matching type

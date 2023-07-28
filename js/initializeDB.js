@@ -21,11 +21,17 @@ selectElementSubType.onchange = function() {
     handleClothingSubTypeSelected(selectedValue);
 };
 
-const selectElementColor = document.getElementById("clothing-color");
-// Attach the onchange event handler
-selectElementColor.onchange = function() {
-    // Get the selected value
-    const selectedValue = selectElementColor.value;
-    // Call the function with the selected value
-    handleClothingColorSelected(selectedValue);
-};
+// Add an event listener to all the buttons with class "color-button" inside the element with the id "color-list"
+document.querySelectorAll("#color-list .color-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    // Get the image element that is the child of the clicked button
+    const image = button.querySelector("img");
+    // Retrieve the alt attribute value from the image
+    const altValue = image.getAttribute("alt");
+
+    console.log("aaa");
+    handleClothingColorSelected(altValue);
+  });
+});
+
+  
