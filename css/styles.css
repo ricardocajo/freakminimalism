@@ -11721,15 +11721,32 @@ body {
   margin: auto;
 }
 
-.column-item {
-  /* Set the width and prevent line breaks */
-  column-width: 33%;
-  break-inside: avoid;
-  -webkit-column-width: 33%; /* For Safari/Chrome */
-  -moz-column-width: 33%; /* For Firefox */
+/* CSS */
+#color-list {
+  /* Use a flexbox layout to create five columns */
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.column-item img {
-  /* Add any additional styling for the images */
-  width: 100%;
+.color-item {
+  /* Set the width for each column (20% to have five columns) */
+  width: 20%;
+  box-sizing: border-box; /* Include padding in the width calculation */
+  padding: 5px; /* Optional: Add spacing between items within each column */
 }
+
+.color-button {
+  /* Optional: Add styling for the button if needed */
+  border: none;
+  background-color: transparent;
+}
+
+.color-item img {
+  /* Adjust the image size to be four times smaller */
+  width: 100%; /* The image will take the full width of its container (.color-button) */
+  max-height: 25px; /* Set the maximum height to be 25 pixels */
+  object-fit: cover; /* Preserve aspect ratio and cover the container */
+  border: 1px solid #ddd; /* Optional: Add a border to the images */
+  border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+}
+
