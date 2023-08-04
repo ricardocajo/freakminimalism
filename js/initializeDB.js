@@ -1,6 +1,7 @@
 //initialize_sizes();
 initialize_prices();
 initialize_works();
+initialize_designs();
 initialize_clothingItems();
 
 const selectElementType = document.getElementById("clothing-type");

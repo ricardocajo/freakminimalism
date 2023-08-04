@@ -61,6 +61,27 @@ function initialize_works() {
 }
 
 
+/* Fetches available designs data and adds it to the Webpage */
+function initialize_designs() {
+  let works_DOM = document.getElementById("designs_list");
+  fetch(ABSOLUTE_PATH + "/db/works/designs.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.keys(data).forEach(key => {
+        if (data[key]) {
+          let listItem = document.createElement("li");
+          listItem.classList.add("column-item");
+          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
+          works_DOM.appendChild(listItem);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+
 /* Fetches available prices data to add it to the clothing section */
 function initialize_clothingItems() {
   let items_DOM = document.getElementById("clothing-type");
