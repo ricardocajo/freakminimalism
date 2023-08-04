@@ -64,7 +64,7 @@ function initialize_works() {
 /* Fetches available designs data and adds it to the Webpage */
 function initialize_designs() {
   let works_DOM = document.getElementById("designs_list");
-  fetch(ABSOLUTE_PATH + "/db/works/designs.json")
+  fetch(ABSOLUTE_PATH + "/db/designs/designs.json")
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
