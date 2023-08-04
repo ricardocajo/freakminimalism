@@ -222,7 +222,7 @@ function handleClothingSubTypeSelected(selectedValue) {
       handleClothingColorSelected(theSelectedColor);
 
       // Now, initiate the second fetch with the updated theSelectedColor value
-      fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".jpg")
+      fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -249,7 +249,7 @@ function handleClothingColorSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
   theSelectedColor = selectedValue;
 
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".jpg")
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
