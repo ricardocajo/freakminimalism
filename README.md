@@ -8,3 +8,4 @@ Mudar:
   - ver redirecionar http para https
   - Codigo para por ultima publicacao no instagram
   - tamanhos selecionar
+  - os que nao tem tipo ocultar
