@@ -4,23 +4,21 @@ initialize_works();
 initialize_designs();
 initialize_clothingItems();
 
-const selectElementType = document.getElementById("clothing-type");
-// Attach the onchange event handler
-selectElementType.onchange = function() {
-    // Get the selected value
-    const selectedValue = selectElementType.value;
-    // Call the function with the selected value
+const listElementTypes = document.getElementById("clothing-type");
+listElementTypes.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    const selectedValue = event.target.textContent;
     handleClothingTypeSelected(selectedValue);
-};
+  }
+});
 
-const selectElementSubType = document.getElementById("clothing-subtype");
-// Attach the onchange event handler
-selectElementSubType.onchange = function() {
-    // Get the selected value
-    const selectedValue = selectElementSubType.value;
-    // Call the function with the selected value
+const listElementSubTypes = document.getElementById("clothing-subtype");
+listElementSubTypes.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    const selectedValue = event.target.textContent;
     handleClothingSubTypeSelected(selectedValue);
-};
+  }
+});
 
 // Add an event listener to all the buttons with class "color-button" inside the element with the id "color-list"
 document.querySelectorAll("#color-list .color-button").forEach((button) => {

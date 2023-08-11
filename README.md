@@ -9,3 +9,7 @@ Mudar:
   - Codigo para por ultima publicacao no instagram
   - tamanhos selecionar
   - os que nao tem tipo ocultar
+
+  
+
+shirt 00.png

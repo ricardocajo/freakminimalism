@@ -89,7 +89,7 @@ function initialize_clothingItems() {
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
-        let listItem = document.createElement("option");
+        let listItem = document.createElement("li");
         let new_key_name = key
         .replace(/[|]|KING|QUEEN/gi, "") // Remove spaces, pipe characters, "KING," and "QUEEN"
         .split(/\s+/) // Split the string into an array of words
@@ -97,6 +97,7 @@ function initialize_clothingItems() {
         .join(" "); // Join the filtered words back into a string with a space between them
       
         listItem.value = new_key_name;
+        listItem.className = "col-md-4";
         listItem.innerHTML = new_key_name;
         items_DOM.appendChild(listItem);
       });
@@ -161,8 +162,9 @@ function handleClothingTypeSelected(selectedValue) {
       subtype_DOM.innerHTML = '';
       const types = data.types.map(item => item.type);
       types.forEach(type => {
-        let listItem = document.createElement("option");
+        let listItem = document.createElement("li");
         listItem.value = type;
+        listItem.className = "col-md-4";
         listItem.innerHTML = type;
         subtype_DOM.appendChild(listItem);
       });
