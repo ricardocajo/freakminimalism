@@ -71,7 +71,7 @@ function initialize_designs() {
         if (data[key]) {
           let listItem = document.createElement("li");
           listItem.classList.add("column-item");
-          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
+          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="...">`;
           works_DOM.appendChild(listItem);
         }
       });
