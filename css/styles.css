@@ -11805,7 +11805,8 @@ ul.clickable-list li {
   transition: background-color 0.3s, color 0.3s;
 }
 
-ul.clickable-list li:hover {
+ul.clickable-list li:hover,
+ul.clickable-list li.active {
   background-color: #0056b3;
 }
 
