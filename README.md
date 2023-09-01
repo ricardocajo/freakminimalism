@@ -10,4 +10,9 @@ Mudar:
   
   "TOALHAS DE GINÁSIO":           "16€",
 
+
+
+saturacao na passagem de imagens
+botoes roupa
+
   
