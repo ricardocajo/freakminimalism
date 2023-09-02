@@ -1,9 +1,9 @@
 {
     "0.png": true,
     "1.png": true,
-    "2.jpg": true,
+    "2.jpg": false,
     "3.png": true,
     "11.png": true,
     "44.jpg": true,
-    "91.jpg": false
+    "91.jpg": true
 }
