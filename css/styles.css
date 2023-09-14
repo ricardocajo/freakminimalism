@@ -11855,4 +11855,8 @@ ul.clickable-list li.active {
   background-color: #0056b3;
 }
 
-
+video {
+  max-width: 100%; /* Video will adapt to its container */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 50vh; /* Set a maximum height (e.g., 70% of viewport height) */
+}
