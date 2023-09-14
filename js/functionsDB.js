@@ -61,6 +61,27 @@ function initialize_works() {
 }
 
 
+/* Fetches available works data and adds it to the Webpage */
+function initialize_arte() {
+  let works_DOM = document.getElementById("arte_list");
+  fetch(ABSOLUTE_PATH + "/db/arte/arte.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.keys(data).forEach(key => {
+        if (data[key]) {
+          let listItem = document.createElement("li");
+          listItem.classList.add("column-item");
+          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/img/${key} alt="...">`;
+          works_DOM.appendChild(listItem);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+
 /* Fetches available designs data and adds it to the Webpage */
 function initialize_designs() {
   let works_DOM = document.getElementById("designs_list");
