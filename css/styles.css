@@ -7447,6 +7447,11 @@ textarea.form-control-lg {
   margin-right: 3rem !important;
   margin-left: 3rem !important;
 }
+.mx-6 {
+  margin-right: 4rem !important;
+  margin-left: 4rem !important;
+}
+
 
 .mx-auto {
   margin-right: auto !important;
@@ -11765,7 +11770,7 @@ body {
   width: 3rem;
 }
 .contact-section .social {
-  margin-top: 5rem;
+  margin-top: 2rem;
 }
 .contact-section .social a {
   text-align: center;
@@ -11792,6 +11797,13 @@ body {
     height: 100%;
     grid-template-columns: repeat(3, 1fr); /* Add this line to create 3 columns */
     grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
+}
+
+.parceriasimg {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(3, 1fr); /* Add this line to create 3 columns */
+  grid-gap: 1rem; /* Adjust the gap between columns as needed */
 }
 
 .workscenter-fit {
@@ -11859,4 +11871,24 @@ video {
   max-width: 100%; /* Video will adapt to its container */
   height: auto; /* Maintain aspect ratio */
   max-height: 50vh; /* Set a maximum height (e.g., 70% of viewport height) */
+}
+
+.white-text {
+  color: white;
+}
+
+.custom-image-size {
+  width: 75px;
+  height: 75px;
+}
+
+.image-parcerias {
+  display: flex;
+  justify-content: space-between;
+  gap: 5mm;
+}
+
+.image-parcerias img {
+  width: 75px;
+  height: 75px;
 }
