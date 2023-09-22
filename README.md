@@ -3,16 +3,13 @@ This is the website for the brand freakMinimalism
 The website link: https://freak-minimalism.com
 
 
-Mudar:
+------------------------------------------
+-parcerias  
+p1 www.instagram.com/decoracoesdorita/  
+p2 https://www.instagram.com/olympusmusictm/
+p3 www.instagram.com/dela_mantra/
 
-  - Codigo para por ultima publicacao no instagram
-  - tamanhos selecionar
-  
-  "TOALHAS DE GINÁSIO":           "16€",
-
-
-
-saturacao na passagem de imagens
-botoes roupa
-
-  
+- por seta frente e tras 
+- tempo rotacao foto 30s
+- hiperligacao do disine para o zap
+- carrinho

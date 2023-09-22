@@ -32,5 +32,4 @@ document.querySelectorAll("#color-list .color-button").forEach((button) => {
     handleClothingColorSelected(altValue);
   });
 });
-
   
