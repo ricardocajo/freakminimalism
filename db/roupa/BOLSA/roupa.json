@@ -1,7 +1,11 @@
 {"types": 
     [
         {
-            "type": "default",
+            "type": "CINTURA",
+            "colors": ["00"]
+        },
+        {
+            "type": "TIRA-COLO",
             "colors": ["00"]
         }
     ]
