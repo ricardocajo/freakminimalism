@@ -34,30 +34,35 @@ document.querySelectorAll("#color-list .color-button").forEach((button) => {
 
 document.getElementById('prevBtnWorks').addEventListener('click', function () {
   
-  $('#works_list li').addClass('hidden'); // Oculta todos os itens
+  if(works_show_index[2] - 3 >= 2) {
+    $('#works_list li').addClass('hidden'); // Oculta todos os itens
   
-  // Atualiza os índices
-  works_show_index = works_show_index.map(function (index) {
-    return index - 3;
-  });
+    // Atualiza os índices
+    works_show_index = works_show_index.map(function (index) {
+      return index - 3;
+    });
 
-  // Remove a classe 'hidden' dos itens com os índices atualizados
-  works_show_index.forEach(function (index) {
-    $('#works_list li').eq(index).removeClass('hidden');
-  });
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    works_show_index.forEach(function (index) {
+      $('#works_list li').eq(index).removeClass('hidden');
+    });
+  }
 });
 
 document.getElementById('nextBtnWorks').addEventListener('click', function () {
 
-  $('#works_list li').addClass('hidden'); // Oculta todos os itens
+  if(works_show_index[2] + 3 <= works_list_size) {
 
-  // Atualiza os índices
-  works_show_index = works_show_index.map(function (index) {
-    return index + 3;
-  });
+    $('#works_list li').addClass('hidden'); // Oculta todos os itens
 
-  // Remove a classe 'hidden' dos itens com os índices atualizados
-  works_show_index.forEach(function (index) {
-    $('#works_list li').eq(index).removeClass('hidden');
-  });
+    // Atualiza os índices
+    works_show_index = works_show_index.map(function (index) {
+      return index + 3;
+    });
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    works_show_index.forEach(function (index) {
+      $('#works_list li').eq(index).removeClass('hidden');
+    });
+  }
 });

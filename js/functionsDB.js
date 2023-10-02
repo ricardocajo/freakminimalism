@@ -42,6 +42,7 @@ function initialize_prices() {
 
 /* Fetches available works data and adds it to the Webpage */
 var works_show_index = [0, 1, 2];
+var works_list_size = 5
 var works_index = 0;
 function initialize_works() {
   let works_DOM = document.getElementById("works_list");
@@ -91,6 +92,9 @@ function initialize_arte() {
 
 
 /* Fetches available designs data and adds it to the Webpage */
+var designs_show_index = [0, 1, 2, 3, 4];
+var desgins_list_size = 5
+var desgins_index = 0;
 function initialize_designs() {
   let works_DOM = document.getElementById("designs_list");
   fetch(ABSOLUTE_PATH + "/db/designs/designs.json")
@@ -99,6 +103,9 @@ function initialize_designs() {
       Object.keys(data).forEach(key => {
         if (data[key]) {
           let listItem = document.createElement("li");
+          if(desgins_index > 5) {
+            listItem.classList.add("hidden");
+          }
           listItem.classList.add("column-item");
           if(key == '0.jpg') {
             listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."></a>`;
