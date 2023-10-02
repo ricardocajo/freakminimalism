@@ -42,7 +42,7 @@ function initialize_prices() {
 
 /* Fetches available works data and adds it to the Webpage */
 var works_show_index = [0, 1, 2];
-var works_list_size = 5
+var works_list_size = 5;
 var works_index = 0;
 function initialize_works() {
   let works_DOM = document.getElementById("works_list");
@@ -92,8 +92,8 @@ function initialize_arte() {
 
 
 /* Fetches available designs data and adds it to the Webpage */
-var designs_show_index = [0, 1, 2, 3, 4];
-var desgins_list_size = 5
+var designs_show_index = [1, 2, 3, 4, 5];
+var designs_list_size = 11;
 var desgins_index = 0;
 function initialize_designs() {
   let works_DOM = document.getElementById("designs_list");
@@ -113,10 +113,13 @@ function initialize_designs() {
             listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="...">`;
           }
           works_DOM.appendChild(listItem);
+
+          desgins_index = desgins_index + 1;
         }
       });
     })
     .catch(error => {
+      desgins_index = 0;
       console.error('Error:', error);
     });
 }

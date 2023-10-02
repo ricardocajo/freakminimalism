@@ -66,3 +66,41 @@ document.getElementById('nextBtnWorks').addEventListener('click', function () {
     });
   }
 });
+
+document.getElementById('prevBtnDesigns').addEventListener('click', function () {
+  
+  if(designs_show_index[4] - 5 >= 5) {
+    
+    $('#designs_list li:not(:first)').addClass('hidden');
+
+  
+    // Atualiza os índices
+    designs_show_index = designs_show_index.map(function (index) {
+      return index - 5;
+    });
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    designs_show_index.forEach(function (index) {
+      $('#designs_list li').eq(index).removeClass('hidden');
+    });
+  }
+});
+
+document.getElementById('nextBtnDesigns').addEventListener('click', function () {
+
+  if(designs_show_index[4] + 5 <= designs_list_size) {
+
+    $('#designs_list li:not(:first)').addClass('hidden');
+
+
+    // Atualiza os índices
+    designs_show_index = designs_show_index.map(function (index) {
+      return index + 5;
+    });
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    designs_show_index.forEach(function (index) {
+      $('#designs_list li').eq(index).removeClass('hidden');
+    });
+  }
+});
