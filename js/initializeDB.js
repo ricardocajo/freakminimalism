@@ -34,6 +34,10 @@ document.querySelectorAll("#color-list .color-button").forEach((button) => {
 
 document.getElementById('prevBtnWorks').addEventListener('click', function () {
   
+  // Reset the timer for works by clearing the existing interval and setting a new one
+  clearInterval(worksIntervalId);
+  worksIntervalId = setInterval(simulateWorksButtonClick, 5000);
+
   if(works_show_index[2] - 3 >= 2) {
     $('#works_list li').addClass('hidden'); // Oculta todos os itens
   
@@ -49,10 +53,9 @@ document.getElementById('prevBtnWorks').addEventListener('click', function () {
   }
 });
 
-document.getElementById('nextBtnWorks').addEventListener('click', function () {
-
-  if(works_show_index[2] + 3 <= works_list_size) {
-
+// Function to update works based on the button click
+function updateWorks() {
+  if (works_show_index[2] + 3 <= works_list_size) {
     $('#works_list li').addClass('hidden'); // Oculta todos os itens
 
     // Atualiza os índices
@@ -64,15 +67,46 @@ document.getElementById('nextBtnWorks').addEventListener('click', function () {
     works_show_index.forEach(function (index) {
       $('#works_list li').eq(index).removeClass('hidden');
     });
+  } else {
+    $('#works_list li').addClass('hidden'); // Oculta todos os itens
+
+    works_show_index = [0, 1, 2];
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    works_show_index.forEach(function (index) {
+      $('#works_list li').eq(index).removeClass('hidden');
+    });
   }
+}
+
+// Function to simulate button click every 5 seconds for works
+function simulateWorksButtonClick() {
+  updateWorks();
+}
+
+// Set initial interval for works
+let worksIntervalId = setInterval(simulateWorksButtonClick, 5000);
+
+// Event listener for the "Próximo" button associated with works
+document.getElementById('nextBtnWorks').addEventListener('click', function () {
+  // Reset the timer for works by clearing the existing interval and setting a new one
+  clearInterval(worksIntervalId);
+  worksIntervalId = setInterval(simulateWorksButtonClick, 5000);
+
+  // Call the updateWorks function to perform the button click logic
+  updateWorks();
 });
+
 
 document.getElementById('prevBtnDesigns').addEventListener('click', function () {
   
+  // Reset the timer by clearing the existing interval and setting a new one
+  clearInterval(intervalId);
+  intervalId = setInterval(simulateButtonClick, 5000);
+
   if(designs_show_index[4] - 5 >= 5) {
     
     $('#designs_list li:not(:first)').addClass('hidden');
-
   
     // Atualiza os índices
     designs_show_index = designs_show_index.map(function (index) {
@@ -86,12 +120,10 @@ document.getElementById('prevBtnDesigns').addEventListener('click', function () 
   }
 });
 
-document.getElementById('nextBtnDesigns').addEventListener('click', function () {
-
-  if(designs_show_index[4] + 5 <= designs_list_size) {
-
+// Function to update designs based on the button click
+function updateDesigns() {
+  if (designs_show_index[4] + 5 <= designs_list_size) {
     $('#designs_list li:not(:first)').addClass('hidden');
-
 
     // Atualiza os índices
     designs_show_index = designs_show_index.map(function (index) {
@@ -102,5 +134,32 @@ document.getElementById('nextBtnDesigns').addEventListener('click', function () 
     designs_show_index.forEach(function (index) {
       $('#designs_list li').eq(index).removeClass('hidden');
     });
+  } else {
+    $('#designs_list li:not(:first)').addClass('hidden');
+
+    designs_show_index = [1, 2, 3, 4, 5];
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    designs_show_index.forEach(function (index) {
+      $('#designs_list li').eq(index).removeClass('hidden');
+    });
   }
+}
+
+// Function to simulate button click every 5 seconds
+function simulateButtonClick() {
+  updateDesigns();
+}
+
+// Set initial interval
+let intervalId = setInterval(simulateButtonClick, 5000);
+
+// Event listener for the button click
+document.getElementById('nextBtnDesigns').addEventListener('click', function () {
+  // Reset the timer by clearing the existing interval and setting a new one
+  clearInterval(intervalId);
+  intervalId = setInterval(simulateButtonClick, 5000);
+
+  // Call the updateDesigns function to perform the button click logic
+  updateDesigns();
 });

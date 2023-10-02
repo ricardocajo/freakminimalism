@@ -93,7 +93,7 @@ function initialize_arte() {
 
 /* Fetches available designs data and adds it to the Webpage */
 var designs_show_index = [1, 2, 3, 4, 5];
-var designs_list_size = 11;
+var designs_list_size = 96;
 var desgins_index = 0;
 function initialize_designs() {
   let works_DOM = document.getElementById("designs_list");
