@@ -1,12 +1,13 @@
 {
-    "CHAPÉUS":                      "16€",
-    "QUEEN SHIRT | KING SHIRT":     "17€",
-    "QUEEN SWEAT | KING SWEAT":     "34€",
-    "QUEEN ZIPP | KING ZIPP":       "42€",
-    "QUEEN HOODED | KING HOODED":   "37€",
-    "QUEEN POLO | KING POLO":       "18€",
-    "BOLSAS":                       "19€",
-    "ATHLETIC MOVE":                "17€",
-    "BASE-BALL":                    "17€",
-    "PORTA-CHAVES":                 "2€"
+    "CHAPÉU":            "16€",
+    "T-SHIRT":           "17€",
+    "SWEAT":             "34€",
+    "ZIPP":              "42€",
+    "HOOD":              "37€",
+    "POLO":              "18€",
+    "BOLSA":             "19€",
+    "ATHLETIC MOVE":     "17€",
+    "BASE-BALL":         "17€",
+    "PATCH":             "5€",
+    "PORTA-CHAVES":      "2€"
 }
