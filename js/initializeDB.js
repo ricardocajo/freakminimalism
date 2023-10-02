@@ -28,48 +28,36 @@ document.querySelectorAll("#color-list .color-button").forEach((button) => {
     // Retrieve the alt attribute value from the image
     const altValue = image.getAttribute("alt");
 
-    console.log("aaa");
     handleClothingColorSelected(altValue);
   });
 });
+
+document.getElementById('prevBtnWorks').addEventListener('click', function () {
   
-$(document).ready(function () {
-  // Lista de imagens
-  var images = []; // Adicione as suas imagens aqui
-  fetch(ABSOLUTE_PATH + "/db/works/works.json")
-    .then(response => response.json())
-    .then(data => {
-      Object.keys(data).forEach(key => {
-        if (data[key]) {
-          images.push(key);
-        }
-      });
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-
-  // Preencher a lista de imagens
-  var worksList = $("#works_list");
-  for (var i = 0; i < images.length; i++) {
-    worksList.append('<li data-target="#carouselExampleIndicators" data-slide-to="' + i + '"></li>');
-  }
-
-  // Preencher o conteúdo do carrossel
-  var carouselInner = $("#carouselInner");
-  for (var i = 0; i < images.length; i++) {
-    carouselInner.append('<div class="carousel-item"><img src="' + images[i] + '" class="d-block w-100" alt="Imagem ' + (i + 1) + '"></div>');
-  }
-
-  // Ativar o primeiro item do carrossel
-  $(".carousel-item").first().addClass("active");
-
-  // Adicionar eventos de clique para avançar e retroceder
-  $("#prevBtn").click(function () {
-    $("#carouselExampleIndicators").carousel("prev");
+  $('#works_list li').addClass('hidden'); // Oculta todos os itens
+  
+  // Atualiza os índices
+  works_show_index = works_show_index.map(function (index) {
+    return index - 3;
   });
 
-  $("#nextBtn").click(function () {
-    $("#carouselExampleIndicators").carousel("next");
+  // Remove a classe 'hidden' dos itens com os índices atualizados
+  works_show_index.forEach(function (index) {
+    $('#works_list li').eq(index).removeClass('hidden');
+  });
+});
+
+document.getElementById('nextBtnWorks').addEventListener('click', function () {
+
+  $('#works_list li').addClass('hidden'); // Oculta todos os itens
+
+  // Atualiza os índices
+  works_show_index = works_show_index.map(function (index) {
+    return index + 3;
+  });
+
+  // Remove a classe 'hidden' dos itens com os índices atualizados
+  works_show_index.forEach(function (index) {
+    $('#works_list li').eq(index).removeClass('hidden');
   });
 });

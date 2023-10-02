@@ -41,6 +41,8 @@ function initialize_prices() {
 
 
 /* Fetches available works data and adds it to the Webpage */
+var works_show_index = [0, 1, 2];
+var works_index = 0;
 function initialize_works() {
   let works_DOM = document.getElementById("works_list");
   fetch(ABSOLUTE_PATH + "/db/works/works.json")
@@ -49,13 +51,19 @@ function initialize_works() {
       Object.keys(data).forEach(key => {
         if (data[key]) {
           let listItem = document.createElement("li");
+          if(works_index > 2) {
+            listItem.classList.add("hidden");
+          }
           listItem.classList.add("column-item");
           listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
           works_DOM.appendChild(listItem);
+
+          works_index = works_index + 1;
         }
       });
     })
     .catch(error => {
+      works_index = 0;
       console.error('Error:', error);
     });
 }

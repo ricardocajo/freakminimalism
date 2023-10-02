@@ -11900,3 +11900,7 @@ video {
   width: 75px;
   height: 75px;
 }
+
+.hidden {
+  display: none;
+}
