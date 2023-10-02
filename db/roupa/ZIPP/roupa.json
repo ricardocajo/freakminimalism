@@ -1,11 +1,11 @@
 {"types": 
     [
         {
-            "type": "KING",
+            "type": "KING ♚",
             "colors": ["1D", "5Z", "6S", "95", "9C"]
         },
         {
-            "type": "QUEEN",
+            "type": "QUEEN ♛",
             "colors": ["1D", "5Z", "6S", "95", "00", "39", "52", "6L", "9C", "9F"]
         }
     ]
