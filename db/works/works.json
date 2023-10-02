@@ -1,5 +1,7 @@
 {
     "toalha_boxe.png":  true,
     "bones.png":   true,
-    "tshirt.png":   true
+    "tshirt.png":   true,
+    "patch1.png":   false,
+    "patch2.png":   false
 }
