@@ -1,11 +1,15 @@
 {"types": 
     [
         {
-            "type": "1",
+            "type": "SIMPLES",
             "colors": ["00"]
         },
         {
-            "type": "2",
+            "type": "REFORÇADO",
+            "colors": ["00"]
+        },
+        {
+            "type": "PERSONALIZADO",
             "colors": ["00"]
         }
     ]
