@@ -33,3 +33,43 @@ document.querySelectorAll("#color-list .color-button").forEach((button) => {
   });
 });
   
+$(document).ready(function () {
+  // Lista de imagens
+  var images = []; // Adicione as suas imagens aqui
+  fetch(ABSOLUTE_PATH + "/db/works/works.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.keys(data).forEach(key => {
+        if (data[key]) {
+          images.push(key);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+  // Preencher a lista de imagens
+  var worksList = $("#works_list");
+  for (var i = 0; i < images.length; i++) {
+    worksList.append('<li data-target="#carouselExampleIndicators" data-slide-to="' + i + '"></li>');
+  }
+
+  // Preencher o conteúdo do carrossel
+  var carouselInner = $("#carouselInner");
+  for (var i = 0; i < images.length; i++) {
+    carouselInner.append('<div class="carousel-item"><img src="' + images[i] + '" class="d-block w-100" alt="Imagem ' + (i + 1) + '"></div>');
+  }
+
+  // Ativar o primeiro item do carrossel
+  $(".carousel-item").first().addClass("active");
+
+  // Adicionar eventos de clique para avançar e retroceder
+  $("#prevBtn").click(function () {
+    $("#carouselExampleIndicators").carousel("prev");
+  });
+
+  $("#nextBtn").click(function () {
+    $("#carouselExampleIndicators").carousel("next");
+  });
+});
