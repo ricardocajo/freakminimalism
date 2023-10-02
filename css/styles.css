@@ -1119,6 +1119,14 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
+
+@media (max-width: 767px) {
+  .col-md-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+}
+
 @media (min-width: 768px) {
   .col-md {
     flex: 1 0 0%;
@@ -1332,6 +1340,7 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
+
 @media (min-width: 992px) {
   .col-lg {
     flex: 1 0 0%;
@@ -11867,7 +11876,7 @@ ul.clickable-list li {
 
 ul.clickable-list li:hover,
 ul.clickable-list li.active {
-  background-color: #0056b3;
+  background-color: #006666;
 }
 
 video {
