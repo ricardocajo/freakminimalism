@@ -5,8 +5,6 @@ The website link: https://freak-minimalism.com
 
 ------------------------------------------
 
-- por seta frente e tras 
-- tempo rotacao foto 30s
 - hiperligacao do disine para o zap
 - carrinho
 
