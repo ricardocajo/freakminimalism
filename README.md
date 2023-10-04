@@ -38,3 +38,18 @@ Boné Kid Snap Back, 100% acrílico
 Panamá para criança de algodão, este é o brinde aconselhado para escolas, colónias de férias, associações recreativas, etc…
 
 Boné de criança, em algodão orgânico certificado, com 6 painéis, fecho em velcro e viseira semi-curva. Modelo estilo Dad Hat, não estruturado. 100% Algodão Orgânico certificado.
+
+A moderna e básica t-shirt #150 de manga curta com visual contemporâneo, mantém a qualidade inalterada da Exact 150 B&C há 20 anos. Seu #150melhorescolha Características: Corte moderno e contemporâneo #paratodososfins Gola com costura fina para uma aparência moderna #conforto Mesmas 40 cores para homens e mulheres #duplaperfeita Dispivel em 9 tamanhos, do XS ao 5XL #serveatodos Etiqueta em cetim #toqueultramacio Tecido de qualidade comprovada B&C #20 anos Material: 100% algodão pré-encolhido Peso: 145g/m² Cuidados: Adequado para lavagem à máquina a 40 ºC e para a máquina de secar. Não permite limpeza a seco. Não usar lixivia Tamanhos: XS; S; M; L; XL; 2XL; 3XL,4XL*, 5XL* *Cores disponíveis no tamanho 4XL e 5XL: 00_Branco, 11_Preto, 6X_Urban navy, 52_Vermelho, 64_Azul Royal, 93_Cinza mesclado escuro Empacotamento: Pack 10; Embalagem 100.
+
+Elegante, luxuosa e confortável, a sweashirt King de gola redonda é suave, cardada no interior, com costuras laterais para um corte mais moderno, com tapa costuras de qualidade. Meia lua na zona do pescoço para um aspecto premium e maior conforto, durabilidade e facilidade de impressão. Certificação OEKO-TEX. 80% Algodão e 20% Poliéster. 280g/m2 Cor 95: 75% Algodão, 21% Poliéster e 4% Viscose. Cor 9C: 60% Algodão, 40% Poliéster.
+
+A Sweat King Hooded, com uma suavidade exepcional, estilo moderno com capuz e com uma ampla gama de cores e tamanho é a peça ideal para personalizar! Uma sweat luxuosa, elegante e confortável, ajusta-se na perfeição à silhueta masculina; o capuz é forrado em malha jersey para uma durabilidade e resistência extra; cordões planos com pontas de metal; disponível em 8 tamanhos e 20 cores diferentes. Composição: 80% Algodão Escovado Ringspun Pré-Encolhido - 20% Poliéster; cor 95: 75% Algodão Escovado Ringspun Pré-Encolhido - 21% Poliéster - 4% Viscose; cor 9C: 60% Algodão Escovado Ringspun Pré-Encolhido - 40% Poliéster. Gramagem: 280 g/m². Certificação OEKO-TEX®.
+
+A nova coleção de sweatshirts, KING e QUEEN! Com capuz e fecho completo, toque ultra suave e modelo moderno. Capuz forrado em Jersey simples para maior durabilidade. Cordões planos com pontas em metal. Com costuras laterais. Modelo de criança: mantém-se o anterior modelo Hooded Full Zip, com capuz forrado, sem cordões. Certificação OEKO-TEX®. 80% Algodão e 20% Poliéster. Cor 95: 75% Algodão, 21% Poliéster e 4% Viscose. Cor 9C: 60% Algodão, 40% Poliéster. 280g/m2
+
+Polo B&C Inspire 170g - 100% Algodão Orgânico
+
+T-shirt B&C Athletic Move 145g - 100% Algodão
+
+T-shirt B&C Base-Ball 180g - 100% Algodão
+
