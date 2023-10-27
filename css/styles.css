@@ -11913,3 +11913,26 @@ video {
 .hidden {
   display: none;
 }
+
+.double-space {
+  white-space: normal;
+  word-spacing: 0.5em; /* Adjust the value as needed */
+}
+
+.cool-button {
+  background-color: #fff; /* White button background color */
+  color: #000; /* Black button text color */
+  border: 2px solid #333; /* Black border */
+  padding: 6px 16px;
+  margin: 5px;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s; /* Smooth color transition */
+}
+
+/* Hover effect */
+.cool-button:hover {
+  background-color: #000; /* Black background color on hover */
+  color: #fff; /* White text color on hover */
+}
