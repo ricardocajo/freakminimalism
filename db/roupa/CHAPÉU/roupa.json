@@ -2,39 +2,48 @@
     [
         {
             "type": "SNAP FIVE",
-            "colors": ["00", "11", "47", "52", "54", "64", "65", "95", "CM"]
+            "colors": ["00", "11", "47", "52", "54", "64", "65", "95", "CM"],
+            "desc": "50% lã | 50% acrílico"
         },
         {
             "type": "TRADICIONAL",
-            "colors": ["00", "11", "47", "64", "65", "96"]
+            "colors": ["00", "11", "47", "64", "65", "96"],
+            "desc": "100% Poliéster reciclado certificado"
         },
         {
             "type": "ZION",
-            "colors": ["00", "11", "39", "47", "64", "65", "96"]   
+            "colors": ["00", "11", "39", "47", "64", "65", "96"],
+            "desc": "100% Poliéster reciclado certificado e fecho em PVC reciclado"   
         },
         {
             "type": "RECY",
-            "colors": ["00", "11", "47", "52", "64", "65", "96"]
+            "colors": ["00", "11", "47", "52", "64", "65", "96"],
+            "desc": "60% Algodão reciclado certificado e 40% Algodão Canvas, traseira 100% Poliéster reciclado certificado"
         },
         {
             "type": "PANAMÁ",
-            "colors": ["00", "11", "39", "47", "65", "96"]
+            "colors": ["00", "11", "39", "47", "65", "96"],
+            "desc": "100% Poliéster reciclado certificado"
         },
         {
             "type": "CLÁSSICO",
-            "colors": ["00", "11", "39", "44", "47", "52", "64", "65", "96"]
+            "colors": ["00", "11", "39", "44", "47", "52", "64", "65", "96"],
+            "desc": "100% Sarja de Poliéster Reciclado certificado"
         },
         {
             "type": "BOINA",
-            "colors":["11", "39", "47"]
+            "colors":["11", "39", "47"],
+            "desc": "100% Algodão escovado"
         },
         {
             "type": "BASEBOL",
-            "colors":["00", "11", "39", "47", "64", "65", "96"]
+            "colors":["00", "11", "39", "47", "64", "65", "96"],
+            "desc": "100% Sarja de Poliéster Reciclado certificado"
         },
         {
             "type": "GORRO",
-            "colors":["11", "64", "65", "96"]
+            "colors":["11", "64", "65", "96"],
+            "desc": "100% Poliéster reciclado certificado"
         }
     ]
 }

@@ -159,6 +159,7 @@ function handleClothingTypeSelected(selectedValue) {
   let color_DOM = document.getElementById("color-list");
   let subtype_DOM = document.getElementById("clothing-subtype");
   theSelectedType = selectedValue.replace(/[\s|]/g, "");
+  let desc_DOM = document.getElementById("clothing-desc");
 
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
     .then(response => response.json())
@@ -211,6 +212,8 @@ function handleClothingTypeSelected(selectedValue) {
         listItem.innerHTML = type;
         subtype_DOM.appendChild(listItem);
       });
+
+      desc_DOM.innerHTML = firstType.desc;
       
       theSelectedSubType = firstType.type;
       theSelectedColor = firstType.colors[0];
@@ -227,6 +230,7 @@ function handleClothingSubTypeSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
   let color_DOM = document.getElementById("color-list");
   theSelectedSubType = selectedValue.replace(/[\s|]/g, "");
+  let desc_DOM = document.getElementById("clothing-desc");
 
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
     .then(response => response.json())
@@ -286,6 +290,8 @@ function handleClothingSubTypeSelected(selectedValue) {
       // Update theSelectedColor with the first color of the matching type
       theSelectedColor = matchingType.colors[0];
       handleClothingColorSelected(theSelectedColor);
+
+      desc_DOM.innerHTML = matchingType.desc;
 
       // Now, initiate the second fetch with the updated theSelectedColor value
       fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
