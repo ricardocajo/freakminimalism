@@ -3,12 +3,12 @@
         {
             "type": "KING",
             "colors": ["00", "11", "2C", "24", "32", "33", "3E", "42", "44", "48", "4F", "4K", "4L", "52", "54", "55", "5N", "5P", "62", "63", "64", "6D", "6K", "6P", "6T", "6W", "81", "92", "93", "96"],
-            "desc": "100% algodão pré-encolhido Peso: 145g/m² | Tamanhos: XS; S; M; L; XL; 2XL; 3XL"
+            "desc": "100%  algodão  pré-encolhido |  145g/m²  |  Tamanhos: XS  S  M  L  XL  2XL  3XL"
         },
         {
             "type": "QUEEN",
             "colors": ["00", "11", "2C", "24", "32", "42", "4F", "4K", "4L", "52", "54", "55", "5P", "62", "63", "64", "65", "6K", "6P", "6T", "6W", "92", "93", "96"],
-            "desc": "100% Poliéster reciclado certificado"
+            "desc": "100%  Poliéster  reciclado  certificado"
         }
     ]
 }

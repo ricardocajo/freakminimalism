@@ -2,7 +2,8 @@
     [
         {
             "type": "default",
-            "colors": ["00"]
+            "colors": ["00"],
+            "desc": ""
         }
     ]
 }

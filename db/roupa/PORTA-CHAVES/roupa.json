@@ -2,15 +2,18 @@
     [
         {
             "type": "SIMPLES",
-            "colors": ["aa"]
+            "colors": ["aa"],
+            "desc": ""
         },
         {
             "type": "REFORÇADO",
-            "colors": ["aa"]
+            "colors": ["aa"],
+            "desc": ""
         },
         {
             "type": "PERSONALIZADO",
-            "colors": ["aa"]
+            "colors": ["aa"],
+            "desc": ""
         }
     ]
 }

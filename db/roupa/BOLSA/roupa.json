@@ -2,11 +2,13 @@
     [
         {
             "type": "CINTURA",
-            "colors": ["aa"]
+            "colors": ["aa"],
+            "desc": ""
         },
         {
             "type": "TIRA-COLO",
-            "colors": ["aa"]
+            "colors": ["aa"],
+            "desc": ""
         }
     ]
 }

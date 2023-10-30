@@ -3,12 +3,12 @@
         {
             "type": "KING",
             "colors": ["00", "1D", "5Z", "6S", "6V", "95", "9F", "2E", "39", "3H", "44", "4M", "52", "5N", "5T", "5W", "6I", "6L", "9C", "9G"],
-            "desc": "80% Algodão e 20% Poliéster. 280g/m2 Cor 95: 75% Algodão, 21% Poliéster e 4% Viscose"
+            "desc": "80%  Algodão  20%  Poliéster  | 280g/m2"
         },
         {
             "type": "QUEEN",
             "colors": ["00", "1D", "2E", "4N", "6S", "8A", "9F", "3H", "3M", "46", "4P", "4R", "52", "54", "5N", "SW", "5T", "6L", "6Q", "95"],
-            "desc": "80% Algodão e 20% Poliéster. 280g/m2 Cor 95: 75% Algodão, 21% Poliéster e 4% Viscose"
+            "desc": "80%  Algodão  20%  Poliéster  |  280g/m2"
         }
     ]
 }
