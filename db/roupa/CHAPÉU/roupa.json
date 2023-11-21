@@ -26,6 +26,11 @@
             "desc": "100%  Poliéster  reciclado  certificado"
         },
         {
+            "type": "PANAMÁ CURTO",
+            "colors": ["00", "11", "39", "47", "65", "96"],
+            "desc": "60%  Algodão  reciclado  certificado  |  40%  Sarja  de  algodão"
+        },
+        {
             "type": "CLÁSSICO",
             "colors": ["00", "11", "39", "44", "47", "52", "64", "65", "96"],
             "desc": "100%  Sarja  de  Poliéster  Reciclado  certificado"
