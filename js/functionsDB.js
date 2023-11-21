@@ -110,7 +110,7 @@ function initialize_designs() {
           if(key == '0.jpg') {
             listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."></a>`;
           } else {  
-            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="...">`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20este%20design!%20${ABSOLUTE_PATH}/db/designs/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."></a>`;
           }
           works_DOM.appendChild(listItem);
 
