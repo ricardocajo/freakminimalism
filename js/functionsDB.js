@@ -56,7 +56,7 @@ function initialize_works() {
             listItem.classList.add("hidden");
           }
           listItem.classList.add("column-item");
-          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
+          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="..." loading="lazy">`;
           works_DOM.appendChild(listItem);
 
           works_index = works_index + 1;
@@ -70,7 +70,7 @@ function initialize_works() {
 }
 
 
-/* Fetches available works data and adds it to the Webpage */
+/* Fetches available works data and adds it to the Webpage 
 function initialize_arte() {
   let works_DOM = document.getElementById("arte_list");
   fetch(ABSOLUTE_PATH + "/db/arte/arte.json")
@@ -80,7 +80,7 @@ function initialize_arte() {
         if (data[key]) {
           let listItem = document.createElement("li");
           listItem.classList.add("column-item");
-          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/img/${key} alt="...">`;
+          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/img/${key} alt="..." loading="lazy">`;
           works_DOM.appendChild(listItem);
         }
       });
@@ -88,7 +88,7 @@ function initialize_arte() {
     .catch(error => {
       console.error('Error:', error);
     });
-}
+}*/
 
 
 /* Fetches available designs data and adds it to the Webpage */
@@ -108,9 +108,9 @@ function initialize_designs() {
           }
           listItem.classList.add("column-item");
           if(key == '0.jpg') {
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..." loading="lazy"></a>`;
           } else {  
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20este%20design!%20${ABSOLUTE_PATH}/db/designs/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20este%20design!%20${ABSOLUTE_PATH}/db/designs/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..." loading="lazy"></a>`;
           }
           works_DOM.appendChild(listItem);
 

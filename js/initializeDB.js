@@ -1,8 +1,8 @@
 //initialize_sizes();
 initialize_prices();
-initialize_works();
-initialize_designs();
 initialize_clothingItems();
+initialize_designs();
+initialize_works();
 
 const listElementTypes = document.getElementById("clothing-type");
 listElementTypes.addEventListener("click", function(event) {

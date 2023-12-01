@@ -11899,17 +11899,6 @@ video {
   height: 50px;
 }
 
-.image-parcerias {
-  display: flex;
-  justify-content: space-between;
-  gap: 5mm;
-}
-
-.image-parcerias img {
-  width: 75px;
-  height: 75px;
-}
-
 .hidden {
   display: none;
 }
