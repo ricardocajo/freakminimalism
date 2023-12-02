@@ -11868,7 +11868,7 @@ ul.clickable-list li {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   color: white;
-  font-size: 12px; /* Adjust the font size as needed */
+  font-size: 15px; /* Adjust the font size as needed */
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
