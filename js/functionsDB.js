@@ -56,7 +56,7 @@ function initialize_works() {
             listItem.classList.add("hidden");
           }
           listItem.classList.add("column-item");
-          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="..." loading="lazy">`;
+          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
           works_DOM.appendChild(listItem);
 
           works_index = works_index + 1;
@@ -108,9 +108,9 @@ function initialize_designs() {
           }
           listItem.classList.add("column-item");
           if(key == '0.jpg') {
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..." loading="lazy"></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."><p>Encomendar!</p></a>`;
           } else {  
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20este%20design!%20${ABSOLUTE_PATH}/db/designs/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..." loading="lazy"></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20este%20design!%20${ABSOLUTE_PATH}/db/designs/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."><p>Encomendar!</p></a>`;
           }
           works_DOM.appendChild(listItem);
 

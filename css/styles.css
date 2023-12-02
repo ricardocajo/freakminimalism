@@ -81,15 +81,15 @@
 }
 
 @font-face {
-  font-family: 'PurpleHaze'; /* Choose a name for the font family */
-  src: url('../fonts/purplehaze.ttf') format('truetype');
+  font-family: 'ChosenFont'; /* Choose a name for the font family */
+  src: url('../fonts/font.ttf') format('truetype');
 }
 
 
 body {
   margin: 0;
   /*font-family: var(--bs-body-font-family);*/
-  font-family: 'PurpleHaze', sans-serif;
+  font-family: 'ChosenFont', sans-serif;
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
@@ -11924,4 +11924,23 @@ video {
 .cool-button:hover {
   background-color: #000; /* Black background color on hover */
   color: #fff; /* White text color on hover */
+}
+
+.image-container {
+  position: relative;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Dark background with 50% opacity */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff; /* White text color */
+  font-size: 18px;
+  z-index: 1; /* Ensure the overlay is above the image */
 }
