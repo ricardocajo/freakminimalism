@@ -44,6 +44,16 @@
             "type": "GORRO",
             "colors":["11", "64", "65", "96"],
             "desc": "100%  Poliéster  reciclado  certificado"
+        },
+        {
+            "type": "WHIPPY",
+            "colors":["52", "56", "64", "81", "92", "96"],
+            "desc": "Frente  100%  Poliéster  |  traseira  97%  Nylon | 3%  Elastano"
+        },
+        {
+            "type": "PANAMÁCURTO",
+            "colors": ["00", "11", "39", "47", "65", "96"],
+            "desc": "60%  Algodão  reciclado  certificado  |  40%  Sarja  de  algodão"
         }
     ]
 }
