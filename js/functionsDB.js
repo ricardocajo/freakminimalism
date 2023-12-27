@@ -52,14 +52,16 @@ function initialize_works() {
       Object.keys(data).forEach(key => {
         if (data[key]) {
           let listItem = document.createElement("li");
+
           if(works_index > 2) {
             listItem.classList.add("hidden");
           }
           listItem.classList.add("column-item");
-          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
+          listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/works/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="..."><p>Encomendar!</p></a>`;
           works_DOM.appendChild(listItem);
-
           works_index = works_index + 1;
+
+
         }
       });
     })
