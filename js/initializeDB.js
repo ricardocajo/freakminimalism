@@ -163,3 +163,72 @@ document.getElementById('nextBtnDesigns').addEventListener('click', function () 
   // Call the updateDesigns function to perform the button click logic
   updateDesigns();
 });
+
+
+document.getElementById('prevBtnMerch').addEventListener('click', function () {
+  
+  // Reset the timer for works by clearing the existing interval and setting a new one
+  clearInterval(merchIntervalId);
+  merchIntervalId = setInterval(simulateMerchButtonClick, 5000);
+
+  if(merch_show_index[2] - 3 >= 2) {
+    $('#merch_list li').addClass('hidden'); // Oculta todos os itens
+  
+    // Atualiza os índices
+    merch_show_index = merch_show_index.map(function (index) {
+      return index - 3;
+    });
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    merch_show_index.forEach(function (index) {
+      $('#merch_list li').eq(index).removeClass('hidden');
+    });
+  }
+});
+
+var merch_show_index = [0, 1, 2];
+var merch_list_size = 5;
+var merch_index = 0;
+// Function to update works based on the button click
+function updateMerch() {
+  if (merch_show_index[2] + 3 <= merch_list_size) {
+    $('#merch_list li').addClass('hidden'); // Oculta todos os itens
+
+    // Atualiza os índices
+    merch_show_index = merch_show_index.map(function (index) {
+      return index + 3;
+    });
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    merch_show_index.forEach(function (index) {
+      $('#merch_list li').eq(index).removeClass('hidden');
+    });
+  } else {
+    $('#merch_list li').addClass('hidden'); // Oculta todos os itens
+
+    merch_show_index = [0, 1, 2];
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    merch_show_index.forEach(function (index) {
+      $('#merch_list li').eq(index).removeClass('hidden');
+    });
+  }
+}
+
+// Function to simulate button click every 5 seconds for works
+function simulateMerchButtonClick() {
+  updateMerch();
+}
+
+// Set initial interval for works
+let merchIntervalId = setInterval(simulateMerchButtonClick, 5000);
+
+// Event listener for the "Próximo" button associated with works
+document.getElementById('nextBtnMerch').addEventListener('click', function () {
+  // Reset the timer for works by clearing the existing interval and setting a new one
+  clearInterval(merchIntervalId);
+  merchIntervalId = setInterval(simulateMerchButtonClick, 5000);
+
+  // Call the updateWorks function to perform the button click logic
+  updateMerch();
+});

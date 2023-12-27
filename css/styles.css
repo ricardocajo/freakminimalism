@@ -11804,6 +11804,13 @@ body {
     grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
 }
 
+.merchimg {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(3, 1fr); /* Add this line to create 3 columns */
+  grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
+}
+
 .arteimg {
   display: grid;
   height: 100%;
