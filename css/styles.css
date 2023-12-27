@@ -11808,7 +11808,7 @@ body {
   display: grid;
   height: 100%;
   grid-template-columns: repeat(4, 1fr); /* Add this line to create 3 columns */
-  grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
+  grid-gap: 0.5rem; /* Adjust the gap between columns as needed */
 }
 
 .arteimg {
