@@ -11807,7 +11807,7 @@ body {
 .merchimg {
   display: grid;
   height: 100%;
-  grid-template-columns: repeat(4, 1fr); /* Add this line to create 3 columns */
+  grid-template-columns: repeat(3, 1fr); /* Add this line to create 3 columns */
   grid-gap: 0.5rem; /* Adjust the gap between columns as needed */
 }
 

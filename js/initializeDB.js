@@ -186,17 +186,17 @@ document.getElementById('prevBtnMerch').addEventListener('click', function () {
   }
 });
 
-var merch_show_index = [0, 1, 2, 4];
-var merch_list_size = 6;
+var merch_show_index = [0, 1, 2];
+var merch_list_size = 8;
 var merch_index = 0;
 // Function to update works based on the button click
 function updateMerch() {
-  if (merch_show_index[2] + 4 <= merch_list_size) {
+  if (merch_show_index[2] + 3 <= merch_list_size) {
     $('#merch_list li').addClass('hidden'); // Oculta todos os itens
 
     // Atualiza os índices
     merch_show_index = merch_show_index.map(function (index) {
-      return index + 4;
+      return index + 3;
     });
 
     // Remove a classe 'hidden' dos itens com os índices atualizados
@@ -206,7 +206,7 @@ function updateMerch() {
   } else {
     $('#merch_list li').addClass('hidden'); // Oculta todos os itens
 
-    merch_show_index = [0, 1, 2, 3];
+    merch_show_index = [0, 1, 2];
 
     // Remove a classe 'hidden' dos itens com os índices atualizados
     merch_show_index.forEach(function (index) {
