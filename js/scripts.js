@@ -52,3 +52,12 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
 });
+
+
+function openPopup() {
+    document.getElementById('popup-container').style.display = 'block';
+}
+
+function closePopup() {
+    document.getElementById('popup-container').style.display = 'none';
+}
