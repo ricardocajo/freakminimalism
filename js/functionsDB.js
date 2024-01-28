@@ -167,6 +167,12 @@ function handleClothingTypeSelected(selectedValue) {
   theSelectedType = selectedValue.replace(/[\s|]/g, "");
   let desc_DOM = document.getElementById("clothing-desc");
 
+  if (theSelectedType === "CHAPÉU") {
+    document.getElementById("bordados_chapeu").style.display = "block";
+  } else {
+    document.getElementById("bordados_chapeu").style.display = "none";
+  }
+
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
     .then(response => response.json())
     .then(data => {
