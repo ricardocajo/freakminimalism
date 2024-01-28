@@ -11841,14 +11841,27 @@ background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5)
   grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
 }
 
-/* CSS */
-#color-list {
+#bordados-list {
   /* Use a flexbox layout to create five columns */
   display: flex;
   flex-wrap: wrap;
 }
 
-#bordados-list {
+.bordados-button {
+  /* Optional: Add styling for the button if needed */
+  border: none;
+  background-color: transparent;
+}
+
+.bordados-item {
+  /* Set the width for each column (20% to have five columns) */
+  width: 20%;
+  box-sizing: border-box; /* Include padding in the width calculation */
+  padding: 5px; /* Optional: Add spacing between items within each column */
+}
+
+/* CSS */
+#color-list {
   /* Use a flexbox layout to create five columns */
   display: flex;
   flex-wrap: wrap;
