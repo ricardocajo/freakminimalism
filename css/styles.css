@@ -11631,7 +11631,7 @@ body {
               linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);*/
 background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000 100%),
             linear-gradient(to top, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000 100%), 
-            url("../assets/img/fundo5.jpg");
+            url("../assets/img/fundo5.png");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -12017,3 +12017,8 @@ video {
   height: auto; /* Maintain aspect ratio */
 }
 
+.b_popup:hover,
+.b_popup.active {
+  background-color: #006666;
+  /* Add other styles for the active state */
+}

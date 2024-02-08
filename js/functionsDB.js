@@ -151,7 +151,7 @@ function initialize_clothingItems() {
         items_DOM.appendChild(listItem);
       });
       //initialize colors with 1st cloth being shown
-      handleClothingTypeSelected(Object.keys(data)[0]);
+      //handleClothingTypeSelected(Object.keys(data)[0]);
     })
     .catch(error => {
       console.error('Error:', error);
@@ -161,88 +161,114 @@ function initialize_clothingItems() {
 
 // Function to handle the selection (you can replace this with your desired logic)
 var theSelectedType = "";
-function handleClothingTypeSelected(selectedValue) {
+var currentSelectedType = "CHAPÉU";
+function handleClothingTypeSelected(event_target) {
   let color_DOM = document.getElementById("color-list");
   let subtype_DOM = document.getElementById("clothing-subtype");
-  theSelectedType = selectedValue.replace(/[\s|]/g, "");
+  theSelectedType = event_target.textContent.replace(/[\s|]/g, "");
   let desc_DOM = document.getElementById("clothing-desc");
+  let artigo_section_DOM = document.getElementById("artigo_section");
 
-  if (theSelectedType === "CHAPÉU") {
-    document.getElementById("bordados_chapeu").style.display = "block";
-  } else {
-    document.getElementById("bordados_chapeu").style.display = "none";
-  }
+  if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
+    /*if (theSelectedType === "CHAPÉU") {
+      document.getElementById("bordados_chapeu").style.display = "block";
+    } else {
+      document.getElementById("bordados_chapeu").style.display = "none";
+    }*/
 
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
-    .then(response => response.json())
-    .then(data => {
-      const firstType = data.types[0];
+    fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
+      .then(response => response.json())
+      .then(data => {
+        const firstType = data.types[0];
 
-      while(color_DOM.firstChild){
-        color_DOM.removeChild(color_DOM.firstChild);
-      }
-      firstType.colors.forEach(color => {
-        
-        // Create the div element with class "color-item"
-        const colorItemDiv = document.createElement("div");
-        colorItemDiv.className = "color-item";
-
-        // Create the button element with class "color-button"
-        const colorButton = document.createElement("button");
-        colorButton.className = "color-button";
-
-        // Create the img element and set its src and alt attributes
-        const img = document.createElement("img");
-        img.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`;
-        img.alt = color;
-
-        // Append the img element to the button element
-        colorButton.appendChild(img);
-        // Append the button element to the div element
-        colorItemDiv.appendChild(colorButton);
-        
-        color_DOM.appendChild(colorItemDiv);
-      });
-
-      // Add the event listener to the parent element (event delegation)
-      document.getElementById("color-list").addEventListener("click", function(event) {
-        const button = event.target.closest(".color-button");
-        if (button) {
-          const image = button.querySelector("img");
-          const altValue = image.getAttribute("alt");
-          handleClothingColorSelected(altValue);
+        while(color_DOM.firstChild){
+          color_DOM.removeChild(color_DOM.firstChild);
         }
-      });
+        firstType.colors.forEach(color => {
+          
+          // Create the div element with class "color-item"
+          const colorItemDiv = document.createElement("div");
+          colorItemDiv.className = "color-item";
+
+          // Create the button element with class "color-button"
+          const colorButton = document.createElement("button");
+          colorButton.className = "color-button";
+
+          // Create the img element and set its src and alt attributes
+          const img = document.createElement("img");
+          img.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`;
+          img.alt = color;
+
+          // Append the img element to the button element
+          colorButton.appendChild(img);
+          // Append the button element to the div element
+          colorItemDiv.appendChild(colorButton);
+          
+          color_DOM.appendChild(colorItemDiv);
+        });
+
+        // Add the event listener to the parent element (event delegation)
+        document.getElementById("color-list").addEventListener("click", function(event) {
+          const button = event.target.closest(".color-button");
+          if (button) {
+            const image = button.querySelector("img");
+            const altValue = image.getAttribute("alt");
+            handleClothingColorSelected(altValue);
+          }
+        });
 
 
-      subtype_DOM.innerHTML = '';
-      const types = data.types.map(item => item.type);
-      types.forEach(type => {
-        let listItem = document.createElement("li");
-        listItem.value = type;
-        listItem.className = "col-md-4";
-        listItem.innerHTML = type;
-        subtype_DOM.appendChild(listItem);
-      });
+        subtype_DOM.innerHTML = '';
+        const types = data.types.map(item => item.type);
+        types.forEach(type => {
+          let listItem = document.createElement("li");
+          listItem.value = type;
+          listItem.className = "col-md-4";
+          listItem.innerHTML = type;
+          subtype_DOM.appendChild(listItem);
+        });
 
-      desc_DOM.innerHTML = firstType.desc;
-      
-      theSelectedSubType = firstType.type;
-      theSelectedColor = firstType.colors[0];
-      handleClothingSubTypeSelected(theSelectedSubType);
-      //handleClothingColorSelected(firstType.colors[0]);
-    })
+        desc_DOM.innerHTML = firstType.desc;
+        
+        theSelectedSubType = firstType.type;
+        const allListItems = document.querySelectorAll("#clothing-subtype li");
+        const firstListItem = allListItems[0];
+        theSelectedColor = firstType.colors[0];
+
+        handleClothingSubTypeSelected(firstListItem);
+        //handleClothingColorSelected(firstType.colors[0]);
+      })
     .catch(error => {
       console.error('Error:', error);
     });
+
+    currentSelectedType = theSelectedType;
+    artigo_section_DOM.style.display = "flex";
+    const allListItems = document.querySelectorAll("#clothing-type li");
+    allListItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+    event_target.classList.add("active");
+  } else {
+    currentSelectedType = "";
+    artigo_section_DOM.style.display = "none"
+    event_target.classList.remove("active");
+  } 
 }
 
 var theSelectedSubType = "";
-function handleClothingSubTypeSelected(selectedValue) {
+function handleClothingSubTypeSelected(event_target) {
   let image_DOM = document.getElementById("clothing-image");
   let color_DOM = document.getElementById("color-list");
+  const selectedValue = event_target.textContent;
   theSelectedSubType = selectedValue.replace(/[\s|]/g, "");
   let desc_DOM = document.getElementById("clothing-desc");
+
+  const allListItems = document.querySelectorAll("#clothing-subtype li");
+  allListItems.forEach((item) => {
+    item.classList.remove("active");
+  });
+  event_target.classList.add("active");
 
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
     .then(response => response.json())

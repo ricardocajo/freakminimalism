@@ -56,8 +56,19 @@ window.addEventListener('DOMContentLoaded', event => {
 
 function openPopup() {
     document.getElementById('popup-container').style.display = 'block';
+    document.querySelector('.b_popup').classList.add('active');
 }
 
 function closePopup() {
     document.getElementById('popup-container').style.display = 'none';
+    document.querySelector('.b_popup').classList.remove('active');
 }
+
+document.addEventListener('click', function(event) {
+    const popupContainer = document.getElementById('popup-container');
+    const popupButton = document.querySelector('.b_popup');
+  
+    if (!popupContainer.contains(event.target) && !popupButton.contains(event.target)) {
+      closePopup();
+    }
+  });

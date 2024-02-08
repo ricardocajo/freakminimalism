@@ -7,16 +7,14 @@ initialize_works();
 const listElementTypes = document.getElementById("clothing-type");
 listElementTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
-    const selectedValue = event.target.textContent;
-    handleClothingTypeSelected(selectedValue);
+    handleClothingTypeSelected(event.target);
   }
 });
 
 const listElementSubTypes = document.getElementById("clothing-subtype");
 listElementSubTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
-    const selectedValue = event.target.textContent;
-    handleClothingSubTypeSelected(selectedValue);
+    handleClothingSubTypeSelected(event.target);
   }
 });
 
