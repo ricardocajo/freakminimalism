@@ -176,8 +176,8 @@ function handleClothingTypeSelected(event_target) {
 
         //desc_DOM.innerHTML = firstType.desc;
         
-        //theSelectedSubType = firstType.type;
-        //const allListItems = document.querySelectorAll("#clothing-subtype li");
+        theSelectedSubType = firstType.type;
+        const allListItems = document.querySelectorAll("#clothing-subtype li");
         //const firstListItem = allListItems[0];
         //theSelectedColor = firstType.colors[0];
 
@@ -203,12 +203,14 @@ function handleClothingTypeSelected(event_target) {
 }
 
 var theSelectedSubType = "";
+var currentSelectedSubType = "";
 function handleClothingSubTypeSelected(event_target) {
   let image_DOM = document.getElementById("clothing-image");
   let color_DOM = document.getElementById("color-list");
   const selectedValue = event_target.textContent;
   theSelectedSubType = selectedValue.replace(/[\s|]/g, "");
   let desc_DOM = document.getElementById("clothing-desc");
+  let cor_section_DOM = document.getElementById("artigo_section");
 
   const allListItems = document.querySelectorAll("#clothing-subtype li");
   allListItems.forEach((item) => {
@@ -216,29 +218,16 @@ function handleClothingSubTypeSelected(event_target) {
   });
   event_target.classList.add("active");
 
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
+if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display === "flex" && theSelectedSubType !== currentSelectedSubType)) {
+
+  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/roupa.json")
     .then(response => response.json())
     .then(data => {
-      let matchingType = null;
-
-      // Iterate through the types array to find the matching entry
-      for (const typeEntry of data.types) {
-        if (typeEntry.type === selectedValue) {
-          matchingType = typeEntry;
-          break; // Stop iterating once a match is found
-        }
-      }
-
-      if (!matchingType) {
-        console.error("No matching type found for:", selectedValue);
-        return;
-      }
-
       // Show the colors of the matching clothing type
       while(color_DOM.firstChild){
         color_DOM.removeChild(color_DOM.firstChild);
       }
-      matchingType.colors.forEach(color => {
+      data.types.colors.forEach(color => {
         
         // Create the div element with class "color-item"
         const colorItemDiv = document.createElement("div");
@@ -272,10 +261,10 @@ function handleClothingSubTypeSelected(event_target) {
       });
 
       // Update theSelectedColor with the first color of the matching type
-      theSelectedColor = matchingType.colors[0];
+      theSelectedColor = data.types.colors[0];
       handleClothingColorSelected(theSelectedColor);
 
-      desc_DOM.innerHTML = matchingType.desc;
+      desc_DOM.innerHTML = data.types.desc;
 
       // Now, initiate the second fetch with the updated theSelectedColor value
       fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
@@ -296,6 +285,19 @@ function handleClothingSubTypeSelected(event_target) {
     .catch(error => {
       console.error('Error:', error);
     });
+
+    //currentSelectedType = theSelectedType;
+    cor_section_DOM.style.display = "flex";
+    const allListItems = document.querySelectorAll("#clothing-subtype li");
+    allListItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+    event_target.classList.add("active");
+  } else {
+    currentSelectedType = "";
+    cor_section_DOM.style.display = "none"
+    event_target.classList.remove("active");
+  } 
 }
 
 

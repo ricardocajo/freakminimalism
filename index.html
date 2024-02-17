@@ -121,40 +121,44 @@
 
           <div class="row" id="artigo_section" style="display: none;">
             <div class="col-md-6 text-center"> <!-- Center the labels -->
-              <label for="clothing-subtype">Tipo:</label>
+              <!--<label for="clothing-subtype">Tipo:</label>-->
                 <br><br>
                 <ul id="clothing-subtype" class="clickable-list row"></ul>
+            </div>
                 <br><br>
-                <label>Cor:</label>
+
+            <div class="row" id="cor_section" style="display: none;">
+
+              <div class="col-md-6 text-center"> <!-- Center the labels -->
                 <div class="double-space" id="color-list"></div>
                 <br><br> 
-
               </div>
 
-              <div class="col-md-6 text-center mt-4"> <!-- Center the image -->
+                <div class="col-md-6 text-center mt-4"> <!-- Center the image -->
 
-                <br><br>
+                  <br><br>
 
-                <p id="clothing-desc" style="font-size: 13px;"></p>
+                  <p id="clothing-desc" style="font-size: 13px;"></p>
 
-                <!-- Image -->
-                <img class="img-fluid mb-3 mb-lg-0" id="clothing-image" alt="..."/>
-              </div>
+                  <!-- Image -->
+                  <img class="img-fluid mb-3 mb-lg-0" id="clothing-image" alt="..."/>
+                </div>
 
-              <div class="social d-flex justify-content-center">
-                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/1.jpg" alt="..." loading="lazy"></a>
-                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/2.jpg" alt="..." loading="lazy"></a>
-                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/3.jpg" alt="..." loading="lazy"></a>
-                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/4.png" alt="..." loading="lazy"></a>
-              </div>
+                <div class="social d-flex justify-content-center">
+                  <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/1.jpg" alt="..." loading="lazy"></a>
+                  <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/2.jpg" alt="..." loading="lazy"></a>
+                  <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/3.jpg" alt="..." loading="lazy"></a>
+                  <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/4.png" alt="..." loading="lazy"></a>
+                </div>
 
-              <br><br><br><br>
+                <br><br><br><br>
 
-              <span class="social d-flex justify-content-center">
-                <button onclick="selecionarDesign()">
-                  Selecionar Design
-                </button>
-              </span>
+                <span class="social d-flex justify-content-center">
+                  <button onclick="selecionarDesign()">
+                    Selecionar Design
+                  </button>
+                </span>
+            </div>
 
               <div class="col-md-10 col-lg-8 mx-auto text-center" id="selectDesign" style="display: none;">
                   <ul class="worksimg" id="designs_list"></ul>
