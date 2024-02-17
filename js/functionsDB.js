@@ -114,9 +114,9 @@ function initialize_designs() {
           }
           listItem.classList.add("column-item");
           if(key == '0.jpg') {
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="...">`;
           } else {  
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20este%20design!%20${ABSOLUTE_PATH}/db/designs/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="..."></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="...">`;
           }
           works_DOM.appendChild(listItem);
 
@@ -156,6 +156,7 @@ function handleClothingTypeSelected(event_target) {
   theSelectedType = event_target.textContent.replace(/[\s|]/g, "");
   let desc_DOM = document.getElementById("clothing-desc");
   let artigo_section_DOM = document.getElementById("artigo_section");
+  let cor_section_DOM = document.getElementById("cor_section");
 
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
 
@@ -174,10 +175,11 @@ function handleClothingTypeSelected(event_target) {
           subtype_DOM.appendChild(listItem);
         });
 
+        cor_section_DOM.style.display = "none";
         //desc_DOM.innerHTML = firstType.desc;
         
-        theSelectedSubType = firstType.type;
-        const allListItems = document.querySelectorAll("#clothing-subtype li");
+        //theSelectedSubType = firstType.type;
+        //const allListItems = document.querySelectorAll("#clothing-subtype li");
         //const firstListItem = allListItems[0];
         //theSelectedColor = firstType.colors[0];
 
@@ -210,7 +212,7 @@ function handleClothingSubTypeSelected(event_target) {
   const selectedValue = event_target.textContent;
   theSelectedSubType = selectedValue.replace(/[\s|]/g, "");
   let desc_DOM = document.getElementById("clothing-desc");
-  let cor_section_DOM = document.getElementById("artigo_section");
+  let cor_section_DOM = document.getElementById("cor_section");
 
   const allListItems = document.querySelectorAll("#clothing-subtype li");
   allListItems.forEach((item) => {
@@ -219,7 +221,6 @@ function handleClothingSubTypeSelected(event_target) {
   event_target.classList.add("active");
 
 if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display === "flex" && theSelectedSubType !== currentSelectedSubType)) {
-
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/roupa.json")
     .then(response => response.json())
     .then(data => {
@@ -264,7 +265,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
       theSelectedColor = data.types[0].colors[0];
       handleClothingColorSelected(theSelectedColor);
 
-      desc_DOM.innerHTML = data.types.desc;
+      desc_DOM.innerHTML = data.types[0].desc;
 
       // Now, initiate the second fetch with the updated theSelectedColor value
       fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
@@ -286,7 +287,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
       console.error('Error:', error);
     });
 
-    //currentSelectedType = theSelectedType;
+    currentSelectedSubType = theSelectedSubType;
     cor_section_DOM.style.display = "flex";
     const allListItems = document.querySelectorAll("#clothing-subtype li");
     allListItems.forEach((item) => {
@@ -294,7 +295,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
     });
     event_target.classList.add("active");
   } else {
-    currentSelectedType = "";
+    currentSelectedSubType = "";
     cor_section_DOM.style.display = "none"
     event_target.classList.remove("active");
   } 
@@ -303,6 +304,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
 
 
 var theSelectedColor = "";
+var current_image = null;
 function handleClothingColorSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
   theSelectedColor = selectedValue;
@@ -317,6 +319,7 @@ function handleClothingColorSelected(selectedValue) {
     .then(imageBlob => {
       const imageUrl = URL.createObjectURL(imageBlob);
       image_DOM.src = imageUrl;
+      current_image = imageUrl;
     })
     .catch(error => {
       console.error('Error:', error);
