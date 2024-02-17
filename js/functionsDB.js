@@ -101,6 +101,7 @@ function initialize_arte() {
 var designs_show_index = [1, 2, 3, 4, 5];
 var designs_list_size = 96;
 var desgins_index = 0;
+var selected_design = null;
 function initialize_designs() {
   let works_DOM = document.getElementById("designs_list");
   fetch(ABSOLUTE_PATH + "/db/designs/designs.json")
@@ -113,10 +114,17 @@ function initialize_designs() {
             listItem.classList.add("hidden");
           }
           listItem.classList.add("column-item");
+          var path = ABSOLUTE_PATH+"/db/designs/img/"+key;
           if(key == '0.jpg') {
-            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="...">`;
+            let content = `<label for="upload-btn" id="upload-label">Upload Photo</label>`;
+            content += `<input type="file" id="upload-btn" accept="image/*" style="cursor: pointer;">`;
+
+            listItem.innerHTML = content;
           } else {  
-            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/designs/img/${key} alt="...">`;
+            listItem.innerHTML = `<a><img style="cursor: pointer;" class="workscenter-fit" src=${path} alt="..."></a>`;
+            listItem.addEventListener("click", function() {
+              selected_design = path;
+            });
           }
           works_DOM.appendChild(listItem);
 
@@ -308,8 +316,8 @@ var current_image = null;
 function handleClothingColorSelected(selectedValue) {
   let image_DOM = document.getElementById("clothing-image");
   theSelectedColor = selectedValue;
-
-  fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
+  const path = ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png"
+  fetch(path)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -319,7 +327,7 @@ function handleClothingColorSelected(selectedValue) {
     .then(imageBlob => {
       const imageUrl = URL.createObjectURL(imageBlob);
       image_DOM.src = imageUrl;
-      current_image = imageUrl;
+      current_image = path;
     })
     .catch(error => {
       console.error('Error:', error);
