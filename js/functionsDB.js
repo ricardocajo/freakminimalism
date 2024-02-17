@@ -134,34 +134,22 @@ function initialize_designs() {
 /* Fetches available prices data to add it to the clothing section */
 function initialize_clothingItems() {
   let items_DOM = document.getElementById("clothing-type");
-  fetch(ABSOLUTE_PATH + "/db/prices/prices.json")
-    .then(response => response.json())
-    .then(data => {
-      Object.keys(data).forEach(key => {
-        let listItem = document.createElement("li");
-        let new_key_name = key
-        .replace(/[|]|KING|QUEEN/gi, "") // Remove spaces, pipe characters, "KING," and "QUEEN"
-        .split(/\s+/) // Split the string into an array of words
-        .filter((word, index, arr) => arr.indexOf(word) === index) // Filter out duplicate words
-        .join(" "); // Join the filtered words back into a string with a space between them
-      
-        listItem.value = new_key_name;
-        listItem.className = "col-md-4";
-        listItem.innerHTML = new_key_name;
-        items_DOM.appendChild(listItem);
-      });
-      //initialize colors with 1st cloth being shown
-      //handleClothingTypeSelected(Object.keys(data)[0]);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  let clothingItems = ["KING", "QUEEN", "KID", "ACESSÓRIOS"];
+
+  clothingItems.forEach(item => {
+    let listItem = document.createElement("li");
+    listItem.value = item;
+    listItem.className = "col-md-4";
+    listItem.innerHTML = item;
+    items_DOM.appendChild(listItem);
+  });
 }
+
 
 
 // Function to handle the selection (you can replace this with your desired logic)
 var theSelectedType = "";
-var currentSelectedType = "CHAPÉU";
+var currentSelectedType = ""; //"CHAPÉU"
 function handleClothingTypeSelected(event_target) {
   let color_DOM = document.getElementById("color-list");
   let subtype_DOM = document.getElementById("clothing-subtype");
@@ -176,43 +164,6 @@ function handleClothingTypeSelected(event_target) {
       .then(data => {
         const firstType = data.types[0];
 
-        while(color_DOM.firstChild){
-          color_DOM.removeChild(color_DOM.firstChild);
-        }
-        firstType.colors.forEach(color => {
-          
-          // Create the div element with class "color-item"
-          const colorItemDiv = document.createElement("div");
-          colorItemDiv.className = "color-item";
-
-          // Create the button element with class "color-button"
-          const colorButton = document.createElement("button");
-          colorButton.className = "color-button";
-
-          // Create the img element and set its src and alt attributes
-          const img = document.createElement("img");
-          img.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`;
-          img.alt = color;
-
-          // Append the img element to the button element
-          colorButton.appendChild(img);
-          // Append the button element to the div element
-          colorItemDiv.appendChild(colorButton);
-          
-          color_DOM.appendChild(colorItemDiv);
-        });
-
-        // Add the event listener to the parent element (event delegation)
-        document.getElementById("color-list").addEventListener("click", function(event) {
-          const button = event.target.closest(".color-button");
-          if (button) {
-            const image = button.querySelector("img");
-            const altValue = image.getAttribute("alt");
-            handleClothingColorSelected(altValue);
-          }
-        });
-
-
         subtype_DOM.innerHTML = '';
         const types = data.types.map(item => item.type);
         types.forEach(type => {
@@ -223,21 +174,21 @@ function handleClothingTypeSelected(event_target) {
           subtype_DOM.appendChild(listItem);
         });
 
-        desc_DOM.innerHTML = firstType.desc;
+        //desc_DOM.innerHTML = firstType.desc;
         
-        theSelectedSubType = firstType.type;
-        const allListItems = document.querySelectorAll("#clothing-subtype li");
-        const firstListItem = allListItems[0];
-        theSelectedColor = firstType.colors[0];
+        //theSelectedSubType = firstType.type;
+        //const allListItems = document.querySelectorAll("#clothing-subtype li");
+        //const firstListItem = allListItems[0];
+        //theSelectedColor = firstType.colors[0];
 
-        handleClothingSubTypeSelected(firstListItem);
+        //handleClothingSubTypeSelected(firstListItem);
         //handleClothingColorSelected(firstType.colors[0]);
       })
     .catch(error => {
       console.error('Error:', error);
     });
 
-    currentSelectedType = theSelectedType;
+    //currentSelectedType = theSelectedType;
     artigo_section_DOM.style.display = "flex";
     const allListItems = document.querySelectorAll("#clothing-type li");
     allListItems.forEach((item) => {

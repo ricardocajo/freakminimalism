@@ -1,0 +1,25 @@
+{"types": 
+    [
+        {
+            "type": "T-SHIRT"
+        },
+        {
+            "type": "ZIPP"
+        },
+        {
+            "type": "SWEAT"
+        },
+        {
+            "type": "POLO"
+        },
+        {
+            "type": "HOOD"
+        },
+        {
+            "type": "BASE-BALL"
+        },
+        {
+            "type": "ATHLETICMOVE"
+        }
+    ]
+}

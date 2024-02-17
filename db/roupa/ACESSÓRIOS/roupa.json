@@ -1,0 +1,19 @@
+{"types": 
+    [
+        {
+            "type": "BOLSA"
+        },
+        {
+            "type": "CHAPÉU"
+        },
+        {
+            "type": "GOLA"
+        },
+        {
+            "type": "PORTA-CHAVES"
+        },
+        {
+            "type": "TOALHA"
+        }
+    ]
+}
