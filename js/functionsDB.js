@@ -227,8 +227,8 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
       while(color_DOM.firstChild){
         color_DOM.removeChild(color_DOM.firstChild);
       }
-      data.types.colors.forEach(color => {
-        
+      data.types[0].colors.forEach(color => {
+
         // Create the div element with class "color-item"
         const colorItemDiv = document.createElement("div");
         colorItemDiv.className = "color-item";
@@ -261,7 +261,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
       });
 
       // Update theSelectedColor with the first color of the matching type
-      theSelectedColor = data.types.colors[0];
+      theSelectedColor = data.types[0].colors[0];
       handleClothingColorSelected(theSelectedColor);
 
       desc_DOM.innerHTML = data.types.desc;
