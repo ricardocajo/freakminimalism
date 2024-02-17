@@ -84,3 +84,27 @@ document.addEventListener('click', function (event) {
   }
 });
 
+function adicionarCarrinho() {
+  // Get the dynamic data (e.g., product name, price, etc.)
+  var productName = "Product Name"; // Example: Get the product name from your HTML or JavaScript
+  var productPrice = "$10.00"; // Example: Get the product price from your HTML or JavaScript
+
+  // Encode the dynamic data for use in the URL
+  var encodedProductName = encodeURIComponent(productName);
+  var encodedProductPrice = encodeURIComponent(productPrice);
+
+  // Construct the message with the dynamic data
+  var message = "Quero encomendar o produto '" + encodedProductName + "' por " + encodedProductPrice + ".";
+
+  // Construct the WhatsApp API URL with the dynamic message
+  var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + message;
+
+  // Open WhatsApp in a new tab with the dynamic message pre-filled
+  window.open(whatsappUrl, '_blank');
+}
+
+
+var designSection = document.getElementById('selectDesign');
+function selecionarDesign() {
+  designSection.style.display = 'block';
+}

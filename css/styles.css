@@ -12022,3 +12022,15 @@ video {
   background-color: #006666;
   /* Add other styles for the active state */
 }
+
+#upload-btn {
+  display: none; /* Hide the actual file input */
+}
+#upload-label {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+}

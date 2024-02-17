@@ -170,11 +170,6 @@ function handleClothingTypeSelected(event_target) {
   let artigo_section_DOM = document.getElementById("artigo_section");
 
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
-    /*if (theSelectedType === "CHAPÉU") {
-      document.getElementById("bordados_chapeu").style.display = "block";
-    } else {
-      document.getElementById("bordados_chapeu").style.display = "none";
-    }*/
 
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
       .then(response => response.json())

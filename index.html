@@ -127,23 +127,7 @@
                 <br><br>
                 <label>Cor:</label>
                 <div class="double-space" id="color-list"></div>
-                <br><br>
-                <span id="bordados_chapeu" style="display: none;">
-                  <!--<label>Bordado:</label>
-                  <ul id="bordados-list">
-                    <li><button style="width: 90px;" class="bordados-button"><img src="https://freak-minimalism.com/assets/img/fm.png" alt="..."></button></li>
-                    <li>
-                      <button class="bordados-button">
-                          <img style="width: 90px;" src="https://freak-minimalism.com/assets/img/q.png" alt="...">
-                      </button>
-                    </li>
-                  
-                  </ul>
-                  <br><br>
-                  <button onclick="adicionarCarrinho()">
-                    Adicionar ao carrinho
-                  </button>-->
-                </span>  
+                <br><br> 
 
               </div>
 
@@ -157,18 +141,38 @@
                 <img class="img-fluid mb-3 mb-lg-0" id="clothing-image" alt="..."/>
               </div>
 
+              <div class="social d-flex justify-content-center">
+                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/1.jpg" alt="..." loading="lazy"></a>
+                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/2.jpg" alt="..." loading="lazy"></a>
+                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/3.jpg" alt="..." loading="lazy"></a>
+                <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/4.png" alt="..." loading="lazy"></a>
+              </div>
+
+              <br><br><br><br>
+
+              <span class="social d-flex justify-content-center">
+                <button onclick="selecionarDesign()">
+                  Selecionar Design
+                </button>
+              </span>
+
+              <div class="col-md-10 col-lg-8 mx-auto text-center" id="selectDesign" style="display: none;">
+                  <ul class="worksimg" id="designs_list"></ul>
+                  <button id="prevBtnDesigns" class="cool-button">Anterior</button>
+                  <span style="margin: 18px;"></span>
+                  <button id="nextBtnDesigns" class="cool-button">Próximo</button>
+                  <br>
+                  <button onclick="adicionarCarrinho()">
+                    Encomendar
+                  </button>
+                </div>
+
               <div>
 
               </div>
             </div>
 
             <br>
-
-            <div class="social d-flex justify-content-center">
-              <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/1.jpg" alt="..." loading="lazy"></a>
-              <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/2.jpg" alt="..." loading="lazy"></a>
-              <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/3.jpg" alt="..." loading="lazy"></a>
-            </div>
 
           </div>
         </div>
@@ -182,12 +186,9 @@
       <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5">
           <div class="col-md-10 col-lg-8 mx-auto text-center">
-            <h2 class="title">DESIGNS</h2>
+            <h2 class="title">COLEÇÕES</h2>
             <br><br>
-            <ul class="worksimg" id="designs_list"></ul>
-            <button id="prevBtnDesigns" class="cool-button">Anterior</button>
-            <span style="margin: 18px;"></span>
-            <button id="nextBtnDesigns" class="cool-button">Próximo</button>
+            Brevemente
           </div>
         </div>
       </div>
