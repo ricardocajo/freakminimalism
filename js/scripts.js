@@ -110,10 +110,9 @@ function selecionarDesign() {
 }
 
 const uploadBtn = document.getElementById('upload-btn');
-
-  // Add an event listener to handle file selection
-  uploadBtn.addEventListener('change', function() {
-    const file = this.files[0]; // Get the selected file
-    // You can add code here to handle the uploaded file
-    console.log('Selected file:', file);
-  });
+// Add an event listener to handle file selection
+uploadBtn.addEventListener('change', function() {
+  const file = this.files[0]; // Get the selected file
+  // You can add code here to handle the uploaded file
+  console.log('Selected file:', file);
+});
