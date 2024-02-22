@@ -1,18 +1,8 @@
 {"types": 
     [
         {
-            "type": "SIMPLES",
-            "colors": ["aa"],
-            "desc": ""
-        },
-        {
-            "type": "REFORÇADO",
-            "colors": ["aa"],
-            "desc": ""
-        },
-        {
-            "type": "PERSONALIZADO",
-            "colors": ["aa"],
+    
+            "colors":["FS", "FR", "PE"],
             "desc": ""
         }
     ]

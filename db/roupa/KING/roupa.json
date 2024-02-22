@@ -19,7 +19,25 @@
             "type": "BASE-BALL"
         },
         {
-            "type": "ATHLETICMOVE"
+            "type": "CAVAS"
+        },
+        {
+            "type": "BLUSOES"
+        },
+        {
+            "type": "CALÇAS"
+        },
+        {
+            "type": "CAMISAS"
+        },
+        {
+            "type": "FATOS"
+        },
+        {
+            "type": "ROUPA-INTERIOR"
+        },
+        {
+            "type": "FATO-TREINO"
         }
     ]
 }
