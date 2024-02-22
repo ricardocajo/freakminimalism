@@ -11932,8 +11932,8 @@ video {
 }
 
 .custom-image-size2 {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 }
 
 .hidden {
@@ -12041,4 +12041,16 @@ video {
   border-radius: 5px;
   cursor: pointer;
   display: inline-block;
+}
+
+#cor_section {
+  margin-top: 90px;
+}
+
+#tamanhos li {
+  width: 16.6667%;
+}
+
+#roupa-banners {
+  margin-top: 30px;
 }
