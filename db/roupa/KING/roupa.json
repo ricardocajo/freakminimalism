@@ -1,43 +1,56 @@
 {"types": 
     [
         {
-            "type": "T-SHIRT"
+            "type": "T-SHIRT",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "ZIPP"
+            "type": "ZIPP",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "SWEAT"
+            "type": "SWEAT",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "POLO"
+            "type": "POLO",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "HOOD"
+            "type": "HOOD",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "BASE-BALL"
+            "type": "BASE-BALL",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "CAVAS"
+            "type": "CAVAS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "BLUSOES"
+            "type": "BLUSOES",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "CALÇAS"
+            "type": "CALÇAS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "CAMISAS"
+            "type": "CAMISAS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "FATOS"
+            "type": "FATOS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "ROUPA-INTERIOR"
+            "type": "ROUPA-INTERIOR",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "FATO-TREINO"
+            "type": "FATO-TREINO",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         }
     ]
 }

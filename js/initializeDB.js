@@ -1,4 +1,3 @@
-//initialize_sizes();
 initialize_prices();
 initialize_clothingItems();
 initialize_designs();

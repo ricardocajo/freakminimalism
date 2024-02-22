@@ -157,7 +157,7 @@ function initialize_clothingItems() {
 
 // Function to handle the selection (you can replace this with your desired logic)
 var theSelectedType = "";
-var currentSelectedType = ""; //"CHAPÉU"
+var currentSelectedType = "";
 function handleClothingTypeSelected(event_target) {
   let color_DOM = document.getElementById("color-list");
   let subtype_DOM = document.getElementById("clothing-subtype");
@@ -292,6 +292,9 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
         .catch(error => {
           console.error('Error:', error);
         });
+
+        console.log(data);
+        set_tamanhos();
     })
     .catch(error => {
       console.error('Error:', error);

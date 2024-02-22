@@ -1,37 +1,48 @@
 {"types": 
     [
         {
-            "type": "T-SHIRT"
+            "type": "T-SHIRT",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "ZIPP"
+            "type": "ZIPP",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "SWEAT"
+            "type": "SWEAT",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "POLO"
+            "type": "POLO",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "HOOD"
+            "type": "HOOD",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "CAVAS"
+            "type": "CAVAS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "CASACOS"
+            "type": "CASACOS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "CONJUNTOS"
+            "type": "CONJUNTOS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "FATO-TREINO"
+            "type": "FATO-TREINO",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "LANGERIE"
+            "type": "LANGERIE",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         },
         {
-            "type": "VESTIDOS"
+            "type": "VESTIDOS",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         }
     ]
 }

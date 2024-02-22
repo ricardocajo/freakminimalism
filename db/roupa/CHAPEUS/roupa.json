@@ -1,37 +1,48 @@
 {"types": 
     [
         {
-            "type": "SNAP FIVE"
+            "type": "SNAP FIVE",
+            "sizes": []
         },
         {
-            "type": "TRADICIONAL"
+            "type": "TRADICIONAL",
+            "sizes": []
         },
         {
-            "type": "ZION" 
+            "type": "ZION",
+            "sizes": [] 
         },
         {
-            "type": "RECY"
+            "type": "RECY",
+            "sizes": []
         },
         {
-            "type": "PANAMÁ"
+            "type": "PANAMÁ",
+            "sizes": []
         },
         {
-            "type": "CLÁSSICO"
+            "type": "CLÁSSICO",
+            "sizes": []
         },
         {
-            "type": "BOINA"
+            "type": "BOINA",
+            "sizes": []
         },
         {
-            "type": "BASEBOL"
+            "type": "BASEBOL",
+            "sizes": []
         },
         {
-            "type": "GORRO"
+            "type": "GORRO",
+            "sizes": []
         },
         {
-            "type": "WHIPPY"
+            "type": "WHIPPY",
+            "sizes": []
         },
         {
-            "type": "PANAMÁ CURTO"
+            "type": "PANAMÁ CURTO",
+            "sizes": []
         }
     ]
 }
