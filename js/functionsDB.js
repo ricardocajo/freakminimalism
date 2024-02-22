@@ -142,7 +142,7 @@ function initialize_designs() {
 /* Fetches available prices data to add it to the clothing section */
 function initialize_clothingItems() {
   let items_DOM = document.getElementById("clothing-type");
-  let clothingItems = ["KING", "QUEEN", "KID", "ACESSÓRIOS", "CHAPEUS"];
+  let clothingItems = ["KING", "QUEEN", "KID", "CHAPEUS", "ACESSÓRIOS"];
 
   clothingItems.forEach(item => {
     let listItem = document.createElement("li");
