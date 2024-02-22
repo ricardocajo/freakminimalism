@@ -138,14 +138,7 @@
               <div class="col-md-6 justify-content-center"> <!-- Center the labels -->
                 <div class="double-space" id="color-list"></div>
                 <br><br> 
-                <ul id="tamanhos" class="clickable-list row">
-                  <li>XS</li>
-                  <li>S</li>
-                  <li>M</li>
-                  <li>L</li>
-                  <li>XL</li>
-                  <li>XXL</li>
-                </ul>
+                <ul id="tamanhos" class="clickable-list row"></ul>
               </div>
 
 
@@ -165,22 +158,15 @@
               </div>
             </div>
 
-            <div class="social d-flex justify-content-center">
-              <button onclick="selecionarDesign()" style="display: none;">
-                Selecionar Design
+            <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectDesign" style="display: none;">
+              <ul class="worksimg" id="designs_list"></ul>
+              <button id="prevBtnDesigns" class="cool-button">Anterior</button>
+              <span style="margin: 18px;"></span>
+              <button id="nextBtnDesigns" class="cool-button">Próximo</button>
+              <button onclick="adicionarCarrinho()" class="mt-5">
+                Encomendar
               </button>
             </div>
-
-            <div class="col-md-10 col-lg-8 mx-auto text-center" id="selectDesign" style="display: none;">
-                <ul class="worksimg" id="designs_list"></ul>
-                <button id="prevBtnDesigns" class="cool-button">Anterior</button>
-                <span style="margin: 18px;"></span>
-                <button id="nextBtnDesigns" class="cool-button">Próximo</button>
-                <br>
-                <button onclick="adicionarCarrinho()">
-                  Encomendar
-                </button>
-              </div>
 
             <div>
 

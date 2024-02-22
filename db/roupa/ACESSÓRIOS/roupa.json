@@ -1,24 +1,19 @@
 {"types": 
     [
         {
-            "type": "BOLSA",
-            "sizes": []
+            "type": "BOLSA"
         },
         {
-            "type": "CHAPÉU",
-            "sizes": []
+            "type": "CHAPÉU"
         },
         {
-            "type": "GOLA",
-            "sizes": []
+            "type": "GOLA"
         },
         {
-            "type": "PORTA-CHAVES",
-            "sizes": []
+            "type": "PORTA-CHAVES"
         },
         {
-            "type": "TOALHA",
-            "sizes": []
+            "type": "TOALHA"
         }
     ]
 }

@@ -2,18 +2,57 @@ let ABSOLUTE_PATH = "https://freak-minimalism.com"
 
 
 /* Fetches available sizes data and adds it to the Webpage */
-function initialize_sizes() {
-  let sizes_DOM = document.getElementById("sizes_list");
-  fetch(ABSOLUTE_PATH + "/db/sizes/sizes.json")
-    .then(response => response.json())
-    .then(data => {
-      let sizes = Object.keys(data).filter(size => data[size]);
-      let sizesString = sizes.join(" | ");
-      sizes_DOM.innerText = sizesString;
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+function set_sizes(sizes) {
+  let sizes_DOM = document.getElementById("tamanhos");
+
+  // Clear previous content of the list
+  sizes_DOM.innerHTML = '';
+
+  // Iterate over the data array
+  sizes.forEach(function(size) {
+    // Create a list item for each element in the data array
+    let li = document.createElement('li');
+    li.textContent = size;
+    
+    // Append the list item to the list
+    sizes_DOM.appendChild(li);
+  });
+
+  startDesignRotation();
+}
+
+
+var theSelectedSize = "";
+var currentSelectedSize = "";
+function handleSizeSelected(event_target) {
+  let sizes_DOM = document.getElementById("tamanhos").querySelectorAll("li");
+  let designs_DOM = document.getElementById("selectDesign");
+
+  designs_DOM.style.display = "inline-block";
+
+  sizes_DOM.forEach((item) => {
+    item.classList.remove("active");
+  });
+  event_target.classList.add("active");
+
+  theSelectedSize = event_target.textContent;
+  currentSelectedSize = theSelectedSize;
+}
+
+
+var theSelectedDesign = "";
+var currentSelectedDesign = "";
+function handleDesignSelected(event_target) {
+  let designs_DOM = document.getElementById("selectDesign");
+
+  theSelectedDesign = event_target;
+  //theSelectedDesignImage =
+  //currentSelectedDesign = theSelectedDesign;
+
+  // Remove border from previously selected item
+  theSelectedDesign.style.border = "none";
+  event_target.style.border = "2px solid #006666";
+  stopDesignRotation();
 }
 
 
@@ -165,6 +204,7 @@ function handleClothingTypeSelected(event_target) {
   let desc_DOM = document.getElementById("clothing-desc");
   let artigo_section_DOM = document.getElementById("artigo_section");
   let cor_section_DOM = document.getElementById("cor_section");
+  let designs_DOM = document.getElementById("selectDesign");
 
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
@@ -205,9 +245,10 @@ function handleClothingTypeSelected(event_target) {
       item.classList.remove("active");
     });
     event_target.classList.add("active");
+    designs_DOM.style.display = "none";
   } else {
     currentSelectedType = "";
-    artigo_section_DOM.style.display = "none"
+    artigo_section_DOM.style.display = "none";
     event_target.classList.remove("active");
   } 
 }
@@ -221,6 +262,7 @@ function handleClothingSubTypeSelected(event_target) {
   theSelectedSubType = selectedValue.replace(/[\s|]/g, "");
   let desc_DOM = document.getElementById("clothing-desc");
   let cor_section_DOM = document.getElementById("cor_section");
+  let designs_DOM = document.getElementById("selectDesign");
 
   const allListItems = document.querySelectorAll("#clothing-subtype li");
   allListItems.forEach((item) => {
@@ -290,6 +332,8 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
         .catch(error => {
           console.error('Error:', error);
         });
+
+        set_sizes(data.types[0].sizes);
     })
     .catch(error => {
       console.error('Error:', error);
@@ -302,9 +346,10 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
       item.classList.remove("active");
     });
     event_target.classList.add("active");
+    designs_DOM.style.display = "none";
   } else {
     currentSelectedSubType = "";
-    cor_section_DOM.style.display = "none"
+    cor_section_DOM.style.display = "none";
     event_target.classList.remove("active");
   } 
 }

@@ -3,6 +3,20 @@ initialize_clothingItems();
 initialize_designs();
 initialize_works();
 
+const listTamanhos = document.getElementById("tamanhos");
+listTamanhos.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    handleSizeSelected(event.target);
+  }
+});
+
+const listDesigns = document.getElementById("designs_list");
+listDesigns.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    handleDesignSelected(event.target);
+  }
+});
+
 const listElementTypes = document.getElementById("clothing-type");
 listElementTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
@@ -148,8 +162,19 @@ function simulateButtonClick() {
   updateDesigns();
 }
 
-// Set initial interval
-let intervalId = setInterval(simulateButtonClick, 5000);
+let intervalId;
+
+// Function to stop rotation for designs
+function stopDesignRotation() {
+  console.log("aaa");
+  clearInterval(intervalId);
+}
+
+// Function to start rotation for designs
+function startDesignRotation() {
+  intervalId = setInterval(simulateButtonClick, 5000);
+}
+
 
 // Event listener for the button click
 document.getElementById('nextBtnDesigns').addEventListener('click', function () {
