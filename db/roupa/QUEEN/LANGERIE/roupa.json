@@ -3,7 +3,8 @@
         {
     
             "colors": ["aa"],
-            "desc": "BREVEMENTE"
+            "desc": "BREVEMENTE",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         }
     ]
 }

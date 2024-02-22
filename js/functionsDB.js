@@ -166,8 +166,6 @@ function handleClothingTypeSelected(event_target) {
   let artigo_section_DOM = document.getElementById("artigo_section");
   let cor_section_DOM = document.getElementById("cor_section");
 
-  console.log(theSelectedType);
-
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
       .then(response => response.json())
@@ -292,9 +290,6 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
         .catch(error => {
           console.error('Error:', error);
         });
-
-        console.log(data);
-        set_tamanhos();
     })
     .catch(error => {
       console.error('Error:', error);

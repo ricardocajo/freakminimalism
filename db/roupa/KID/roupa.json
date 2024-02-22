@@ -1,24 +1,19 @@
 {"types": 
     [
         {
-            "type": "FRASER",
-            "sizes": []
+            "type": "FRASER"
         },
         {
-            "type": "HOODED KIDS",
-            "sizes": ["11", "12", "13", "14", "15"]
+            "type": "HOODED KIDS"
         },
         {
-            "type": "SNAP BACK",
-            "sizes": []
+            "type": "SNAP BACK"
         },
         {
-            "type": "T-SHIRT",
-            "sizes": ["11", "12", "13", "14", "15"]
+            "type": "T-SHIRT"
         },
         {
-            "type": "ZIPP KIDS",
-            "sizes": ["11", "12", "13", "14", "15"]
+            "type": "ZIPP KIDS"
         }
     ]
 }

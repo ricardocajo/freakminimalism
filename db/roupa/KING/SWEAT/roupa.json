@@ -3,7 +3,8 @@
         {
 
             "colors": ["00", "1D", "5Z", "6S", "6V", "95", "9F", "2E", "39", "3H", "44", "4M", "52", "5N", "5T", "5W", "6I", "6L", "9C", "9G"],
-            "desc": "80%  Algodão  20%  Poliéster  | 280g"
+            "desc": "80%  Algodão  20%  Poliéster  | 280g",
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"]
         }
        
     ]
