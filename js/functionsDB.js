@@ -17,8 +17,6 @@ function set_sizes(sizes) {
     // Append the list item to the list
     sizes_DOM.appendChild(li);
   });
-
-  startDesignRotation();
 }
 
 
@@ -37,11 +35,13 @@ function handleSizeSelected(event_target) {
 
   theSelectedSize = event_target.textContent;
   currentSelectedSize = theSelectedSize;
+  startDesignRotation(); // TODO what happens if size button is clicked again
 }
 
 
-var theSelectedDesign = "";
+var theSelectedDesign;
 var currentSelectedDesign = "";
+var currentSelectedDesignImg;
 function handleDesignSelected(event_target) {
   let designs_DOM = document.getElementById("selectDesign");
 
@@ -50,8 +50,12 @@ function handleDesignSelected(event_target) {
   //currentSelectedDesign = theSelectedDesign;
 
   // Remove border from previously selected item
-  theSelectedDesign.style.border = "none";
-  event_target.style.border = "2px solid #006666";
+  if (currentSelectedDesign) {
+    currentSelectedDesign.style.border = "none";
+  } 
+  currentSelectedDesign = theSelectedDesign;
+  currentSelectedDesignImg = theSelectedDesign.src;
+  theSelectedDesign.style.border = "6px solid #006666";
   stopDesignRotation();
 }
 
@@ -161,14 +165,20 @@ function initialize_designs() {
             listItem.innerHTML = content;
           } else {  
             listItem.innerHTML = `<a><img style="cursor: pointer;" class="workscenter-fit" src=${path} alt="..."></a>`;
-            listItem.addEventListener("click", function() {
-              selected_design = path;
-            });
           }
           works_DOM.appendChild(listItem);
 
           desgins_index = desgins_index + 1;
         }
+      });
+      const uploadBtn = document.getElementById('upload-btn');
+      // Add an event listener to handle file selection
+      uploadBtn.addEventListener('change', function() {
+        const file = this.files[0]; // Get the selected file
+        if (currentSelectedDesign) {
+          currentSelectedDesign.style.border = "none";
+        } 
+        currentSelectedDesignImg = file.name;
       });
     })
     .catch(error => {

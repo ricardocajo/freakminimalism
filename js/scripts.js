@@ -94,7 +94,7 @@ function adicionarCarrinho() {
   var encodedProductPrice = encodeURIComponent(productPrice);
 
   // Construct the message with the dynamic data
-  var message = "Quero encomendar o produto '" + current_image + "' com o design '" + selected_design + "'.";
+  var message = "Quero encomendar o produto '" + current_image + "' com o design '" + currentSelectedDesignImg + "'.";
 
   // Construct the WhatsApp API URL with the dynamic message
   var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + message;
@@ -108,11 +108,3 @@ var designSection = document.getElementById('selectDesign');
 function selecionarDesign() {
   designSection.style.display = 'block';
 }
-
-const uploadBtn = document.getElementById('upload-btn');
-// Add an event listener to handle file selection
-uploadBtn.addEventListener('change', function() {
-  const file = this.files[0]; // Get the selected file
-  // You can add code here to handle the uploaded file
-  console.log('Selected file:', file);
-});

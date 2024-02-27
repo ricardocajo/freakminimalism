@@ -12,7 +12,7 @@ listTamanhos.addEventListener("click", function(event) {
 
 const listDesigns = document.getElementById("designs_list");
 listDesigns.addEventListener("click", function(event) {
-  if (event.target && event.target.nodeName === "LI") {
+  if (event.target) {
     handleDesignSelected(event.target);
   }
 });
@@ -166,7 +166,6 @@ let intervalId;
 
 // Function to stop rotation for designs
 function stopDesignRotation() {
-  console.log("aaa");
   clearInterval(intervalId);
 }
 
