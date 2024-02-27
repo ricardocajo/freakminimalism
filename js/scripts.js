@@ -94,7 +94,7 @@ function adicionarCarrinho() {
   var encodedProductPrice = encodeURIComponent(productPrice);
 
   // Construct the message with the dynamic data
-  var message = "Quero encomendar o produto '" + current_image + "' com o design '" + currentSelectedDesignImg + "'.";
+  var message = "Quero encomendar o produto " + current_image + " com o design " + currentSelectedDesignImg + ".";
 
   // Construct the WhatsApp API URL with the dynamic message
   var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + message;
