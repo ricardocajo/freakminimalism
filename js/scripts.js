@@ -85,23 +85,58 @@ document.addEventListener('click', function (event) {
 });
 
 function adicionarCarrinho() {
-  // Get the dynamic data (e.g., product name, price, etc.)
   var productName = "Product Name"; // Example: Get the product name from your HTML or JavaScript
   var productPrice = "$10.00"; // Example: Get the product price from your HTML or JavaScript
 
-  // Encode the dynamic data for use in the URL
   var encodedProductName = encodeURIComponent(productName);
   var encodedProductPrice = encodeURIComponent(productPrice);
 
-  // Construct the message with the dynamic data
-  var message = "Quero encomendar o produto " + current_image + " com o design " + currentSelectedDesignImg + ".";
+  var message = "Quero encomendar o produto " + current_image + " com o design ";
 
-  // Construct the WhatsApp API URL with the dynamic message
-  var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + message;
+  // Check if currentSelectedDesignImg is a file
+  if (currentSelectedDesignImg instanceof File) {
+    // Upload image to Imgur
+    uploadToImgur(currentSelectedDesignImg, function(imgurLink) {
+      message += imgurLink + ".";
+      console.log(imgurLink);
+      
+      // Construct the WhatsApp API URL with the dynamic message
+      var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
 
-  // Open WhatsApp in a new tab with the dynamic message pre-filled
-  window.open(whatsappUrl, '_blank');
+      // Open WhatsApp in a new tab with the dynamic message pre-filled
+      window.open(whatsappUrl, '_blank');
+    });
+  } else {
+    message += currentSelectedDesignImg + ".";
+
+    var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
+    window.open(whatsappUrl, '_blank');
+  }
 }
+
+// Function to upload image to Imgur
+function uploadToImgur(file, callback) {
+  var formData = new FormData();
+  formData.append("image", file);
+
+  fetch("https://api.imgur.com/3/image", {
+    method: "POST",
+    headers: {
+      Authorization: "Client-ID a9b0b8d260589be" // Replace YOUR_CLIENT_ID with your actual Imgur client ID
+    },
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      callback(data.data.link);
+    } else {
+      console.error("Failed to upload image to Imgur");
+    }
+  })
+  .catch(error => console.error("Error uploading image to Imgur:", error));
+}
+
 
 
 var designSection = document.getElementById('selectDesign');

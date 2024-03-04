@@ -179,7 +179,7 @@ function initialize_designs() {
           currentSelectedDesign.style.border = "none";
         } 
         const imageURL = URL.createObjectURL(file);
-        currentSelectedDesignImg = imageURL;
+        currentSelectedDesignImg = file;
         firstDesign_DOM.src = imageURL;
         firstDesign_DOM.style.border = "6px solid #006666";
         currentSelectedDesign = firstDesign_DOM;
