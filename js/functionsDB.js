@@ -43,11 +43,7 @@ var theSelectedDesign;
 var currentSelectedDesign = "";
 var currentSelectedDesignImg;
 function handleDesignSelected(event_target) {
-  let designs_DOM = document.getElementById("selectDesign");
-
   theSelectedDesign = event_target;
-  //theSelectedDesignImage =
-  //currentSelectedDesign = theSelectedDesign;
 
   // Remove border from previously selected item
   if (currentSelectedDesign) {
@@ -159,10 +155,13 @@ function initialize_designs() {
           listItem.classList.add("column-item");
           var path = ABSOLUTE_PATH+"/db/designs/img/"+key;
           if(key == '0.jpg') {
-            let content = `<label for="upload-btn" id="upload-label">Upload Photo</label>`;
+            let content = `<a><img id="firstDesign" style="cursor: pointer;" class="workscenter-fit" src=${path} alt="...">`
+            content += `<label for="upload-btn" id="upload-label">Carregar Foto</label>`;
             content += `<input type="file" id="upload-btn" accept="image/*" style="cursor: pointer;">`;
+            content += `</a>`;
 
             listItem.innerHTML = content;
+            listItem.style = "position: relative;";
           } else {  
             listItem.innerHTML = `<a><img style="cursor: pointer;" class="workscenter-fit" src=${path} alt="..."></a>`;
           }
@@ -175,10 +174,15 @@ function initialize_designs() {
       // Add an event listener to handle file selection
       uploadBtn.addEventListener('change', function() {
         const file = this.files[0]; // Get the selected file
+        let firstDesign_DOM = document.getElementById("firstDesign");
         if (currentSelectedDesign) {
           currentSelectedDesign.style.border = "none";
         } 
-        currentSelectedDesignImg = file.name;
+        const imageURL = URL.createObjectURL(file);
+        currentSelectedDesignImg = imageURL;
+        firstDesign_DOM.src = imageURL;
+        firstDesign_DOM.style.border = "6px solid #006666";
+        currentSelectedDesign = firstDesign_DOM;
       });
     })
     .catch(error => {
