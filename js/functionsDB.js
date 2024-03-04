@@ -214,6 +214,37 @@ function initialize_designs() {
 }
 
 
+// Function to handle the selection (you can replace this with your desired logic)
+var theSelectedType = "";
+var currentSelectedType = "";
+function handleColecoesTypeSelected(event_target) {
+  let img_DOM = document.getElementById("colecoes-img");
+  let merch_DOM = document.getElementById("worksimg");
+
+  if(event_target.innerHTML === "MERCH") {
+    img_DOM.style.display = "none";
+    merch_DOM.style.display = "block";
+  } else {
+    img_DOM.style.display = "block";
+    merch_DOM.style.display = "none";
+  }
+}
+
+
+function initialize_colecoesItems() {
+  let items_DOM = document.getElementById("colecoes-type");
+  let colecoesItems = ["ANIME", "FREAK", "MINIMALISM", "MERCH"];
+
+  colecoesItems.forEach(item => {
+    let listItem = document.createElement("li");
+    listItem.value = item;
+    listItem.className = "col-md-4";
+    listItem.innerHTML = item;
+    items_DOM.appendChild(listItem);
+  });
+}
+
+
 /* Fetches available prices data to add it to the clothing section */
 function initialize_clothingItems() {
   let items_DOM = document.getElementById("clothing-type");

@@ -1,5 +1,6 @@
 initialize_prices();
 initialize_clothingItems();
+initialize_colecoesItems();
 initialize_designs();
 initialize_works();
 
@@ -25,6 +26,13 @@ const listElementTypes = document.getElementById("clothing-type");
 listElementTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
     handleClothingTypeSelected(event.target);
+  }
+});
+
+const listColecoesTypes = document.getElementById("colecoes-type");
+listColecoesTypes.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    handleColecoesTypeSelected(event.target);
   }
 });
 
