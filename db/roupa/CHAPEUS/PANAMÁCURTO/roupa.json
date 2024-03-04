@@ -3,7 +3,8 @@
         {
     
             "colors": ["00", "11", "39", "47", "65", "96"],
-            "desc": "60%  Algodão  reciclado  certificado  |  40%  Sarja  de  algodão"
+            "desc": "60%  Algodão  reciclado  certificado  |  40%  Sarja  de  algodão",
+            "sizes": ["FM", "Personalizado"]
         }
     ]
 }

@@ -39,6 +39,25 @@ function handleSizeSelected(event_target) {
 }
 
 
+
+var theSelectedOtherSize = "";
+var currentSelectedOtherSize = "";
+function handleOtherSizeSelected(event_target) {
+  let sizes_DOM = document.getElementById("tamanhos").querySelectorAll("li");
+  let encomendar_DOM = document.getElementById("encomendarButao");
+
+  encomendar_DOM.style.display = "inline-block";
+
+  sizes_DOM.forEach((item) => {
+    item.classList.remove("active");
+  });
+  event_target.classList.add("active");
+
+  theSelectedOtherSize = event_target.textContent;
+  currentSelectedOtherSize = theSelectedOtherSize;
+}
+
+
 var theSelectedDesign;
 var currentSelectedDesign = "";
 var currentSelectedDesignImg;
@@ -219,6 +238,7 @@ function handleClothingTypeSelected(event_target) {
   let artigo_section_DOM = document.getElementById("artigo_section");
   let cor_section_DOM = document.getElementById("cor_section");
   let designs_DOM = document.getElementById("selectDesign");
+  let encomendar_DOM = document.getElementById("encomendarButao");
 
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
@@ -238,22 +258,14 @@ function handleClothingTypeSelected(event_target) {
         });
 
         cor_section_DOM.style.display = "none";
-        //desc_DOM.innerHTML = firstType.desc;
-        
-        //theSelectedSubType = firstType.type;
-        //const allListItems = document.querySelectorAll("#clothing-subtype li");
-        //const firstListItem = allListItems[0];
-        //theSelectedColor = firstType.colors[0];
-
-        //handleClothingSubTypeSelected(firstListItem);
-        //handleClothingColorSelected(firstType.colors[0]);
       })
     .catch(error => {
       console.error('Error:', error);
     });
 
-    //currentSelectedType = theSelectedType;
+    currentSelectedType = theSelectedType;
     artigo_section_DOM.style.display = "flex";
+    encomendar_DOM.style.display = "none";
     const allListItems = document.querySelectorAll("#clothing-type li");
     allListItems.forEach((item) => {
       item.classList.remove("active");
@@ -277,7 +289,10 @@ function handleClothingSubTypeSelected(event_target) {
   let desc_DOM = document.getElementById("clothing-desc");
   let cor_section_DOM = document.getElementById("cor_section");
   let designs_DOM = document.getElementById("selectDesign");
+  let encomendar_DOM = document.getElementById("encomendarButao");
 
+  
+  encomendar_DOM.style.display = "inline-block";
   const allListItems = document.querySelectorAll("#clothing-subtype li");
   allListItems.forEach((item) => {
     item.classList.remove("active");

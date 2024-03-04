@@ -6,7 +6,11 @@ initialize_works();
 const listTamanhos = document.getElementById("tamanhos");
 listTamanhos.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
-    handleSizeSelected(event.target);
+    if (currentSelectedType === "KING" || currentSelectedType === "QUEEN" || currentSelectedType === "KID") {
+      handleSizeSelected(event.target);
+    } else {
+      handleOtherSizeSelected(event.target);
+    }
   }
 });
 
