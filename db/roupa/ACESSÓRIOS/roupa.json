@@ -4,7 +4,7 @@
             "type": "BOLSA"
         },
         {
-            "type": "CHAPÉU"
+            "type": "JOIAS"
         },
         {
             "type": "GOLA"
@@ -14,6 +14,9 @@
         },
         {
             "type": "TOALHA"
+        },
+        {
+            "type": "PATCH"
         }
     ]
 }
