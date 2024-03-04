@@ -62,6 +62,9 @@ var theSelectedDesign;
 var currentSelectedDesign = "";
 var currentSelectedDesignImg;
 function handleDesignSelected(event_target) {
+  let encomendar_DOM = document.getElementById("encomendarButao");
+
+  encomendar_DOM.style.display = "inline-block";
   theSelectedDesign = event_target;
 
   // Remove border from previously selected item
@@ -291,8 +294,8 @@ function handleClothingSubTypeSelected(event_target) {
   let designs_DOM = document.getElementById("selectDesign");
   let encomendar_DOM = document.getElementById("encomendarButao");
 
-  
-  encomendar_DOM.style.display = "inline-block";
+
+  encomendar_DOM.style.display = "none";
   const allListItems = document.querySelectorAll("#clothing-subtype li");
   allListItems.forEach((item) => {
     item.classList.remove("active");
