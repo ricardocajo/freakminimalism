@@ -114,6 +114,15 @@ function adicionarCarrinho() {
   }
 }
 
+function comprar() {
+  var message = "Quero encomendar o produto " + current_image;
+
+    message += currentSelectedDesignImg + ".";
+
+    var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
+    window.open(whatsappUrl, '_blank');
+}
+
 // Function to upload image to Imgur
 function uploadToImgur(file, callback) {
   var formData = new FormData();
