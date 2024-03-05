@@ -219,7 +219,7 @@ var theSelectedType = "";
 var currentSelectedType = "";
 function handleColecoesTypeSelected(event_target) {
   let img_DOM = document.getElementById("colecoes-img");
-  let merch_DOM = document.getElementById("worksimg");
+  let merch_DOM = document.getElementById("works_list");
 
   if(event_target.innerHTML === "MERCH") {
     img_DOM.style.display = "none";
