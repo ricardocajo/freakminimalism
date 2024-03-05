@@ -223,7 +223,7 @@ function handleColecoesTypeSelected(event_target) {
 
   if(event_target.innerHTML === "MERCH") {
     img_DOM.style.display = "none";
-    merch_DOM.style.display = "block";
+    merch_DOM.style.display = "flex";
   } else {
     img_DOM.style.display = "block";
     merch_DOM.style.display = "none";
