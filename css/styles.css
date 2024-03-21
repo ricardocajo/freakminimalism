@@ -12104,3 +12104,7 @@ video {
 .signup-section2 li {
   margin-bottom: 20px; /* Adjust as needed */
 }
+
+#iframe-container-chat iframe {
+  height: 150px !important;
+}
