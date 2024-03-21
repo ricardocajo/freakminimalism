@@ -240,41 +240,35 @@
     <!-- Arte -->
     <section class="signup-section2" id="arte">
       <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5">
-          <div class="col-md-10 col-lg-8 mx-auto text-center">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+          <div class="col-md-6 mx-auto text-center">
             <h2 class="title">Arte</h2>
             <br><br>
             <ul class="arteimg" id="arte_list">
-              <li>
-                <!--<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20isto!%20https://freak-minimalism.com/db/arte/img/caveira.mp4" target="_blank">-->
-                  <video width="520" height="300" autoplay loop muted loading="lazy">
-                    <source src="https://freak-minimalism.com/db/arte/img/emc2v.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                  <!--<p>Encomendar!</p>
-                </a>-->
+              <li class="d-flex justify-content-center align-items-center">
+                <video width="300" height="300" autoplay loop muted loading="lazy">
+                  <source src="https://freak-minimalism.com/db/arte/img/emc2v.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
               </li>
-              <li>
+              <li class="d-flex flex-column justify-content-center align-items-center">
                 <h3>E=mc2</h3>
                 <p>Artista: André Daniel</p>
                 <p>PREÇO: 75€</p>
-                <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="comprarButao">
+                <div class="col-md-10 col-lg-8 mx-auto text-center" id="comprarButao">
                   <button onclick="comprar()" class="mt-5">
                     Adquirir
                   </button>
                 </div>
-              </li> 
-              <li>
-                <!--<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20isto!%20https://freak-minimalism.com/db/arte/img/rosa.mp4" target="_blank">-->
-                  <img src="https://freak-minimalism.com/db/arte/img/emc2.png" alt="My Image" width="300" height="520">
-                  <!--<p>Encomendar!</p>
-                </a>-->
+              </li>
+              <li class="d-flex justify-content-center align-items-center">
+                <img src="https://freak-minimalism.com/db/arte/img/emc2.png" alt="My Image" width="300" height="300">
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </section>
+    </section>    
 
 
     <!-- Merch 
@@ -296,6 +290,7 @@
     </section>-->
 
     
+    
     <section class="about-section2" id="twitch">
       <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5">
@@ -303,10 +298,12 @@
             <h2 class="title">TWITCH</h2>
             <br><br>
             <!-- Twitch Embed -->
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item"
+            <div class="iframe-container">
+              <iframe
                 src="https://player.twitch.tv/?channel=ShashirX&parent=freak-minimalism.com"
-                allowfullscreen>
+                frameborder="0"
+                allowfullscreen="true"
+                scrolling="no">
               </iframe>
             </div>
           </div>
