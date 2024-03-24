@@ -23,6 +23,13 @@ listDesigns.addEventListener("click", function(event) {
   }
 });
 
+const listPatch = document.getElementById("patch_list");
+listPatch.addEventListener("click", function(event) {
+  if (event.target) {
+    handlePatchSelected(event.target);
+  }
+});
+
 const listElementTypes = document.getElementById("clothing-type");
 listElementTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
