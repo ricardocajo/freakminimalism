@@ -174,7 +174,7 @@ function simulateButtonClick() {
   updateDesigns();
 }
 
-let intervalId;
+var intervalId;
 
 // Function to stop rotation for designs
 function stopDesignRotation() {
@@ -264,4 +264,81 @@ document.getElementById('nextBtnMerch').addEventListener('click', function () {
 
   // Call the updateWorks function to perform the button click logic
   updateMerch();
+});
+
+
+document.getElementById('prevBtnPatch').addEventListener('click', function () {
+  
+  // Reset the timer by clearing the existing interval and setting a new one
+  clearInterval(intervalPatchId);
+  intervalPatchId = setInterval(simulatePatchButtonClick, 5000);
+
+  if(patch_show_index[4] - 5 >= 5) {
+    
+    $('#patch_list li:not(:first)').addClass('hidden');
+  
+    // Atualiza os índices
+    patch_show_index = patch_show_index.map(function (index) {
+      return index - 5;
+    });
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    patch_show_index.forEach(function (index) {
+      $('#patch_list li').eq(index).removeClass('hidden');
+    });
+  }
+});
+
+// Function to update designs based on the button click
+function updatePatch() {
+  if (patch_show_index[4] + 5 <= patch_list_size) {
+    $('#patch_list li:not(:first)').addClass('hidden');
+
+    // Atualiza os índices
+    patch_show_index = patch_show_index.map(function (index) {
+      return index + 5;
+    });
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    patch_show_index.forEach(function (index) {
+      $('#patch_list li').eq(index).removeClass('hidden');
+    });
+  } else {
+    $('#patch_list li:not(:first)').addClass('hidden');
+
+    patch_show_index = [1, 2, 3, 4, 5];
+
+    // Remove a classe 'hidden' dos itens com os índices atualizados
+    patch_show_index.forEach(function (index) {
+      $('#patch_list li').eq(index).removeClass('hidden');
+    });
+  }
+}
+
+// Function to simulate button click every 5 seconds
+function simulatePatchButtonClick() {
+  updatePatch();
+}
+
+var intervalPatchId;
+
+// Function to stop rotation for Patch
+function stopPatchRotation() {
+  clearInterval(intervalPatchId);
+}
+
+// Function to start rotation for Patch
+function startPatchRotation() {
+  intervalPatchId = setInterval(simulatePatchButtonClick, 5000);
+}
+
+
+// Event listener for the button click
+document.getElementById('nextBtnPatch').addEventListener('click', function () {
+  // Reset the timer by clearing the existing interval and setting a new one
+  clearInterval(intervalPatchId);
+  intervalPatchId = setInterval(simulatePatchButtonClick, 5000);
+
+  // Call the updateDesigns function to perform the button click logic
+  updatePatch();
 });

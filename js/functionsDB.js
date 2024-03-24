@@ -101,7 +101,29 @@ function handleDesignSelected(event_target) {
   currentSelectedDesign = theSelectedDesign;
   currentSelectedDesignImg = theSelectedDesign.src;
   theSelectedDesign.style.border = "6px solid #006666";
+  console.log("aa");
   stopDesignRotation();
+}
+
+
+var theSelectedPatch;
+var currentSelectedPatch = "";
+var currentSelectedPatchImg;
+function handlePatchSelected(event_target) {
+  let encomendar_DOM = document.getElementById("encomendarButao");
+
+  encomendar_DOM.style.display = "inline-block";
+  theSelectedPatch = event_target;
+
+  // Remove border from previously selected item
+  if (currentSelectedPatch) {
+    currentSelectedPatch.style.border = "none";
+  } 
+  currentSelectedPatch = theSelectedPatch;
+  currentSelectedPatchImg = theSelectedPatch.src;
+  theSelectedPatch.style.border = "6px solid #006666";
+  console.log("aa");
+  stopPatchRotation();
 }
 
 
@@ -241,6 +263,60 @@ function initialize_designs() {
 }
 
 
+var patch_show_index = [1, 2, 3, 4, 5];
+var patch_list_size = 96;
+var desgins_index = 0;
+var selected_patch = null;
+function initialize_patch() {
+  let works_DOM = document.getElementById("patch_list");
+  fetch(ABSOLUTE_PATH + "/db/patch/patch.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.keys(data).forEach(key => {
+        if (data[key]) {
+          let listItem = document.createElement("li");
+          if(patch_index > 5) {
+            listItem.classList.add("hidden");
+          }
+          listItem.classList.add("column-item");
+          var path = ABSOLUTE_PATH+"/db/patch/img/"+key;
+          if(key == '0.jpg') {
+            let content = `<a><img id="firstPatch" style="cursor: pointer;" class="workscenter-fit" src=${path} alt="...">`
+            content += `<label for="upload-btn" id="upload-label">Carregar Foto</label>`;
+            content += `<input type="file" id="upload-btn" accept="image/*" style="cursor: pointer;">`;
+            content += `</a>`;
+
+            listItem.innerHTML = content;
+            listItem.style = "position: relative;";
+          } else {  
+            listItem.innerHTML = `<a><img style="cursor: pointer;" class="workscenter-fit" src=${path} alt="..."></a>`;
+          }
+          works_DOM.appendChild(listItem);
+
+          patch_index = patch_index + 1;
+        }
+      });
+      const uploadBtn = document.getElementById('upload-btn');
+      // Add an event listener to handle file selection
+      uploadBtn.addEventListener('change', function() {
+        const file = this.files[0]; // Get the selected file
+        let firstpatch_DOM = document.getElementById("firstpatch");
+        if (currentSelectedpatch) {
+          currentSelectedpatch.style.border = "none";
+        } 
+        const imageURL = URL.createObjectURL(file);
+        currentSelectedpatchImg = file;
+        firstpatch_DOM.src = imageURL;
+        firstpatch_DOM.style.border = "6px solid #006666";
+        currentSelectedpatch = firstpatch_DOM;
+      });
+    })
+    .catch(error => {
+      desgins_index = 0;
+      console.error('Error:', error);
+    });
+}
+
 // Function to handle the selection (you can replace this with your desired logic)
 var theSelectedType = "";
 var currentSelectedType = "";
@@ -367,76 +443,78 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/roupa.json")
     .then(response => response.json())
     .then(data => {
-
+      
       if(selectedValue === "PATCH") {
-        menu2_DOM.style.display === "flex";
-        menu1_DOM.style.display === "none";
+        menu2_DOM.style.display = "flex";
+        menu1_DOM.style.display = "none";
+        startPatchRotation();
+
       } else {
-        menu2_DOM.style.display === "none";
-        menu1_DOM.style.display === "flex";
-      }
+        menu2_DOM.style.display = "none";
+        menu1_DOM.style.display = "flex";
 
-      // Show the colors of the matching clothing type
-      while(color_DOM.firstChild){
-        color_DOM.removeChild(color_DOM.firstChild);
-      }
-      data.types[0].colors.forEach(color => {
-
-        // Create the div element with class "color-item"
-        const colorItemDiv = document.createElement("div");
-        colorItemDiv.className = "color-item";
-
-        // Create the button element with class "color-button"
-        const colorButton = document.createElement("button");
-        colorButton.className = "color-button";
-
-        // Create the img element and set its src and alt attributes
-        const img = document.createElement("img");
-        img.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`;
-        img.alt = color;
-
-        // Append the img element to the button element
-        colorButton.appendChild(img);
-        // Append the button element to the div element
-        colorItemDiv.appendChild(colorButton);
-        
-        color_DOM.appendChild(colorItemDiv);
-      });
-
-      // Add the event listener to the parent element (event delegation)
-      document.getElementById("color-list").addEventListener("click", function(event) {
-        const button = event.target.closest(".color-button");
-        if (button) {
-          const image = button.querySelector("img");
-          const altValue = image.getAttribute("alt");
-          handleClothingColorSelected(altValue);
+        // Show the colors of the matching clothing type
+        while(color_DOM.firstChild){
+          color_DOM.removeChild(color_DOM.firstChild);
         }
-      });
+        data.types[0].colors.forEach(color => {
 
-      // Update theSelectedColor with the first color of the matching type
-      theSelectedColor = data.types[0].colors[0];
-      handleClothingColorSelected(theSelectedColor);
+          // Create the div element with class "color-item"
+          const colorItemDiv = document.createElement("div");
+          colorItemDiv.className = "color-item";
 
-      desc_DOM.innerHTML = data.types[0].desc;
+          // Create the button element with class "color-button"
+          const colorButton = document.createElement("button");
+          colorButton.className = "color-button";
 
-      // Now, initiate the second fetch with the updated theSelectedColor value
-      fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.blob();
-        })
-        .then(imageBlob => {
-          const imageUrl = URL.createObjectURL(imageBlob);
-          image_DOM.src = imageUrl;
-        })
-        .catch(error => {
-          console.error('Error:', error);
+          // Create the img element and set its src and alt attributes
+          const img = document.createElement("img");
+          img.src = `${ABSOLUTE_PATH}/db/colors/${color}.png`;
+          img.alt = color;
+
+          // Append the img element to the button element
+          colorButton.appendChild(img);
+          // Append the button element to the div element
+          colorItemDiv.appendChild(colorButton);
+        
+          color_DOM.appendChild(colorItemDiv);
         });
 
-        set_sizes(data.types[0].sizes);
-        set_marcas(data.types[0].marcas);
+        // Add the event listener to the parent element (event delegation)
+        document.getElementById("color-list").addEventListener("click", function(event) {
+          const button = event.target.closest(".color-button");
+          if (button) {
+            const image = button.querySelector("img");
+            const altValue = image.getAttribute("alt");
+            handleClothingColorSelected(altValue);
+         }
+        });
+
+        // Update theSelectedColor with the first color of the matching type
+        theSelectedColor = data.types[0].colors[0];
+        handleClothingColorSelected(theSelectedColor);
+
+        desc_DOM.innerHTML = data.types[0].desc;
+
+        // Now, initiate the second fetch with the updated theSelectedColor value
+        fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.blob();
+          })
+          .then(imageBlob => {
+            const imageUrl = URL.createObjectURL(imageBlob);
+            image_DOM.src = imageUrl;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+
+          set_sizes(data.types[0].sizes);
+          set_marcas(data.types[0].marcas);
+      }  
     })
     .catch(error => {
       console.error('Error:', error);
@@ -450,6 +528,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
     });
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
+
   } else {
     currentSelectedSubType = "";
     cor_section_DOM.style.display = "none";
