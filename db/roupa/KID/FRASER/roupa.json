@@ -4,7 +4,8 @@
     
             "colors":["11", "39", "52", "55", "62", "64", "65"],
             "desc": "",
-            "sizes": []
+            "sizes": ["FM", "Personalizado"],
+            "marcas": ["atlantis"]
         }
     ]
 }

@@ -4,7 +4,9 @@
     
             "colors": ["aa"],
             "desc": "BREVEMENTE",
-            "sizes": []
+            "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+            "marcas": []
+            
         }
     ]
 }

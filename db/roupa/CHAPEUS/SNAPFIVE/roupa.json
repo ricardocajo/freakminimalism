@@ -4,7 +4,8 @@
     
             "colors": ["00", "11", "47", "52", "54", "64", "65", "95", "CM"],
             "desc": "50%  lã  |  50%  acrílico",
-            "sizes": ["FM", "Personalizado"]
+            "sizes": ["FM", "Personalizado"],
+            "marcas": ["atlantis"]
         }
     ]
 }
