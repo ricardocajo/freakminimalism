@@ -265,7 +265,7 @@ function initialize_designs() {
 
 var patch_show_index = [1, 2, 3, 4, 5];
 var patch_list_size = 96;
-var desgins_index = 0;
+var patch_index = 0;
 var selected_patch = null;
 function initialize_patch() {
   let works_DOM = document.getElementById("patch_list");
@@ -300,15 +300,15 @@ function initialize_patch() {
       // Add an event listener to handle file selection
       uploadBtn.addEventListener('change', function() {
         const file = this.files[0]; // Get the selected file
-        let firstpatch_DOM = document.getElementById("firstpatch");
-        if (currentSelectedpatch) {
-          currentSelectedpatch.style.border = "none";
+        let firstPatch_DOM = document.getElementById("firstPatch");
+        if (currentSelectedPatch) {
+          currentSelectedPatch.style.border = "none";
         } 
         const imageURL = URL.createObjectURL(file);
-        currentSelectedpatchImg = file;
-        firstpatch_DOM.src = imageURL;
-        firstpatch_DOM.style.border = "6px solid #006666";
-        currentSelectedpatch = firstpatch_DOM;
+        currentSelectedPatchImg = file;
+        firstPatch_DOM.src = imageURL;
+        firstPatch_DOM.style.border = "6px solid #006666";
+        currentSelectedPatch = firstPatch_DOM;
       });
     })
     .catch(error => {

@@ -2,6 +2,7 @@ initialize_prices();
 initialize_clothingItems();
 initialize_colecoesItems();
 initialize_designs();
+initialize_patch();
 initialize_works();
 
 const listTamanhos = document.getElementById("tamanhos");
