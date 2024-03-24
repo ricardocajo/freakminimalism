@@ -542,8 +542,6 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
           set_marcas(data.types[0].marcas);
       }  
 
-      console.log("a" + theSelectedType);
-      console.log("a" + theSelectedSubType);
       if(theSelectedType === "CHAPEUS" || theSelectedSubType === "TOALHA") {
         pick2_DOM.style.display = "flex";
       } else {
