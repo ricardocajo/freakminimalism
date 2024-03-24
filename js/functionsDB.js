@@ -351,6 +351,8 @@ function handleClothingSubTypeSelected(event_target) {
   let cor_section_DOM = document.getElementById("cor_section");
   let designs_DOM = document.getElementById("selectDesign");
   let encomendar_DOM = document.getElementById("encomendarButao");
+  let menu1_DOM = document.getElementById("menu1");
+  let menu2_DOM = document.getElementById("menu2");
 
 
   encomendar_DOM.style.display = "none";
@@ -360,10 +362,20 @@ function handleClothingSubTypeSelected(event_target) {
   });
   event_target.classList.add("active");
 
+
 if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display === "flex" && theSelectedSubType !== currentSelectedSubType)) {
   fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/roupa.json")
     .then(response => response.json())
     .then(data => {
+
+      if(selectedValue === "PATCH") {
+        menu2_DOM.style.display === "flex";
+        menu1_DOM.style.display === "none";
+      } else {
+        menu2_DOM.style.display === "none";
+        menu1_DOM.style.display === "flex";
+      }
+
       // Show the colors of the matching clothing type
       while(color_DOM.firstChild){
         color_DOM.removeChild(color_DOM.firstChild);

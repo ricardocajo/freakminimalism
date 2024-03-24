@@ -3,7 +3,8 @@
         {
     
             "colors":["aa"],
-            "desc": ""
+            "desc": "",
+            "marca": ["fm"]
         }
     ]
 }
