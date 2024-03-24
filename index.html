@@ -137,6 +137,14 @@
                   <div class="double-space" id="color-list"></div>
                   <br><br> 
                   <ul id="tamanhos" class="clickable-list row"></ul>
+                  <ul id="pick2" class="clickable-list row" style="display: none;">
+                    <li>
+                      <button>FM</button>
+                    </li>
+                    <li>
+                      <button>Personalizado</button>
+                    </li>
+                  </ul>
                 </div>
   
   
@@ -150,27 +158,50 @@
               </div>
 
               <div id="menu2" style="display: none;">
+                <div class="row" id="patch_section">
+                  <div class="col-md-10 col-lg-8 mx-auto text-center" id="selectPatch">
+                    <ul class="worksimg" id="patch_list"></ul>
+                    <button id="prevBtnPatch" class="cool-button">Anterior</button>
+                    <span style="margin: 18px;"></span>
+                    <button id="nextBtnPatch" class="cool-button">Próximo</button>
+                  </div>
+                  <div class="input-container col-md-10 col-lg-8 mx-auto text-center mt-5">
+                    <div class="input-group mt-5">
+                      <h4>Tamanho:</h4>
+                      <input type="number" id="size-input1" placeholder="un" oninput="checkInput(this)" min="0" max="999">
+                      <p class="ms-2">x</p>
+                      <input type="number" id="size-input2" placeholder="un" oninput="checkInput(this)" min="0" max="999">
+                      <p class="ms-2">Cm (centímetros)</p>
+                    </div>
+                    <div class="input-group mt-2">
+                      <h4>Unidades:</h4>
+                      <input type="number" id="units-input" placeholder="un" oninput="checkInput(this)" min="0" max="999">
+                    </div>
+                  </div>                  
 
+                  <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="orcamentoButao" style="display: none;">
+                    <button onclick="orcamentoCarrinho()" class="mt-5">
+                      Pedir Orçamento
+                    </button>
+                  </div>
+
+                  <div id="roupa-banners" class="d-flex justify-content-center">
+                    <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/fm.jpg" alt="..." loading="lazy"></a>
+                  </div>
+                </div>
               </div>
 
 
               <div id="roupa-banners" class="d-flex justify-content-center"></div>
             </div>
 
-            <div class="row" id="patch_section" style="display: none;">
-              <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectPatch">
-                <ul class="worksimg" id="patch_list"></ul>
-                <button id="prevBtnPatch" class="cool-button">Anterior</button>
-                <span style="margin: 18px;"></span>
-                <button id="nextBtnPatch" class="cool-button">Próximo</button>
-              </div>
-            </div>
 
             <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectDesign" style="display: none;">
               <ul class="worksimg" id="designs_list"></ul>
               <button id="prevBtnDesigns" class="cool-button">Anterior</button>
               <span style="margin: 18px;"></span>
               <button id="nextBtnDesigns" class="cool-button">Próximo</button>
+
             </div>
 
             <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="encomendarButao" style="display: none;">

@@ -12108,3 +12108,41 @@ video {
 #iframe-container-chat iframe {
   height: 230px !important;
 }
+
+.input-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  display: flex; /* Use flexbox */
+  align-items: center; /* Align items vertically */
+}
+
+.input-group h4 {
+  margin-right: 10px; /* Adjust spacing between label and input */
+}
+
+#units-input {
+  width: 100px; /* Adjust width as needed */
+}
+
+#size-input1 {
+  width: 80px; /* Adjust width as needed */
+}
+
+#size-input2 {
+  width: 80px; /* Adjust width as needed */
+}
+
+.input-group h4, .input-group p {
+  margin-right: 10px; /* Adjust spacing between elements */
+}
+
+.custom-input {
+  /* Add custom styling to visually indicate that the inputs are disabled */
+  background-color: #f5f5f5; /* Light gray background */
+  color: #999; /* Light gray text color */
+  border: 1px solid #ccc; /* Light gray border */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+}

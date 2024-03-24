@@ -114,6 +114,48 @@ function adicionarCarrinho() {
   }
 }
 
+function orcamentoCarrinho() {
+  var unitsInput = document.getElementById('units-input');
+  var unitsValue = unitsInput.value;
+  var size1Input = document.getElementById('size-input1');
+  var size2Input = document.getElementById('size-input2');
+  var size1Value = size1Input.value;
+  var size2Value = size2Input.value;
+  let orcamento_DOM = document.getElementById("orcamentoButao");
+  orcamento_DOM.style.display = "inline-block";
+  var buttonElement = orcamento_DOM.querySelector('button');
+
+  var message;
+
+  if(buttonElement.textContent === "Pedir Orçamento") {
+    message = "Quero pedir orçamento de ";
+  } else {
+    message = "Quero encomendar ";
+  }
+
+  message += unitsValue + " patches, com o tamanho " + size1Value + "x" + size2Value + "cm, com o design ";
+
+  // Check if currentSelectedDesignImg is a file
+  if (currentSelectedPatchImg instanceof File) {
+    // Upload image to Imgur
+    uploadToImgur(currentSelectedPatchImg, function(imgurLink) {
+      message += imgurLink + ".";
+      console.log(imgurLink);
+      
+      // Construct the WhatsApp API URL with the dynamic message
+      var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
+
+      // Open WhatsApp in a new tab with the dynamic message pre-filled
+      window.open(whatsappUrl, '_blank');
+    });
+  } else {
+    message += currentSelectedPatchImg + ".";
+
+    var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
+    window.open(whatsappUrl, '_blank');
+  }
+}
+
 function comprar() {
   var message = "Quero encomendar o produto " + current_image;
 
@@ -151,4 +193,10 @@ function uploadToImgur(file, callback) {
 var designSection = document.getElementById('selectDesign');
 function selecionarDesign() {
   designSection.style.display = 'block';
+}
+
+function checkInput(input) {
+  if (input.value.length > 3) {
+      input.value = input.value.slice(0, 3); // Truncate input to 3 digits
+  }
 }

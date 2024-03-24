@@ -101,7 +101,6 @@ function handleDesignSelected(event_target) {
   currentSelectedDesign = theSelectedDesign;
   currentSelectedDesignImg = theSelectedDesign.src;
   theSelectedDesign.style.border = "6px solid #006666";
-  console.log("aa");
   stopDesignRotation();
 }
 
@@ -110,11 +109,11 @@ var theSelectedPatch;
 var currentSelectedPatch = "";
 var currentSelectedPatchImg;
 function handlePatchSelected(event_target) {
-  let encomendar_DOM = document.getElementById("encomendarButao");
+  let orcamento_DOM = document.getElementById("orcamentoButao");
+  const sizeInput1 = document.getElementById("size-input1");
+  const sizeInput2 = document.getElementById("size-input2");
 
-  encomendar_DOM.style.display = "inline-block";
   theSelectedPatch = event_target;
-
   // Remove border from previously selected item
   if (currentSelectedPatch) {
     currentSelectedPatch.style.border = "none";
@@ -122,8 +121,34 @@ function handlePatchSelected(event_target) {
   currentSelectedPatch = theSelectedPatch;
   currentSelectedPatchImg = theSelectedPatch.src;
   theSelectedPatch.style.border = "6px solid #006666";
-  console.log("aa");
   stopPatchRotation();
+
+  orcamento_DOM.style.display = "inline-block";
+  var buttonElement = orcamento_DOM.querySelector('button');
+
+  if (event_target.tagName === 'IMG') {
+    // Set the value of the input fields
+    sizeInput1.value = 5;
+    sizeInput2.value = 5;
+
+    // Disable the input fields
+    sizeInput1.disabled = true;
+    sizeInput2.disabled = true;
+    // Add a new class to sizeInput1 without removing existing classes
+    sizeInput1.classList.add("custom-input");
+    sizeInput2.classList.add("custom-input");
+
+    buttonElement.textContent = "Encomendar";
+  } else {
+    
+    buttonElement.textContent = "Pedir Orçamento";
+    sizeInput1.disabled = false;
+    sizeInput2.disabled = false;
+    // Remove a specific class from sizeInput1
+    sizeInput1.classList.remove("custom-input");
+    sizeInput2.classList.remove("custom-input");
+
+  }
 }
 
 
@@ -429,6 +454,7 @@ function handleClothingSubTypeSelected(event_target) {
   let encomendar_DOM = document.getElementById("encomendarButao");
   let menu1_DOM = document.getElementById("menu1");
   let menu2_DOM = document.getElementById("menu2");
+  let pick2_DOM = document.getElementById("pick2");
 
 
   encomendar_DOM.style.display = "none";
@@ -515,6 +541,14 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
           set_sizes(data.types[0].sizes);
           set_marcas(data.types[0].marcas);
       }  
+
+      console.log("a" + theSelectedType);
+      console.log("a" + theSelectedSubType);
+      if(theSelectedType === "CHAPEUS" || theSelectedSubType === "TOALHA") {
+        pick2_DOM.style.display = "flex";
+      } else {
+        pick2_DOM.style.display = "none";
+      }
     })
     .catch(error => {
       console.error('Error:', error);
