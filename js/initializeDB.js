@@ -23,6 +23,13 @@ listDesigns.addEventListener("click", function(event) {
   }
 });
 
+const listDesigns2 = document.getElementById("designs_list2");
+listDesigns2.addEventListener("click", function(event) {
+  if (event.target) {
+    handleDesign2Selected(event.target);
+  }
+});
+
 const listPatch = document.getElementById("patch_list");
 listPatch.addEventListener("click", function(event) {
   if (event.target) {

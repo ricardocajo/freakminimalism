@@ -137,14 +137,6 @@
                   <div class="double-space" id="color-list"></div>
                   <br><br> 
                   <ul id="tamanhos" class="clickable-list row"></ul>
-                  <ul id="pick2" class="clickable-list row" style="display: none;">
-                    <li>
-                      <button>FM</button>
-                    </li>
-                    <li>
-                      <button>Personalizado</button>
-                    </li>
-                  </ul>
                 </div>
   
   
@@ -201,7 +193,26 @@
               <button id="prevBtnDesigns" class="cool-button">Anterior</button>
               <span style="margin: 18px;"></span>
               <button id="nextBtnDesigns" class="cool-button">Próximo</button>
+            </div>
 
+            <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectDesignChapeu" style="display: none;">
+              <ul class="worksimg" id="designs_list_chapeus">
+                <li class="column-item" style="position: relative;">
+                  <a>
+                    <img id="firstPatch" style="cursor: pointer;" class="workscenter-fit" src="https://freak-minimalism.com/db/patch/img/0.jpg" alt="...">
+                    <label for="upload-btn" id="upload-label">Carregar Foto</label>
+                    <input type="file" id="upload-btn" accept="image/*" style="cursor: pointer;">
+                  </a>
+                </li>
+                <li class="column-item hidden">
+                  <a>
+                    <img style="cursor: pointer;" class="workscenter-fit" src="https://freak-minimalism.com/db/patch/img/1.jpg" alt="...">
+                  </a>
+                </li>
+            </div>
+
+            <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectDesignToalha" style="display: none;">
+              <ul class="worksimg" id="designs_list_toalha"></ul>
             </div>
 
             <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="encomendarButao" style="display: none;">

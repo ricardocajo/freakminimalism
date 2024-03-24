@@ -454,8 +454,8 @@ function handleClothingSubTypeSelected(event_target) {
   let encomendar_DOM = document.getElementById("encomendarButao");
   let menu1_DOM = document.getElementById("menu1");
   let menu2_DOM = document.getElementById("menu2");
-  let pick2_DOM = document.getElementById("pick2");
-
+  let selectDesignChapeu_DOM = document.getElementById("selectDesignChapeu");
+  let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
 
   encomendar_DOM.style.display = "none";
   const allListItems = document.querySelectorAll("#clothing-subtype li");
@@ -542,10 +542,15 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
           set_marcas(data.types[0].marcas);
       }  
 
-      if(theSelectedType === "CHAPEUS" || theSelectedSubType === "TOALHA") {
-        pick2_DOM.style.display = "flex";
+      if(theSelectedType === "CHAPEUS" && theSelectedSubType !== "") {
+        selectDesignChapeu_DOM.style.display = "flex";
       } else {
-        pick2_DOM.style.display = "none";
+        selectDesignChapeu_DOM.style.display = "none";
+      }
+      if(theSelectedSubType === "TOALHA") {
+        selectDesignToalha_DOM.style.display = "flex";
+      } else {
+        selectDesignToalha_DOM.style.display = "none";
       }
     })
     .catch(error => {
