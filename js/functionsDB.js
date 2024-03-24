@@ -1,7 +1,34 @@
 let ABSOLUTE_PATH = "https://freak-minimalism.com"
 
 
-/* Fetches available sizes data and adds it to the Webpage */
+function set_marcas(marcas) {
+  let marcas_DOM = document.getElementById("roupa-banners");
+
+  // Clear previous content of the list
+  marcas_DOM.innerHTML = '';
+
+  marcas.forEach(function(marca) {
+    // Create the <a> element
+    let a = document.createElement('a');
+    a.setAttribute('class', 'mx-4');
+    a.setAttribute('target', '_blank');
+    
+    // Create the <img> element
+    let img = document.createElement('img');
+    img.setAttribute('class', 'custom-image-size2');
+    img.setAttribute('src', `https://freak-minimalism.com/db/marcas/${marca}.jpg`);
+    img.setAttribute('alt', '...');
+    img.setAttribute('loading', 'lazy');
+    
+    // Append the <img> element to the <a> element
+    a.appendChild(img);
+    
+    // Append the <a> element to the DOM
+    marcas_DOM.appendChild(a);
+  });
+}
+
+
 function set_sizes(sizes) {
   let sizes_DOM = document.getElementById("tamanhos");
 
@@ -397,6 +424,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
         });
 
         set_sizes(data.types[0].sizes);
+        set_marcas(data.types[0].marcas);
     })
     .catch(error => {
       console.error('Error:', error);
