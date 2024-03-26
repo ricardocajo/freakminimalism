@@ -35,7 +35,6 @@ function set_sizes(sizes) {
   // Clear previous content of the list
   sizes_DOM.innerHTML = '';
 
-  console.log(sizes);
   // Iterate over the data array
   sizes.forEach(function(size) {
     // Create a list item for each element in the data array
@@ -63,6 +62,7 @@ function handleSizeSelected(event_target) {
 
   theSelectedSize = event_target.textContent;
   currentSelectedSize = theSelectedSize;
+
   startDesignRotation(); // TODO what happens if size button is clicked again
 }
 
@@ -72,9 +72,10 @@ var theSelectedOtherSize = "";
 var currentSelectedOtherSize = "";
 function handleOtherSizeSelected(event_target) {
   let sizes_DOM = document.getElementById("tamanhos").querySelectorAll("li");
-  let encomendar_DOM = document.getElementById("encomendarButao");
+  let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
 
-  encomendar_DOM.style.display = "inline-block";
+  //let encomendar_DOM = document.getElementById("encomendarButao");
+  //encomendar_DOM.style.display = "inline-block";
 
   sizes_DOM.forEach((item) => {
     item.classList.remove("active");
@@ -83,6 +84,10 @@ function handleOtherSizeSelected(event_target) {
 
   theSelectedOtherSize = event_target.textContent;
   currentSelectedOtherSize = theSelectedOtherSize;
+
+  if(theSelectedSubType === "TOALHA") {
+    selectDesignToalha_DOM.style.display = "flex";
+  }
 }
 
 
@@ -548,11 +553,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
       } else {
         selectDesignChapeu_DOM.style.display = "none";
       }
-      if(theSelectedSubType === "TOALHA") {
-        selectDesignToalha_DOM.style.display = "flex";
-      } else {
-        selectDesignToalha_DOM.style.display = "none";
-      }
+      selectDesignToalha_DOM.style.display = "none";
     })
     .catch(error => {
       console.error('Error:', error);
