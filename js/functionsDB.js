@@ -35,6 +35,7 @@ function set_sizes(sizes) {
   // Clear previous content of the list
   sizes_DOM.innerHTML = '';
 
+  console.log(sizes);
   // Iterate over the data array
   sizes.forEach(function(size) {
     // Create a list item for each element in the data array
@@ -399,6 +400,8 @@ function handleClothingTypeSelected(event_target) {
   let cor_section_DOM = document.getElementById("cor_section");
   let designs_DOM = document.getElementById("selectDesign");
   let encomendar_DOM = document.getElementById("encomendarButao");
+  let selectDesignChapeu_DOM = document.getElementById("selectDesignChapeu");
+  let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
 
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
@@ -430,6 +433,8 @@ function handleClothingTypeSelected(event_target) {
     });
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
+    selectDesignChapeu_DOM.style.display = "none";
+    selectDesignToalha_DOM.style.display = "none";
   } else {
     currentSelectedType = "";
     artigo_section_DOM.style.display = "none";
@@ -566,6 +571,8 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
     currentSelectedSubType = "";
     cor_section_DOM.style.display = "none";
     event_target.classList.remove("active");
+    selectDesignChapeu_DOM.style.display = "none";
+    selectDesignToalha_DOM.style.display = "none";
   } 
 }
 
