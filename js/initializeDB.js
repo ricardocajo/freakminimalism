@@ -47,7 +47,6 @@ listPatch.addEventListener("click", function(event) {
 const listElementTypes = document.getElementById("clothing-type");
 listElementTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
-    console.log("aa");
     handleClothingTypeSelected(event.target);
   }
 });
