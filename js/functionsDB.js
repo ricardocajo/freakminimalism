@@ -393,10 +393,8 @@ function initialize_clothingItems() {
 var theSelectedType = "";
 var currentSelectedType = "";
 function handleClothingTypeSelected(event_target) {
-  let color_DOM = document.getElementById("color-list");
   let subtype_DOM = document.getElementById("clothing-subtype");
   theSelectedType = event_target.textContent.replace(/[\s|]/g, "");
-  let desc_DOM = document.getElementById("clothing-desc");
   let artigo_section_DOM = document.getElementById("artigo_section");
   let cor_section_DOM = document.getElementById("cor_section");
   let designs_DOM = document.getElementById("selectDesign");
@@ -406,8 +404,6 @@ function handleClothingTypeSelected(event_target) {
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
       .then(response => response.json())
       .then(data => {
-        
-        const firstType = data.types[0];
 
         subtype_DOM.innerHTML = '';
         const types = data.types.map(item => item.type);
