@@ -110,20 +110,23 @@ function handleDesignSelected(event_target) {
   theSelectedDesign.style.border = "6px solid #006666";
 
   console.log(theSelectedDesign);
-  fetch(ABSOLUTE_PATH + "/db/designs/img/" + theSelectedColor + ".png")
+  fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
     .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.blob();
-          })
-          .then(imageBlob => {
-            const imageUrl = URL.createObjectURL(imageBlob);
-            image_DOM.src = imageUrl;
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log(response);
+      return response.blob();
+    })
+    .then(imageBlob => {
+      const imageUrl = URL.createObjectURL(imageBlob);
+      image_DOM.src = imageUrl;
+      image_DOM.style.display = flex;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  
 
   stopDesignRotation();
 }
