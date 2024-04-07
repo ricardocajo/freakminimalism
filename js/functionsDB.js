@@ -109,7 +109,8 @@ function handleDesignSelected(event_target) {
   currentSelectedDesignImg = theSelectedDesign.src;
   theSelectedDesign.style.border = "6px solid #006666";
 
-  fetch(currentSelectedDesignImg)
+  console.log(theSelectedDesign);
+  fetch(ABSOLUTE_PATH + "/db/designs/img/" + theSelectedColor + ".png")
     .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
