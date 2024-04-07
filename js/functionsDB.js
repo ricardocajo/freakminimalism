@@ -295,7 +295,7 @@ function initialize_designs() {
 
 
 var patch_show_index = [1, 2, 3, 4, 5];
-var patch_list_size = 96;
+var patch_list_size = 10;
 var patch_index = 0;
 var selected_patch = null;
 function initialize_patch() {
