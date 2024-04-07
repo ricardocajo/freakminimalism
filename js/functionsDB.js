@@ -96,6 +96,7 @@ var currentSelectedDesign = "";
 var currentSelectedDesignImg;
 function handleDesignSelected(event_target) {
   let encomendar_DOM = document.getElementById("encomendarButao");
+  let image_DOM = document.getElementById("clothing-image2");
 
   encomendar_DOM.style.display = "inline-block";
   theSelectedDesign = event_target;
@@ -107,6 +108,22 @@ function handleDesignSelected(event_target) {
   currentSelectedDesign = theSelectedDesign;
   currentSelectedDesignImg = theSelectedDesign.src;
   theSelectedDesign.style.border = "6px solid #006666";
+
+  fetch(currentSelectedDesignImg)
+    .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.blob();
+          })
+          .then(imageBlob => {
+            const imageUrl = URL.createObjectURL(imageBlob);
+            image_DOM.src = imageUrl;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+
   stopDesignRotation();
 }
 
