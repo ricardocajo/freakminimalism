@@ -242,7 +242,7 @@ document.getElementById('prevBtnMerch').addEventListener('click', function () {
 });
 
 var merch_show_index = [0, 1, 2];
-var merch_list_size = 6;
+var merch_list_size = 10;
 var merch_index = 0;
 // Function to update works based on the button click
 function updateMerch() {
