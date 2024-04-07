@@ -109,7 +109,6 @@ function handleDesignSelected(event_target) {
   currentSelectedDesignImg = theSelectedDesign.src;
   theSelectedDesign.style.border = "6px solid #006666";
 
-  console.log(theSelectedDesign);
   fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
     .then(response => {
       if (!response.ok) {
@@ -121,7 +120,7 @@ function handleDesignSelected(event_target) {
     .then(imageBlob => {
       const imageUrl = URL.createObjectURL(imageBlob);
       image_DOM.src = imageUrl;
-      image_DOM.style.display = flex;
+      image_DOM.style.display = "flex";
     })
     .catch(error => {
       console.error('Error:', error);
