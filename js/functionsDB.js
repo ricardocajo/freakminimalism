@@ -62,6 +62,7 @@ function handleSizeSelected(event_target) {
 
   theSelectedSize = event_target.textContent;
   currentSelectedSize = theSelectedSize;
+
   startDesignRotation(); // TODO what happens if size button is clicked again
 }
 
@@ -71,9 +72,10 @@ var theSelectedOtherSize = "";
 var currentSelectedOtherSize = "";
 function handleOtherSizeSelected(event_target) {
   let sizes_DOM = document.getElementById("tamanhos").querySelectorAll("li");
-  let encomendar_DOM = document.getElementById("encomendarButao");
+  let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
 
-  encomendar_DOM.style.display = "inline-block";
+  //let encomendar_DOM = document.getElementById("encomendarButao");
+  //encomendar_DOM.style.display = "inline-block";
 
   sizes_DOM.forEach((item) => {
     item.classList.remove("active");
@@ -82,6 +84,10 @@ function handleOtherSizeSelected(event_target) {
 
   theSelectedOtherSize = event_target.textContent;
   currentSelectedOtherSize = theSelectedOtherSize;
+
+  if(theSelectedSubType === "TOALHA") {
+    selectDesignToalha_DOM.style.display = "flex";
+  }
 }
 
 
@@ -393,21 +399,19 @@ function initialize_clothingItems() {
 var theSelectedType = "";
 var currentSelectedType = "";
 function handleClothingTypeSelected(event_target) {
-  let color_DOM = document.getElementById("color-list");
   let subtype_DOM = document.getElementById("clothing-subtype");
   theSelectedType = event_target.textContent.replace(/[\s|]/g, "");
-  let desc_DOM = document.getElementById("clothing-desc");
   let artigo_section_DOM = document.getElementById("artigo_section");
   let cor_section_DOM = document.getElementById("cor_section");
   let designs_DOM = document.getElementById("selectDesign");
   let encomendar_DOM = document.getElementById("encomendarButao");
+  let selectDesignChapeu_DOM = document.getElementById("selectDesignChapeu");
+  let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
 
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
       .then(response => response.json())
       .then(data => {
-        
-        const firstType = data.types[0];
 
         subtype_DOM.innerHTML = '';
         const types = data.types.map(item => item.type);
@@ -434,6 +438,8 @@ function handleClothingTypeSelected(event_target) {
     });
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
+    selectDesignChapeu_DOM.style.display = "none";
+    selectDesignToalha_DOM.style.display = "none";
   } else {
     currentSelectedType = "";
     artigo_section_DOM.style.display = "none";
@@ -547,11 +553,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
       } else {
         selectDesignChapeu_DOM.style.display = "none";
       }
-      if(theSelectedSubType === "TOALHA") {
-        selectDesignToalha_DOM.style.display = "flex";
-      } else {
-        selectDesignToalha_DOM.style.display = "none";
-      }
+      selectDesignToalha_DOM.style.display = "none";
     })
     .catch(error => {
       console.error('Error:', error);
@@ -570,6 +572,8 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
     currentSelectedSubType = "";
     cor_section_DOM.style.display = "none";
     event_target.classList.remove("active");
+    selectDesignChapeu_DOM.style.display = "none";
+    selectDesignToalha_DOM.style.display = "none";
   } 
 }
 

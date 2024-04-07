@@ -23,10 +23,17 @@ listDesigns.addEventListener("click", function(event) {
   }
 });
 
-const listDesigns2 = document.getElementById("designs_list2");
-listDesigns2.addEventListener("click", function(event) {
+const listDesignsChapeus = document.getElementById("designs_list_chapeus");
+listDesignsChapeus.addEventListener("click", function(event) {
   if (event.target) {
-    handleDesign2Selected(event.target);
+    handleDesignChapeusSelected(event.target);
+  }
+});
+
+const listDesignsToalha = document.getElementById("designs_list_toalha");
+listDesignsToalha.addEventListener("click", function(event) {
+  if (event.target) {
+    handleDesignToalhaSelected(event.target);
   }
 });
 
@@ -70,7 +77,7 @@ document.querySelectorAll("#color-list .color-button").forEach((button) => {
   });
 });
 
-document.getElementById('prevBtnWorks').addEventListener('click', function () {
+/*document.getElementById('prevBtnWorks').addEventListener('click', function () {
   
   // Reset the timer for works by clearing the existing interval and setting a new one
   clearInterval(worksIntervalId);
@@ -89,7 +96,7 @@ document.getElementById('prevBtnWorks').addEventListener('click', function () {
       $('#works_list li').eq(index).removeClass('hidden');
     });
   }
-});
+});*/
 
 // Function to update works based on the button click
 function updateWorks() {
@@ -126,14 +133,14 @@ function simulateWorksButtonClick() {
 let worksIntervalId = setInterval(simulateWorksButtonClick, 5000);
 
 // Event listener for the "Próximo" button associated with works
-document.getElementById('nextBtnWorks').addEventListener('click', function () {
+/*document.getElementById('nextBtnWorks').addEventListener('click', function () {
   // Reset the timer for works by clearing the existing interval and setting a new one
   clearInterval(worksIntervalId);
   worksIntervalId = setInterval(simulateWorksButtonClick, 5000);
 
   // Call the updateWorks function to perform the button click logic
   updateWorks();
-});
+});*/
 
 
 document.getElementById('prevBtnDesigns').addEventListener('click', function () {
