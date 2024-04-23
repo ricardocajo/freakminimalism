@@ -35,11 +35,14 @@ function set_sizes(sizes) {
   // Clear previous content of the list
   sizes_DOM.innerHTML = '';
 
-  // Iterate over the data array
+  // Iterate over the sizes array
   sizes.forEach(function(size) {
-    // Create a list item for each element in the data array
+    // Replace regular hyphens with non-breaking hyphens
+    let sizeWithNonBreakingHyphen = size.replace(/-/g, "&ndash;");
+
+    // Create a list item for each size in the array
     let li = document.createElement('li');
-    li.textContent = size;
+    li.textContent = sizeWithNonBreakingHyphen;
     
     // Append the list item to the list
     sizes_DOM.appendChild(li);
