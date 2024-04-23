@@ -573,7 +573,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
           set_marcas(data.types[0].marcas);
       }  
 
-      if(theSelectedType === "CHAPEUS" && theSelectedSubType !== "") {
+      if((theSelectedType === "CHAPEUS" && theSelectedSubType !== "") || (theSelectedType === KID && (theSelectedSubType === "FRASER" || theSelectedSubType === "SNAP BACK"))) {
         selectDesignChapeu_DOM.style.display = "flex";
       } else {
         selectDesignChapeu_DOM.style.display = "none";
