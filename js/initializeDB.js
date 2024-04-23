@@ -5,6 +5,27 @@ initialize_designs();
 initialize_patch();
 initialize_works();
 
+// Add an event listener to the document or a parent element that exists on page load
+document.addEventListener('change', function(event) {
+  let encomendar_DOM = document.getElementById("encomendarButao");
+  // Check if the change event originated from the uploadBtn
+  if (event.target && event.target.id === 'upload-btn') {
+    const file = event.target.files[0]; // Get the selected file
+    let firstDesign_DOM = document.getElementById("firstDesign");
+    if (currentSelectedDesign) {
+      currentSelectedDesign.style.border = "none";
+    } 
+    const imageURL = URL.createObjectURL(file);
+    currentSelectedDesignImgFile = file;
+    currentSelectedDesignImg = file;
+    firstDesign_DOM.src = imageURL;
+    firstDesign_DOM.style.border = "6px solid #006666";
+    currentSelectedDesign = firstDesign_DOM;
+  }
+  encomendar_DOM.style.display = "inline-block";
+});
+
+
 const listTamanhos = document.getElementById("tamanhos");
 listTamanhos.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
@@ -18,28 +39,28 @@ listTamanhos.addEventListener("click", function(event) {
 
 const listDesigns = document.getElementById("designs_list");
 listDesigns.addEventListener("click", function(event) {
-  if (event.target) {
+  if (event.target && event.target.nodeName === "IMG") {
     handleDesignSelected(event.target);
   }
 });
 
 const listDesignsChapeus = document.getElementById("designs_list_chapeus");
 listDesignsChapeus.addEventListener("click", function(event) {
-  if (event.target) {
+  if (event.target && (event.target.nodeName === "IMG" || event.target.nodeName === "LABEL")) {
     handleDesignChapeusSelected(event.target);
   }
 });
 
 const listDesignsToalha = document.getElementById("designs_list_toalha");
 listDesignsToalha.addEventListener("click", function(event) {
-  if (event.target) {
+  if (event.target && event.target.nodeName === "IMG") {
     handleDesignToalhaSelected(event.target);
   }
 });
 
 const listPatch = document.getElementById("patch_list");
 listPatch.addEventListener("click", function(event) {
-  if (event.target) {
+  if (event.target && event.target.nodeName === "IMG") {
     handlePatchSelected(event.target);
   }
 });

@@ -94,7 +94,53 @@ function handleOtherSizeSelected(event_target) {
 var theSelectedDesign;
 var currentSelectedDesign = "";
 var currentSelectedDesignImg;
+var currentSelectedDesignImgFile;
 function handleDesignSelected(event_target) {
+  let encomendar_DOM = document.getElementById("encomendarButao");
+  let image_DOM = document.getElementById("clothing-image2");
+  const uploadBtn = document.getElementById('upload-btn');
+
+  encomendar_DOM.style.display = "inline-block";
+  theSelectedDesign = event_target;
+
+  // Remove border from previously selected item
+  if (currentSelectedDesign) {
+    currentSelectedDesign.style.border = "none";
+  } 
+  currentSelectedDesign = theSelectedDesign;
+  currentSelectedDesignImg = theSelectedDesign.src;
+  theSelectedDesign.style.border = "6px solid #006666";
+
+  if (theSelectedDesign.nodeName === "IMG") {
+    if (theSelectedDesign.id !== "firstDesign") {
+      fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(imageBlob => {
+        const imageUrl = URL.createObjectURL(imageBlob);
+        image_DOM.src = imageUrl;
+        image_DOM.style.display = "flex";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    } else {
+      image_DOM.style.display = "none";
+      if (theSelectedDesign.src === "https://freak-minimalism.com/db/designs/img/0.jpg") {
+        uploadBtn.click();
+      } else {
+        currentSelectedDesignImg = currentSelectedDesignImgFile;
+      }
+    }
+  }
+  stopDesignRotation();
+}
+
+function handleDesignChapeusSelected(event_target) {
   let encomendar_DOM = document.getElementById("encomendarButao");
   let image_DOM = document.getElementById("clothing-image2");
 
@@ -124,9 +170,6 @@ function handleDesignSelected(event_target) {
     .catch(error => {
       console.error('Error:', error);
     });
-  
-
-  stopDesignRotation();
 }
 
 
@@ -291,20 +334,6 @@ function initialize_designs() {
           desgins_index = desgins_index + 1;
         }
       });
-      const uploadBtn = document.getElementById('upload-btn');
-      // Add an event listener to handle file selection
-      uploadBtn.addEventListener('change', function() {
-        const file = this.files[0]; // Get the selected file
-        let firstDesign_DOM = document.getElementById("firstDesign");
-        if (currentSelectedDesign) {
-          currentSelectedDesign.style.border = "none";
-        } 
-        const imageURL = URL.createObjectURL(file);
-        currentSelectedDesignImg = file;
-        firstDesign_DOM.src = imageURL;
-        firstDesign_DOM.style.border = "6px solid #006666";
-        currentSelectedDesign = firstDesign_DOM;
-      });
     })
     .catch(error => {
       desgins_index = 0;
@@ -332,8 +361,8 @@ function initialize_patch() {
           var path = ABSOLUTE_PATH+"/db/patch/img/"+key;
           if(key == '0.jpg') {
             let content = `<a><img id="firstPatch" style="cursor: pointer;" class="workscenter-fit" src=${path} alt="...">`
-            content += `<label for="upload-btn" id="upload-label">Carregar Foto</label>`;
-            content += `<input type="file" id="upload-btn" accept="image/*" style="cursor: pointer;">`;
+            content += `<label for="upload-btn-patch" id="upload-label-patch">Carregar Foto</label>`;
+            content += `<input type="file" id="upload-btn-patch" accept="image/*" style="cursor: pointer;">`;
             content += `</a>`;
 
             listItem.innerHTML = content;
@@ -345,20 +374,6 @@ function initialize_patch() {
 
           patch_index = patch_index + 1;
         }
-      });
-      const uploadBtn = document.getElementById('upload-btn');
-      // Add an event listener to handle file selection
-      uploadBtn.addEventListener('change', function() {
-        const file = this.files[0]; // Get the selected file
-        let firstPatch_DOM = document.getElementById("firstPatch");
-        if (currentSelectedPatch) {
-          currentSelectedPatch.style.border = "none";
-        } 
-        const imageURL = URL.createObjectURL(file);
-        currentSelectedPatchImg = file;
-        firstPatch_DOM.src = imageURL;
-        firstPatch_DOM.style.border = "6px solid #006666";
-        currentSelectedPatch = firstPatch_DOM;
       });
     })
     .catch(error => {
@@ -458,7 +473,7 @@ function handleClothingTypeSelected(event_target) {
     });
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
-    image2_DOM.style.display + "none";
+    image2_DOM.style.display = "none";
     if (theSelectedDesign) {
       theSelectedDesign.style.border = "none";
     }
@@ -573,7 +588,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
           set_marcas(data.types[0].marcas);
       }  
 
-      if((theSelectedType === "CHAPEUS" && theSelectedSubType !== "") || (theSelectedType === KID && (theSelectedSubType === "FRASER" || theSelectedSubType === "SNAP BACK"))) {
+      if((theSelectedType === "CHAPEUS" && theSelectedSubType !== "") || (theSelectedType === "KID" && (theSelectedSubType === "FRASER" || theSelectedSubType === "SNAPBACK"))) {
         selectDesignChapeu_DOM.style.display = "flex";
       } else {
         selectDesignChapeu_DOM.style.display = "none";

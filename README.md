@@ -12,6 +12,8 @@ Por fazer:
 
 preco ao carregar encomendar
 cor do design em blusas escuras (como resolver?)
+fm.png na pasta sem fundo (para os chapeus)
+tentar ver se imagens ficam guardadas no imgur
 
 ------------------------------------------
 
