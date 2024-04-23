@@ -114,7 +114,6 @@ function handleDesignSelected(event_target) {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      console.log(response);
       return response.blob();
     })
     .then(imageBlob => {
@@ -460,7 +459,9 @@ function handleClothingTypeSelected(event_target) {
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
     image2_DOM.style.display + "none";
-    theSelectedDesign.style.border = "none";
+    if (theSelectedDesign) {
+      theSelectedDesign.style.border = "none";
+    }
     selectDesignChapeu_DOM.style.display = "none";
     selectDesignToalha_DOM.style.display = "none";
   } else {
@@ -592,8 +593,9 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
     image2_DOM.style.display = "none";
-    theSelectedDesign.style.border = "none";
-
+    if (theSelectedDesign) {
+      theSelectedDesign.style.border = "none";
+    }
   } else {
     currentSelectedSubType = "";
     cor_section_DOM.style.display = "none";
