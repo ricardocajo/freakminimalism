@@ -260,7 +260,7 @@ function initialize_arte() {
 
 /* Fetches available designs data and adds it to the Webpage */
 var designs_show_index = [1, 2, 3, 4, 5];
-var designs_list_size = 96;
+var designs_list_size = 56;
 var desgins_index = 0;
 var selected_design = null;
 function initialize_designs() {
@@ -427,6 +427,7 @@ function handleClothingTypeSelected(event_target) {
   let encomendar_DOM = document.getElementById("encomendarButao");
   let selectDesignChapeu_DOM = document.getElementById("selectDesignChapeu");
   let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
+  let image2_DOM = document.getElementById("clothing-image2");
 
   if (artigo_section_DOM.style.display === "none" || (artigo_section_DOM.style.display === "flex" && theSelectedType !== currentSelectedType)) {
     fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/roupa.json")
@@ -458,6 +459,8 @@ function handleClothingTypeSelected(event_target) {
     });
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
+    image2_DOM.style.display + "none";
+    theSelectedDesign.style.border = "none";
     selectDesignChapeu_DOM.style.display = "none";
     selectDesignToalha_DOM.style.display = "none";
   } else {
@@ -482,6 +485,7 @@ function handleClothingSubTypeSelected(event_target) {
   let menu2_DOM = document.getElementById("menu2");
   let selectDesignChapeu_DOM = document.getElementById("selectDesignChapeu");
   let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
+  let image2_DOM = document.getElementById("clothing-image2");
 
   encomendar_DOM.style.display = "none";
   const allListItems = document.querySelectorAll("#clothing-subtype li");
@@ -587,6 +591,8 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
     });
     event_target.classList.add("active");
     designs_DOM.style.display = "none";
+    image2_DOM.style.display = "none";
+    theSelectedDesign.style.border = "none";
 
   } else {
     currentSelectedSubType = "";
