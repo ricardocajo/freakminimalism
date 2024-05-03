@@ -243,16 +243,15 @@ function initialize_prices() {
 }
 
 function initialize_colecoes() {
-  initialize_ONEPIECE();
-  initialize_FREAK();
-  initialize_MINIMALISM();
-  initialize_L3G3NDCHILL();
+  initialize_colecoes("ONEPIECE");
+  initialize_colecoes("FREAK");
+  initialize_colecoes("MINIMALISM");
+  initialize_colecoes("L3G3NDCHILL");
 }
 
-
-function initialize_L3G3NDCHILL() {
-  let L3G3NDCHILL_DOM = document.getElementById("L3G3NDCHILL_list");
-  fetch(ABSOLUTE_PATH + "/db/colecoes/L3G3NDCHILL/works.json")
+function initialize_colecoes(name) {
+  let colecao_DOM = document.getElementById(name + "_list");
+  fetch(ABSOLUTE_PATH + "/db/colecoes/"+ name + "/works.json")
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
@@ -261,11 +260,11 @@ function initialize_L3G3NDCHILL() {
           //if(works_index > 2) {listItem.classList.add("hidden");}
           listItem.classList.add("column-item");
           if (key.startsWith("00")) {
-            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/L3G3NDCHILL/img/${key} alt="...">`;
+            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key} alt="...">`;
           } else {
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/L3G3NDCHILL/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/L3G3NDCHILL/img/${key} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
           }
-          L3G3NDCHILL_DOM.appendChild(listItem);
+          colecao_DOM.appendChild(listItem);
           //works_index = works_index + 1;
         }
       });
