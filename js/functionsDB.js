@@ -243,13 +243,13 @@ function initialize_prices() {
 }
 
 function initialize_colecoes() {
-  initialize_colecoes("ONEPIECE");
-  initialize_colecoes("FREAK");
-  initialize_colecoes("MINIMALISM");
-  initialize_colecoes("L3G3NDCHILL");
+  initialize_colecao("ONEPIECE");
+  initialize_colecao("FREAK");
+  initialize_colecao("MINIMALISM");
+  initialize_colecao("L3G3NDCHILL");
 }
 
-function initialize_colecoes(name) {
+function initialize_colecao(name) {
   let colecao_DOM = document.getElementById(name + "_list");
   fetch(ABSOLUTE_PATH + "/db/colecoes/"+ name + "/works.json")
     .then(response => response.json())
@@ -385,16 +385,16 @@ var currentSelectedColecao = "";
 function handleColecoesTypeSelected(event_target) {
   theSelectedColecao = event_target.textContent.replace(/[\s|]/g, "");
   console.log(theSelectedColecao);
-  let img_DOM = document.getElementById("colecoes-img");
-  let merch_DOM = document.getElementById("works_list");
+  console.log(currentSelectedColecao);
+  let old_list_DOM = document.getElementById(currentSelectedColecao + "_list");
+  let list_DOM = document.getElementById(theSelectedColecao + "_list");
 
-  if(event_target.innerHTML === "MERCH") {
-    img_DOM.style.display = "none";
-    merch_DOM.style.display = "flex";
-  } else {
-    img_DOM.style.display = "block";
-    merch_DOM.style.display = "none";
+  list_DOM.style.display = "flex";
+  if(currentSelectedColecao !== "") {
+    old_list_DOM.style.display = "none";
   }
+
+  currentSelectedColecao = theSelectedColecao;
 }
 
 
