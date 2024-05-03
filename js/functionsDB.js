@@ -242,38 +242,36 @@ function initialize_prices() {
     });
 }
 
+function initialize_colecoes() {
+  initialize_ONEPIECE();
+  initialize_FREAK();
+  initialize_MINIMALISM();
+  initialize_L3G3NDCHILL();
+}
 
-/* Fetches available works data and adds it to the Webpage */
-var works_show_index = [0, 1, 2];
-var works_list_size = 2;
-var works_index = 0;
-function initialize_works() {
-  let works_DOM = document.getElementById("works_list");
-  fetch(ABSOLUTE_PATH + "/db/works/works.json")
+
+function initialize_L3G3NDCHILL() {
+  let L3G3NDCHILL_DOM = document.getElementById("L3G3NDCHILL_list");
+  fetch(ABSOLUTE_PATH + "/db/colecoes/L3G3NDCHILL/works.json")
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
         if (data[key]) {
           let listItem = document.createElement("li");
-
-          if(works_index > 2) {
-            listItem.classList.add("hidden");
-          }
+          //if(works_index > 2) {listItem.classList.add("hidden");}
           listItem.classList.add("column-item");
           if (key.startsWith("00")) {
-            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="...">`;
+            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/L3G3NDCHILL/img/${key} alt="...">`;
           } else {
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/works/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/works/img/${key} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/L3G3NDCHILL/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/L3G3NDCHILL/img/${key} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
           }
-          works_DOM.appendChild(listItem);
-          works_index = works_index + 1;
-
-
+          L3G3NDCHILL_DOM.appendChild(listItem);
+          //works_index = works_index + 1;
         }
       });
     })
     .catch(error => {
-      works_index = 0;
+      //works_index = 0;
       console.error('Error:', error);
     });
 }
@@ -383,9 +381,11 @@ function initialize_patch() {
 }
 
 // Function to handle the selection (you can replace this with your desired logic)
-var theSelectedType = "";
-var currentSelectedType = "";
+var theSelectedColecao = "";
+var currentSelectedColecao = "";
 function handleColecoesTypeSelected(event_target) {
+  theSelectedColecao = event_target.textContent.replace(/[\s|]/g, "");
+  console.log(theSelectedColecao);
   let img_DOM = document.getElementById("colecoes-img");
   let merch_DOM = document.getElementById("works_list");
 
@@ -401,7 +401,7 @@ function handleColecoesTypeSelected(event_target) {
 
 function initialize_colecoesItems() {
   let items_DOM = document.getElementById("colecoes-type");
-  let colecoesItems = ["ANIME", "FREAK", "MINIMALISM", "MERCH"];
+  let colecoesItems = ["ONE PIECE", "FREAK", "MINIMALISM", "L3G3NDCHILL"];
 
   colecoesItems.forEach(item => {
     let listItem = document.createElement("li");

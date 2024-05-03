@@ -3,7 +3,7 @@ initialize_clothingItems();
 initialize_colecoesItems();
 initialize_designs();
 initialize_patch();
-initialize_works();
+initialize_colecoes();
 
 // Add an event listener to the document or a parent element that exists on page load
 document.addEventListener('change', function(event) {
