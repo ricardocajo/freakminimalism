@@ -242,14 +242,8 @@ function initialize_prices() {
     });
 }
 
-function initialize_colecoes() {
-  initialize_colecao("ONEPIECE");
-  initialize_colecao("FREAK");
-  initialize_colecao("MINIMALISM");
-  initialize_colecao("L3G3NDCHILL");
-}
-
 function initialize_colecao(name) {
+  name = name.replace(/[\s|]/g, "");
   let colecao_DOM = document.getElementById(name + "_list");
   fetch(ABSOLUTE_PATH + "/db/colecoes/"+ name + "/works.json")
     .then(response => response.json())
@@ -408,6 +402,7 @@ function initialize_colecoesItems() {
     listItem.className = "col-md-4";
     listItem.innerHTML = item;
     items_DOM.appendChild(listItem);
+    initialize_colecao(item);
   });
 }
 
