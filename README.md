@@ -10,6 +10,7 @@ The website link: https://freak-minimalism.com
 
 Por fazer:
 
+tamnho das blusas etc
 preco ao carregar encomendar -> (documento com tudo)
 cor do design em blusas escuras (como resolver?)
 fm.png na pasta sem fundo (para os chapeus)

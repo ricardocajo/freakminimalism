@@ -84,7 +84,7 @@ document.addEventListener('click', function (event) {
   }
 });
 
-function adicionarCarrinho() {
+/*function adicionarCarrinho() {
   var productName = "Product Name"; // Example: Get the product name from your HTML or JavaScript
   var productPrice = "$10.00"; // Example: Get the product price from your HTML or JavaScript
 
@@ -112,6 +112,33 @@ function adicionarCarrinho() {
     var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
     window.open(whatsappUrl, '_blank');
   }
+}*/
+
+function adicionarCarrinho() {
+  // Create a new PDF document
+  const doc = new jsPDF();
+
+  // Add content to the PDF
+  doc.text('Product Name: Lorem Ipsum', 10, 10);
+  doc.text('Price: $99', 10, 20);
+  // Add more information as needed
+
+  // Save the PDF as a data URI
+  const pdfDataUri = doc.output('datauristring');
+
+  // Share the PDF through WhatsApp
+  shareOnWhatsApp(pdfDataUri);
+}
+
+function shareOnWhatsApp(pdfDataUri) {
+  // Encode the data URI
+  const encodedPdfDataUri = encodeURIComponent(pdfDataUri);
+
+  // Construct the WhatsApp share link
+  const whatsappLink = `https://wa.me/?text=${encodedPdfDataUri}`;
+
+  // Open WhatsApp in a new window with the PDF attached
+  window.open(whatsappLink, '_blank');
 }
 
 function orcamentoCarrinho() {
