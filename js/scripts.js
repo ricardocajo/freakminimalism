@@ -115,6 +115,9 @@ document.addEventListener('click', function (event) {
 }*/
 
 function adicionarCarrinho() {
+
+  var message = "Documento: ";
+
   // Create a new PDF document
   const doc = new jsPDF();
 
@@ -124,22 +127,28 @@ function adicionarCarrinho() {
   // Add more information as needed
 
   // Save the PDF as a data URI
-  const pdfDataUri = doc.output('datauristring');
+  //const pdfDataUri = doc.output('datauristring');
 
-  // Share the PDF through WhatsApp
-  shareOnWhatsApp(pdfDataUri);
+  uploadToImgur(doc, function(imgurLink) {
+    message += imgurLink + ".";
+    console.log(imgurLink);
+    
+    // Construct the WhatsApp API URL with the dynamic message
+    var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
+
+    // Open WhatsApp in a new tab with the dynamic message pre-filled
+    window.open(whatsappUrl, '_blank');
+  });
 }
 
-function shareOnWhatsApp(pdfDataUri) {
-  // Encode the data URI
-  const encodedPdfDataUri = encodeURIComponent(pdfDataUri);
+document.addEventListener("DOMContentLoaded", function() {
+  // Your other JavaScript code here
+  
+  // Find the button and add the onclick event listener
+  var button = document.getElementById('encomendarButaoB');
+  button.onclick = adicionarCarrinho;
+});
 
-  // Construct the WhatsApp share link
-  const whatsappLink = `https://wa.me/?text=${encodedPdfDataUri}`;
-
-  // Open WhatsApp in a new window with the PDF attached
-  window.open(whatsappLink, '_blank');
-}
 
 function orcamentoCarrinho() {
   var unitsInput = document.getElementById('units-input');
