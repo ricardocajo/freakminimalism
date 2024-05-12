@@ -19,19 +19,8 @@
             "type": "CAVAS"
         },
         {
-            "type": "CASACOS"
-        },
-        {
-            "type": "CONJUNTOS"
-        },
-        {
-            "type": "FATO-TREINO"
-        },
-        {
             "type": "LANGERIE"
-        },
-        {
-            "type": "VESTIDOS"
         }
+       
     ]
 }
