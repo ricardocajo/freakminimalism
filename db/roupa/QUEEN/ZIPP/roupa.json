@@ -4,7 +4,8 @@
             "colors": ["1D", "5Z", "6S", "95", "00", "39", "52", "6L", "9C", "9F"],
             "desc": "80%  Algodão  |  20%  Poliéster  |  280g",
             "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
-            "marcas": ["bc"]
+            "marcas": ["bc"],
+            "sizes-image": "https://freak-minimalism.com/assets/img/sizes/zipp-tshirt.png"
         }
     ]
 }

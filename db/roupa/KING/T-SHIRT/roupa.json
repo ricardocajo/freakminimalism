@@ -5,7 +5,8 @@
             "colors": ["00", "11", "2C", "24", "32", "33", "3E", "42", "44", "48", "4F", "4K", "4L", "52", "54", "55", "5N", "5P", "62", "63", "64", "6D", "6K", "6P", "6T", "6W", "81", "92", "93", "96"],
             "desc": "100%  algodão  pré-encolhido |  145g",
             "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
-            "marcas": ["bc"]
+            "marcas": ["bc"],
+            "sizes-image": "https://freak-minimalism.com/assets/img/sizes/king-tshirt.png"
         }
     ]
 }

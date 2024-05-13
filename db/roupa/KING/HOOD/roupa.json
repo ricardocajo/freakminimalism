@@ -5,7 +5,8 @@
             "colors": ["39", "4M", "5T", "5Z", "6L", "6S", "6V", "95", "9F", "00", "3H", "44", "52", "6I", "9C", "9G", "2E", "5N", "5W"],
             "desc": "80%  Algodão  |  20%  Poliéster  |  280g",
             "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
-            "marcas": ["bc"]
+            "marcas": ["bc"],
+            "sizes-image": "https://freak-minimalism.com/assets/img/sizes/king-hood.png"
         }
       
     ]
