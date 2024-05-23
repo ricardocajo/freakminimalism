@@ -496,6 +496,7 @@ function handleClothingSubTypeSelected(event_target) {
   let selectDesignChapeu_DOM = document.getElementById("selectDesignChapeu");
   let selectDesignToalha_DOM = document.getElementById("selectDesignToalha");
   let image2_DOM = document.getElementById("clothing-image2");
+  let tamanhos_image_DOM = document.getElementById("tamanhos-image");
 
   encomendar_DOM.style.display = "none";
   const allListItems = document.querySelectorAll("#clothing-subtype li");
@@ -520,7 +521,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
         menu1_DOM.style.display = "flex";
 
         // Show the colors of the matching clothing type
-        while(color_DOM.firstChild){
+        while(color_DOM.firstChild) {
           color_DOM.removeChild(color_DOM.firstChild);
         }
         data.types[0].colors.forEach(color => {
@@ -562,6 +563,8 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
 
         desc_DOM.innerHTML = data.types[0].desc;
 
+        tamanhos_image_DOM.src = data.types[0]["sizes-image"];
+
         // Now, initiate the second fetch with the updated theSelectedColor value
         fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
           .then(response => {
@@ -580,6 +583,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
 
           set_sizes(data.types[0].sizes);
           set_marcas(data.types[0].marcas);
+
       }  
 
       if((theSelectedType === "CHAPEUS" && theSelectedSubType !== "") || (theSelectedType === "KID" && (theSelectedSubType === "FRASER" || theSelectedSubType === "SNAPBACK"))) {
