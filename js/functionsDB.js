@@ -249,11 +249,12 @@ function initialize_colecao(name) {
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
+        console.log(key);
         let listItem = document.createElement("li");
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
             break;
           case "desc":
             listItem.innerHTML = `<p>aaa</p><p>bbb</p>`
