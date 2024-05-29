@@ -256,8 +256,14 @@ function initialize_colecao(name) {
           case "img":
             listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
             break;
+            case "img2":
+              listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+              break;
           case "desc":
-            listItem.innerHTML = `<p>aaa</p><p>bbb</p>`
+            let parts = data[key].split(';');
+            parts.forEach((part) => {
+              listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
+            });
             break;
           default:
             // code block
@@ -272,25 +278,40 @@ function initialize_colecao(name) {
 }
 
 
-/* Fetches available works data and adds it to the Webpage 
-function initialize_arte() {
-  let works_DOM = document.getElementById("arte_list");
-  fetch(ABSOLUTE_PATH + "/db/arte/arte.json")
+function initialize_arte(name) {
+  name = name.replace(/[\s|]/g, "");
+  let arte_DOM = document.getElementById(name + "_list");
+  fetch(ABSOLUTE_PATH + "/db/arte/"+ name + "/works.json")
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
-        if (data[key]) {
-          let listItem = document.createElement("li");
-          listItem.classList.add("column-item");
-          listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/img/${key} alt="..." loading="lazy">`;
-          works_DOM.appendChild(listItem);
+        console.log(key);
+        let listItem = document.createElement("li");
+        listItem.classList.add("column-item");
+        switch(key) {
+          case "img":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            break;
+            case "img2":
+              listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+              break;
+          case "desc":
+            let parts = data[key].split(';');
+            parts.forEach((part) => {
+              listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
+            });
+            break;
+          default:
+            // code block
         }
+        arte_DOM.appendChild(listItem);
       });
     })
     .catch(error => {
+      //works_index = 0;
       console.error('Error:', error);
     });
-}*/
+}
 
 
 /* Fetches available designs data and adds it to the Webpage */
@@ -408,6 +429,19 @@ function initialize_colecoesItems() {
   });
 }
 
+function initialize_artesItems() {
+  let items_DOM = document.getElementById("artes-type");
+  let artesItems = ["ANDRE DANIEL", "0.0"];
+
+  artesItems.forEach(item => {
+    let listItem = document.createElement("li");
+    listItem.value = item;
+    listItem.className = "col-md-4";
+    listItem.innerHTML = item;
+    items_DOM.appendChild(listItem);
+    initialize_arte(item);
+  });
+}
 
 /* Fetches available prices data to add it to the clothing section */
 function initialize_clothingItems() {
