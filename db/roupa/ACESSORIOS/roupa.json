@@ -4,16 +4,10 @@
             "type": "BOLSA"
         },
         {
-            "type": "JOIAS"
-        },
-        {
             "type": "PORTA-CHAVES"
         },
         {
             "type": "TOALHA"
-        },
-        {
-            "type": "PATCH"
         }
     ]
 }
