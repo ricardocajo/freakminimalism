@@ -155,7 +155,7 @@ function handleDesignChapeusSelected(event_target) {
   currentSelectedDesignImg = theSelectedDesign.src;
   theSelectedDesign.style.border = "6px solid #006666";
 
-  fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
+  /*fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -169,7 +169,7 @@ function handleDesignChapeusSelected(event_target) {
     })
     .catch(error => {
       console.error('Error:', error);
-    });
+    });*/
 }
 
 
