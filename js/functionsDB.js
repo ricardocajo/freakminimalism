@@ -249,18 +249,19 @@ function initialize_colecao(name) {
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
-        if (data[key]) {
-          let listItem = document.createElement("li");
-          //if(works_index > 2) {listItem.classList.add("hidden");}
-          listItem.classList.add("column-item");
-          if (key.startsWith("00")) {
-            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key} alt="...">`;
-          } else {
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
-          }
-          colecao_DOM.appendChild(listItem);
-          //works_index = works_index + 1;
+        let listItem = document.createElement("li");
+        listItem.classList.add("column-item");
+        switch(key) {
+          case "img":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${key} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            break;
+          case "desc":
+            listItem.innerHTML = `<p>aaa</p><p>bbb</p>`
+            break;
+          default:
+            // code block
         }
+        colecao_DOM.appendChild(listItem);
       });
     })
     .catch(error => {

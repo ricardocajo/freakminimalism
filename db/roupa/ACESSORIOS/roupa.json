@@ -1,6 +1,9 @@
 {"types": 
     [
         {
+            "type": "PATCH"
+        },
+        {
             "type": "BOLSA"
         },
         {

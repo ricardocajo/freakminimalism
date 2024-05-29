@@ -1,4 +1,4 @@
 {
-    "00legend.png":   true,
-    "legend2.png":  true
+    "img": "00legend.png",
+    "img": "legend2.png"
 }
