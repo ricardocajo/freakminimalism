@@ -288,10 +288,10 @@ function initialize_arte(name) {
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<a class="me-4" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="...">`;
             break;
             case "video":
-              listItem.innerHTML = `<a class="me-4" target="_blank"><video class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."></a>`;
+              listItem.innerHTML = `<video class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."></video>`;
               break;
           case "desc":
             let parts = data[key].split(';');
