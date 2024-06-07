@@ -72,6 +72,13 @@ listElementTypes.addEventListener("click", function(event) {
   }
 });
 
+const arteElementTypes = document.getElementById("artes-type");
+arteElementTypes.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    handleArteTypeSelected(event.target);
+  }
+});
+
 const listColecoesTypes = document.getElementById("colecoes-type");
 listColecoesTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {

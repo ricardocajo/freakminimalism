@@ -249,7 +249,6 @@ function initialize_colecao(name) {
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
-        console.log(key);
         let listItem = document.createElement("li");
         listItem.classList.add("column-item");
         switch(key) {
@@ -285,15 +284,14 @@ function initialize_arte(name) {
     .then(response => response.json())
     .then(data => {
       Object.keys(data).forEach(key => {
-        console.log(key);
         let listItem = document.createElement("li");
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/arte/${name}/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
             break;
             case "img2":
-              listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+              listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/arte/${name}/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
               break;
           case "desc":
             let parts = data[key].split(';');
@@ -401,8 +399,6 @@ var theSelectedColecao = "";
 var currentSelectedColecao = "";
 function handleColecoesTypeSelected(event_target) {
   theSelectedColecao = event_target.textContent.replace(/[\s|]/g, "");
-  console.log(theSelectedColecao);
-  console.log(currentSelectedColecao);
   let old_list_DOM = document.getElementById(currentSelectedColecao + "_list");
   let list_DOM = document.getElementById(theSelectedColecao + "_list");
 
@@ -431,7 +427,7 @@ function initialize_colecoesItems() {
 
 function initialize_artesItems() {
   let items_DOM = document.getElementById("artes-type");
-  let artesItems = ["ANDRE DANIEL", "0.0"];
+  let artesItems = ["emc2", "0.0"];
 
   artesItems.forEach(item => {
     let listItem = document.createElement("li");
@@ -457,6 +453,21 @@ function initialize_clothingItems() {
   });
 }
 
+
+var theSelectedArte = "";
+var currentSelectedArte = "";
+function handleArteTypeSelected(event_target) {
+  theSelectedArte = event_target.textContent.replace(/[\s|]/g, "");
+  let theSelectedArte_DOM = document.getElementById(theSelectedArte + "_list");
+  let currentSelectedArte_DOM = document.getElementById(currentSelectedArte + "_list");
+
+  console.log(currentSelectedArte);
+  if(currentSelectedArte_DOM) {
+    currentSelectedArte_DOM.style.display = "none";
+  }
+  theSelectedArte_DOM.style.display = "flex";
+  currentSelectedArte = theSelectedArte;
+}
 
 
 // Function to handle the selection (you can replace this with your desired logic)
