@@ -288,16 +288,18 @@ function initialize_arte(name) {
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/arte/${name}/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            listItem.innerHTML = `<a class="mx-2" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."></a>`;
             break;
             case "img2":
-              listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/arte/${name}/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+              listItem.innerHTML = `<a class="mx-2" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."></a>`;
               break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part) => {
               listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
             });
+            const buttonHtml = `<button id="encomendarButaoB" onclick="adicionarCarrinho()" class="mt-5">Encomendar</button>`;
+            listItem.innerHTML += buttonHtml;
             break;
           default:
             // code block
