@@ -11895,7 +11895,7 @@ ul.clickable-list {
 ul.clickable-list li {
   /* Your existing styles for the li elements */
   display: inline-block;
-  padding: 10px 20px;
+  /*padding: 10px 20px;*/
   /*background-image: url("../assets/img/butao.png");*/
   background-size: 100% 100%;
   background-repeat: no-repeat;
