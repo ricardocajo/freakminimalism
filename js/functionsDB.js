@@ -291,7 +291,7 @@ function initialize_arte(name) {
             listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="...">`;
             break;
             case "video":
-              listItem.innerHTML = `<video class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="..."></video>`;
+              listItem.innerHTML = `<video width="520" height="300" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/arte/${name}/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;
               break;
           case "desc":
             let parts = data[key].split(';');
