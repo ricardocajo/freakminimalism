@@ -253,11 +253,11 @@ function initialize_colecao(name) {
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."></a>`;
             break;
-            case "img2":
-              listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 11px;">Adicionar ao carrinho</p></a>`;
-              break;
+          case "img2":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 19px;">Adicionar ao carrinho</p></a>`;
+            break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part) => {
@@ -415,7 +415,7 @@ function handleColecoesTypeSelected(event_target) {
 
 function initialize_colecoesItems() {
   let items_DOM = document.getElementById("colecoes-type");
-  let colecoesItems = ["ONE PIECE", "FREAK", "MINIMALISM", "L3G3NDCHILL"];
+  let colecoesItems = ["FREAK", "MINIMALISM", "L3G3NDCHILL", "ONE PIECE"];
 
   colecoesItems.forEach(item => {
     let listItem = document.createElement("li");

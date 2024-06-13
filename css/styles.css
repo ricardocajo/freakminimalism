@@ -2149,6 +2149,18 @@ progress {
   -webkit-overflow-scrolling: touch;
 }
 
+#colecoes-type {
+  display: grid;
+  grid-template-columns: repeat(3, 2fr);
+}
+
+@media (max-width: 600px) {
+  #colecoes-type {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 575.98px) {
   .table-responsive-sm {
     overflow-x: auto;
@@ -11904,6 +11916,7 @@ ul.clickable-list li {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  margin: 0 0 40px 0;
 }
 
 @media (min-width: 768px) { /* Adjust the breakpoint as needed */
