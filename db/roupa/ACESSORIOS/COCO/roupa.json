@@ -2,9 +2,9 @@
     [
         {
 
-            "colors":["3M", "00"],
+            "colors":["3M", "00","3M1"],
             "desc": "Artesanato Exclusivo em Coco",
-            "sizes": ["1", "2"],
+            "sizes": ["XS", "S"],
             "marcas": ["fm"]
         }
     ]
