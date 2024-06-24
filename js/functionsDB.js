@@ -429,7 +429,7 @@ function initialize_colecoesItems() {
 
 function initialize_artesItems() {
   let items_DOM = document.getElementById("artes-type");
-  let artesItems = ["emc2", "GIЯLS"];
+  let artesItems = ["emc2", "GIЯLS", "Alquimia", "Memoria"];
 
   artesItems.forEach(item => {
     let listItem = document.createElement("li");
