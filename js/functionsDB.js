@@ -612,7 +612,14 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
 
         desc_DOM.innerHTML = data.types[0].desc;
 
-        tamanhos_image_DOM.src = data.types[0]["sizes-image"];
+        console.log(data.types[0]["sizes-image"]);
+        if (data.types[0]["sizes-image"]) {
+          tamanhos_image_DOM.src = data.types[0]["sizes-image"];
+          tamanhos_image_DOM.style.display = 'flex';
+        } else {
+          tamanhos_image_DOM.style.display = 'none';
+        }
+
 
         // Now, initiate the second fetch with the updated theSelectedColor value
         fetch(ABSOLUTE_PATH + "/db/roupa/" + theSelectedType + "/" + theSelectedSubType + "/" + theSelectedColor + ".png")
