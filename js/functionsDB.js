@@ -290,9 +290,12 @@ function initialize_arte(name) {
           case "img":
             listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="...">`;
             break;
-            case "video":
-              listItem.innerHTML = `<video width="520" height="300" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/arte/${name}/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;
+            case "img2":
+              listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/arte/${name}/${data[key]} alt="...">`;
               break;
+          case "video":
+            listItem.innerHTML = `<video width="520" height="300" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/arte/${name}/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;
+            break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part) => {
@@ -429,7 +432,7 @@ function initialize_colecoesItems() {
 
 function initialize_artesItems() {
   let items_DOM = document.getElementById("artes-type");
-  let artesItems = ["emc2", "GIЯLS", "Alquimia", "Memoria"];
+  let artesItems = ["emc2", "GIЯLS", "Memoria", "Alquimia"];
 
   artesItems.forEach(item => {
     let listItem = document.createElement("li");
