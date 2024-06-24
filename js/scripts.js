@@ -84,7 +84,7 @@ document.addEventListener('click', function (event) {
   }
 });
 
-/*function adicionarCarrinho() {
+function adicionarCarrinho() {
   var productName = "Product Name"; // Example: Get the product name from your HTML or JavaScript
   var productPrice = "$10.00"; // Example: Get the product price from your HTML or JavaScript
 
@@ -112,9 +112,9 @@ document.addEventListener('click', function (event) {
     var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
     window.open(whatsappUrl, '_blank');
   }
-}*/
+}
 
-function adicionarCarrinho() {
+/*function adicionarCarrinho() {
 
   var message = "Documento: ";
 
@@ -139,7 +139,7 @@ function adicionarCarrinho() {
     // Open WhatsApp in a new tab with the dynamic message pre-filled
     window.open(whatsappUrl, '_blank');
   });
-}
+}*/
 
 document.addEventListener("DOMContentLoaded", function() {
   // Your other JavaScript code here

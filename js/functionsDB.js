@@ -298,8 +298,13 @@ function initialize_arte(name) {
             break;
           case "desc":
             let parts = data[key].split(';');
-            parts.forEach((part) => {
-              listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
+            parts.forEach((part, index) => {
+              if (index === 0) {
+                listItem.innerHTML = listItem.innerHTML + `<p style="font-size: 1.8em; font-weight: bold;"">${part}</p>`;
+              } else {
+                // Regular case for other items
+                listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
+              }
             });
             const buttonHtml = `<button id="encomendarButaoB" onclick="adicionarCarrinho()" class="mt-5">Encomendar</button>`;
             listItem.innerHTML += buttonHtml;
