@@ -84,12 +84,16 @@ document.addEventListener('click', function (event) {
   }
 });
 
-function adicionarCarrinho() {
-  var productName = "Product Name"; // Example: Get the product name from your HTML or JavaScript
-  var productPrice = "$10.00"; // Example: Get the product price from your HTML or JavaScript
+function adicionarCarrinhoArte() {
 
-  var encodedProductName = encodeURIComponent(productName);
-  var encodedProductPrice = encodeURIComponent(productPrice);
+  var message = "Quero encomendar o produto " + currentSelectedArte;
+
+  var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
+  window.open(whatsappUrl, '_blank');
+
+}
+
+function adicionarCarrinho() {
 
   var message = "Quero encomendar o produto " + current_image + " com o design ";
 
@@ -115,31 +119,70 @@ function adicionarCarrinho() {
 }
 
 /*function adicionarCarrinho() {
+  var message = "Encomenda: ";
 
-  var message = "Documento: ";
+  generatePDF().then(async blob => {
+      try {
+          const imageDataUrl = await pdfToImage(blob);
 
-  // Create a new PDF document
-  const doc = new jsPDF();
+          // Upload image to Imgur
+          uploadToImgur(imageDataUrl.split(',')[1], function(imgurLink) {
+              message += imgurLink + ".";
+              
+              // Construct the WhatsApp API URL with the dynamic message
+              var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
 
-  // Add content to the PDF
-  doc.text('Product Name: Lorem Ipsum', 10, 10);
-  doc.text('Price: $99', 10, 20);
-  // Add more information as needed
-
-  // Save the PDF as a data URI
-  //const pdfDataUri = doc.output('datauristring');
-
-  uploadToImgur(doc, function(imgurLink) {
-    message += imgurLink + ".";
-    console.log(imgurLink);
-    
-    // Construct the WhatsApp API URL with the dynamic message
-    var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
-
-    // Open WhatsApp in a new tab with the dynamic message pre-filled
-    window.open(whatsappUrl, '_blank');
+              // Open WhatsApp in a new tab with the dynamic message pre-filled
+              window.open(whatsappUrl, '_blank');
+          });
+      } catch (error) {
+          console.error('Error processing PDF:', error);
+      }
+  }).catch(error => {
+      console.error('Error generating PDF:', error);
   });
 }*/
+
+async function generatePDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Assuming you have the variables ready
+  const title = "Sample PDF Title";
+  const content = "This is the content of the PDF, which can include multiple lines, images, and other elements.";
+
+  // Add title
+  doc.setFontSize(20);
+  doc.text(title, 10, 20);
+
+  // Add content
+  doc.setFontSize(12);
+  doc.text(content, 10, 30);
+
+  // Add more content as needed
+  // Example: Add a second page with more text
+  doc.addPage();
+  doc.text("This is the second page of the PDF.", 10, 10);
+
+  // Return the PDF as a Blob directly without saving
+  const blob = doc.output('blob');
+  return blob;
+}
+
+async function pdfToImage(pdfBlob) {
+  const pdf = await pdfjsLib.getDocument({ data: await pdfBlob.arrayBuffer() }).promise;
+  const page = await pdf.getPage(1);
+  const viewport = page.getViewport({ scale: 1 });
+
+  // Create a canvas element to render the PDF page
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+
+  await page.render({ canvasContext: context, viewport: viewport }).promise;
+  return canvas.toDataURL('image/png');
+}
 
 document.addEventListener("DOMContentLoaded", function() {
   // Your other JavaScript code here
@@ -176,7 +219,6 @@ function orcamentoCarrinho() {
     // Upload image to Imgur
     uploadToImgur(currentSelectedPatchImg, function(imgurLink) {
       message += imgurLink + ".";
-      console.log(imgurLink);
       
       // Construct the WhatsApp API URL with the dynamic message
       var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
@@ -201,30 +243,27 @@ function comprar() {
     window.open(whatsappUrl, '_blank');
 }
 
-// Function to upload image to Imgur
 function uploadToImgur(file, callback) {
   var formData = new FormData();
   formData.append("image", file);
 
   fetch("https://api.imgur.com/3/image", {
-    method: "POST",
-    headers: {
-      Authorization: "Client-ID a9b0b8d260589be" // Replace YOUR_CLIENT_ID with your actual Imgur client ID
-    },
-    body: formData
+      method: "POST",
+      headers: {
+          Authorization: "Client-ID a9b0b8d260589be" // Replace YOUR_CLIENT_ID with your actual Imgur client ID
+      },
+      body: formData
   })
   .then(response => response.json())
   .then(data => {
-    if (data.success) {
-      callback(data.data.link);
-    } else {
-      console.error("Failed to upload image to Imgur");
-    }
+      if (data.success) {
+          callback(data.data.link);
+      } else {
+          console.error("Failed to upload image to Imgur");
+      }
   })
   .catch(error => console.error("Error uploading image to Imgur:", error));
 }
-
-
 
 var designSection = document.getElementById('selectDesign');
 function selecionarDesign() {
