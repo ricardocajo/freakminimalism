@@ -1,6 +1,5 @@
 let ABSOLUTE_PATH = "https://freak-minimalism.com"
 
-
 function set_marcas(marcas) {
   let marcas_DOM = document.getElementById("roupa-banners");
 
@@ -306,7 +305,7 @@ function initialize_arte(name) {
                 listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
               }
             });
-            const buttonHtml = `<button id="encomendarButaoB" onclick="adicionarCarrinho()" class="mt-5">Encomendar</button>`;
+            const buttonHtml = `<button id="encomendarButaoB" onclick="adicionarCarrinhoArte()" class="mt-5">Encomendar</button>`;
             listItem.innerHTML += buttonHtml;
             break;
           default:
@@ -471,7 +470,6 @@ function handleArteTypeSelected(event_target) {
   let theSelectedArte_DOM = document.getElementById(theSelectedArte + "_list");
   let currentSelectedArte_DOM = document.getElementById(currentSelectedArte + "_list");
 
-  console.log(currentSelectedArte);
   if(currentSelectedArte_DOM) {
     currentSelectedArte_DOM.style.display = "none";
   }
@@ -620,7 +618,6 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
 
         desc_DOM.innerHTML = data.types[0].desc;
 
-        console.log(data.types[0]["sizes-image"]);
         if (data.types[0]["sizes-image"]) {
           tamanhos_image_DOM.src = data.types[0]["sizes-image"];
           tamanhos_image_DOM.style.display = 'flex';
