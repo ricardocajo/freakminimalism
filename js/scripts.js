@@ -93,7 +93,7 @@ function adicionarCarrinhoArte() {
 
 }
 
-function adicionarCarrinho() {
+/*function adicionarCarrinho() {
 
   var message = "Quero encomendar o produto " + current_image + " com o design ";
 
@@ -116,9 +116,9 @@ function adicionarCarrinho() {
     var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
     window.open(whatsappUrl, '_blank');
   }
-}
+}*/
 
-/*function adicionarCarrinho() {
+function adicionarCarrinho() {
   var message = "Encomenda: ";
 
   generatePDF().then(async blob => {
@@ -141,15 +141,16 @@ function adicionarCarrinho() {
   }).catch(error => {
       console.error('Error generating PDF:', error);
   });
-}*/
+}
 
 async function generatePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
   // Assuming you have the variables ready
-  const title = "Sample PDF Title";
-  const content = "This is the content of the PDF, which can include multiple lines, images, and other elements.";
+  const title = "ғʀᴇᴀᴋ ̶M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ ̶̶ ⌬";
+  //const content = "This is the content of the PDF, which can include multiple lines, images, and other elements.";
+  const content = current_image + currentSelectedDesignImg
 
   // Add title
   doc.setFontSize(20);
@@ -161,8 +162,8 @@ async function generatePDF() {
 
   // Add more content as needed
   // Example: Add a second page with more text
-  doc.addPage();
-  doc.text("This is the second page of the PDF.", 10, 10);
+  //doc.addPage();
+ // doc.text("This is the second page of the PDF.", 10, 10);
 
   // Return the PDF as a Blob directly without saving
   const blob = doc.output('blob');
