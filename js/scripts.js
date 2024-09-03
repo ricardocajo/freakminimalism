@@ -74,6 +74,7 @@ function togglePopup() {
   if (popupOpened) {
     closePopup();
   } else {
+    populateCarrinhoList();
     openPopup();
   }
 }
@@ -83,6 +84,33 @@ document.addEventListener('click', function (event) {
     closePopup();
   }
 });
+
+// Function to populate the UL with LI elements
+async function populateList() {
+  // Get the UL element by its ID
+  const ulElement = document.getElementById('carrinhoLista');
+
+  try {
+      // Fetch data (this could be an API call)
+      //const data = await fetchData();
+
+      // Clear the UL in case there's any existing content
+      ulElement.innerHTML = '';
+
+      // Loop through the data and create LI elements
+      data.forEach(item => {
+          // Create an LI element
+          const liElement = document.createElement('li');
+          liElement.textContent = item;
+
+          // Append the LI to the UL
+          ulElement.appendChild(liElement);
+      });
+
+  } catch (error) {
+      console.error('Error fetching data:', error);
+  }
+}
 
 function adicionarCarrinhoArte() {
 
@@ -94,6 +122,12 @@ function adicionarCarrinhoArte() {
 }
 
 /*function adicionarCarrinho() {
+
+  theSelectedSizes.push(currentSelectedSize);
+
+}*/
+
+function adicionarCarrinho() {
 
   var message = "Quero encomendar o produto " + current_image + " com o design ";
 
@@ -116,9 +150,9 @@ function adicionarCarrinhoArte() {
     var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
     window.open(whatsappUrl, '_blank');
   }
-}*/
+}
 
-function adicionarCarrinho() {
+/*function adicionarCarrinho() {
   var message = "Encomenda: ";
 
   generatePDF().then(async blob => {
@@ -141,14 +175,14 @@ function adicionarCarrinho() {
   }).catch(error => {
       console.error('Error generating PDF:', error);
   });
-}
+}*/
 
 async function generatePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
   // Assuming you have the variables ready
-  const title = "ғʀᴇᴀᴋ ̶M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ ̶̶ ⌬";
+  const title = "Freak Minimalism";
   //const content = "This is the content of the PDF, which can include multiple lines, images, and other elements.";
   const content = current_image + currentSelectedDesignImg
 

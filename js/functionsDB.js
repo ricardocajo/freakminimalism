@@ -255,7 +255,7 @@ function initialize_colecao(name) {
             listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."></a>`;
             break;
           case "img2":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><p style="font-size: 19px;">Adicionar ao carrinho</p></a>`;
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
             break;
           case "desc":
             let parts = data[key].split(';');

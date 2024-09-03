@@ -11817,6 +11817,17 @@ background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5)
     height: 100%;
     grid-template-columns: repeat(3, 1fr); /* Add this line to create 3 columns */
     grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
+    justify-content: center; /* Centers the whole grid horizontally */
+    justify-items: center; /* Centers each item in its grid cell horizontally */
+}
+
+.colsimg {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(2, 1fr); /* Add this line to create 3 columns */
+  grid-gap: 1.5rem; /* Adjust the gap between columns as needed */
+  justify-content: center; /* Centers the whole grid horizontally */
+  justify-items: center; /* Centers each item in its grid cell horizontally */
 }
 
 .merchimg {
