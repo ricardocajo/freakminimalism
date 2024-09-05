@@ -361,12 +361,40 @@
     <!-- Pop-up container -->
     <div id="popup-container" class="popup">
       <div class="popup-content">
-          <span class="close" onclick="closePopup()">&times;</span>
+        <span class="close" onclick="closePopup()">&times;</span>
+        <br>
+        <ul id="carrinhoLista"></ul>
+        <p id="precoFinal"></p>
+        
+        <!-- Start of the Form -->
+        <form id="orderForm" action="https://formsubmit.co/freakminimalism@gmail.com" method="POST">
+          <div>
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div>
+            <label for="contact">Contacto:</label>
+            <input type="text" id="contact" name="contact" required>
+          </div>
+          <div>
+            <label for="address">Morada:</label>
+            <input type="text" id="address" name="address">
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+          </div>
           <br>
-          BREVEMENTE
-          <ul id="carrinhoLista"></ul>
+          <div>
+            <button type="submit">Encomendar</button>
+          </div>
+        </form>
+        <!-- End of the Form -->
       </div>
     </div>
+    
+    
+    
 
     <!-- Button to trigger the pop-up -->
     <div id="popup-button" class="b_popup">

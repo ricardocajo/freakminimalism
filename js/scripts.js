@@ -85,23 +85,23 @@ document.addEventListener('click', function (event) {
   }
 });
 
+let carrinhoItems = [];
 // Function to populate the UL with LI elements
-async function populateList() {
+async function populateCarrinhoList() {
   // Get the UL element by its ID
   const ulElement = document.getElementById('carrinhoLista');
 
   try {
-      // Fetch data (this could be an API call)
-      //const data = await fetchData();
-
       // Clear the UL in case there's any existing content
       ulElement.innerHTML = '';
 
       // Loop through the data and create LI elements
-      data.forEach(item => {
+      carrinhoItems.forEach(item => {
           // Create an LI element
           const liElement = document.createElement('li');
-          liElement.textContent = item;
+          
+          // Set the innerHTML to the item so that it renders HTML correctly
+          liElement.innerHTML = item;
 
           // Append the LI to the UL
           ulElement.appendChild(liElement);
@@ -121,13 +121,147 @@ function adicionarCarrinhoArte() {
 
 }
 
-/*function adicionarCarrinho() {
-
-  theSelectedSizes.push(currentSelectedSize);
-
-}*/
-
+var isOurDesign;
+var totalPrice = 0;
 function adicionarCarrinho() {
+  let precoFinal_DOM = document.getElementById("precoFinal");
+
+  // Create a container for the cart item
+  const itemContainer = document.createElement('div');
+  itemContainer.style.display = 'flex'; // Flexbox layout to align image and text in one row
+  itemContainer.style.alignItems = 'center'; // Vertically center the items
+
+  // Clone the currentSelectedArtigo (which is a <div> with two images)
+  if (currentSeletedArtigo) {
+    const clonedArtigo = currentSeletedArtigo.cloneNode(true);
+
+    // Resize the container of the images to keep them smaller
+    clonedArtigo.style.width = '45px'; // Set a smaller width for the container
+    clonedArtigo.style.height = 'auto'; // Adjust the height automatically
+
+    // Find the images within the cloned element and resize them
+    const images = clonedArtigo.getElementsByTagName('img');
+    for (let img of images) {
+      img.style.width = '100%'; // Scale the image to fit the container's new width
+      img.style.height = 'auto'; // Maintain the aspect ratio
+
+      // Ensure the second image keeps its relative position
+      if (img.id === 'clothing-image2') {
+        img.style.top = '0'; // Align with the first image
+        img.style.transform = 'translate(-50%, 0)'; // Align the image vertically
+        img.style.display = 'block'; // Ensure it's visible
+      }
+    }
+
+    itemContainer.appendChild(clonedArtigo); // Append the modified artigo
+  }
+
+  // Check if the design image is a file or a preset design
+  if (currentSelectedDesignImg instanceof File) {
+    isOurDesign = false;
+  } else {
+    isOurDesign = true;
+  }
+
+  const price = calculatePrice(currentSelectedType, currentSelectedSubType, isOurDesign);
+  totalPrice += price;
+  precoFinal_DOM.innerHTML = "Preco Final: " + totalPrice + "€";
+  
+  // Create a paragraph element for the size and details
+  const sizeElement = document.createElement('p');
+  sizeElement.textContent = `${currentSelectedType} ${currentSelectedSubType} (${currentSelectedSize}) ......... ${price}€`;
+
+  // Style the text to appear next to the image, all in one line
+  sizeElement.style.fontSize = '12px'; // Make the text smaller
+  sizeElement.style.marginLeft = '10px'; // Add spacing between the image and text
+  sizeElement.style.flex = '1'; // Ensure text stretches and stays on the same line
+  sizeElement.style.whiteSpace = 'nowrap'; // Prevent text from wrapping to the next line
+
+  itemContainer.appendChild(sizeElement);
+
+  // Convert the container's HTML to a string and add it to the cart items array
+  carrinhoItems.push(itemContainer.innerHTML);
+}
+
+function calculatePrice(_currentSelectedType, _currentSelectedSubType, _isOurDesign) {
+
+  const priceMap = {
+    'KING': {
+      'T-SHIRT': { price: 17 },
+      'ZIPP': { price: 42 },
+      'POLO': { price: 18 },
+      'HOOD': { price: 37 },
+      'SWEAT': { price: 34 },
+      'CAVAS': { price: 17 },
+      'BASE-BALL': { price: 17 },
+    },
+    'QUEEN': {
+      'T-SHIRT': { price: 17 },
+      'ZIPP': { price: 42 },
+      'POLO': { price: 18 },
+      'HOOD': { price: 37 },
+      'SWEAT': { price: 34 },
+    },
+    'KID': {
+      'T-SHIRT': { price: 14 },
+      'ZIPP': { price: 37 },
+      'HOOD': { price: 28 },
+      'PANAMA': { price: 16 },
+      'FRASER': { price: 16 },
+      'SNAPBACK': { price: 16 },
+    },
+  };
+
+  // If it's not our design, return the special message
+  if (!_isOurDesign) {
+    return 'Em observação';
+  }
+
+  // Find the price from the map based on type and subtype
+  const typePrices = priceMap[_currentSelectedType]?.[_currentSelectedSubType];
+
+  // Return the price if found, otherwise return 'Erro'
+  return typePrices ? typePrices['price'] : 'Erro'; 
+}
+
+function submitToGoogleForm() {
+  // Get form data
+  var name = document.getElementById('name').value;
+  var contact = document.getElementById('contact').value;
+  var address = document.getElementById('address').value;
+  var email = document.getElementById('email').value;
+
+  // Google Form URL
+  var googleFormUrl = 'https://docs.google.com/forms/d/e/your-form-id/formResponse';
+
+  // Create a new FormData object
+  var formData = new FormData();
+  formData.append('entry.1234567890', name); // Replace 'entry.1234567890' with your field ID
+  formData.append('entry.0987654321', contact); // Replace 'entry.0987654321' with your field ID
+  formData.append('entry.1122334455', address); // Replace 'entry.1122334455' with your field ID
+  formData.append('entry.2233445566', email); // Replace 'entry.2233445566' with your field ID
+
+  // Submit the form data to Google Forms
+  fetch(googleFormUrl, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Form submitted successfully!');
+      // Optionally, you can clear the form fields here
+      document.getElementById('orderForm').reset();
+    } else {
+      alert('Form submission failed!');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred while submitting the form.');
+  });
+}
+
+/*function adicionarCarrinho() {
 
   var message = "Quero encomendar o produto " + current_image + " com o design ";
 
@@ -150,7 +284,7 @@ function adicionarCarrinho() {
     var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
     window.open(whatsappUrl, '_blank');
   }
-}
+}*/
 
 /*function adicionarCarrinho() {
   var message = "Encomenda: ";
