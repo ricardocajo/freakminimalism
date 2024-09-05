@@ -11636,6 +11636,14 @@ body {
     font-size: 1.25rem;
   }
 }
+@media (max-width: 991px) {
+  .masthead {
+    background-position: center;
+    background-size: contain; /* or 'cover' based on your preference */
+    min-height: 25rem;
+    padding: 10rem 0;
+  }
+}
 
 .about-section {
   /*padding-top: 10rem;*/
