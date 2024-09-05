@@ -46,6 +46,7 @@ function set_sizes(sizes) {
 }
 
 
+var theSelectedSize = "";
 var currentSelectedSize = "";
 function handleSizeSelected(event_target) {
   let sizes_DOM = document.getElementById("tamanhos").querySelectorAll("li");
@@ -58,7 +59,8 @@ function handleSizeSelected(event_target) {
   });
   event_target.classList.add("active");
 
-  currentSelectedSize = event_target.textContent;
+  theSelectedSize = event_target.textContent;
+  currentSelectedSize = theSelectedSize;
 
   startDesignRotation(); // TODO what happens if size button is clicked again
 }
