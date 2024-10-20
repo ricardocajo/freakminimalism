@@ -12244,3 +12244,10 @@ video {
   border: 1px solid #ccc; /* Light gray border */
   cursor: not-allowed; /* Change cursor to indicate disabled state */
 }
+
+.media-fit {
+  width: 100%; /* Adjust based on the parent container's width */
+  max-width: 520px; /* You can set a maximum width if needed */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensures the content fits well within the defined dimensions */
+}
