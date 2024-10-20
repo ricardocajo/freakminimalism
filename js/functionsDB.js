@@ -260,6 +260,12 @@ function initialize_colecao(name) {
           case "img3":
             listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
             break;
+          case "img4":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            break;
+          case "img5":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part) => {
