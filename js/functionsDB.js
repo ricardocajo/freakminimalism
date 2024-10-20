@@ -266,6 +266,9 @@ function initialize_colecao(name) {
           case "img5":
             listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
             break;
+          case "video":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><video width="520" height="300" autoplay="" loop="" muted="" loading="lazy"><source src=${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]} type="video/mp4">Your browser does not support the video tag.</video><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part) => {
