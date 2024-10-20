@@ -2150,13 +2150,13 @@ progress {
 }
 
 #colecoes-type {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(3, 2fr);
 }
 
 @media (max-width: 600px) {
   #colecoes-type {
-      display: grid;
+      display: flex;
       grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -11925,22 +11925,25 @@ background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5)
 }
 
 ul.clickable-list {
-  justify-content: center;
+  display: flex; /* Use Flexbox to center the list items */
+  justify-content: center; /* Center the list items horizontally */
+  flex-wrap: wrap; /* Allow items to wrap onto multiple lines if necessary */
+  padding: 0;
+  margin: 0;
+  list-style-type: none; /* Remove bullets */
 }
 
+/* Styling the list items */
 ul.clickable-list li {
-  /* Your existing styles for the li elements */
-  display: inline-block;
-  /*padding: 10px 20px;*/
-  /*background-image: url("../assets/img/butao.png");*/
+  display: inline-block; /* Keeps the list items inline */
   background-size: 100% 100%;
   background-repeat: no-repeat;
   color: white;
-  font-size: 15px; /* Adjust the font size as needed */
+  font-size: 15px; /* Adjust font size */
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  margin: 0 0 40px 0;
+  margin: 0 10px 40px 10px; /* Adjust margin for proper spacing */
 }
 
 @media (min-width: 768px) { /* Adjust the breakpoint as needed */
@@ -11951,6 +11954,39 @@ ul.clickable-list li {
 
 ul.clickable-list li:hover,
 ul.clickable-list li.active {
+  background-color: #006666;
+}
+
+ul.clickable-list2 {
+  display: flex; /* Use Flexbox to center the list items */
+  justify-content: center; /* Center the list items horizontally */
+  flex-wrap: wrap; /* Allow items to wrap onto multiple lines if necessary */
+  padding: 0;
+  margin: 0;
+  list-style-type: none; /* Remove bullets */
+}
+
+/* Styling the list items */
+ul.clickable-list2 li {
+  display: inline-block; /* Keeps the list items inline */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  color: white;
+  font-size: 15px; /* Adjust font size */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0 10px 40px 10px; /* Adjust margin for proper spacing */
+}
+
+@media (min-width: 768px) { /* Adjust the breakpoint as needed */
+  ul.clickable-list2 li {
+    width: 45%; /* On larger screens, set the width to 20% for five columns */
+  }
+}
+
+ul.clickable-list2 li:hover,
+ul.clickable-list2 li.active {
   background-color: #006666;
 }
 
