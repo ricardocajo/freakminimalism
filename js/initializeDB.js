@@ -2,6 +2,7 @@ initialize_prices();
 initialize_clothingItems();
 initialize_colecoesItems();
 initialize_artesItems();
+initialize_tresd();
 initialize_designs();
 initialize_patch();
 
@@ -76,6 +77,13 @@ const arteElementTypes = document.getElementById("artes-type");
 arteElementTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
     handleArteTypeSelected(event.target);
+  }
+});
+
+const tresdElementTypes = document.getElementById("tresd");
+tresdElementTypes.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    handletresdSelected(event.target);
   }
 });
 

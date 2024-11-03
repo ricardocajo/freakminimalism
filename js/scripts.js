@@ -121,6 +121,15 @@ function adicionarCarrinhoArte() {
 
 }
 
+function adicionarCarrinhotresd() {
+
+  var message = "Quero encomendar o produto " + currentSelectedtresd;
+
+  var whatsappUrl = "https://api.whatsapp.com/send?phone=351927771505&text=" + encodeURIComponent(message);
+  window.open(whatsappUrl, '_blank');
+
+}
+
 /*function adicionarCarrinho() {
 
   theSelectedSizes.push(currentSelectedSize);
