@@ -287,50 +287,6 @@ function initialize_colecao(name) {
     });
 }
 
-function initialize_tresd(name) {
-  name = name.replace(/[\s|]/g, "");
-  let tresd_DOM = document.getElementById(name + "_list");
-  fetch(ABSOLUTE_PATH + "/db/tresd/"+ name + "/works.json")
-    .then(response => response.json())
-    .then(data => {
-      Object.keys(data).forEach(key => {
-        let listItem = document.createElement("li");
-        listItem.classList.add("column-item");
-        switch(key) {
-          case "img":
-            listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/tresd/${name}/${data[key]} alt="...">`;
-            break;
-            case "img2":
-              listItem.innerHTML = `<img class="workscenter-fit" src=${ABSOLUTE_PATH}/db/tresd/${name}/${data[key]} alt="...">`;
-              break;
-          case "video":
-            listItem.innerHTML = `<video width="520" height="300" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/tresd/${name}/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;
-            break;
-          case "desc":
-            let parts = data[key].split(';');
-            parts.forEach((part, index) => {
-              if (index === 0) {
-                listItem.innerHTML = listItem.innerHTML + `<p style="font-size: 1.8em; font-weight: bold;"">${part}</p>`;
-              } else {
-                // Regular case for other items
-                listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
-              }
-            });
-            const buttonHtml = `<button id="encomendarButaoB" onclick="adicionarCarrinhotresd()" class="mt-5">Encomendar</button>`;
-            listItem.innerHTML += buttonHtml;
-            break;
-          default:
-            // code block
-        }
-        tresd_DOM.appendChild(listItem);
-      });
-    })
-    .catch(error => {
-      //works_index = 0;
-      console.error('Error:', error);
-    });
-}
-
 
 function initialize_arte(name) {
   name = name.replace(/[\s|]/g, "");
@@ -504,20 +460,6 @@ function initialize_artesItems() {
   });
 }
 
-function initialize_tresdItems() {
-  let items_DOM = document.getElementById("artes-type");
-  let tresdItems = ["emc2", "GIЯLS", "Memoria", "Alquimia"];
-
-  tresdItems.forEach(item => {
-    let listItem = document.createElement("li");
-    listItem.value = item;
-    listItem.className = "col-md-4";
-    listItem.innerHTML = item;
-    items_DOM.appendChild(listItem);
-    initialize_tresd(item);
-  });
-}
-
 /* Fetches available prices data to add it to the clothing section */
 function initialize_clothingItems() {
   let items_DOM = document.getElementById("clothing-type");
@@ -547,20 +489,6 @@ function handleArteTypeSelected(event_target) {
   currentSelectedArte = theSelectedArte;
 }
 
-
-var theSelectedtresd = "";
-var currentSelectedtresd = "";
-function handletresdTypeSelected(event_target) {
-  theSelectedtresd = event_target.textContent.replace(/[\s|]/g, "");
-  let theSelectedtresd_DOM = document.getElementById(theSelectedtresd + "_list");
-  let currentSelectedtresd_DOM = document.getElementById(currentSelectedtresd + "_list");
-
-  if(currentSelectedtresd_DOM) {
-    currentSelectedtresd_DOM.style.display = "none";
-  }
-  theSelectedtresd_DOM.style.display = "flex";
-  currentSelectedtresd = theSelectedtresd;
-}
 
 // Function to handle the selection (you can replace this with your desired logic)
 var theSelectedType = "";
