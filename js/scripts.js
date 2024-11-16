@@ -326,84 +326,121 @@ document.addEventListener("DOMContentLoaded", function() {
   button.onclick = adicionarCarrinho;
 });
 
-async function generatePDF() {
-  console.log("Generating PDF...");
+var fatura; // This will store the generated PDF
 
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  async function PDF() {
+    console.log("Generating PDF...");
 
-  // Title and styling
-  const title = "Freak Minimalism - Fatura";
-  const columnHeaders = ["Artigo", "Tamanho", "Preço"];
-  const startY = 30; // Starting Y position for the table
-  let currentY = startY;
-  let totalPrice = 0; // Initialize total price
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-  // Add Title
-  doc.setFontSize(20);
-  doc.text(title, 10, 20);
+    // Title and styling
+    const title = "Freak Minimalism - Fatura";
+    const columnHeaders = ["Artigo", "Tamanho", "Preço"];
+    const startY = 30; // Starting Y position for the table
+    let currentY = startY;
+    let totalPrice = 0; // Initialize total price
 
-  // Add column headers
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "bold");
-  let xPositions = [10, 90, 140]; // Adjusted X positions for the remaining columns
-  columnHeaders.forEach((header, index) => {
-    doc.text(header, xPositions[index], currentY);
-  });
-  currentY += 10; // Move down after headers
-  doc.setFont("helvetica", "normal");
+    // Get the cart items from the list
+    const carrinhoLista = document.getElementById("carrinhoLista");
+    const carrinhoItems = carrinhoLista.querySelectorAll("li");
 
-  // Get the cart items from the list
-  const carrinhoLista = document.getElementById("carrinhoLista");
-  const carrinhoItems = carrinhoLista.querySelectorAll("li");
+    // Create dynamic form fields
+    let dynamicFieldsHTML = '';
 
-  // Iterate through `carrinhoItems` and add them to the table
-  carrinhoItems.forEach((item) => {
-    const itemDiv = item.querySelector("div"); // Main div of the cart item
-    const sizeText = itemDiv.querySelector("span")?.textContent || "N/A"; // Extract size and type
+    // Add Title
+    doc.setFontSize(20);
+    doc.text(title, 10, 20);
+
+    // Add column headers
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    let xPositions = [10, 90, 140]; // Adjusted X positions for the remaining columns
+    columnHeaders.forEach((header, index) => {
+      doc.text(header, xPositions[index], currentY);
+    });
+    currentY += 10; // Move down after headers
+    doc.setFont("helvetica", "normal");
+
+    // Iterate through `carrinhoItems` and add them to the table
+    carrinhoItems.forEach((item, index) => {
+      console.log(item);
+      const itemDiv = item.querySelector("div"); // Main div of the cart item
+      const sizeText = itemDiv.querySelector("span")?.textContent || "N/A"; // Extract size and type
     
-    // Select the last span for the price
-    const priceText = itemDiv.querySelector("span:last-child")?.textContent || "0€"; // Extract price
+      // Select the last span that contains the price value
+      const priceSpan = itemDiv.querySelectorAll("span")[2]; // The price is in the 3rd span (index 2)
+      const priceText = priceSpan?.textContent || "0€"; // Extract price, default to "0€" if not found
+      console.log(priceText);  // Should log "17€"
 
-    console.log("Extracted Price Text:", priceText);
 
-    // Parse the price to a number (removing the "€" symbol and converting to float)
-    const price = parseFloat(priceText.replace('€', '').trim()) || 0;
-    totalPrice += price; // Add the price to the total
+      // Parse the price to a number (removing the "€" symbol and converting to float)
+      const price = parseFloat(priceText.replace('€', '').trim()) || 0;
+      totalPrice += price; // Add the price to the total
 
-    const rowData = [
-      sizeText.split("(")[0].trim(), // Type (e.g., "KING T-SHIRT")
-      sizeText.split("(")[1]?.replace(")", "").trim() || "N/A", // Size (e.g., "L")
-      `${price.toFixed(2)}€`, // Show price with currency symbol (fixed to 2 decimal points)
-    ];
+      // Add dynamic fields for each item in the form
+      dynamicFieldsHTML += `
+        <div>
+          <label for="item${index + 1}Size">Artigo ${index + 1} - Tamanho:</label>
+          <input type="text" id="item${index + 1}Size" name="item${index + 1}Size" value="${sizeText}" readonly>
+        </div>
+        <div>
+          <label for="item${index + 1}Price">Artigo ${index + 1} - Preço:</label>
+          <input type="text" id="item${index + 1}Price" name="item${index + 1}Price" value="${priceText}" readonly>
+        </div>
+        <div>
+          <label for="item${index + 1}Design">Design ${index + 1} - Design:</label>
+          <input type="text" id="item${index + 1}Design" name="item${index + 1}Design" value="${designFilename}" readonly>
+        </div>
+        <br>
+      `;
 
-    // Add each cell in the row
-    rowData.forEach((data, colIndex) => {
-      doc.text(data, xPositions[colIndex], currentY);
+      // Add each cell in the row for the PDF
+      const rowData = [
+        sizeText.split("(")[0].trim(), // Type (e.g., "KING T-SHIRT")
+        sizeText.split("(")[1]?.replace(")", "").trim() || "N/A", // Size (e.g., "L")
+        `${price.toFixed(2)}€`, // Show price with currency symbol (fixed to 2 decimal points)
+      ];
+
+      // Add each cell in the row
+      rowData.forEach((data, colIndex) => {
+        doc.text(data, xPositions[colIndex], currentY);
+      });
+
+      currentY += 10; // Move down for the next row
+
+      // Check if we need a new page
+      if (currentY > 270) {
+        doc.addPage();
+        currentY = startY;
+      }
     });
 
-    currentY += 10; // Move down for the next row
-
-    // Check if we need a new page
+    // Add total price at the bottom
+    currentY += 10;
     if (currentY > 270) {
       doc.addPage();
       currentY = startY;
     }
-  });
 
-  // Add total price at the bottom
-  currentY += 10;
-  if (currentY > 270) {
-    doc.addPage();
-    currentY = startY;
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Total: ${totalPrice.toFixed(2)}€`, 10, currentY); // Show total with 2 decimal points
+
+    // Store the generated PDF in the fatura variable
+    fatura = doc;
+
+    // Insert the dynamically created fields into the form
+    document.getElementById('dynamicFields').innerHTML = dynamicFieldsHTML;
   }
 
-  doc.setFontSize(14);
-  doc.setFont("helvetica", "bold");
-  doc.text(`Total: ${totalPrice.toFixed(2)}€`, 10, currentY); // Show total with 2 decimal points
-
-  // Trigger download
-  doc.save("FreakMinimalism_Fatura.pdf");
+  // Trigger PDF download when needed
+async function generatePDF() {
+  if (fatura) {
+    fatura.save("FreakMinimalism_Fatura.pdf");
+  } else {
+   console.error("No PDF generated yet.");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -500,40 +537,37 @@ function checkInput(input) {
 const orderForm = document.getElementById("orderForm");
 const confirmationMessage = document.getElementById("confirmationMessage");
 // Add event listener to the form
-document.getElementById("orderForm").addEventListener("submit", function(event) {
-  // Prevent form submission initially
+orderForm.addEventListener("submit", function(event) {
+  // Prevent the default form submission
   event.preventDefault();
 
-  // Validate form before proceeding with submission
-  if (!validateForm()) {
-    return; // If validation fails, stop the function here
-  }
+  // Generate the PDF before submitting the form
+  PDF().then(() => {
+    // After the PDF is generated, gather the form data
+    const formData = new FormData(orderForm);
 
-  // If validation passes, gather form data
-  const formData = new FormData(event.target);
-
-  // Send the data via Fetch API
-  fetch(event.target.action, {
-    method: "POST",
-    body: formData,
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      // Hide the form and show the confirmation message
-      event.target.style.display = "none";
-      document.getElementById("confirmationMessage").style.display = "block";
-
-      resetPageState();
-    } else {
-      alert("There was an issue with the submission. Please try again.");
-    }
-  })
-  .catch(error => {
-    console.error("Error:", error);
-    alert("There was an error submitting the form.");
+    // Send the form data via Fetch API
+    fetch(orderForm.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        // Hide the form and show the confirmation message
+        orderForm.style.display = "none";
+        document.getElementById("confirmationMessage").style.display = "block";
+        resetPageState();
+      } else {
+        alert("There was an issue with the submission. Please try again.");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("There was an error submitting the form.");
+    });
   });
 });
 

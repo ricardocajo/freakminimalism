@@ -94,6 +94,7 @@ var theSelectedDesign;
 var currentSelectedDesign = "";
 var currentSelectedDesignImg;
 var currentSelectedDesignImgFile;
+var designFilename;
 function handleDesignSelected(event_target) {
   let encomendar_DOM = document.getElementById("encomendarButao");
   let image_DOM = document.getElementById("clothing-image2");
@@ -112,6 +113,7 @@ function handleDesignSelected(event_target) {
 
   if (theSelectedDesign.nodeName === "IMG") {
     if (theSelectedDesign.id !== "firstDesign") {
+      designFilename = currentSelectedDesignImg.substring(currentSelectedDesignImg.lastIndexOf('/') + 1);
       fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
       .then(response => {
         if (!response.ok) {
@@ -448,7 +450,7 @@ function initialize_colecoesItems() {
 
 function initialize_artesItems() {
   let items_DOM = document.getElementById("artes-type");
-  let artesItems = ["emc2", "GIЯLS", "Memoria", "Alquimia"];
+  let artesItems = ["emc2", "GIЯLS"];
 
   artesItems.forEach(item => {
     let listItem = document.createElement("li");
