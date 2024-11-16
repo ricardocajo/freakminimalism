@@ -715,3 +715,19 @@ function handleClothingColorSelected(selectedValue) {
       console.error('Error:', error);
     });
 }
+
+function resetPageState() {
+  let counterCarrinho_DOM = document.getElementById("counterCarrinho");
+  // Reset the cart counter and price
+  totalPrice = 0;
+  counterCarrinho = 0;
+  counterCarrinho_DOM.style.display = 'none';
+  document.getElementById("counterCarrinho").innerHTML = counterCarrinho;
+
+  carrinhoItems = [];
+
+  // Reset the form fields
+  document.getElementById("orderForm").reset();
+
+  // Probably need to reset more stuff?
+}

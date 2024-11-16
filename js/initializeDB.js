@@ -25,6 +25,10 @@ document.addEventListener('change', function(event) {
   encomendar_DOM.style.display = "inline-block";
 });
 
+const listcarrinhoLista = document.getElementById("carrinhoLista");
+listcarrinhoLista.addEventListener("click", function(event) {
+  handleRemoveCarrinho(event.target);
+});
 
 const listTamanhos = document.getElementById("tamanhos");
 listTamanhos.addEventListener("click", function(event) {

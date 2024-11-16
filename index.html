@@ -236,7 +236,7 @@
 
             <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="encomendarButao" style="display: none;">
               <button id="encomendarButaoB" onclick="adicionarCarrinho()" class="mt-5">
-                Encomendar
+                Adicionar ao Carrinho
               </button>
             </div>
 
@@ -330,8 +330,6 @@
             
               <ul class="arteimg" id="emc2_list" style="display: none;"></ul>
               <ul class="arteimg" id="GIЯLS_list" style="display: none;"></ul>
-              <ul class="arteimg" id="Memoria_list" style="display: none;"></ul>
-              <ul class="arteimg" id="Alquimia_list" style="display: none;"></ul>
             </div>
           </div>
         </div>
@@ -359,24 +357,74 @@
     </section>    -->
        
 
-
     <!-- Pop-up container -->
     <div id="popup-container" class="popup">
       <div class="popup-content">
-          <span class="close" onclick="closePopup()">&times;</span>
+        <span class="close" onclick="closePopup()">&times;</span>
+        <br>
+        <ul id="carrinhoLista"></ul>
+        <p id="precoFinal"></p>
+        
+        <!-- Start of the Form -->
+        <form id="orderForm" action="https://formspree.io/f/mqazjdlw" method="POST">
+          <div>
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
           <br>
-          BREVEMENTE
-          <ul id="carrinhoLista"></ul>
+          <!-- Preferred Contact Method Checkbox (Optional) -->
+          <div>
+            <label for="preferredContact">Metodo de contacto preferido:</label>
+            <div>
+              <input type="checkbox" id="contactByWhatsApp" name="preferredContact" value="WhatsApp">
+              <label for="contactByWhatsApp">WhatsApp</label>
+            </div>
+            <div>
+              <input type="checkbox" id="contactByEmail" name="preferredContact" value="Email">
+              <label for="contactByEmail">Email</label>
+            </div>
+          </div>
+          <div>
+            <label for="contact">WhatsApp:</label>
+            <input type="text" id="contact" name="contact">
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+          </div>
+          <br>
+          <div>
+            <label for="address">Morada:</label>
+            <input type="text" id="address" name="address">
+          </div>
+          <br>
+          <div>
+            <button type="submit">Encomendar</button>
+          </div>
+        </form>        
+        <!-- End of the Form -->
+
+        <!-- This div will display the confirmation message -->
+        <div id="confirmationMessage" style="display:none; color: green; margin-top: 10px; font-size: 14px; line-height: 1.5; font-weight: bold;">
+          <br>Pedido efectuado!<br><br>
+          Brevemente sera contactado para confirmar a sua encomenda e recebera opcoes de pagamento.<br><br>
+          Factura temporaria:
+          <br><br>
+          <div style="text-align: center;">
+            <button onclick="generatePDF()">Baixar PDF</button>
+          </div>
+        </div>
       </div>
     </div>
-
+    
+    
     <!-- Button to trigger the pop-up -->
     <div id="popup-button" class="b_popup">
-      <button onclick="togglePopup()">
-        <img src="https://freak-minimalism.com/assets/img/carrinho.png" alt="...">
+      <button onclick="togglePopup()" style="position: relative;">
+        <img src="https://freak-minimalism.com/assets/img/carrinho.png" alt="Carrinho">
+        <span id="counterCarrinho" style="display: none; position: absolute; bottom: 0; left: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;"></span>
       </button>
     </div>
-    
 
 
     <!-- Contacts -->
