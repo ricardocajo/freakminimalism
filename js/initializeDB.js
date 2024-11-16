@@ -193,12 +193,12 @@ document.getElementById('prevBtnMerch').addEventListener('click', function () {
   clearInterval(merchIntervalId);
   merchIntervalId = setInterval(simulateMerchButtonClick, 5000);
 
-  if(merch_show_index[2] - 3 >= 2) {
+  if(merch_show_index[3] - 4 >= 0) {
     $('#merch_list li').addClass('hidden'); // Oculta todos os itens
   
     // Atualiza os índices
     merch_show_index = merch_show_index.map(function (index) {
-      return index - 3;
+      return index - 4;
     });
 
     // Remove a classe 'hidden' dos itens com os índices atualizados
@@ -208,34 +208,36 @@ document.getElementById('prevBtnMerch').addEventListener('click', function () {
   }
 });
 
-var merch_show_index = [0, 1];
-var merch_list_size = 6;
+var merch_show_index = [0, 1, 2, 3]; // Initialize to show the first 4 items
+var merch_list_size = 3; // Total number of items in the merch list
 var merch_index = 0;
-// Function to update works based on the button click
-function updateMerch() {
-  if (merch_show_index[2] + 3 <= merch_list_size) {
-    $('#merch_list li').addClass('hidden'); // Oculta todos os itens
 
-    // Atualiza os índices
+function updateMerch() {
+  if (merch_show_index[3] + 4 <= merch_list_size) { // Check if there are enough items to show the next 4
+    $('#merch_list li').addClass('hidden'); // Hide all items
+
+    // Update the indices to show the next set of 4 items
     merch_show_index = merch_show_index.map(function (index) {
-      return index + 3;
+      return index + 4; // Move to the next set of 4
     });
 
-    // Remove a classe 'hidden' dos itens com os índices atualizados
+    // Show the items corresponding to the updated indices
     merch_show_index.forEach(function (index) {
       $('#merch_list li').eq(index).removeClass('hidden');
     });
   } else {
-    $('#merch_list li').addClass('hidden'); // Oculta todos os itens
+    $('#merch_list li').addClass('hidden'); // Hide all items
 
-    merch_show_index = [0, 1, 2];
+    // Reset to the first 4 items
+    merch_show_index = [0, 1, 2, 3];
 
-    // Remove a classe 'hidden' dos itens com os índices atualizados
+    // Show the first 4 items
     merch_show_index.forEach(function (index) {
       $('#merch_list li').eq(index).removeClass('hidden');
     });
   }
 }
+
 
 // Function to simulate button click every 5 seconds for works
 function simulateMerchButtonClick() {
