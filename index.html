@@ -372,13 +372,22 @@
             <label for="name">Nome:</label>
             <input type="text" id="name" name="name" required>
           </div>
+          <br>
+          <!-- Preferred Contact Method Checkbox (Optional) -->
           <div>
-            <label for="contact">Contacto:</label>
-            <input type="text" id="contact" name="contact" required>
+            <label for="preferredContact">Metodo de contacto preferido:</label>
+            <div>
+              <input type="checkbox" id="contactByWhatsApp" name="preferredContact" value="WhatsApp">
+              <label for="contactByWhatsApp">WhatsApp</label>
+            </div>
+            <div>
+              <input type="checkbox" id="contactByEmail" name="preferredContact" value="Email">
+              <label for="contactByEmail">Email</label>
+            </div>
           </div>
           <div>
-            <label for="address">Morada:</label>
-            <input type="text" id="address" name="address">
+            <label for="contact">WhatsApp:</label>
+            <input type="text" id="contact" name="contact">
           </div>
           <div>
             <label for="email">Email:</label>
@@ -386,16 +395,30 @@
           </div>
           <br>
           <div>
+            <label for="address">Morada:</label>
+            <input type="text" id="address" name="address">
+          </div>
+          <br>
+          <div>
             <button type="submit">Encomendar</button>
           </div>
-        </form>
+        </form>        
         <!-- End of the Form -->
+
+        <!-- This div will display the confirmation message -->
+        <div id="confirmationMessage" style="display:none; color: green; margin-top: 10px; font-size: 14px; line-height: 1.5; font-weight: bold;">
+          <br>Pedido efectuado!<br><br>
+          Brevemente sera contactado para confirmar a sua encomenda e recebera opcoes de pagamento.<br><br>
+          Factura temporaria:
+          <br><br>
+          <div style="text-align: center;">
+            <button onclick="generatePDF()">Baixar PDF</button>
+          </div>
+        </div>
       </div>
     </div>
     
     
-    
-
     <!-- Button to trigger the pop-up -->
     <div id="popup-button" class="b_popup">
       <button onclick="togglePopup()" style="position: relative;">

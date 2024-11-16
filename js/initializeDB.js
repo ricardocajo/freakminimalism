@@ -37,6 +37,11 @@ listTamanhos.addEventListener("click", function(event) {
   }
 });
 
+const listcarrinhoLista = document.getElementById("carrinhoLista");
+listcarrinhoLista.addEventListener("click", function(event) {
+  handleRemoveCarrinho(event.target);
+});
+
 const listDesigns = document.getElementById("designs_list");
 listDesigns.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "IMG") {

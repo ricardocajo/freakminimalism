@@ -123,39 +123,46 @@ function adicionarCarrinhoArte() {
 
 var isOurDesign;
 var totalPrice = 0;
+var counterCarrinho = 0;
 function adicionarCarrinho() {
   let precoFinal_DOM = document.getElementById("precoFinal");
   let counterCarrinho_DOM = document.getElementById("counterCarrinho");
+  let currentSeletedArtigo_DOM = document.getElementById("currentSeletedArtigo");
 
   // Create a container for the cart item
   const itemContainer = document.createElement('div');
-  itemContainer.style.display = 'flex'; // Flexbox layout to align image and text in one row
-  itemContainer.style.alignItems = 'center'; // Vertically center the items
+  itemContainer.style.display = 'flex';
+  itemContainer.style.alignItems = 'center';
+  itemContainer.style.justifyContent = 'space-between';
+  itemContainer.style.padding = '5px 0';
+  itemContainer.id = "carrinho" + counterCarrinho;
 
   // Clone the currentSelectedArtigo (which is a <div> with two images)
-  if (currentSeletedArtigo) {
-    const clonedArtigo = currentSeletedArtigo.cloneNode(true);
+  if (currentSeletedArtigo_DOM) {
+    const clonedArtigo = currentSeletedArtigo_DOM.cloneNode(true);
 
     // Resize the container of the images to keep them smaller
-    clonedArtigo.style.width = '45px'; // Set a smaller width for the container
-    clonedArtigo.style.height = 'auto'; // Adjust the height automatically
+    clonedArtigo.style.width = '45px';
+    clonedArtigo.style.height = 'auto';
+    clonedArtigo.style.flexShrink = '0';
+    clonedArtigo.style.marginRight = '10px';
 
     // Find the images within the cloned element and resize them
     const images = clonedArtigo.getElementsByTagName('img');
     for (let img of images) {
-      img.style.width = '100%'; // Scale the image to fit the container's new width
-      img.style.height = 'auto'; // Maintain the aspect ratio
+      img.style.width = '100%';
+      img.style.height = 'auto';
 
-      // Ensure the second image keeps its relative position
       if (img.id === 'clothing-image2') {
-        img.style.top = '0'; // Align with the first image
-        img.style.transform = 'translate(-50%, 0)'; // Align the image vertically
-        img.style.display = 'block'; // Ensure it's visible
+        img.style.top = '0';
+        img.style.transform = 'translate(-50%, 0)';
+        img.style.display = 'block';
       }
     }
 
-    itemContainer.appendChild(clonedArtigo); // Append the modified artigo
-    counterCarrinho_DOM.innerHTML = "1";
+    itemContainer.appendChild(clonedArtigo);
+    counterCarrinho += 1;
+    counterCarrinho_DOM.innerHTML = counterCarrinho;
     counterCarrinho_DOM.style = "position: absolute; bottom: 0; left: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;";
   }
 
@@ -169,22 +176,92 @@ function adicionarCarrinho() {
   const price = calculatePrice(currentSelectedType, currentSelectedSubType, isOurDesign);
   totalPrice += price;
   precoFinal_DOM.innerHTML = "Preco Final: " + totalPrice + "€";
-  
+
+  // Create a container for the text and price to align them
+  const textContainer = document.createElement('div');
+  textContainer.style.display = 'flex';
+  textContainer.style.alignItems = 'center';
+  textContainer.style.flex = '1';
+
   // Create a paragraph element for the size and details
-  const sizeElement = document.createElement('p');
-  sizeElement.textContent = `${currentSelectedType} ${currentSelectedSubType} (${currentSelectedSize}) ......... ${price}€`;
+  const sizeElement = document.createElement('span');
+  sizeElement.textContent = `${currentSelectedType} ${currentSelectedSubType} (${currentSelectedSize}) `;
+  sizeElement.style.fontSize = '12px';
+  sizeElement.style.whiteSpace = 'nowrap';
 
-  // Style the text to appear next to the image, all in one line
-  sizeElement.style.fontSize = '12px'; // Make the text smaller
-  sizeElement.style.marginLeft = '10px'; // Add spacing between the image and text
-  sizeElement.style.flex = '1'; // Ensure text stretches and stays on the same line
-  sizeElement.style.whiteSpace = 'nowrap'; // Prevent text from wrapping to the next line
+  // Dotted line filler
+  const dottedLine = document.createElement('span');
+  dottedLine.style.flex = '1';
+  dottedLine.style.borderBottom = '1px dotted #000';
+  dottedLine.style.margin = '0 10px';
 
-  itemContainer.appendChild(sizeElement);
+  // Price element
+  const priceElement = document.createElement('span');
+  priceElement.textContent = `${price}€`;
+  priceElement.style.fontSize = '12px';
+  priceElement.style.whiteSpace = 'nowrap';
+
+  // Add "Remove" button to remove item from cart
+  const removeButton = document.createElement('button');
+  removeButton.textContent = 'X';
+  removeButton.classList.add('removeButton');
+  removeButton.style.color = 'red';
+  removeButton.style.fontWeight = 'bold';
+  removeButton.style.border = 'none';
+  removeButton.style.background = 'transparent';
+  removeButton.style.cursor = 'pointer';
+  removeButton.style.fontSize = '12px';
+  removeButton.style.marginLeft = '10px';
+
+  textContainer.appendChild(sizeElement);
+  textContainer.appendChild(dottedLine);
+  textContainer.appendChild(priceElement);
+  textContainer.appendChild(removeButton);
+
+  itemContainer.appendChild(textContainer);
 
   // Convert the container's HTML to a string and add it to the cart items array
-  carrinhoItems.push(itemContainer.innerHTML);
+  carrinhoItems.push(itemContainer.outerHTML);
 }
+
+function handleRemoveCarrinho(target) {
+  // Navigate up to find the container element with an ID starting with "carrinho"
+  const itemContainer = target.closest('[id^="carrinho"]'); // Matches elements with ID starting with "carrinho"
+  
+  if (itemContainer) {
+      const itemId = itemContainer.id; // Extract the unique ID of the item (e.g., "carrinho0")
+
+      // Remove the item from the DOM
+      itemContainer.remove();
+
+      // Find and remove the corresponding item from the carrinhoItems array
+      const itemIndex = carrinhoItems.findIndex(itemHTML => itemHTML.includes(`id="${itemId}"`));
+      if (itemIndex !== -1) {
+          carrinhoItems.splice(itemIndex, 1); // Remove the item from the array
+      }
+
+      // Update counter and total price
+      const counterCarrinho_DOM = document.getElementById("counterCarrinho");
+      const precoFinal_DOM = document.getElementById("precoFinal");
+
+      // Decrement the cart counter
+      counterCarrinho -= 1;
+      if (counterCarrinho <= 0) {
+          counterCarrinho = 0;
+          counterCarrinho_DOM.style.display = "none"; // Hide the counter if no items are left
+      } else {
+          counterCarrinho_DOM.innerText = counterCarrinho;
+      }
+
+      // Update total price
+      const priceText = itemContainer.querySelector("span:nth-child(3)").textContent; // Get the price text (e.g., "17€")
+      const itemPrice = parseFloat(priceText.replace("€", "")); // Convert to a number
+      totalPrice -= itemPrice;
+      if (totalPrice < 0) totalPrice = 0;
+      precoFinal_DOM.innerHTML = `Preco Final: ${totalPrice.toFixed(2)}€`;
+  }
+}
+
 
 function calculatePrice(_currentSelectedType, _currentSelectedSubType, _isOurDesign) {
 
@@ -227,7 +304,7 @@ function calculatePrice(_currentSelectedType, _currentSelectedSubType, _isOurDes
   return typePrices ? typePrices['price'] : 'Erro'; 
 }
 
-function submitToGoogleForm() {
+/*function submitToGoogleForm() {
   // Get form data
   var name = document.getElementById('name').value;
   var contact = document.getElementById('contact').value;
@@ -262,7 +339,7 @@ function submitToGoogleForm() {
     console.error('Error:', error);
     alert('An error occurred while submitting the form.');
   });
-}
+}*/
 
 /*function adicionarCarrinho() {
 
@@ -315,46 +392,86 @@ function submitToGoogleForm() {
 }*/
 
 async function generatePDF() {
+  console.log("Generating PDF...");
+
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  // Assuming you have the variables ready
-  const title = "Freak Minimalism";
-  //const content = "This is the content of the PDF, which can include multiple lines, images, and other elements.";
-  const content = current_image + currentSelectedDesignImg
+  // Title and styling
+  const title = "Freak Minimalism - Fatura";
+  const columnHeaders = ["Artigo", "Tamanho", "Preço"];
+  const startY = 30; // Starting Y position for the table
+  let currentY = startY;
+  let totalPrice = 0; // Initialize total price
 
-  // Add title
+  // Add Title
   doc.setFontSize(20);
   doc.text(title, 10, 20);
 
-  // Add content
+  // Add column headers
   doc.setFontSize(12);
-  doc.text(content, 10, 30);
+  doc.setFont("helvetica", "bold");
+  let xPositions = [10, 90, 140]; // Adjusted X positions for the remaining columns
+  columnHeaders.forEach((header, index) => {
+    doc.text(header, xPositions[index], currentY);
+  });
+  currentY += 10; // Move down after headers
+  doc.setFont("helvetica", "normal");
 
-  // Add more content as needed
-  // Example: Add a second page with more text
-  //doc.addPage();
- // doc.text("This is the second page of the PDF.", 10, 10);
+  // Get the cart items from the list
+  const carrinhoLista = document.getElementById("carrinhoLista");
+  const carrinhoItems = carrinhoLista.querySelectorAll("li");
 
-  // Return the PDF as a Blob directly without saving
-  const blob = doc.output('blob');
-  return blob;
+  // Iterate through `carrinhoItems` and add them to the table
+  carrinhoItems.forEach((item) => {
+    const itemDiv = item.querySelector("div"); // Main div of the cart item
+    const sizeText = itemDiv.querySelector("span")?.textContent || "N/A"; // Extract size and type
+    
+    // Select the last span for the price
+    const priceText = itemDiv.querySelector("span:last-child")?.textContent || "0€"; // Extract price
+
+    console.log("Extracted Price Text:", priceText);
+
+    // Parse the price to a number (removing the "€" symbol and converting to float)
+    const price = parseFloat(priceText.replace('€', '').trim()) || 0;
+    totalPrice += price; // Add the price to the total
+
+    const rowData = [
+      sizeText.split("(")[0].trim(), // Type (e.g., "KING T-SHIRT")
+      sizeText.split("(")[1]?.replace(")", "").trim() || "N/A", // Size (e.g., "L")
+      `${price.toFixed(2)}€`, // Show price with currency symbol (fixed to 2 decimal points)
+    ];
+
+    // Add each cell in the row
+    rowData.forEach((data, colIndex) => {
+      doc.text(data, xPositions[colIndex], currentY);
+    });
+
+    currentY += 10; // Move down for the next row
+
+    // Check if we need a new page
+    if (currentY > 270) {
+      doc.addPage();
+      currentY = startY;
+    }
+  });
+
+  // Add total price at the bottom
+  currentY += 10;
+  if (currentY > 270) {
+    doc.addPage();
+    currentY = startY;
+  }
+
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Total: ${totalPrice.toFixed(2)}€`, 10, currentY); // Show total with 2 decimal points
+
+  // Trigger download
+  doc.save("FreakMinimalism_Fatura.pdf");
 }
 
-async function pdfToImage(pdfBlob) {
-  const pdf = await pdfjsLib.getDocument({ data: await pdfBlob.arrayBuffer() }).promise;
-  const page = await pdf.getPage(1);
-  const viewport = page.getViewport({ scale: 1 });
 
-  // Create a canvas element to render the PDF page
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-
-  await page.render({ canvasContext: context, viewport: viewport }).promise;
-  return canvas.toDataURL('image/png');
-}
 
 document.addEventListener("DOMContentLoaded", function() {
   // Your other JavaScript code here
@@ -446,4 +563,58 @@ function checkInput(input) {
   if (input.value.length > 3) {
       input.value = input.value.slice(0, 3); // Truncate input to 3 digits
   }
+}
+
+const orderForm = document.getElementById("orderForm");
+const confirmationMessage = document.getElementById("confirmationMessage");
+// Add event listener to the form
+document.getElementById("orderForm").addEventListener("submit", function(event) {
+  // Prevent form submission initially
+  event.preventDefault();
+
+  // Validate form before proceeding with submission
+  if (!validateForm()) {
+    return; // If validation fails, stop the function here
+  }
+
+  // If validation passes, gather form data
+  const formData = new FormData(event.target);
+
+  // Send the data via Fetch API
+  fetch(event.target.action, {
+    method: "POST",
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      // Hide the form and show the confirmation message
+      event.target.style.display = "none";
+      document.getElementById("confirmationMessage").style.display = "block";
+
+      resetPageState();
+    } else {
+      alert("There was an issue with the submission. Please try again.");
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    alert("There was an error submitting the form.");
+  });
+});
+
+// Validation function
+function validateForm() {
+  const contact = document.getElementById("contact").value;
+  const email = document.getElementById("email").value;
+
+  // Check if at least one of WhatsApp or Email is filled in
+  if (!contact && !email) {
+    alert("Por favor forneça uma forma de contato (WhatsApp ou Email)");
+    return false; // Validation failed, return false
+  }
+
+  return true; // Validation passed, return true
 }
