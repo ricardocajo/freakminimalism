@@ -329,8 +329,6 @@ document.addEventListener("DOMContentLoaded", function() {
 var fatura; // This will store the generated PDF
 
   async function PDF() {
-    console.log("Generating PDF...");
-
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
@@ -364,14 +362,12 @@ var fatura; // This will store the generated PDF
 
     // Iterate through `carrinhoItems` and add them to the table
     carrinhoItems.forEach((item, index) => {
-      console.log(item);
       const itemDiv = item.querySelector("div"); // Main div of the cart item
       const sizeText = itemDiv.querySelector("span")?.textContent || "N/A"; // Extract size and type
     
       // Select the last span that contains the price value
       const priceSpan = itemDiv.querySelectorAll("span")[2]; // The price is in the 3rd span (index 2)
-      const priceText = priceSpan?.textContent || "0€"; // Extract price, default to "0€" if not found
-      console.log(priceText);  // Should log "17€"
+      const priceText = priceSpan?.textContent || "0€";
 
 
       // Parse the price to a number (removing the "€" symbol and converting to float)
@@ -534,6 +530,7 @@ function checkInput(input) {
   }
 }
 
+const url = 'https://script.google.com/macros/s/AKfycbz0jf61WowU8BN8TGwJRYS1hanzhbZ80-oq30B5I6dPbEQfoch2ywYUXu83ioU6M-Vmnw/exec';
 const orderForm = document.getElementById("orderForm");
 const confirmationMessage = document.getElementById("confirmationMessage");
 // Add event listener to the form
@@ -546,13 +543,24 @@ orderForm.addEventListener("submit", function(event) {
     // After the PDF is generated, gather the form data
     const formData = new FormData(orderForm);
 
-    // Send the form data via Fetch API
-    fetch(orderForm.action, {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
+    const data = {};
+    formData.forEach((value, key) => {
+      if (data[key]) {
+        // If the key already exists (for checkboxes), convert it to an array
+        data[key] = [].concat(data[key], value);
+      } else {
+        data[key] = value;
       }
+    });
+
+    console.log(data);
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(data),
     })
     .then(response => {
       if (response.ok) {
@@ -564,10 +572,16 @@ orderForm.addEventListener("submit", function(event) {
         alert("There was an issue with the submission. Please try again.");
       }
     })
-    .catch(error => {
-      console.error("Error:", error);
-      alert("There was an error submitting the form.");
-    });
+    .catch((err) => console.log('err', err));
+
+    // Send the form data via Fetch API
+    fetch(orderForm.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
   });
 });
 
