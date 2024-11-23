@@ -542,8 +542,8 @@ orderForm.addEventListener("submit", function(event) {
   PDF().then(() => {
     // Gather the form data
     const formData = new FormData(orderForm);
-
     const data = {};
+
     formData.forEach((value, key) => {
       // If the key already exists, convert it to an array (for multiple checkboxes with the same name)
       if (data[key]) {
@@ -561,15 +561,13 @@ orderForm.addEventListener("submit", function(event) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',  // Ensure the correct content type
-        'Origin': 'https://freak-minimalism.com',  // Specify the origin if needed
-        'Access-Control-Allow-Origin': 'https://freak-minimalism.com',  // Allow your specific origin
-        'Access-Control-Allow-Methods': 'POST',  // Allow only POST methods (or OPTIONS if needed)
-        'Access-Control-Allow-Headers': 'Content-Type',  // Allow content type header
+        'Origin': 'https://freak-minimalism.com'  // Your website's origin for CORS
       },
       body: JSON.stringify(data)  // Send data as JSON
     })
-    .then(response => response.json())
+    .then(response => response.json())  // Parse the JSON response
     .then(responseData => {
+      console.log('Response:', responseData);  // Log the response data for debugging
       if (responseData.success) {
         // Hide the form and show the confirmation message if the email was sent
         orderForm.style.display = "none";
@@ -580,7 +578,7 @@ orderForm.addEventListener("submit", function(event) {
       }
     })
     .catch(err => {
-      console.log('Error:', err);
+      console.error('Error:', err);  // Handle any errors
       alert("An error occurred. Please try again.");
     });
   });
