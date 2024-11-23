@@ -559,6 +559,9 @@ orderForm.addEventListener("submit", function(event) {
       method: 'POST',
       headers: {
         'Content-Type': 'text/plain;charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type'
       },
       body: JSON.stringify(data),
     })
