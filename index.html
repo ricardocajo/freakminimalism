@@ -32,11 +32,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ms-auto">   
-            <li class="nav-item"><a class="nav-link" href="#aboutus">SOBRE NOS</a></li>
+            <li class="nav-item"><a class="nav-link" href="#aboutus">Essencia</a></li>
             <li class="nav-item"><a class="nav-link" href="#prices">PRECOS</a></li>
             <li class="nav-item"><a class="nav-link" href="#clothing">ARTIGOS</a></li>
             <li class="nav-item"><a class="nav-link" href="#designs">COLECOES</a></li>
-            <li class="nav-item"><a class="nav-link" href="#arte">3D FreakWorks</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Impressoes3D">3DFreakWorks</a></li>
             <li class="nav-item"><a class="nav-link" href="#arte">ARTE</a></li>
             <!--<li class="nav-item"><a class="nav-link" href="#twitch">TWITCH</a></li>-->
             <li class="nav-item"><a class="nav-link" href="#contacts">CONTACTOS</a></li>
@@ -66,7 +66,7 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-lg-8">
             <br><br>
-            <h2 class="title">SOBRE NOS</h2>
+            <h2 class="title">ESSENCIA</h2>
             <br><br>
 
             <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
@@ -289,9 +289,12 @@
           <div class="col-md-10 col-lg-8 mx-auto text-center">
             <h2 class="title">3D FreakWorks</h2>
             <div class="text-center">
-              <br>
-              <video width="520" height="300" autoplay="" loop="" muted="" loading="lazy"><source src="https://freak-minimalism.com/db/3d/vulcao.mp4" type="video/mp4">Your browser does not support the video tag.</video>
-              <p>Brevemente</p>
+              <br><br>
+              <ul id="3d-type" class="clickable-list2 row"></ul>
+              <br><br>
+              <ul class="worksimg" id="CINZEIROS_list" style="display: none;"></ul>
+              <br><br>
+              <div id="butao3d"></div>
             </div>
         </div>
       </div>
@@ -428,7 +431,7 @@
         <div id="confirmationMessage" style="display:none; color: green; margin-top: 10px; font-size: 14px; line-height: 1.5; font-weight: bold;">
           <br>Pedido efectuado!<br><br>
           Brevemente sera contactado para confirmar a sua encomenda e recebera opcoes de pagamento.<br><br>
-          Factura temporaria:
+          Comprovativo de Encomenda:
           <br><br>
           <div style="text-align: center;">
             <button onclick="generatePDF()">Baixar PDF</button>

@@ -289,6 +289,51 @@ function initialize_colecao(name) {
     });
 }
 
+function initialize_3d(name) {
+  name = name.replace(/[\s|]/g, "");
+  let colecao_DOM = document.getElementById(name + "_list");
+  fetch(ABSOLUTE_PATH + "/db/3d/"+ name + "/works.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.keys(data).forEach(key => {
+        let listItem = document.createElement("li");
+        listItem.classList.add("column-item");
+        switch(key) {
+          case "img":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" alt="..."></a>`;
+            break;
+          case "img2":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            break;
+          case "img3":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            break;
+          case "img4":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            break;
+          case "img5":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            break;
+          case "video":
+            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" target="_blank"><video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/3d/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button style="font-size: 19px;">Encomendar</button></a>`;            
+            break;
+          case "desc":
+            let parts = data[key].split(';');
+            parts.forEach((part) => {
+              listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
+            });
+            break;
+          default:
+            // code block
+        }
+        colecao_DOM.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      //works_index = 0;
+      console.error('Error:', error);
+    });
+}
 
 function initialize_arte(name) {
   name = name.replace(/[\s|]/g, "");
@@ -445,6 +490,36 @@ function initialize_colecoesItems() {
     listItem.innerHTML = item;
     items_DOM.appendChild(listItem);
     initialize_colecao(item);
+  });
+}
+
+var theSelected3d = "";
+var currentSelected3d = "";
+function handle3dTypeSelected(event_target) {
+  theSelected3d = event_target.textContent.replace(/[\s|]/g, "");
+  let old_list_DOM = document.getElementById(currentSelected3d + "_list");
+  let list_DOM = document.getElementById(theSelected3d + "_list");
+
+  list_DOM.style.display = "flex";
+  if(currentSelected3d !== "") {
+    old_list_DOM.style.display = "none";
+  }
+
+  currentSelected3d = theSelected3d;
+}
+
+
+function initialize_3dItems() {
+  let items_DOM = document.getElementById("3d-type");
+  let tresdItems = ["CINZEIROS"];
+
+  tresdItems.forEach(item => {
+    let listItem = document.createElement("li");
+    listItem.value = item;
+    listItem.className = "col-md-4";
+    listItem.innerHTML = item;
+    items_DOM.appendChild(listItem);
+    initialize_3d(item);
   });
 }
 

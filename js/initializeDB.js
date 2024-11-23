@@ -1,6 +1,7 @@
 initialize_prices();
 initialize_clothingItems();
 initialize_colecoesItems();
+initialize_3dItems();
 initialize_artesItems();
 initialize_designs();
 initialize_patch();
@@ -87,6 +88,13 @@ const listColecoesTypes = document.getElementById("colecoes-type");
 listColecoesTypes.addEventListener("click", function(event) {
   if (event.target && event.target.nodeName === "LI") {
     handleColecoesTypeSelected(event.target);
+  }
+});
+
+const list3dTypes = document.getElementById("3d-type");
+list3dTypes.addEventListener("click", function(event) {
+  if (event.target && event.target.nodeName === "LI") {
+    handle3dTypeSelected(event.target);
   }
 });
 
