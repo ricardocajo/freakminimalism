@@ -553,14 +553,11 @@ orderForm.addEventListener("submit", function(event) {
       }
     });
 
-    // Log the data to verify
-    console.log(data);
-
     // Send the form data to the Google Apps Script as a JSON payload
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',  // Ensure the correct content type
+        'Content-Type': "text/plain;charset=utf-8",  // Ensure the correct content type
         'Origin': 'https://freak-minimalism.com'  // Your website's origin for CORS
       },
       body: JSON.stringify(data)  // Send data as JSON
