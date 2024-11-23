@@ -560,9 +560,11 @@ orderForm.addEventListener("submit", function(event) {
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'https://freak-minimalism.com',
-        
+        'Content-Type': 'application/json',  // Ensure the correct content type
+        'Origin': 'https://freak-minimalism.com',  // Specify the origin if needed
+        'Access-Control-Allow-Origin': 'https://freak-minimalism.com',  // Allow your specific origin
+        'Access-Control-Allow-Methods': 'POST',  // Allow only POST methods (or OPTIONS if needed)
+        'Access-Control-Allow-Headers': 'Content-Type',  // Allow content type header
       },
       body: JSON.stringify(data)  // Send data as JSON
     })
