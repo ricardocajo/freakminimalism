@@ -530,63 +530,58 @@ function checkInput(input) {
   }
 }
 
-const url = 'https://script.google.com/macros/s/AKfycbz0jf61WowU8BN8TGwJRYS1hanzhbZ80-oq30B5I6dPbEQfoch2ywYUXu83ioU6M-Vmnw/exec';
+const url = 'https://script.google.com/macros/s/AKfycbzB0D42fSCiYHjsjEI-tpzZ26C6t30KaJj4X4Gwp4GeXvS2KJME9OdW4Uhf-a4CdbKW/exec';  // Replace with your actual Apps Script URL
 const orderForm = document.getElementById("orderForm");
 const confirmationMessage = document.getElementById("confirmationMessage");
+
 // Add event listener to the form
 orderForm.addEventListener("submit", function(event) {
-  // Prevent the default form submission
-  event.preventDefault();
+  event.preventDefault();  // Prevent the default form submission
 
-  // Generate the PDF before submitting the form
+  // Generate the PDF before submitting the form (if necessary)
   PDF().then(() => {
-    // After the PDF is generated, gather the form data
+    // Gather the form data
     const formData = new FormData(orderForm);
 
     const data = {};
     formData.forEach((value, key) => {
+      // If the key already exists, convert it to an array (for multiple checkboxes with the same name)
       if (data[key]) {
-        // If the key already exists (for checkboxes), convert it to an array
         data[key] = [].concat(data[key], value);
       } else {
         data[key] = value;
       }
     });
 
+    // Log the data to verify
     console.log(data);
 
+    // Send the form data to the Google Apps Script as a JSON payload
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        'Content-Type': 'application/json',  // Ensure the correct content type
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)  // Send data as JSON
     })
-    .then(response => {
-      if (response.ok) {
-        // Hide the form and show the confirmation message
+    .then(response => response.json())
+    .then(responseData => {
+      if (responseData.success) {
+        // Hide the form and show the confirmation message if the email was sent
         orderForm.style.display = "none";
-        document.getElementById("confirmationMessage").style.display = "block";
+        confirmationMessage.style.display = "block";
         resetPageState();
       } else {
         alert("There was an issue with the submission. Please try again.");
       }
     })
-    .catch((err) => console.log('err', err));
-
-    // Send the form data via Fetch API
-    fetch(orderForm.action, {
-      method: "POST",
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
+    .catch(err => {
+      console.log('Error:', err);
+      alert("An error occurred. Please try again.");
+    });
   });
 });
+
 
 // Validation function
 function validateForm() {
