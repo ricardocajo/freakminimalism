@@ -560,7 +560,9 @@ orderForm.addEventListener("submit", function(event) {
     fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',  // Ensure the correct content type
+        'Content-Type': 'application/json',
+        'Origin': 'https://freak-minimalism.com',
+        
       },
       body: JSON.stringify(data)  // Send data as JSON
     })
