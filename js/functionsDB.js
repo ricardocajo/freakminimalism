@@ -254,22 +254,22 @@ function initialize_colecao(name) {
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="...">`;
             break;
           case "img2":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
             break;
           case "img3":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
             break;
           case "img4":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
             break;
           case "img5":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button style="font-size: 19px;">Encomendar</button></a>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
             break;
           case "video":
-            listItem.innerHTML = `<a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505&amp;text=Quero%20esta%20merch!%20${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" target="_blank"><video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button style="font-size: 19px;">Encomendar</button></a>`;            
+            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;            
             break;
           case "desc":
             let parts = data[key].split(';');
@@ -476,6 +476,8 @@ function handleColecoesTypeSelected(event_target) {
   }
 
   currentSelectedColecao = theSelectedColecao;
+  console.log(theSelectedColecao);
+  console.log(currentSelectedColecao);
 }
 
 

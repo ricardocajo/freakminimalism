@@ -124,6 +124,7 @@ function adicionarCarrinhoArte() {
 var isOurDesign;
 var totalPrice = 0;
 var counterCarrinho = 0;
+
 function adicionarCarrinho() {
   let precoFinal_DOM = document.getElementById("precoFinal");
   let counterCarrinho_DOM = document.getElementById("counterCarrinho");
@@ -137,16 +138,40 @@ function adicionarCarrinho() {
   itemContainer.style.padding = '5px 0';
   itemContainer.id = "carrinho" + counterCarrinho;
 
+  var clonedArtigo = currentSeletedArtigo_DOM.cloneNode(true);
+
+  // Resize the container of the images to keep them smaller
+  clonedArtigo.style.width = '45px';
+  clonedArtigo.style.height = 'auto';
+  clonedArtigo.style.flexShrink = '0';
+  clonedArtigo.style.marginRight = '10px';
+
+  var price;
+
+  // Create a container for the text and price to align them
+  const textContainer = document.createElement('div');
+  textContainer.style.display = 'flex';
+  textContainer.style.alignItems = 'center';
+  textContainer.style.flex = '1';
+
+  // Create a paragraph element for the size and details
+  const sizeElement = document.createElement('span');
+  sizeElement.style.fontSize = '12px';
+  sizeElement.style.whiteSpace = 'nowrap';
+
+  // Dotted line filler
+  const dottedLine = document.createElement('span');
+  dottedLine.style.flex = '1';
+  dottedLine.style.borderBottom = '1px dotted #000';
+  dottedLine.style.margin = '0 10px';
+
+  // Price element
+  const priceElement = document.createElement('span');
+  priceElement.style.fontSize = '12px';
+  priceElement.style.whiteSpace = 'nowrap';
+
   // Clone the currentSelectedArtigo (which is a <div> with two images)
   if (currentSeletedArtigo_DOM) {
-    const clonedArtigo = currentSeletedArtigo_DOM.cloneNode(true);
-
-    // Resize the container of the images to keep them smaller
-    clonedArtigo.style.width = '45px';
-    clonedArtigo.style.height = 'auto';
-    clonedArtigo.style.flexShrink = '0';
-    clonedArtigo.style.marginRight = '10px';
-
     // Find the images within the cloned element and resize them
     const images = clonedArtigo.getElementsByTagName('img');
     for (let img of images) {
@@ -163,43 +188,24 @@ function adicionarCarrinho() {
     itemContainer.appendChild(clonedArtigo);
     counterCarrinho += 1;
     counterCarrinho_DOM.innerHTML = counterCarrinho;
-    counterCarrinho_DOM.style = "position: absolute; bottom: 0; left: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;";
+    counterCarrinho_DOM.style =
+      "position: absolute; bottom: 0; left: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;";
+
+    // Check if the design image is a file or a preset design
+    if (currentSelectedDesignImg instanceof File) {
+      isOurDesign = false;
+    } else {
+      isOurDesign = true;
+    }
+
+    price = calculatePrice(currentSelectedType, currentSelectedSubType, isOurDesign);
+
+    sizeElement.textContent = `${currentSelectedType} ${currentSelectedSubType} (${currentSelectedSize}) `;
   }
 
-  // Check if the design image is a file or a preset design
-  if (currentSelectedDesignImg instanceof File) {
-    isOurDesign = false;
-  } else {
-    isOurDesign = true;
-  }
-
-  const price = calculatePrice(currentSelectedType, currentSelectedSubType, isOurDesign);
   totalPrice += price;
   precoFinal_DOM.innerHTML = "Preco Final: " + totalPrice + "€";
-
-  // Create a container for the text and price to align them
-  const textContainer = document.createElement('div');
-  textContainer.style.display = 'flex';
-  textContainer.style.alignItems = 'center';
-  textContainer.style.flex = '1';
-
-  // Create a paragraph element for the size and details
-  const sizeElement = document.createElement('span');
-  sizeElement.textContent = `${currentSelectedType} ${currentSelectedSubType} (${currentSelectedSize}) `;
-  sizeElement.style.fontSize = '12px';
-  sizeElement.style.whiteSpace = 'nowrap';
-
-  // Dotted line filler
-  const dottedLine = document.createElement('span');
-  dottedLine.style.flex = '1';
-  dottedLine.style.borderBottom = '1px dotted #000';
-  dottedLine.style.margin = '0 10px';
-
-  // Price element
-  const priceElement = document.createElement('span');
   priceElement.textContent = `${price}€`;
-  priceElement.style.fontSize = '12px';
-  priceElement.style.whiteSpace = 'nowrap';
 
   // Add "Remove" button to remove item from cart
   const removeButton = document.createElement('button');
@@ -223,6 +229,129 @@ function adicionarCarrinho() {
   // Convert the container's HTML to a string and add it to the cart items array
   carrinhoItems.push(itemContainer.outerHTML);
 }
+
+let colecaoitem;
+function adicionarCarrinhoColecao(item) {
+  let precoFinal_DOM = document.getElementById("precoFinal");
+  let counterCarrinho_DOM = document.getElementById("counterCarrinho");
+  colecaoitem = item;
+  itemcut = item.split('.').slice(0, -1).join('.');
+
+  // Create a container for the cart item
+  const itemContainer = document.createElement('div');
+  itemContainer.style.display = 'flex';
+  itemContainer.style.alignItems = 'center';
+  itemContainer.style.justifyContent = 'space-between';
+  itemContainer.style.padding = '5px 0';
+  itemContainer.id = "carrinho" + counterCarrinho;
+
+  var clonedArtigo;
+
+  var url = ABSOLUTE_PATH + "/db/colecoes/" + currentSelectedColecao + "/img/" + itemcut + ".png";
+
+  fetch(url)
+    .then(response => response.blob())  // Fetch the image as a Blob
+    .then(blob => {
+      // Create a temporary URL for the Blob
+      const objectURL = URL.createObjectURL(blob);
+
+      // Create an <img> element and set its src to the object URL
+      clonedArtigo = document.createElement('img');
+      clonedArtigo.src = objectURL;  // Set the image source to the object URL
+      clonedArtigo.alt = 'Fetched image';  // Set an alt text
+
+      // Resize the image and adjust positioning
+      clonedArtigo.style.position = 'relative';
+      clonedArtigo.style.top = '0px';
+      clonedArtigo.style.left = '50%';
+      clonedArtigo.style.transform = 'translateX(-50%)';
+      clonedArtigo.style.width = '45px';  // Fixed width
+      clonedArtigo.style.height = 'auto';
+      clonedArtigo.style.flexShrink = '0';
+      clonedArtigo.style.marginRight = '10px';
+
+      // Create a container for the image to center it (adjust as needed)
+      const imageContainer = document.createElement('div');
+      imageContainer.style.position = 'relative';
+      imageContainer.style.width = '45px';
+      imageContainer.style.height = 'auto';
+      imageContainer.style.display = 'flex';
+      imageContainer.style.justifyContent = 'center';
+      imageContainer.style.flexShrink = '0';
+      imageContainer.style.marginRight = '10px';
+
+      // Append the image to the container
+      imageContainer.appendChild(clonedArtigo);
+      
+      // Append the image container to the item container
+      itemContainer.appendChild(imageContainer);
+
+      // Continue with the rest of the function after the image has been appended
+
+      var price;
+
+      // Create a container for the text and price to align them
+      const textContainer = document.createElement('div');
+      textContainer.style.display = 'flex';
+      textContainer.style.alignItems = 'center';
+      textContainer.style.flex = '1';
+
+      // Create a paragraph element for the size and details
+      const sizeElement = document.createElement('span');
+      sizeElement.style.fontSize = '12px';
+      sizeElement.style.whiteSpace = 'nowrap';
+
+      // Dotted line filler
+      const dottedLine = document.createElement('span');
+      dottedLine.style.flex = '1';
+      dottedLine.style.borderBottom = '1px dotted #000';
+      dottedLine.style.margin = '0 10px';
+
+      // Price element
+      const priceElement = document.createElement('span');
+      priceElement.style.fontSize = '12px';
+      priceElement.style.whiteSpace = 'nowrap';
+
+      counterCarrinho += 1;
+      counterCarrinho_DOM.innerHTML = counterCarrinho;
+      counterCarrinho_DOM.style =
+        "position: absolute; bottom: 0; left: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;";
+
+      price = calculatePriceColecao(currentSelectedColecao, itemcut);
+
+      sizeElement.textContent = `${currentSelectedColecao}) `;
+
+      totalPrice += price;
+      precoFinal_DOM.innerHTML = "Preco Final: " + totalPrice + "€";
+      priceElement.textContent = `${price}€`;
+
+      // Add "Remove" button to remove item from cart
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'X';
+      removeButton.classList.add('removeButton');
+      removeButton.style.color = 'red';
+      removeButton.style.fontWeight = 'bold';
+      removeButton.style.border = 'none';
+      removeButton.style.background = 'transparent';
+      removeButton.style.cursor = 'pointer';
+      removeButton.style.fontSize = '12px';
+      removeButton.style.marginLeft = '10px';
+
+      textContainer.appendChild(sizeElement);
+      textContainer.appendChild(dottedLine);
+      textContainer.appendChild(priceElement);
+      textContainer.appendChild(removeButton);
+
+      itemContainer.appendChild(textContainer);
+
+      // Convert the container's HTML to a string and add it to the cart items array
+      carrinhoItems.push(itemContainer.outerHTML);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error); // Handle any errors here
+    });
+}
+
 
 function handleRemoveCarrinho(target) {
   // Navigate up to find the container element with an ID starting with "carrinho"
@@ -303,6 +432,35 @@ function calculatePrice(_currentSelectedType, _currentSelectedSubType, _isOurDes
   return typePrices ? typePrices['price'] : 'Erro'; 
 }
 
+function calculatePriceColecao(colecao, item) {
+
+  const priceMap = {
+    'DAPO': {
+      'dappo1': { price: 35 },
+      'dappo2': { price: 35 },
+      'dappo3': { price: 35 },
+      'dappo4': { price: 35 },
+    },
+    'FREAK': {
+      'aldeia': { price: 40 },
+      'lookatme': { price: 34 },
+    },
+    'L3G3NCHILL': {
+      'legend2': { price: 37 },
+    },
+    'POLETEMPLE': {
+      'poletemplestudio1': { price: 15 },
+      'poletemplestudio2': { price: 17 },
+    },
+  };
+
+  // Find the price from the map based on type and subtype
+  const typePrices = priceMap[colecao]?.[item];
+
+  // Return the price if found, otherwise return 'Erro'
+  return typePrices ? typePrices['price'] : 'Erro'; 
+}
+
 async function pdfToImage(pdfBlob) {
   const pdf = await pdfjsLib.getDocument({ data: await pdfBlob.arrayBuffer() }).promise;
   const page = await pdf.getPage(1);
@@ -324,6 +482,14 @@ document.addEventListener("DOMContentLoaded", function() {
   // Find the button and add the onclick event listener
   var button = document.getElementById('encomendarButaoB');
   button.onclick = adicionarCarrinho;
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.body.addEventListener('click', function(event) {
+    if (event.target && event.target.id === 'encomendarButaoC') {
+      adicionarCarrinhoColecao();
+    }
+  });
 });
 
 var fatura; // This will store the generated PDF
@@ -386,7 +552,7 @@ var fatura; // This will store the generated PDF
         </div>
         <div>
           <label for="item${index + 1}Design">Design ${index + 1} - Design:</label>
-          <input type="text" id="item${index + 1}Design" name="item${index + 1}Design" value="${designFilename}" readonly>
+          <input type="text" id="item${index + 1}Design" name="item${index + 1}Design" value='${designFilename}' readonly>
         </div>
         <br>
       `;
@@ -438,14 +604,6 @@ async function generatePDF() {
    console.error("No PDF generated yet.");
   }
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-  // Your other JavaScript code here
-  
-  // Find the button and add the onclick event listener
-  var button = document.getElementById('encomendarButaoB');
-  button.onclick = adicionarCarrinho;
-});
 
 function orcamentoCarrinho() {
   var unitsInput = document.getElementById('units-input');
@@ -564,7 +722,6 @@ orderForm.addEventListener("submit", function(event) {
     })
     .then(response => response.json())  // Parse the JSON response
     .then(responseData => {
-      console.log('Response:', responseData);  // Log the response data for debugging
       if (responseData.success) {
         // Hide the form and show the confirmation message if the email was sent
         orderForm.style.display = "none";
