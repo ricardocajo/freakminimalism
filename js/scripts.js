@@ -86,31 +86,39 @@ document.addEventListener('click', function (event) {
 });
 
 let carrinhoItems = [];
+var portesString = 'Portes: 5,50€'
 // Function to populate the UL with LI elements
 async function populateCarrinhoList() {
   // Get the UL element by its ID
   const ulElement = document.getElementById('carrinhoLista');
 
   try {
-      // Clear the UL in case there's any existing content
-      ulElement.innerHTML = '';
+    // Clear the UL in case there's any existing content
+    ulElement.innerHTML = '';
 
-      // Loop through the data and create LI elements
-      carrinhoItems.forEach(item => {
-          // Create an LI element
-          const liElement = document.createElement('li');
-          
-          // Set the innerHTML to the item so that it renders HTML correctly
-          liElement.innerHTML = item;
+    // Loop through the data and create LI elements
+    carrinhoItems.forEach(item => {
+      // Create an LI element
+      const liElement = document.createElement('li');
+      
+      // Set the innerHTML to the item so that it renders HTML correctly
+      liElement.innerHTML = item;
 
-          // Append the LI to the UL
-          ulElement.appendChild(liElement);
-      });
+      // Append the LI to the UL
+      ulElement.appendChild(liElement);
+    });
+
+    // Create and append the "Portes" item at the bottom
+    const portesItem = document.createElement('li');
+    portesItem.id = 'portes';
+    portesItem.innerHTML = portesString;
+    ulElement.appendChild(portesItem);
 
   } catch (error) {
-      console.error('Error fetching data:', error);
+    console.error('Error fetching data:', error);
   }
 }
+
 
 function adicionarCarrinhoArte() {
 
@@ -122,7 +130,7 @@ function adicionarCarrinhoArte() {
 }
 
 var isOurDesign;
-var totalPrice = 0;
+var totalPrice = 5.5;
 var counterCarrinho = 0;
 
 function adicionarCarrinho() {
@@ -494,109 +502,125 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var fatura; // This will store the generated PDF
 
-  async function PDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+async function PDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
 
-    // Title and styling
-    const title = "Freak Minimalism - Fatura";
-    const columnHeaders = ["Artigo", "Tamanho", "Preço"];
-    const startY = 30; // Starting Y position for the table
-    let currentY = startY;
-    let totalPrice = 0; // Initialize total price
+  // Title and styling
+  const title = "Freak Minimalism - Comprovativo";
+  const columnHeaders = ["Artigo", "Tamanho", "Preço"];
+  const startY = 30; // Starting Y position for the table
+  let currentY = startY;
+  let totalPrice = 0; // Initialize total price
 
-    // Get the cart items from the list
-    const carrinhoLista = document.getElementById("carrinhoLista");
-    const carrinhoItems = carrinhoLista.querySelectorAll("li");
+  // Get the cart items from the list
+  const carrinhoLista = document.getElementById("carrinhoLista");
+  const carrinhoItems = carrinhoLista.querySelectorAll("li");
 
-    // Create dynamic form fields
-    let dynamicFieldsHTML = '';
+  // Create dynamic form fields
+  let dynamicFieldsHTML = '';
 
-    // Add Title
-    doc.setFontSize(20);
-    doc.text(title, 10, 20);
+  // Add Title
+  doc.setFontSize(20);
+  doc.text(title, 10, 20);
 
-    // Add column headers
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    let xPositions = [10, 90, 140]; // Adjusted X positions for the remaining columns
-    columnHeaders.forEach((header, index) => {
-      doc.text(header, xPositions[index], currentY);
-    });
-    currentY += 10; // Move down after headers
-    doc.setFont("helvetica", "normal");
+  // Add column headers
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  let xPositions = [10, 90, 140]; // Adjusted X positions for the remaining columns
+  columnHeaders.forEach((header, index) => {
+    doc.text(header, xPositions[index], currentY);
+  });
+  currentY += 10; // Move down after headers
+  doc.setFont("helvetica", "normal");
 
-    // Iterate through `carrinhoItems` and add them to the table
-    carrinhoItems.forEach((item, index) => {
-      const itemDiv = item.querySelector("div"); // Main div of the cart item
-      const sizeText = itemDiv.querySelector("span")?.textContent || "N/A"; // Extract size and type
+  // Iterate through `carrinhoItems` excluding the last one (Portes)
+  Array.from(carrinhoItems).slice(0, -1).forEach((item, index) => { // Exclude the last item (Portes)
+    const itemDiv = item.querySelector("div"); // Main div of the cart item
+    const sizeText = itemDiv.querySelector("span")?.textContent || "N/A"; // Extract size and type
     
-      // Select the last span that contains the price value
-      const priceSpan = itemDiv.querySelectorAll("span")[2]; // The price is in the 3rd span (index 2)
-      const priceText = priceSpan?.textContent || "0€";
+    // Select the last span that contains the price value
+    const priceSpan = itemDiv.querySelectorAll("span")[2]; // The price is in the 3rd span (index 2)
+    const priceText = priceSpan?.textContent || "0€";
 
+    // Parse the price to a number (removing the "€" symbol and converting to float)
+    const price = parseFloat(priceText.replace('€', '').trim()) || 0;
+    totalPrice += price; // Add the price to the total
 
-      // Parse the price to a number (removing the "€" symbol and converting to float)
-      const price = parseFloat(priceText.replace('€', '').trim()) || 0;
-      totalPrice += price; // Add the price to the total
+    // Add dynamic fields for each item in the form
+    dynamicFieldsHTML += `
+      <div>
+        <label for="item${index + 1}Size">Artigo ${index + 1} - Tamanho:</label>
+        <input type="text" id="item${index + 1}Size" name="item${index + 1}Size" value="${sizeText}" readonly>
+      </div>
+      <div>
+        <label for="item${index + 1}Price">Artigo ${index + 1} - Preço:</label>
+        <input type="text" id="item${index + 1}Price" name="item${index + 1}Price" value="${priceText}" readonly>
+      </div>
+      <div>
+        <label for="item${index + 1}Design">Design ${index + 1} - Design:</label>
+        <input type="text" id="item${index + 1}Design" name="item${index + 1}Design" value='${designFilename}' readonly>
+      </div>
+      <br>
+    `;
 
-      // Add dynamic fields for each item in the form
-      dynamicFieldsHTML += `
-        <div>
-          <label for="item${index + 1}Size">Artigo ${index + 1} - Tamanho:</label>
-          <input type="text" id="item${index + 1}Size" name="item${index + 1}Size" value="${sizeText}" readonly>
-        </div>
-        <div>
-          <label for="item${index + 1}Price">Artigo ${index + 1} - Preço:</label>
-          <input type="text" id="item${index + 1}Price" name="item${index + 1}Price" value="${priceText}" readonly>
-        </div>
-        <div>
-          <label for="item${index + 1}Design">Design ${index + 1} - Design:</label>
-          <input type="text" id="item${index + 1}Design" name="item${index + 1}Design" value='${designFilename}' readonly>
-        </div>
-        <br>
-      `;
+    // Add each cell in the row for the PDF
+    const rowData = [
+      sizeText.split("(")[0].trim(), // Type (e.g., "KING T-SHIRT")
+      sizeText.split("(")[1]?.replace(")", "").trim() || "N/A", // Size (e.g., "L")
+      `${price.toFixed(2)}€`, // Show price with currency symbol (fixed to 2 decimal points)
+    ];
 
-      // Add each cell in the row for the PDF
-      const rowData = [
-        sizeText.split("(")[0].trim(), // Type (e.g., "KING T-SHIRT")
-        sizeText.split("(")[1]?.replace(")", "").trim() || "N/A", // Size (e.g., "L")
-        `${price.toFixed(2)}€`, // Show price with currency symbol (fixed to 2 decimal points)
-      ];
-
-      // Add each cell in the row
-      rowData.forEach((data, colIndex) => {
-        doc.text(data, xPositions[colIndex], currentY);
-      });
-
-      currentY += 10; // Move down for the next row
-
-      // Check if we need a new page
-      if (currentY > 270) {
-        doc.addPage();
-        currentY = startY;
-      }
+    // Add each cell in the row
+    rowData.forEach((data, colIndex) => {
+      doc.text(data, xPositions[colIndex], currentY);
     });
 
-    // Add total price at the bottom
-    currentY += 10;
+    currentY += 10; // Move down for the next row
+
+    // Check if we need a new page
     if (currentY > 270) {
       doc.addPage();
       currentY = startY;
     }
+  });
 
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text(`Total: ${totalPrice.toFixed(2)}€`, 10, currentY); // Show total with 2 decimal points
-
-    // Store the generated PDF in the fatura variable
-    fatura = doc;
-
-    // Insert the dynamically created fields into the form
-    document.getElementById('dynamicFields').innerHTML = dynamicFieldsHTML;
+  // Add "Portes" row
+  currentY += 10;
+  if (currentY > 270) {
+    doc.addPage();
+    currentY = startY;
   }
 
-  // Trigger PDF download when needed
+  // Check if the "Levantamento em Loja" checkbox is checked
+  if (!levantamentolojaCheckbox.checked) {
+    totalPrice += 5.5; // Add delivery charge
+  }
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text("Portes:", 10, currentY);
+  doc.text(`5.50€`, 140, currentY); // The delivery charge, adjust the position if necessary
+
+  // Update the total price
+  currentY += 10;
+  if (currentY > 270) {
+    doc.addPage();
+    currentY = startY;
+  }
+
+  doc.setFontSize(14);
+  doc.setFont("helvetica", "bold");
+  doc.text(`Total: ${totalPrice.toFixed(2)}€`, 10, currentY); // Show total with 2 decimal points
+
+  // Store the generated PDF in the fatura variable
+  fatura = doc;
+
+  // Insert the dynamically created fields into the form
+  document.getElementById('dynamicFields').innerHTML = dynamicFieldsHTML;
+}
+
+// Trigger PDF download when needed
 async function generatePDF() {
   if (fatura) {
     fatura.save("FreakMinimalism_Fatura.pdf");
@@ -752,3 +776,28 @@ function validateForm() {
 
   return true; // Validation passed, return true
 }
+
+// Get the checkbox and the address input
+const levantamentolojaCheckbox = document.getElementById('levantamentoloja');
+const addressInput = document.getElementById('address');
+const portes = document.getElementById('portes');
+
+// Add an event listener to the checkbox
+levantamentolojaCheckbox.addEventListener('change', function() {
+  // If the checkbox is checked, remove the 'required' attribute from the address input
+  if (levantamentolojaCheckbox.checked) {
+    addressInput.removeAttribute('required');
+    totalPrice -= 5.50; // Subtract 5.50 from totalPrice
+    portesString = 'Portes: 0€';
+  } else {
+    // If the checkbox is unchecked, make the address input required again
+    addressInput.setAttribute('required', 'true');
+    totalPrice += 5.50; // Add 5.50 back to totalPrice
+    portesString = 'Portes: 5,50€';
+  }
+
+  populateCarrinhoList();
+  // Update the total price displayed
+  const precoFinal_DOM = document.getElementById('precoFinal');
+  precoFinal_DOM.innerHTML = "Preco Final: " + totalPrice + "€";
+});

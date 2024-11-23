@@ -382,7 +382,9 @@
       <div class="popup-content">
         <span class="close" onclick="closePopup()">&times;</span>
         <br>
-        <ul id="carrinhoLista"></ul>
+        <ul id="carrinhoLista">
+          <li id="portes">Portes 5,50€</li>
+        </ul>
         <p id="precoFinal"></p>
         
         <!-- Start of the Form -->
@@ -414,8 +416,12 @@
           </div>
           <br>
           <div>
+            <input type="checkbox" id="levantamentoloja" name="levantamentoloja" value="levantamentoloja">
+            <label for="levantamentoloja">Levantamento em Loja</label>
+          </div>
+          <div>
             <label for="address">Morada:</label>
-            <input type="text" id="address" name="address">
+            <input type="text" id="address" name="address" required>
           </div>
           <br>
           <!-- Dynamically created fields will appear here -->
@@ -424,7 +430,7 @@
           <div>
             <button type="submit">Encomendar</button>
           </div>
-        </form>        
+        </form>       
         <!-- End of the Form -->
 
         <!-- This div will display the confirmation message -->

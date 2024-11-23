@@ -12272,3 +12272,14 @@ video {
 button.removeButton {
   pointer-events: auto;
 }
+
+#carrinhoLista {
+  display: flex;
+  flex-direction: column;  /* Align list items in a column */
+  height: 100%;            /* Ensure the list container takes full height */
+  justify-content: flex-end; /* Push the last item to the bottom */
+}
+
+#portes {
+  margin-top: auto; /* This will push the "Portes" li to the bottom */
+}
