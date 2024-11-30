@@ -12122,6 +12122,25 @@ video {
   /* Add other styles for the active state */
 }
 
+@media (max-width: 768px) {
+  .b_popup {
+    top: 10%; /* Adjust the top position as needed */
+    left: 85%; /* Shift it closer to the right edge */
+    transform: translateX(-50%); /* Center it horizontally if necessary */
+  }
+
+  .b_popup button img {
+    width: 60px; /* Adjust the size for smaller screens */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  /* Ensure the popup container fits within the viewport */
+  .popup {
+    width: 90%; /* Reduce width for smaller screens */
+    max-width: 350px; /* Limit the maximum width */
+  }
+}
+
 #upload-btn {
   display: none; /* Hide the actual file input */
   position: absolute;
