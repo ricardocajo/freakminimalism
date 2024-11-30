@@ -12346,18 +12346,19 @@ button.removeButton {
 /* Title styling with a fun, minimalist freaky touch */
 .glowing-title {
   position: relative;
-  font-size: 3rem;
+  font-size: 2.5rem; /* Smaller font size */
   font-family: 'Courier New', Courier, monospace; /* Monospaced font for a minimalist touch */
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 5px;
+  letter-spacing: 4px; /* Adjusted letter-spacing */
   color: white;
   text-align: center;
   background: rgba(0, 0, 0, 0.4); /* Slight background for the text */
-  padding: 15px;
-  border-radius: 20px;
+  padding: 5px 10px; /* Reduced padding to just around the text */
+  border-radius: 10px; /* Reduced border radius to fit tightly around the text */
   animation: wave 2s infinite ease-in-out; /* Wavy animation for a freaky vibe */
   text-shadow: 0 0 10px rgba(166, 196, 232, 0.7), 0 0 30px rgba(166, 196, 232, 0.7); /* Light blue glow */
+  display: inline-block; /* Ensures the box fits tightly around the text */
 }
 
 /* Animation for the title to make it wavy */
@@ -12380,7 +12381,7 @@ button.removeButton {
   left: -5px;
   right: -5px;
   border: 2px solid #a6c4e8; /* Light blue border */
-  border-radius: 20px;
+  border-radius: 10px; /* Adjusted border radius to fit around the text */
   animation: pulse 1.5s infinite ease-in-out; /* Glowing effect */
   box-shadow: 0 0 15px rgba(166, 196, 232, 0.8), 0 0 30px rgba(166, 196, 232, 0.7);
 }
