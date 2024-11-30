@@ -61,7 +61,7 @@
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: Nunito, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
-  --bs-body-font-size: 1rem;
+  --bs-body-font-size: 1.3rem;
   --bs-body-font-weight: 400;
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
@@ -82,7 +82,7 @@
 
 @font-face {
   font-family: 'ChosenFont'; /* Choose a name for the font family */
-  src: url('../fonts/font.ttf') format('truetype');
+  src: url('../fonts/font.otf') format('truetype');
 }
 
 
@@ -11965,6 +11965,7 @@ background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5)
   border-radius: 5px; /* Optional: Add border-radius for rounded corners */
 }
 
+/* Flexbox layout for the clickable list */
 ul.clickable-list {
   display: flex; /* Use Flexbox to center the list items */
   justify-content: center; /* Center the list items horizontally */
@@ -11980,11 +11981,22 @@ ul.clickable-list li {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   color: white;
-  font-size: 15px; /* Adjust font size */
+  font-size: 17px; /* Adjust font size */
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   margin: 0 10px 40px 10px; /* Adjust margin for proper spacing */
+
+  /* Snowy glowing border */
+  border: 3px solid #a6c4e8; /* Light blue border for icy feel */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(200, 255, 255, 0.4); /* Glowing effect */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Snowy glowing effect on hover */
+ul.clickable-list li:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(200, 255, 255, 0.7); /* Enhanced glow on hover */
+  border-color: #ffffff; /* Make border white on hover */
 }
 
 @media (min-width: 768px) { /* Adjust the breakpoint as needed */
@@ -11993,41 +12005,9 @@ ul.clickable-list li {
   }
 }
 
+/* Active state styles */
 ul.clickable-list li:hover,
 ul.clickable-list li.active {
-  background-color: #006666;
-}
-
-ul.clickable-list2 {
-  display: flex; /* Use Flexbox to center the list items */
-  justify-content: center; /* Center the list items horizontally */
-  flex-wrap: wrap; /* Allow items to wrap onto multiple lines if necessary */
-  padding: 0;
-  margin: 0;
-  list-style-type: none; /* Remove bullets */
-}
-
-/* Styling the list items */
-ul.clickable-list2 li {
-  display: inline-block; /* Keeps the list items inline */
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  color: white;
-  font-size: 15px; /* Adjust font size */
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  margin: 0 10px 40px 10px; /* Adjust margin for proper spacing */
-}
-
-@media (min-width: 768px) { /* Adjust the breakpoint as needed */
-  ul.clickable-list2 li {
-    width: 45%; /* On larger screens, set the width to 20% for five columns */
-  }
-}
-
-ul.clickable-list2 li:hover,
-ul.clickable-list2 li.active {
   background-color: #006666;
 }
 
@@ -12325,4 +12305,94 @@ button.removeButton {
 
 #portes {
   margin-top: auto; /* This will push the "Portes" li to the bottom */
+}
+
+/* Base container with no visible borders */
+.glowing-border {
+  position: relative;
+  padding: 2rem;
+  background: transparent; /* Ensures background image shows through */
+  margin-top: 20px; /* Adds a little space from the first <p> */
+}
+
+/* Left and right glow created with pseudo-elements */
+.glowing-border::before,
+.glowing-border::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 5px; /* Width of the glowing effect */
+  background: linear-gradient(to bottom, rgba(166, 196, 232, 0.6), rgba(166, 196, 232, 0)); /* Light blue glow */
+  box-shadow: 0 0 15px rgba(166, 196, 232, 0.8); /* Light blue shadow */
+}
+
+/* Left glow pseudo-element */
+.glowing-border::before {
+  left: 0;
+}
+
+/* Right glow pseudo-element */
+.glowing-border::after {
+  right: 0;
+}
+
+/* Hover effect to intensify the glow */
+.glowing-border:hover::before,
+.glowing-border:hover::after {
+  box-shadow: 0 0 30px rgba(166, 196, 232, 1); /* Brighter blue glow on hover */
+}
+
+/* Title styling with a fun, minimalist freaky touch */
+.glowing-title {
+  position: relative;
+  font-size: 3rem;
+  font-family: 'Courier New', Courier, monospace; /* Monospaced font for a minimalist touch */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: white;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4); /* Slight background for the text */
+  padding: 15px;
+  border-radius: 20px;
+  animation: wave 2s infinite ease-in-out; /* Wavy animation for a freaky vibe */
+  text-shadow: 0 0 10px rgba(166, 196, 232, 0.7), 0 0 30px rgba(166, 196, 232, 0.7); /* Light blue glow */
+}
+
+/* Animation for the title to make it wavy */
+@keyframes wave {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px) rotate(2deg);
+  }
+}
+
+/* Fun outline effect with blue glow */
+.glowing-title::before,
+.glowing-title::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: -5px;
+  right: -5px;
+  border: 2px solid #a6c4e8; /* Light blue border */
+  border-radius: 20px;
+  animation: pulse 1.5s infinite ease-in-out; /* Glowing effect */
+  box-shadow: 0 0 15px rgba(166, 196, 232, 0.8), 0 0 30px rgba(166, 196, 232, 0.7);
+}
+
+/* Pulse animation for the glowing effect */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
 }
