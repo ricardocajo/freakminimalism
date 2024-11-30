@@ -11861,22 +11861,39 @@ background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5)
 }
 
 .merchimg {
-  display: grid;
-  height: 100%;
-  grid-template-columns: repeat(4, 1fr); /* Default for larger screens */
-  grid-gap: 0.5rem; /* Space between grid items */
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to the next row */
+  justify-content: center; /* Centers the items horizontally */
+  gap: 0.5rem; /* Adds spacing between items */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+  list-style: none; /* Remove bullet points for the list */
+}
+
+.merchimg li {
+  flex: 1 1 calc(25% - 0.5rem); /* 4 items per row by default */
+  max-width: calc(25% - 0.5rem); /* Prevent items from growing beyond their space */
+  box-sizing: border-box; /* Ensures padding doesn't affect width calculations */
 }
 
 @media (max-width: 768px) {
-  .merchimg {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+  .merchimg li {
+    flex: 1 1 calc(50% - 0.5rem); /* 2 items per row on medium screens */
+    max-width: calc(50% - 0.5rem);
   }
 }
 
 @media (max-width: 480px) {
-  .merchimg {
-    grid-template-columns: 1fr; /* 1 column on small screens */
+  .merchimg li {
+    flex: 1 1 calc(100% - 0.5rem); /* 1 item per row on small screens */
+    max-width: calc(100% - 0.5rem);
   }
+}
+
+.merchimg img {
+  width: 100%; /* Ensure images fill the list item's width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 50%; /* Keep the circular shape */
 }
 
 .arteimg {
