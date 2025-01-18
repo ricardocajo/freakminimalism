@@ -342,3 +342,48 @@ document.getElementById('nextBtnPatch').addEventListener('click', function () {
   // Call the updateDesigns function to perform the button click logic
   updatePatch();
 });
+
+const destaqueLists = document.querySelectorAll('.worksimg');
+let destaqueCurrentIndex = 0;
+const destaqueIntervalTime = 3000; // Time in milliseconds for automatic cycling
+let destaqueInterval;
+
+// Helper function to update the active list
+function updateDestaqueActiveList(index) {
+  destaqueLists.forEach((list, i) => {
+    list.classList.toggle('active', i === index);
+  });
+}
+
+// Show the next list
+function showNextDestaque() {
+  destaqueCurrentIndex = (destaqueCurrentIndex + 1) % destaqueLists.length;
+  updateDestaqueActiveList(destaqueCurrentIndex);
+}
+
+// Show the previous list
+function showPrevDestaque() {
+  destaqueCurrentIndex =
+    (destaqueCurrentIndex - 1 + destaqueLists.length) % destaqueLists.length;
+  updateDestaqueActiveList(destaqueCurrentIndex);
+}
+
+// Reset the interval timer
+function resetDestaqueInterval() {
+  clearInterval(destaqueInterval);
+  destaqueInterval = setInterval(showNextDestaque, destaqueIntervalTime);
+}
+
+// Event listeners for buttons
+document.getElementById('nextBtnDestaques').addEventListener('click', () => {
+  showNextDestaque();
+  resetDestaqueInterval();
+});
+
+document.getElementById('prevBtnDestaques').addEventListener('click', () => {
+  showPrevDestaque();
+  resetDestaqueInterval();
+});
+
+// Start the automatic cycling
+destaqueInterval = setInterval(showNextDestaque, destaqueIntervalTime);

@@ -542,15 +542,9 @@ function initialize_colecoesItems() {
 }
 
 function initialize_destaquesItems() {
-  let items_DOM = document.getElementById("destaques-type");
   let destaquesItems = ["DESTAQUE1", "DESTAQUE2", "DESTAQUE3"];
 
   destaquesItems.forEach(item => {
-    let listItem = document.createElement("li");
-    listItem.value = item;
-    listItem.className = "col-md-4";
-    listItem.innerHTML = item;
-    items_DOM.appendChild(listItem);
     initialize_destaque(item);
   });
 }

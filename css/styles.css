@@ -12349,7 +12349,7 @@ button.removeButton {
   font-size: 2.5rem; /* Smaller font size */
   font-family: 'Courier New', Courier, monospace; /* Monospaced font for a minimalist touch */
   font-weight: bold;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   letter-spacing: 4px; /* Adjusted letter-spacing */
   color: white;
   text-align: center;
