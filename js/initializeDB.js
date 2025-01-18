@@ -1,6 +1,7 @@
 initialize_prices();
 initialize_clothingItems();
 initialize_colecoesItems();
+initialize_destaquesItems();
 initialize_3dItems();
 initialize_artesItems();
 initialize_designs();

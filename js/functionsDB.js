@@ -289,9 +289,55 @@ function initialize_colecao(name) {
     });
 }
 
+function initialize_destaque(name) {
+  name = name.replace(/[\s|]/g, "");
+  let destaque_DOM = document.getElementById(name + "_list");
+  fetch(ABSOLUTE_PATH + "/db/destaques/"+ name + "/works.json")
+    .then(response => response.json())
+    .then(data => {
+      Object.keys(data).forEach(key => {
+        let listItem = document.createElement("li");
+        listItem.classList.add("column-item");
+        switch(key) {
+          case "img":
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="...">`;
+            break;
+          case "img2":
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            break;
+          case "img3":
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            break;
+          case "img4":
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            break;
+          case "img5":
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            break;
+          case "video":
+            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;            
+            break;
+          case "desc":
+            let parts = data[key].split(';');
+            parts.forEach((part) => {
+              listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
+            });
+            break;
+          default:
+            // code block
+        }
+        destaque_DOM.appendChild(listItem);
+      });
+    })
+    .catch(error => {
+      //works_index = 0;
+      console.error('Error:', error);
+    });
+}
+
 function initialize_3d(name) {
   name = name.replace(/[\s|]/g, "");
-  let colecao_DOM = document.getElementById(name + "_list");
+  let d_DOM = document.getElementById(name + "_list");
   fetch(ABSOLUTE_PATH + "/db/3d/"+ name + "/works.json")
     .then(response => response.json())
     .then(data => {
@@ -326,7 +372,7 @@ function initialize_3d(name) {
           default:
             // code block
         }
-        colecao_DOM.appendChild(listItem);
+        d_DOM.appendChild(listItem);
       });
     })
     .catch(error => {
@@ -492,6 +538,20 @@ function initialize_colecoesItems() {
     listItem.innerHTML = item;
     items_DOM.appendChild(listItem);
     initialize_colecao(item);
+  });
+}
+
+function initialize_destaquesItems() {
+  let items_DOM = document.getElementById("destaques-type");
+  let destaquesItems = ["DESTAQUE1", "DESTAQUE2", "DESTAQUE3"];
+
+  destaquesItems.forEach(item => {
+    let listItem = document.createElement("li");
+    listItem.value = item;
+    listItem.className = "col-md-4";
+    listItem.innerHTML = item;
+    items_DOM.appendChild(listItem);
+    initialize_destaque(item);
   });
 }
 
