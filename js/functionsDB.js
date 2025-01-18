@@ -471,7 +471,7 @@ function handleColecoesTypeSelected(event_target) {
   let list_DOM = document.getElementById(theSelectedColecao + "_list");
 
   list_DOM.style.display = "flex";
-  if(currentSelectedColecao !== "") {
+  if(theSelectedColecao !== "" && currentSelectedColecao !== theSelectedColecao) {
     old_list_DOM.style.display = "none";
   }
 
@@ -503,7 +503,7 @@ function handle3dTypeSelected(event_target) {
   let list_DOM = document.getElementById(theSelected3d + "_list");
 
   list_DOM.style.display = "flex";
-  if(currentSelected3d !== "") {
+  if(theSelected3d !== "" && currentSelected3d !== theSelected3d) {
     old_list_DOM.style.display = "none";
   }
 
