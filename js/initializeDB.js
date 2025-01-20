@@ -343,7 +343,7 @@ document.getElementById('nextBtnPatch').addEventListener('click', function () {
   updatePatch();
 });
 
-const destaqueLists = document.querySelectorAll('.worksimg');
+const destaqueLists = document.querySelectorAll('.destaque');
 let destaqueCurrentIndex = 0;
 const destaqueIntervalTime = 3000; // Time in milliseconds for automatic cycling
 let destaqueInterval;
@@ -351,7 +351,7 @@ let destaqueInterval;
 // Helper function to update the active list
 function updateDestaqueActiveList(index) {
   destaqueLists.forEach((list, i) => {
-    list.classList.toggle('active', i === index);
+    list.style.display = i === index ? 'flex' : 'none';
   });
 }
 
@@ -387,3 +387,6 @@ document.getElementById('prevBtnDestaques').addEventListener('click', () => {
 
 // Start the automatic cycling
 destaqueInterval = setInterval(showNextDestaque, destaqueIntervalTime);
+
+// Initial update to ensure the correct list is visible
+updateDestaqueActiveList(destaqueCurrentIndex);
