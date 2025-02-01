@@ -330,13 +330,13 @@ function initialize_destaque(name) {
             });
 
             // Add the centered button below the description parts
-            listItem.innerHTML += `
+            /*listItem.innerHTML += `
               <div class="button-container">
                 <button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">
                   Adicionar ao Carrinho
                 </button>
               </div>
-            `;
+            `;*/
           default:
             // code block
         }
