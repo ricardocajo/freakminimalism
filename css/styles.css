@@ -12385,7 +12385,7 @@ button.removeButton {
 }
 
 .smaller-div {
-  max-width: 70%; /* Adjust to control the size */
+  max-width: 60%; /* Adjust to control the size */
   margin: 0 auto; /* Keep it centered */
   padding: 10px; /* Add some spacing inside */
   display: flex; /* Ensure flex remains */
@@ -12408,7 +12408,7 @@ button.removeButton {
 }
 
 .glow-text {
-  font-size: 0.9rem; /* Adjust size as needed */
+  font-size: 0.7rem; /* Adjust size as needed */
   font-family: 'Courier New', Courier, monospace; /* Minimalist monospaced font */
   font-weight: bold;
   letter-spacing: 2px; /* Slight letter spacing */

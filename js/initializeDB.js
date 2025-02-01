@@ -345,7 +345,7 @@ document.getElementById('nextBtnPatch').addEventListener('click', function () {
 
 const destaqueLists = document.querySelectorAll('.destaque');
 let destaqueCurrentIndex = 0;
-const destaqueIntervalTime = 3000; // Time in milliseconds for automatic cycling
+const destaqueIntervalTime = 4500; // Time in milliseconds for automatic cycling
 let destaqueInterval;
 
 // Helper function to update the active list
