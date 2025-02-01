@@ -32,14 +32,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ms-auto">   
-            <li class="nav-item"><a class="nav-link" href="#aboutus">Essencia</a></li>
-            <li class="nav-item"><a class="nav-link" href="#prices">Precos</a></li>
-            <!--<li class="nav-item"><a class="nav-link" href="#destaques">Destaques</a></li>-->
+            <li class="nav-item"><a class="nav-link" href="#prices">Desde</a></li>
             <li class="nav-item"><a class="nav-link" href="#clothing">Personalizar</a></li>
             <li class="nav-item"><a class="nav-link" href="#designs">Parcerias</a></li>
             <li class="nav-item"><a class="nav-link" href="#Impressoes3D">3DFreakWorks</a></li>
             <li class="nav-item"><a class="nav-link" href="#arte">Arte</a></li>
             <!--<li class="nav-item"><a class="nav-link" href="#twitch">TWITCH</a></li>-->
+            <li class="nav-item"><a class="nav-link" href="#essencia">Essencia</a></li>
             <li class="nav-item"><a class="nav-link" href="#contacts">Contactos</a></li>
           </ul>
         </div>
@@ -52,8 +51,23 @@
     <header class="masthead">
       <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
         <div class="d-flex justify-content-center flex-column">
+          <br><br><br><br><br>
           <div class="text-center">
             <h1 class="mx-auto my-0 text-uppercase">𝔇𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔳𝔦𝔰𝔦𝔬𝔫 𝔡𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔰𝔱𝔶𝔩𝔢</h1>
+          </div>
+          <!-- Destaques -->
+          <br>
+          <div class="text-center smaller-div">
+            <br>
+            <div class="container px-4 px-lg-5">
+            <div class="destaques" id="destaques_list" style="display: flex;">
+              <ul class="worksimg destaque active" id="DESTAQUE1_list" style="display: flex;"></ul>
+              <ul class="worksimg destaque" id="DESTAQUE2_list" style="display: none;"></ul>
+              <ul class="worksimg destaque" id="DESTAQUE3_list" style="display: none;"></ul>
+            </div>
+            <button id="prevBtnDestaques" class="cool-button">Anterior</button>
+            <span style="margin: 18px;"></span>
+            <button id="nextBtnDestaques" class="cool-button">Proximo</button>              
           </div>
         </div>
       </div>
@@ -67,73 +81,34 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-lg-8">
             <br><br>
-            <h2 class="title glowing-title">Essencia</h2>
-            <br><br>
-            <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
-              <span style="margin-right: -0.5em;">ғʀᴇᴀᴋ ̶</span>M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶  FOI  FUNDADA  EM  JANEIRO  DE  2023
-              COMO  UMA  EMPRESA  QUE  TEM  COMO  BASE  O  GOSTO  PELA  ARTE  E  MODA.
-            </p>
-            <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
-              O NOSSO  FOCO  ESTA  EM  CRIAR  VESTUARIO  BORDADO  UNICO  E  EXCLUSIVO,
-              ASSIM  COMO  REALIZAR  PINTURAS  E  RESTAURACOES  EM  PECAS  UNICAS,  TUDO  FEITO  A  MAO.
-            </p>
-            <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
-              <span style="margin-right: -0.5em;">ғʀᴇᴀᴋ ̶</span>M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶  TEM  MUITO  PRA  VOS  OFERECER  FIQUEM  ATENTOS.
-            </p>
-    
             <!-- Wrapper for content after the first <p> -->
             <div class="glowing-border">
-              <div class="container px-4 px-lg-5">
-                <div class="social d-flex justify-content-center">
-                  <a class="mx-2" href="mailto:freakminimalism@gmail.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
-                  <a class="mx-2" href="https://www.instagram.com/freakminimalism/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                  <a class="mx-2" href="https://www.tiktok.com/@freakminimalism" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-                  <a class="mx-2" href="https://www.twitch.tv/ShashirX" target="_blank"><i class="fa-brands fa-twitch"></i></a>
-                  <a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-              </div>
+              <h2 class="title glowing-title" id="prices">Desde</h2>
               <br><br><br><br><br>
-              <h2 class="title" id="prices">Desde</h2>
               <br>
               <ul id="prices_list" style="list-style-type: none; padding: 0;"></ul>
               <br>
               <p style="font-size: 16px;">
                 Nota: Levantamento GRATUITO em loja Decorações Dorita (Rua José Ladislau de Sousa n.214, 2870-413 Montijo) OU GLS (Portes: 5,50€ para compras inferiores a 100€)
               </p>
+              <br><br>
+              <div class="social d-flex justify-content-center">
+                <a class="mx-2" href="mailto:freakminimalism@gmail.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
+                <a class="mx-2" href="https://www.instagram.com/freakminimalism/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a class="mx-2" href="https://www.tiktok.com/@freakminimalism" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                <a class="mx-2" href="https://www.twitch.tv/ShashirX" target="_blank"><i class="fa-brands fa-twitch"></i></a>
+                <a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>       
 
-        
-    <!-- Destaques 
-    <section class="projects2-section bg-light" id="destaques">
-      <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5">
-          <div class="col-md-10 col-lg-8 mx-auto text-center">
-            <h2 class="title">Destaques</h2>
-            <div class="text-center">
-              <br><br>
-              <div class="destaques" id="destaques_list" style="display: flex;">
-                <ul class="worksimg destaque active" id="DESTAQUE1_list" style="display: flex;"></ul>
-                <ul class="worksimg destaque" id="DESTAQUE2_list" style="display: none;"></ul>
-                <ul class="worksimg destaque" id="DESTAQUE3_list" style="display: none;"></ul>
-              </div>
-              <button id="prevBtnDestaques" class="cool-button">Anterior</button>
-              <span style="margin: 18px;"></span>
-              <button id="nextBtnDestaques" class="cool-button">Proximo</button>              
-            </div>
-          </div>
-        </div>
-      </div>
-      <br><br>
-    </section>-->
-
 
     <!-- Clothing -->
-    <section class="projects-section bg-light" id="clothing">
-      <h2 class="text-center">Personalizar</h2>
+    <section class="projects-section bg-light text-center" id="clothing">
+      <h2 class="title">Personalizar</h2>
       <br>
       <div class="container px-4 px-lg-5 mb-5">
         <div class="row justify-content-center">
@@ -262,7 +237,7 @@
             </div>
 
             <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="encomendarButao" style="display: none;">
-              <button id="encomendarButaoB" onclick="adicionarCarrinho()" class="mt-5">
+              <button id="encomendarButaoB" onclick="adicionarCarrinho()" class="mt-5 clickable-button">
                 Adicionar ao Carrinho
               </button>
             </div>
@@ -494,8 +469,20 @@
 
 
     <!-- Contacts -->
-    <section class="contact-section bg-black" id="contacts">
-      <h5 class="title text-center white-text">Parcerias</h4>
+    <section class="contact-section bg-black text-center" id="essencia">
+      <h2 class="title glowing-title">Essencia</h2>
+      <br><br>
+      <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
+        <span style="margin-right: -0.5em;">ғʀᴇᴀᴋ ̶</span>M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶  FOI  FUNDADA  EM  JANEIRO  DE  2023
+        COMO  UMA  EMPRESA  QUE  TEM  COMO  BASE  O  GOSTO  PELA  ARTE  E  MODA.
+      </p>
+      <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
+        O NOSSO  FOCO  ESTA  EM  CRIAR  VESTUARIO  BORDADO  UNICO  E  EXCLUSIVO,
+        ASSIM  COMO  REALIZAR  PINTURAS  E  RESTAURACOES  EM  PECAS  UNICAS,  TUDO  FEITO  A  MAO.
+      </p>
+      <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
+        <span style="margin-right: -0.5em;">ғʀᴇᴀᴋ ̶</span>M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶  TEM  MUITO  PRA  VOS  OFERECER  FIQUEM  ATENTOS.
+      </p>
       <div class="social d-flex justify-content-center">
         <ul class="merchimg" id="merch_list">
           <li class="column-item hidden"><a class="mx-4" href="https://www.facebook.com/dora.isabel.batista" target="_blank"><img class="rounded-circle custom-image-size" src="https://freak-minimalism.com/assets/img/p1.jpg" alt="..." loading="lazy"></a></li>
@@ -509,8 +496,7 @@
       </div>
 
       <br>
-
-      <h5 class="title text-center white-text">Contactos</h4>
+      <h5 class="title text-center white-text" id="contacts">Contactos</h4>
       <div class="social d-flex justify-content-center">
         <a class="mx-2" href="mailto:freakminimalism@gmail.com" target="_blank"><img src="https://freak-minimalism.com/assets/img/envelope-solid.svg" alt="..."></a>
         <a class="mx-2" href="https://www.instagram.com/freakminimalism/" target="_blank"><img src="https://freak-minimalism.com/assets/img/instagram.svg" alt="..."></a>

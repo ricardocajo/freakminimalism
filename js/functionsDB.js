@@ -257,19 +257,19 @@ function initialize_colecao(name) {
             listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="...">`;
             break;
           case "img2":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "img3":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "img4":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "img5":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "video":
-            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;            
+            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;            
             break;
           case "desc":
             let parts = data[key].split(';');
@@ -303,24 +303,24 @@ function initialize_destaque(name) {
             listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="...">`;
             break;
           case "img2":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "img3":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "img4":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "img5":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "video":
-            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5">Adicionar ao Carrinho</button>`;            
+            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;            
             break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part) => {
-              listItem.innerHTML = listItem.innerHTML + `<p>${part}</p>`;
+              listItem.innerHTML = listItem.innerHTML + `<p class="glow-text">${part}</p>`;
             });
             break;
           default:

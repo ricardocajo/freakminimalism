@@ -11595,7 +11595,7 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/fundo.png");
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/fundo1.png");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11702,7 +11702,7 @@ background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5)
   /*padding: 10rem 0;*/
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000 100%), 
               linear-gradient(to top, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 75%, #000 100%),
-              url("../assets/img/fundo1.png");
+              url("../assets/img/fundo4.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -12009,6 +12009,46 @@ ul.clickable-list li:hover {
 ul.clickable-list li:hover,
 ul.clickable-list li.active {
   background-color: #006666;
+}
+
+button.clickable-button {
+  display: inline-flex; /* Allow button to size based on content */
+  justify-content: center; 
+  align-items: center; 
+  padding: 10px 20px; /* Adjust padding for better spacing */
+  background: transparent; /* No background */
+  color: white;
+  font-size: 17px;
+  border: 3px solid #a6c4e8; /* Light blue border */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(200, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center; 
+  white-space: nowrap; /* Ensure text stays on one line */
+  word-break: normal; 
+  width: auto; /* Button adjusts to text size */
+  min-width: fit-content; /* Ensure it doesn't shrink too much */
+  margin: 20px auto; /* Center horizontally */
+}
+
+/* Snowy glowing effect on hover */
+button.clickable-button:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(200, 255, 255, 0.7);
+  border-color: #ffffff;
+}
+
+/* Active state */
+button.clickable-button:hover,
+button.clickable-button.active {
+  background-color: transparent;
+}
+
+/* Responsive sizing */
+@media (min-width: 768px) {
+  button.clickable-button {
+    width: auto; /* Allow dynamic width */
+    max-width: fit-content; /* Prevents unnecessary stretching */
+  }
 }
 
 video {
@@ -12341,6 +12381,38 @@ button.removeButton {
 .glowing-border:hover::before,
 .glowing-border:hover::after {
   box-shadow: 0 0 30px rgba(166, 196, 232, 1); /* Brighter blue glow on hover */
+}
+
+.smaller-div {
+  max-width: 70%; /* Adjust to control the size */
+  margin: 0 auto; /* Keep it centered */
+  padding: 10px; /* Add some spacing inside */
+  display: flex; /* Ensure flex remains */
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center children horizontally */
+}
+
+.title {
+  position: relative;
+  font-size: 2.5rem; /* Smaller font size */
+  font-family: 'Courier New', Courier, monospace; /* Monospaced font for a minimalist touch */
+  font-weight: bold;
+  letter-spacing: 4px; /* Adjusted letter-spacing */
+  color: white;
+  text-align: center;
+  background: transparent; /* Removed background box */
+  padding: 5px 10px; /* Keeps some spacing if needed */
+  text-shadow: 0 0 10px rgba(166, 196, 232, 0.7), 0 0 30px rgba(166, 196, 232, 0.7); /* Light blue glow */
+  display: inline-block; /* Ensures the text doesn't stretch */
+}
+
+.glow-text {
+  font-size: 1.2rem; /* Adjust size as needed */
+  font-family: 'Courier New', Courier, monospace; /* Minimalist monospaced font */
+  font-weight: bold;
+  letter-spacing: 2px; /* Slight letter spacing */
+  color: white;
+  text-shadow: 0 0 10px rgba(166, 196, 232, 0.7), 0 0 30px rgba(166, 196, 232, 0.7); /* Light blue glow */
 }
 
 /* Title styling with a fun, minimalist freaky touch */
