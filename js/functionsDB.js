@@ -316,7 +316,7 @@ function initialize_destaque(name) {
               if (index === 0 || index === 1 || index === parts.length - 1) {
                 listItem.innerHTML += `<p class="glow-text large-text">${part}</p>`;
               } else {
-                listItem.innerHTML += `
+                listItem.innerHTML += ` <br>
                                         <ul id="tamanhos2" class="row" style="display: flex; flex-wrap: wrap; list-style-type: none; padding: 0; justify-content: space-between; gap: 10px;">
                                           <li class="glow-red" style="flex: 1 1 30%; display: none;">XS</li>
                                           <li class="glow-red" style="flex: 1 1 30%; display: none;">S</li>
@@ -324,7 +324,8 @@ function initialize_destaque(name) {
                                           <li class="glow-red" style="flex: 1 1 30%; display: none;">L</li>
                                           <li class="glow-red" style="flex: 1 1 30%; display: none;">XL</li>
                                           <li class="glow-red" style="flex: 1 1 30%; display: none;">XXL</li>
-                                        </ul>`;
+                                        </ul>
+                                        <br>`;
               }
             });
 
