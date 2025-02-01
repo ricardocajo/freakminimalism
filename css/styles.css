@@ -12480,3 +12480,32 @@ button.removeButton {
 .large-text {
   font-size: 1.5rem; /* Adjust as needed */
 }
+
+/* Style for the list */
+#tamanhos2 {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Center the list horizontally */
+}
+
+#tamanhos2 li {
+  padding: 8px 16px;
+  margin: 0 8px;
+  font-size: 1.2rem; /* Adjust size as needed */
+  font-weight: bold;
+  border: 2px solid #ccc; /* Border around each size */
+  color: #ccc; /* Default text color */
+  pointer-events: none; /* Prevent user from interacting with the list */
+}
+
+/* Red glow for non-selected items */
+.glow-red {
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+/* White glow for the selected size */
+.glow-white {
+  color: white;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 20px rgba(255, 255, 255, 1);
+}
