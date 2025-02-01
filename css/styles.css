@@ -12245,6 +12245,7 @@ video {
   width: 16.6667%;
 }
 
+
 #roupa-banners {
   margin-top: 30px;
 }
@@ -12468,4 +12469,14 @@ button.removeButton {
     transform: scale(1.1);
     opacity: 1;
   }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Centers the button horizontally */
+  margin-top: 10px; /* Adds spacing above the button */
+}
+
+.large-text {
+  font-size: 1.5rem; /* Adjust as needed */
 }

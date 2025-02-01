@@ -302,27 +302,32 @@ function initialize_destaque(name) {
           case "img":
             listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="...">`;
             break;
-          case "img2":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
-            break;
           case "img3":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
-            break;
-          case "img4":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
-            break;
-          case "img5":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="...">`;
             break;
           case "video":
-            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;            
+            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;            
             break;
           case "desc":
             let parts = data[key].split(';');
-            parts.forEach((part) => {
-              listItem.innerHTML = listItem.innerHTML + `<p class="glow-text">${part}</p>`;
+            parts.forEach((part, index) => {
+              // Check if it's the first or last item
+              if (index === 0 || index === 1 || index === parts.length - 1) {
+                listItem.innerHTML += `<p class="glow-text large-text">${part}</p>`;
+              } else {
+                listItem.innerHTML += `<p class="glow-text">${part}</p>`;
+              }
             });
-            break;
+
+            // Add the centered button below the description parts
+            listItem.innerHTML += `
+              <div class="button-container">
+                <br><br>
+                <button id="encomendarButaoC" onclick="adicionarCarrinhoDestaque('${data[key]}')" class="mt-5 clickable-button">
+                  Adicionar ao Carrinho
+                </button>
+              </div>
+            `;
           default:
             // code block
         }
