@@ -12407,7 +12407,7 @@ button.removeButton {
 }
 
 .glow-text {
-  font-size: 1.2rem; /* Adjust size as needed */
+  font-size: 0.9rem; /* Adjust size as needed */
   font-family: 'Courier New', Courier, monospace; /* Minimalist monospaced font */
   font-weight: bold;
   letter-spacing: 2px; /* Slight letter spacing */
