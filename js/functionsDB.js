@@ -543,7 +543,7 @@ function handleColecoesTypeSelected(event_target) {
 
 function initialize_colecoesItems() {
   let items_DOM = document.getElementById("colecoes-type");
-  let colecoesItems = ["POLETEMPLE"];
+  let colecoesItems = ["POLETEMPLE", "MANDALAKAOS"];
 
   colecoesItems.forEach(item => {
     let listItem = document.createElement("li");
