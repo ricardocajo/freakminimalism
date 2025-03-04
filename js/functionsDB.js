@@ -254,7 +254,7 @@ function initialize_colecao(name) {
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="...">`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
             break;
           case "img2":
             listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/colecoes/${name}/img/${data[key]}" alt="..."><br><br><button id="encomendarButaoC" onclick="adicionarCarrinhoColecao('${data[key]}')" class="mt-5 clickable-button">Adicionar ao Carrinho</button>`;
@@ -531,13 +531,11 @@ function handleColecoesTypeSelected(event_target) {
   let list_DOM = document.getElementById(theSelectedColecao + "_list");
 
   list_DOM.style.display = "flex";
-  if(theSelectedColecao !== "" && currentSelectedColecao !== theSelectedColecao) {
+  if(currentSelectedColecao !== "" && currentSelectedColecao !== theSelectedColecao) {
     old_list_DOM.style.display = "none";
   }
 
   currentSelectedColecao = theSelectedColecao;
-  console.log(theSelectedColecao);
-  console.log(currentSelectedColecao);
 }
 
 
