@@ -218,7 +218,7 @@ document.getElementById('prevBtnMerch').addEventListener('click', function () {
 });
 
 var merch_show_index = [0, 1, 2, 3]; // Initialize to show the first 4 items
-var merch_list_size = 3; // Total number of items in the merch list
+var merch_list_size = 4; // Total number of items in the merch list
 var merch_index = 0;
 
 function updateMerch() {
