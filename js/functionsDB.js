@@ -300,32 +300,31 @@ function initialize_destaque(name) {
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="...">`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..." style="max-width: 100%;">`;
             break;
           case "img3":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="...">`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..." style="max-width: 100%;">`;
             break;
           case "video":
-            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;            
+            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy" style="max-width: 100%;"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;
             break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part, index) => {
-
               // Check if it's the first or last item
               if (index === 0 || index === 1 || index === parts.length - 1) {
-                listItem.innerHTML += `<p class="glow-text large-text">${part}</p>`;
+                listItem.innerHTML += `<p class="glow-text large-text" style="margin-top: 10px; margin-bottom: 10px;">${part}</p>`;
               } else {
-                listItem.innerHTML += ` <br>
-                                        <ul id="tamanhos2" class="row" style="display: flex; flex-wrap: wrap; list-style-type: none; padding: 0; justify-content: space-between; gap: 10px;">
-                                          <li class="glow-red" style="flex: 1 1 30%; display: none;">XS</li>
-                                          <li class="glow-red" style="flex: 1 1 30%; display: none;">S</li>
-                                          <li class="glow-white active" style="flex: 1 1 30%;">M</li> <!-- "M" is pre-selected with white glow -->
-                                          <li class="glow-red" style="flex: 1 1 30%; display: none;">L</li>
-                                          <li class="glow-red" style="flex: 1 1 30%; display: none;">XL</li>
-                                          <li class="glow-red" style="flex: 1 1 30%; display: none;">XXL</li>
+                listItem.innerHTML += ` <div style="margin: 10px 0;">
+                                        <ul id="tamanhos2" class="row" style="display: flex; flex-wrap: wrap; list-style-type: none; padding: 0; justify-content: center; gap: 10px;">
+                                          <li class="glow-red" style="flex: 0 0 auto; display: none; margin: 5px;">XS</li>
+                                          <li class="glow-red" style="flex: 0 0 auto; display: none; margin: 5px;">S</li>
+                                          <li class="glow-white active" style="flex: 0 0 auto; margin: 5px;">M</li> <!-- "M" is pre-selected with white glow -->
+                                          <li class="glow-red" style="flex: 0 0 auto; display: none; margin: 5px;">L</li>
+                                          <li class="glow-red" style="flex: 0 0 auto; display: none; margin: 5px;">XL</li>
+                                          <li class="glow-red" style="flex: 0 0 auto; display: none; margin: 5px;">XXL</li>
                                         </ul>
-                                        <br>`;
+                                        </div>`;
               }
             });
 

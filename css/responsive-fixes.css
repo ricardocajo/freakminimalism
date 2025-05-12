@@ -1,0 +1,143 @@
+/* Responsive fixes for Freak Minimalism website */
+
+/* Destaques section fixes */
+.destaques {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+.worksimg {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.worksimg .column-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  padding: 10px;
+}
+
+.worksimg .column-item img,
+.worksimg .column-item video {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.smaller-div {
+  width: 100%;
+  overflow: hidden;
+  padding: 0 15px;
+}
+
+/* Fix for the masthead section */
+.masthead {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 100px; /* Add space at the bottom for the destaques section */
+}
+
+/* Ensure glow text is properly sized */
+.glow-text {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Responsive media queries */
+@media (max-width: 576px) {
+  /* Mobile devices */
+  .masthead {
+    padding-top: 80px;
+    height: auto !important; /* Override any fixed height */
+    min-height: auto !important;
+  }
+
+  .masthead .container,
+  .masthead .d-flex {
+    height: auto !important;
+  }
+
+  .glow-text {
+    font-size: 16px !important;
+  }
+
+  .large-text {
+    font-size: 14px !important;
+  }
+
+  .worksimg .column-item {
+    width: 100%;
+  }
+
+  /* Make sure buttons don't overflow */
+  .cool-button {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  /* Adjust tamanhos2 list for mobile */
+  #tamanhos2 li {
+    flex: 0 0 auto;
+    font-size: 14px;
+    padding: 5px;
+    margin: 3px;
+  }
+
+  /* Ensure text doesn't overflow */
+  p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 10px 0;
+  }
+
+  /* Fix for large headers */
+  h1 {
+    font-size: 24px !important;
+    margin-bottom: 15px !important;
+  }
+
+  /* Add more space below the masthead to ensure content is visible */
+  .masthead {
+    margin-bottom: 50px;
+  }
+
+  /* Reduce font size for taglines */
+  .mx-auto {
+    font-size: 20px !important;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  /* Tablet devices */
+  .worksimg .column-item {
+    max-width: 45%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  /* Small desktops */
+  .worksimg .column-item {
+    max-width: 30%;
+  }
+}
+
+@media (min-width: 993px) {
+  /* Large desktops */
+  .worksimg .column-item {
+    max-width: 25%;
+  }
+}
