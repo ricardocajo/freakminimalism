@@ -155,22 +155,35 @@ function handleDesignChapeusSelected(event_target) {
   currentSelectedDesign = theSelectedDesign;
   currentSelectedDesignImg = theSelectedDesign.src;
   theSelectedDesign.style.border = "6px solid #006666";
+  currentSelectedSize = "-";
 
-  /*fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+  if (theSelectedDesign.nodeName === "IMG") {
+    if (theSelectedDesign.id !== "firstDesign") {
+      designFilename = currentSelectedDesignImg.substring(currentSelectedDesignImg.lastIndexOf('/') + 1);
+      fetch(ABSOLUTE_PATH + "/db/designs/sfundo/" + currentSelectedDesignImg.substring(currentSelectedDesignImg.length - 6))
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(imageBlob => {
+        const imageUrl = URL.createObjectURL(imageBlob);
+        image_DOM.src = imageUrl;
+        image_DOM.style.display = "flex";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    } else {
+      image_DOM.style.display = "none";
+      if (theSelectedDesign.src === "https://freak-minimalism.com/db/designs/img/0.jpg") {
+        uploadBtn.click();
+      } else {
+        currentSelectedDesignImg = currentSelectedDesignImgFile;
       }
-      return response.blob();
-    })
-    .then(imageBlob => {
-      const imageUrl = URL.createObjectURL(imageBlob);
-      image_DOM.src = imageUrl;
-      image_DOM.style.display = "flex";
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });*/
+    }
+  }
 }
 
 

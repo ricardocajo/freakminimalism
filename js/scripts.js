@@ -244,8 +244,6 @@ function adicionarCarrinhoDestaques() {
   let counterCarrinho_DOM = document.getElementById("counterCarrinho");
   let currentSeletedArtigo_DOM = document.getElementById(`DESTAQUE${destaqueCurrentIndex + 1}_list`);
 
-  console.log(currentSeletedArtigo_DOM);
-
   // Create a container for the cart item
   const itemContainer = document.createElement('div');
   itemContainer.style.display = 'flex';
@@ -537,7 +535,8 @@ function handleRemoveCarrinho(target) {
 }
 
 function calculatePrice(_currentSelectedType, _currentSelectedSubType, _isOurDesign) {
-
+  console.log(_currentSelectedType + " / " + _currentSelectedSubType);
+  
   const priceMap = {
     'KING': {
       'T-SHIRT': { price: 17 },
@@ -557,11 +556,25 @@ function calculatePrice(_currentSelectedType, _currentSelectedSubType, _isOurDes
     },
     'KID': {
       'T-SHIRT': { price: 14 },
-      'ZIPP': { price: 37 },
-      'HOOD': { price: 28 },
+      'ZIPPKIDS': { price: 37 },
+      'HOODEDKIDS': { price: 28 },
       'PANAMA': { price: 16 },
       'FRASER': { price: 16 },
       'SNAPBACK': { price: 16 },
+    },
+    'CHAPEUS': {
+      'BASEBOL': { price: 17 },
+      'BOINA': { price: 17 },
+      'CLASSICO': { price: 17 },
+      'GOLA': { price: 17 },
+      'GORRO': { price: 17 },
+      'PANAMA': { price: 17 },
+      'PANAMACURTO': { price: 17 },
+      'RECY': { price: 17 },
+      'SNAPFIVE': { price: 17 },
+      'TRADICIONAL': { price: 17 },
+      'WHIPPY': { price: 17 },
+      'ZION': { price: 17 },
     },
   };
 
