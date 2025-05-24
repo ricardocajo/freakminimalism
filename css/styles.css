@@ -11851,6 +11851,19 @@ background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5)
   box-sizing: border-box; /* Ensures padding and borders don't affect the width */
 }
 
+.worksimg2 {
+  display: flex;
+  flex-wrap: wrap; /* Allows the items to wrap to the next line */
+  gap: 1.5rem; /* Adds space between the items */
+  justify-content: center; /* Centers the whole flex container */
+}
+
+.worksimg2 > * {
+  flex: 1 1 calc(33.333% - 1.5rem); /* Each item takes 1/3 of the row's width minus the gap */
+  max-width: calc(33.333% - 1.5rem); /* Prevents the items from growing beyond 1/3 of the width */
+  box-sizing: border-box; /* Ensures padding and borders don't affect the width */
+}
+
 .colsimg {
   display: grid;
   height: 100%;
