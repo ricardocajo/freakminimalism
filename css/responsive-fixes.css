@@ -39,13 +39,11 @@
 .smaller-div {
   width: 100%;
   overflow: hidden;
-  padding: 0 15px;
 }
 
 /* Fix for the masthead section */
 .masthead {
   position: relative;
-  padding-top: 50px;
 }
 
 /* Ensure glow text is properly sized */
@@ -58,9 +56,18 @@
 /* Responsive media queries */
 @media (max-width: 576px) {
 
+  div.smaller-div {
+    max-width: 100%;
+    /* etc. */
+  }
+
+  .smaller-div {
+    width: 100% !important;
+    overflow: hidden;
+  }
+
   /* Mobile devices */
   .masthead {
-    padding-top: 80px;
     height: auto !important; /* Override any fixed height */
     min-height: auto !important;
   }
@@ -71,11 +78,11 @@
   }
 
   .glow-text {
-    font-size: 8px !important;
+    font-size: 12px !important;
   }
 
   .large-text {
-    font-size: 7px !important;
+    font-size: 10px !important;
   }
 
   .worksimg .column-item {
@@ -85,15 +92,14 @@
   /* Make sure buttons don't overflow */
   .cool-button {
     font-size: 14px;
-    padding: 5px 10px;
   }
 
   /* Adjust tamanhos2 list for mobile */
   #tamanhos2 li {
     flex: 0 0 auto;
     font-size: 14px;
-    padding: 5px;
-    margin: 3px;
+    padding: 1px;
+    margin: 1px;
   }
 
   /* Ensure text doesn't overflow */
