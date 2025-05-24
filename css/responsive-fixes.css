@@ -110,11 +110,6 @@
     margin-bottom: 15px !important;
   }
 
-  /* Add more space below the masthead to ensure content is visible */
-  .masthead {
-    margin-bottom: 50px;
-  }
-
   /* Reduce font size for taglines */
   .mx-auto {
     font-size: 20px !important;
