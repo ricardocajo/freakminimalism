@@ -771,6 +771,7 @@ if (cor_section_DOM.style.display === "none" || (cor_section_DOM.style.display =
           color_DOM.appendChild(colorItemDiv);
         });
 
+        console.log("aa");
         // Add the event listener to the parent element (event delegation)
         document.getElementById("color-list").addEventListener("click", function(event) {
           const button = event.target.closest(".color-button");
