@@ -11638,9 +11638,9 @@ body {
 }
 @media (max-width: 991px) {
   .masthead {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/fundo.png");
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("../assets/img/fundo1.png");
     background-position: center;
-    background-size: contain; /* or 'cover' based on your preference */
+    background-size: cover; /* or 'cover' based on your preference */
     min-height: 25rem;
     padding: 10rem 0;
   }
