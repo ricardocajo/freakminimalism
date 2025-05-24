@@ -129,6 +129,7 @@ function adicionarCarrinhoArte() {
 
 }
 
+
 var isOurDesign;
 var totalPrice = 5.5;
 var counterCarrinho = 0;
@@ -209,6 +210,142 @@ function adicionarCarrinho() {
     price = calculatePrice(currentSelectedType, currentSelectedSubType, isOurDesign);
 
     sizeElement.textContent = `${currentSelectedType} ${currentSelectedSubType} (${currentSelectedSize}) `;
+  }
+
+  totalPrice += price;
+  precoFinal_DOM.innerHTML = "Preco Final: " + totalPrice + "€";
+  priceElement.textContent = `${price}€`;
+
+  // Add "Remove" button to remove item from cart
+  const removeButton = document.createElement('button');
+  removeButton.textContent = 'X';
+  removeButton.classList.add('removeButton');
+  removeButton.style.color = 'red';
+  removeButton.style.fontWeight = 'bold';
+  removeButton.style.border = 'none';
+  removeButton.style.background = 'transparent';
+  removeButton.style.cursor = 'pointer';
+  removeButton.style.fontSize = '12px';
+  removeButton.style.marginLeft = '10px';
+
+  textContainer.appendChild(sizeElement);
+  textContainer.appendChild(dottedLine);
+  textContainer.appendChild(priceElement);
+  textContainer.appendChild(removeButton);
+
+  itemContainer.appendChild(textContainer);
+
+  // Convert the container's HTML to a string and add it to the cart items array
+  carrinhoItems.push(itemContainer.outerHTML);
+}
+
+function adicionarCarrinhoDestaques() {
+  let precoFinal_DOM = document.getElementById("precoFinal");
+  let counterCarrinho_DOM = document.getElementById("counterCarrinho");
+  let currentSeletedArtigo_DOM = document.getElementById(`DESTAQUE${destaqueCurrentIndex + 1}_list`);
+
+  console.log(currentSeletedArtigo_DOM);
+
+  // Create a container for the cart item
+  const itemContainer = document.createElement('div');
+  itemContainer.style.display = 'flex';
+  itemContainer.style.alignItems = 'center';
+  itemContainer.style.justifyContent = 'space-between';
+  itemContainer.style.padding = '5px 0';
+  itemContainer.id = "carrinho" + counterCarrinho;
+
+  var clonedArtigo = currentSeletedArtigo_DOM.cloneNode(true);
+
+  // Resize the container of the images to keep them smaller
+  clonedArtigo.style.width = '45px';
+  clonedArtigo.style.height = 'auto';
+  clonedArtigo.style.flexShrink = '0';
+  clonedArtigo.style.marginRight = '10px';
+
+  var price;
+
+  // Create a container for the text and price to align them
+  const textContainer = document.createElement('div');
+  textContainer.style.display = 'flex';
+  textContainer.style.alignItems = 'center';
+  textContainer.style.flex = '1';
+
+  // Create a paragraph element for the size and details
+  const sizeElement = document.createElement('span');
+  sizeElement.style.fontSize = '12px';
+  sizeElement.style.whiteSpace = 'nowrap';
+
+  // Dotted line filler
+  const dottedLine = document.createElement('span');
+  dottedLine.style.flex = '1';
+  dottedLine.style.borderBottom = '1px dotted #000';
+  dottedLine.style.margin = '0 10px';
+
+  // Price element
+  const priceElement = document.createElement('span');
+  priceElement.style.fontSize = '12px';
+  priceElement.style.whiteSpace = 'nowrap';
+
+  if (currentSeletedArtigo_DOM) {
+    // Get image src from the first <li> > <img> in clonedArtigo
+    const firstImg = clonedArtigo.querySelector('li.column-item img');
+    const firstImgSrc = firstImg ? firstImg.getAttribute('src') : '';
+
+    // Create wrapper div
+    const newElement = document.createElement('div');
+    newElement.id = 'currentSeletedArtigo';
+    newElement.style.cssText = 'position: relative; width: 45px; height: auto; display: flex; justify-content: center; flex-shrink: 0; margin-right: 10px;';
+
+    // Create single image
+    const img = document.createElement('img');
+    img.className = 'img-fluid mb-lg-0';
+    img.id = 'clothing-image';
+    img.alt = '...';
+    img.style.cssText = 'position: relative; top: 0px; left: 50%; transform: translateX(-50%); width: 100%; height: auto;';
+    img.src = firstImgSrc;
+
+    // Append image to container
+    newElement.appendChild(img);
+
+    // Append to item container
+    itemContainer.appendChild(newElement);
+
+    counterCarrinho += 1;
+    counterCarrinho_DOM.innerHTML = counterCarrinho;
+    counterCarrinho_DOM.style =
+      "position: absolute; bottom: 0; left: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;";
+
+    // Check if the design image is a file or a preset design
+    if (currentSelectedDesignImg instanceof File) {
+      isOurDesign = false;
+    } else {
+      isOurDesign = true;
+    }
+
+    const priceElements = clonedArtigo.querySelectorAll('p.glow-text.large-text');
+    if (priceElements.length > 0) {
+      const priceText = priceElements[priceElements.length - 1].textContent.trim();
+      const priceValue = parseFloat(priceText.replace(',', '.').replace(/[^\d.]/g, '')); // Convert "43,77€" to 43.77
+      price = priceValue;
+    } else {
+      console.warn("Price not found in clonedArtigo.");
+      price = 0; // fallback value
+    }
+
+    // Get the second <li> inside clonedArtigo (index 1)
+    const secondLi = clonedArtigo.querySelectorAll('li.column-item')[1];
+
+    // Get the two <p> elements inside that <li>
+    const pTags = secondLi.querySelectorAll('p.glow-text.large-text');
+
+    const firstText = pTags[0]?.textContent.trim() || '';
+    const secondText = pTags[1]?.textContent.trim() || '';
+
+    // Get selected size
+    const selectedSize = secondLi.querySelector('ul#tamanhos2 li.glow-white.active')?.textContent.trim() || '?';
+
+    // Set the combined text into sizeElement
+    sizeElement.textContent = `${firstText} ${secondText} (${selectedSize}) `;
   }
 
   totalPrice += price;
