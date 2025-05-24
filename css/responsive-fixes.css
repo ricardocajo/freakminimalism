@@ -47,7 +47,6 @@
 .masthead {
   position: relative;
   padding-top: 50px;
-  padding-bottom: 100px; /* Add space at the bottom for the destaques section */
 }
 
 /* Ensure glow text is properly sized */
