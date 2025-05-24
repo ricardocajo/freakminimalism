@@ -70,6 +70,38 @@
     height: auto !important;
   }
 
+  /* Destaques fix for mobile */
+  .destaques .column-item {
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .destaques .column-item img,
+  .destaques .column-item video {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    max-width: 100% !important;
+  }
+
+  /* Make all destaques list items have consistent size */
+  #DESTAQUE1_list .column-item,
+  #DESTAQUE2_list .column-item,
+  #DESTAQUE3_list .column-item {
+    width: 100% !important;
+    margin-bottom: 15px !important;
+  }
+
+  /* Force each destaque to take full width */
+  .destaque.active {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
   .glow-text {
     font-size: 16px !important;
   }
