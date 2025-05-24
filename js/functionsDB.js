@@ -300,22 +300,22 @@ function initialize_destaque(name) {
         listItem.classList.add("column-item");
         switch(key) {
           case "img":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..." style="max-width: 100%; width: 100%;">`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..." style="max-width: 100%;">`;
             break;
           case "img3":
-            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..." style="max-width: 100%; width: 100%;">`;
+            listItem.innerHTML = `<img class="workscenter-fit media-fit" src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" alt="..." style="max-width: 100%;">`;
             break;
           case "video":
-            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy" style="max-width: 100%; width: 100%;"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;
+            listItem.innerHTML = `<video class="media-fit" autoplay loop muted loading="lazy" style="max-width: 100%;"><source src="${ABSOLUTE_PATH}/db/destaques/${name}/img/${data[key]}" type="video/mp4">Your browser does not support the video tag.</video>`;
             break;
           case "desc":
             let parts = data[key].split(';');
             parts.forEach((part, index) => {
               // Check if it's the first or last item
               if (index === 0 || index === 1 || index === parts.length - 1) {
-                listItem.innerHTML += `<p class="glow-text large-text" style="margin-top: 10px; margin-bottom: 10px; width: 100%;">${part}</p>`;
+                listItem.innerHTML += `<p class="glow-text large-text" style="margin-top: 10px; margin-bottom: 10px;">${part}</p>`;
               } else {
-                listItem.innerHTML += ` <div style="margin: 10px 0; width: 100%;">
+                listItem.innerHTML += ` <div style="margin: 10px 0;">
                                         <ul id="tamanhos2" class="row" style="display: flex; flex-wrap: wrap; list-style-type: none; padding: 0; justify-content: center; gap: 10px;">
                                           <li class="glow-red" style="flex: 0 0 auto; display: none; margin: 5px;">XS</li>
                                           <li class="glow-red" style="flex: 0 0 auto; display: none; margin: 5px;">S</li>
