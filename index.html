@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ғʀᴇᴀᴋ ̶M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ ̶̶ ⌬</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/icon.png" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="js/functionsDB.js"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/instagram.js"></script>-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link href="css/responsive-fixes.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="#page-top">ғʀᴇᴀᴋ ̶M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ ̶̶ ⌬</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          MENU
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto">   
+            <li class="nav-item"><a class="nav-link" href="#prices">Desde</a></li>
+            <li class="nav-item"><a class="nav-link" href="#clothing">Personalizar</a></li>
+            <li class="nav-item"><a class="nav-link" href="#designs">Parcerias</a></li>
+            <li class="nav-item"><a class="nav-link" href="#Impressoes3D">3DFreakWorks</a></li>
+            <li class="nav-item"><a class="nav-link" href="#arte">Arte</a></li>
+            <!--<li class="nav-item"><a class="nav-link" href="#twitch">TWITCH</a></li>-->
+            <li class="nav-item"><a class="nav-link" href="#essencia">Essencia</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contacts">Contactos</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+  
+    <!-- Masthead -->
+    <header class="masthead">
+      <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+        <div class="d-flex justify-content-center flex-column">
+          <div class="spacer" style="padding-top: 80px;"></div>
+          <div class="text-center">
+            <h1 class="mx-auto my-0 text-uppercase">𝔇𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔳𝔦𝔰𝔦𝔬𝔫 𝔡𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔰𝔱𝔶𝔩𝔢</h1>
+          </div>
+          <!-- Destaques -->
+          <br>
+          <div class="text-center smaller-div">
+            <br>
+            <div class="container px-4 px-lg-5">
+              <div class="destaques" id="destaques_list" style="display: flex; flex-wrap: wrap; justify-content: center; overflow: hidden;">
+                <ul class="worksimg2 destaque active" id="DESTAQUE1_list" style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;"></ul>
+                <ul class="worksimg2 destaque" id="DESTAQUE2_list" style="display: none; flex-wrap: wrap; justify-content: center; width: 100%;"></ul>
+                <ul class="worksimg2 destaque" id="DESTAQUE3_list" style="display: none; flex-wrap: wrap; justify-content: center; width: 100%;"></ul>
+              </div>
+              <div style="margin-top: 20px;">
+                <button id="prevBtnDestaques" class="cool-button">Anterior</button>
+                <span style="margin: 18px;"></span>
+                <button id="nextBtnDestaques" class="cool-button">Proximo</button>
+              </div>
+              <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="encomendarButaoDestaques">
+                <button id="encomendarButaoDestaques" onclick="adicionarCarrinhoDestaques()" class="mt-5 clickable-button">
+                  Adicionar ao Carrinho
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Prices -->
+    <section class="about-section text-center" id="aboutus">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-lg-8">
+            <!-- Wrapper for content after the first <p> -->
+            <div class="glowing-border">
+              <br><br><br><br><br><br><br>
+              <h2 class="title glowing-title" id="prices">Desde</h2>
+              <br><br><br><br>
+              <br>
+              <ul id="prices_list" style="list-style-type: none; padding: 0;"></ul>
+              <br>
+              <p style="font-size: 16px;">
+                Nota: Levantamento GRATUITO em loja Decorações Dorita (Rua José Ladislau de Sousa n.214, 2870-413 Montijo) OU GLS (Portes: 5,50€ para compras inferiores a 100€)
+              </p>
+              <br><br>
+              <div class="social d-flex justify-content-center">
+                <a class="mx-2" href="mailto:freakminimalism@gmail.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
+                <a class="mx-2" href="https://www.instagram.com/freakminimalism/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a class="mx-2" href="https://www.tiktok.com/@freakminimalism" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                <a class="mx-2" href="https://www.twitch.tv/ShashirX" target="_blank"><i class="fa-brands fa-twitch"></i></a>
+                <a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+              </div>
+            </div>
+            <br><br><br><br><br>
+          </div>
+        </div>
+      </div>
+    </section>       
+
+
+    <!-- Clothing -->
+    <section class="projects-section bg-light text-center" id="clothing">
+      <h2 class="title">Personalizar</h2>
+      <br>
+      <div class="container px-4 px-lg-5 mb-5">
+        <div class="row justify-content-center">
+          <div class="col-md-12 col-lg-8">
+            <div class="text-center">
+              <br><br>
+              <ul id="clothing-type" class="clickable-list row"></ul>
+            </div>
+
+          <br>
+
+          <div class="row d-flex justify-content-center" id="artigo_section" style="display: none;">
+            <div class="text-center"> <!-- Center the labels -->
+              <!--<label for="clothing-subtype">Tipo:</label>-->
+                <br><br>
+                <ul id="clothing-subtype" class="clickable-list row"></ul>
+            </div>
+
+            <!-- <div class="col-md-6 text-center" style="display: none;"> 
+                <br><br>
+                <ul id="clothing-othertype" class="clickable-list row"></ul>
+            </div> -->
+
+            <div class="row" id="cor_section" style="display: none;">
+
+              <div id="menu1" style="display: none;">
+                <div class="col-md-6 justify-content-center"> <!-- Center the labels -->
+                  <div class="double-space" id="color-list"></div>
+                  <br><br> 
+                  <ul id="tamanhos" class="clickable-list row"></ul>
+                  <img class="img-fluid mb-lg-0" id="tamanhos-image" alt="..." style="display: none;">
+                </div>
+  
+  
+                <div id="roupa-img" class="col-md-6 text-center"> <!-- Center the image -->
+  
+                  <p id="clothing-desc" style="font-size: 13px;"></p>
+  
+                  <!-- Image -->
+                  <div id="currentSeletedArtigo" style="position: relative; width: 100%; height: auto; display: flex; justify-content: center;">
+                    <img style="position: relative; top: 0; left: 50%; transform: translateX(-50%); width: 100%;" class="img-fluid mb-lg-0" id="clothing-image" alt="...">
+                    <img style="display: none; position: absolute; top: 5%; left: 50%; transform: translate(-50%, 50%); width: 40%;" class="img-fluid mb-lg-0" id="clothing-image2" alt="...">
+                  </div>                           
+                
+                </div>
+              </div>
+
+              <div id="menu2" style="display: none;">
+                <div class="row" id="patch_section">
+                  <div class="col-md-10 col-lg-8 mx-auto text-center" id="selectPatch">
+                    <ul class="worksimg" id="patch_list"></ul>
+                    <button id="prevBtnPatch" class="cool-button">Anterior</button>
+                    <span style="margin: 18px;"></span>
+                    <button id="nextBtnPatch" class="cool-button">Proximo</button>
+                  </div>
+                  <div class="input-container col-md-10 col-lg-8 mx-auto text-center mt-5">
+                    <div class="input-group mt-5">
+                      <h4>Tamanho:</h4>
+                      <input type="number" id="size-input1" placeholder="un" oninput="checkInput(this)" min="0" max="999">
+                      <p class="ms-2">x</p>
+                      <input type="number" id="size-input2" placeholder="un" oninput="checkInput(this)" min="0" max="999">
+                      <p class="ms-2">Cm (centímetros)</p>
+                    </div>
+                    <div class="input-group mt-2">
+                      <h4>Unidades:</h4>
+                      <input type="number" id="units-input" placeholder="un" oninput="checkInput(this)" min="0" max="999">
+                    </div>
+                  </div>                  
+
+                  <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="orcamentoButao" style="display: none;">
+                    <button onclick="orcamentoCarrinho()" class="mt-5">
+                      Pedir Orcamento
+                    </button>
+                  </div>
+
+                  <div id="roupa-banners-patch" class="d-flex justify-content-center">
+                    <a class="mx-4" target="_blank"><img class="custom-image-size2" src="https://freak-minimalism.com/db/marcas/fm.jpg" alt="..." loading="lazy"></a>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="roupa-banners" class="d-flex justify-content-center"></div>
+            </div>
+
+
+            <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectDesign" style="display: none;">
+              <ul class="worksimg" id="designs_list"></ul>
+              <button id="prevBtnDesigns" class="cool-button">Anterior</button>
+              <span style="margin: 18px;"></span>
+              <button id="nextBtnDesigns" class="cool-button">Proximo</button>
+            </div>
+
+            <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectDesignChapeu" style="display: none;">
+              <ul class="worksimg" id="designs_list_chapeus">
+                <li class="column-item" style="position: relative;">
+                  <a>
+                    <img id="firstChapeu" style="cursor: pointer;" class="workscenter-fit" src="https://freak-minimalism.com/db/designs/img/0.jpg" alt="...">
+                    <label for="upload-btn" id="upload-label">Carregar Foto</label>
+                    <input type="file" id="upload-btn" accept="image/*" style="cursor: pointer;">
+                  </a>
+                </li>
+                <li class="column-item">
+                  <a>
+                    <img style="cursor: pointer;" class="workscenter-fit" src="https://freak-minimalism.com/db/designs/img/fm.png" alt="...">
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="selectDesignToalha" style="display: none;">
+              <ul class="worksimg" id="designs_list_toalha">
+                <li class="column-item" style="position: relative;">
+                  <a>
+                    <img id="firstToalha" style="cursor: pointer;" class="workscenter-fit" src="https://freak-minimalism.com/db/patch/img/0.jpg" alt="...">
+                    <label for="upload-btn" id="upload-label">Carregar Foto</label>
+                    <input type="file" id="upload-btn" accept="image/*" style="cursor: pointer;">
+                  </a>
+                </li>
+                <li class="column-item">
+                  <a>
+                    <img style="cursor: pointer;" class="workscenter-fit" src="https://freak-minimalism.com/db/patch/img/57.png" alt="...">
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-md-10 col-lg-8 mx-auto text-center mt-5" id="encomendarButao" style="display: none;">
+              <button id="encomendarButaoB" onclick="adicionarCarrinho()" class="mt-5 clickable-button">
+                Adicionar ao Carrinho
+              </button>
+            </div>
+
+            <div>
+
+            </div>
+          </div>
+
+            <br>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Designs -->
+    <section class="projects2-section bg-light" id="designs">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+            <h2 class="title">Parcerias</h2>
+            <div class="text-center">
+              <br><br>
+              <ul id="colecoes-type" class="clickable-list row"></ul>
+              <br><br>
+              <ul class="worksimg" id="POLETEMPLE_list" style="display: none;"></ul>
+              <ul class="worksimg" id="MANDALAKAOS_list" style="display: none;"></ul>
+              <br><br>
+              <!--<div id="butaoColecao"></div>-->
+            </div>
+            <!--<div id="tamanhos-colecoes" style="display: none;">
+              <ul class="clickable-list row"></ul>
+              <img class="img-fluid mb-lg-0" id="tamanhos-image" alt="..." src="https://freak-minimalism.com/assets/img/sizes/king-hood.png">
+            </div>-->
+          </div>
+        </div>
+      </div>
+      <br><br>
+    </section>
+
+
+    <!-- Designs -->
+    <section class="projects3-section bg-light" id="Impressoes3D">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+            <h2 class="title">3D FreakWorks</h2>
+            <div class="text-center">
+              <br><br>
+              <ul id="3d-type" class="clickable-list row"></ul>
+              <br><br>
+              <ul class="worksimg" id="CINZEIROS_list" style="display: none;"></ul>
+              <br><br>
+              <div id="butao3d"></div>
+            </div>
+        </div>
+      </div>
+      <br><br>
+    </section>
+
+
+    <!-- Order -->
+    <!-- <section class="about-section text-center" id="order">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-lg-8">
+            <br><br>
+            <h2 class="title">Encomendar:</h2>
+
+            <br>
+            <ul class="orderlist">
+
+              <p>
+                ARTIGO ESCOLHIDO:
+                <br>
+                <img class="workscenter-fit" src=https://freak-minimalism.com/db/designs/img/11.png alt="...">
+              </p>
+              
+
+              <p>
+                DESIGN ESCOLHIDO:
+                <br>
+                <img class="workscenter-fit" src=https://freak-minimalism.com/db/designs/img/11.png alt="...">
+              </p>
+
+            </ul>
+
+            <button>Orçamento</button>
+
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+
+    <!-- Arte -->
+    <section class="signup-section2" id="arte">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+          <div class="col-md-6 mx-auto text-center">
+            <h2 class="title">Arte</h2>
+            <br><br>
+            <div class="text-center">
+              <br><br>
+              <ul id="artes-type" class="clickable-list row"></ul>
+              <br><br>
+            
+              <ul class="arteimg" id="emc2_list" style="display: none;"></ul>
+              <ul class="arteimg" id="GIЯLS_list" style="display: none;"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>    
+
+    
+    <!-- <section class="about-section2" id="twitch">
+      <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5">
+          <div class="col-md-10 col-lg-8 mx-auto text-center">
+            <h2 class="title">TWITCH</h2>
+            <br><br>
+            <div class="iframe-container">
+              <iframe
+                src="https://player.twitch.tv/?channel=ShashirX&parent=freak-minimalism.com"
+                frameborder="0"
+                allowfullscreen="true"
+                scrolling="no">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>    -->
+       
+
+    <!-- Pop-up container -->
+    <div id="popup-container" class="popup">
+      <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <br>
+        <ul id="carrinhoLista">
+          <li id="portes">Portes 5,50€</li>
+        </ul>
+        <p id="precoFinal"></p>
+        
+        <!-- Start of the Form -->
+        <form id="orderForm">
+          <div>
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <br>
+          <!-- Preferred Contact Method Checkbox (Optional) 
+          <div>
+            <label for="preferredContact">Metodo de contacto preferido:</label>
+            <div>
+              <input type="checkbox" id="contactByWhatsApp" name="preferredContact" value="WhatsApp">
+              <label for="contactByWhatsApp">WhatsApp</label>
+            </div>
+            <div>
+              <input type="checkbox" id="contactByEmail" name="preferredContact" value="Email">
+              <label for="contactByEmail">Email</label>
+            </div>
+          </div>-->
+          <div>
+            <label for="contact">WhatsApp:</label>
+            <input 
+              type="text" 
+              id="contact" 
+              name="contact" 
+              pattern="^\d{9}$" 
+              title="Please enter exactly 9 digits." 
+              maxlength="9">
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              required 
+              title="Please enter a valid email address.">
+          </div>
+          <br>
+          <div>
+            <input type="checkbox" id="levantamentoloja" name="levantamentoloja" value="levantamentoloja">
+            <label for="levantamentoloja">Levantamento em Loja</label>
+          </div>
+          <div>
+            <label for="address">Morada:</label>
+            <input type="text" id="address" name="address" required>
+          </div>
+          <br>
+          <!-- Dynamically created fields will appear here -->
+          <div id="dynamicFields"></div>
+          <br>
+          <div>
+            <button type="submit">Encomendar</button>
+          </div>
+        </form>               
+        <!-- End of the Form -->
+
+        <!-- This div will display the confirmation message -->
+        <div id="confirmationMessage" style="display:none; color: green; margin-top: 10px; font-size: 14px; line-height: 1.5; font-weight: bold;">
+          <br>Pedido efectuado!<br><br>
+          Brevemente sera contactado para confirmar a sua encomenda e recebera opcoes de pagamento.<br><br>
+          Comprovativo de Encomenda:
+          <br><br>
+          <div style="text-align: center;">
+            <button onclick="generatePDF()">Baixar PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- Button to trigger the pop-up -->
+    <div id="popup-button" class="b_popup">
+      <button onclick="togglePopup()" style="position: relative;">
+        <img src="https://freak-minimalism.com/assets/img/carrinho.png" alt="Carrinho">
+        <p style="font-size: 12px; color: rgb(200, 255, 255, 0.7);">Em manutenção, contactar em caso de erro.</p>
+        <span id="counterCarrinho" style="display: none; position: absolute; bottom: 0; left: 0; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;"></span>
+      </button>
+    </div>
+
+
+    <!-- Contacts -->
+    <section class="contact-section bg-black text-center" id="essencia">
+      <h2 class="title glowing-title">Essencia</h2>
+      <br><br>
+      <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
+        <span style="margin-right: -0.5em;">ғʀᴇᴀᴋ ̶</span>M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶  FOI  FUNDADA  EM  JANEIRO  DE  2023
+        COMO  UMA  EMPRESA  QUE  TEM  COMO  BASE  O  GOSTO  PELA  ARTE  E  MODA.
+      </p>
+      <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
+        O NOSSO  FOCO  ESTA  EM  CRIAR  VESTUARIO  BORDADO  UNICO  E  EXCLUSIVO,
+        ASSIM  COMO  REALIZAR  PINTURAS  E  RESTAURACOES  EM  PECAS  UNICAS,  TUDO  FEITO  A  MAO.
+      </p>
+      <p class="text-white-50 mx-auto mt-2 mb-5 text-center double-space">
+        <span style="margin-right: -0.5em;">ғʀᴇᴀᴋ ̶</span>M̶i̶n̶i̶m̶a̶l̶i̶s̶m̶  TEM  MUITO  PRA  VOS  OFERECER  FIQUEM  ATENTOS.
+      </p>
+      <div class="social d-flex justify-content-center">
+        <ul class="merchimg" id="merch_list">
+          <li class="column-item hidden"><a class="mx-4" href="https://www.facebook.com/dora.isabel.batista" target="_blank"><img class="rounded-circle custom-image-size" src="https://freak-minimalism.com/assets/img/p1.jpg" alt="..." loading="lazy"></a></li>
+          <li class="column-item hidden"><a class="mx-4" href="https://www.instagram.com/alphared.airsoft/" target="_blank"><img class="rounded-circle custom-image-size" src="https://freak-minimalism.com/assets/img/p4.jpg" alt="..." loading="lazy"></a></li>
+          <li class="column-item hidden"><a class="mx-4" href="https://costuraurbana.pt/" target="_blank"><img class="rounded-circle custom-image-size" src="https://freak-minimalism.com/assets/img/p7.jpg" alt="..." loading="lazy"></a></li>
+          <li class="column-item hidden"><a class="mx-4" href="https://www.instagram.com/poletemplestudio" target="_blank"><img class="rounded-circle custom-image-size" src="https://freak-minimalism.com/assets/img/p5.jpg" alt="..." loading="lazy"></a></li>
+          <li class="column-item hidden"><a class="mx-4" href="https://www.instagram.com/mandalakaos" target="_blank"><img class="rounded-circle custom-image-size" src="https://freak-minimalism.com/assets/img/p6.jpg" alt="..." loading="lazy"></a></li>
+        </ul>
+
+        <button class="hidden" id="prevBtnMerch"></button>
+        <button class="hidden" id="nextBtnMerch"></button>
+      </div>
+
+      <br>
+      <h5 class="title text-center white-text" id="contacts">Contactos</h4>
+      <div class="social d-flex justify-content-center">
+        <a class="mx-2" href="mailto:freakminimalism@gmail.com" target="_blank"><img src="https://freak-minimalism.com/assets/img/envelope-solid.svg" alt="..."></a>
+        <a class="mx-2" href="https://www.instagram.com/freakminimalism/" target="_blank"><img src="https://freak-minimalism.com/assets/img/instagram.svg" alt="..."></a>
+        <a class="mx-2" href="https://www.tiktok.com/@freakminimalism" target="_blank"><img src="https://freak-minimalism.com/assets/img/tiktok.svg" alt="..."></a>
+        <a class="mx-2" href="https://www.twitch.tv/ShashirX" target="_blank"><img src="https://freak-minimalism.com/assets/img/twitch.svg" alt="..."></a>
+        <a class="mx-2" href="https://api.whatsapp.com/send?phone=351927771505" target="_blank"><img src="https://freak-minimalism.com/assets/img/whatsapp.svg" alt="..."></a>
+      </div>
+      <div class="social d-flex justify-content-center">
+        <p class="text-center white-text">Marca Registada: 716875®</p>
+      </div>
+    </section>
+
+
+
+    <!-- Footer
+    <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5"></div></footer>   -->   
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- Initialize page with DB values -->
+    <script src="js/initializeDB.js"></script>
+        
+  </body>
+</html>

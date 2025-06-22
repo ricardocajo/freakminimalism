@@ -1,0 +1,16 @@
+{"types": 
+    [
+        {
+            "type": "PATCH"
+        },
+        {
+            "type": "BOLSA"
+        },
+        {
+            "type": "PORTA-CHAVES"
+        },
+        {
+            "type": "TOALHA"
+        }
+    ]
+}
