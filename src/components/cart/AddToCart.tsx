@@ -44,7 +44,7 @@ export const AddToCart = ({
       addToCart(cartItem);
       toast.success(t('cart.added_to_cart'));
     });
-  }, [product, selectedColor, selectedSize, addToCart, t]);
+  }, [product, selectedColor, selectedSize, addToCart, t, i18n.language]);
 
   return (
     <div className="flex flex-col gap-4">

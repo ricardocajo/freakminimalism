@@ -110,7 +110,7 @@ const Search: React.FC<SearchProps> = ({ searchParams }) => {
             ) : (
               <div className="col-span-full text-center">
                 <h3 className="text-sm text-center mb-4">
-                  No results found for "{searchParams.q || ''}"
+                  No results found for &quot;{searchParams.q || ''}&quot;
                 </h3>
                 <Link
                   href="/"

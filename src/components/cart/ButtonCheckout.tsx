@@ -31,7 +31,7 @@ export const ButtonCheckout = ({ cartItems }: ButtonCheckoutProps) => {
       console.error("Error creating checkout session:", error);
       toast.error("Failed to create checkout session");
     }
-  }, [lineItems]);
+  }, [cartItems]);
 
   return (
     <button

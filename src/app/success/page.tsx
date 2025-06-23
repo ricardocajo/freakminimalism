@@ -19,7 +19,7 @@ export default function SuccessPage() {
         router.push("/");
       }, 3000);
     }
-  }, [router]);
+  }, [router, emptyCart, isCartCleared]);
 
   return (
     <div className="container mx-auto py-12">

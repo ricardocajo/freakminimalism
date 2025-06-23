@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { LinksDesktop } from "./LinksDesktop";
@@ -159,10 +160,12 @@ export const Navbar = () => {
             className="relative flex items-center justify-center w-10 h-10 rounded-full transition-all hover:bg-[#1F1F1F]"
           >
             <div className="relative w-full h-full">
-              <img
+              <Image
                 src="/carrinho.png"
                 alt="Shopping cart"
                 className="w-full h-full object-cover"
+                width={40}
+                height={40}
                 onError={(e) => {
                   const img = e.target as HTMLImageElement;
                   img.src = '/icon.png'; // Fallback to default icon if image fails to load
