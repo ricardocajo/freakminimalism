@@ -10,9 +10,7 @@ export const products: Product[] = productData.map(product => ({
   categories: product.categories
 }));
 
-export const getAllProducts = () => {
-  return products;
-};
+
 
 export const getRandomProducts = (productId: string) => {
   const filteredProducts = products.filter((product) => product._id !== productId);

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
+import { products } from '@/data/products';
 import { Products } from "../components/products/Products";
-import { getAllProducts } from "./actions";
 import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
 
 const Home = async () => {
@@ -15,10 +15,10 @@ const Home = async () => {
   );
 };
 
-const AllProducts = async () => {
-  const products = await getAllProducts();
+const AllProducts = () => {
+  const productsData = products;
 
-  return <Products products={products} extraClassname="" />;
+  return <Products products={productsData} extraClassname="" />;
 };
 
 export default Home;
