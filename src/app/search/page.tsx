@@ -1,55 +1,41 @@
 "use client";
 
-import { useTranslation } from 'react-i18next';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Product } from '@/types/types';
-import { products } from '@/data/products';
-import { useEffect, useState } from 'react';
-
-interface SearchProps {
-  searchParams: { [key: string]: string | undefined };
-}
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { products as allProducts } from "@/data/products";
+import { Product } from "@/types/types";
+import Image from "next/image";
+import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const normalizeText = (text: string): string => {
   if (!text) return '';
-  return text
-    .normalize('NFD')
-    .replace(/[^\w\s]/g, '')
-    .toLowerCase();
+  return text.normalize('NFD').replace(/[^\w\s]/g, '').toLowerCase();
 };
 
-const Search: React.FC<SearchProps> = ({ searchParams }) => {
+const Search = () => {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") || "";
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const productsData = products;
+  const { t } = useTranslation("common");
 
   useEffect(() => {
-    try {
-      if (productsData) {
-        const searchTerm = searchParams.q || '';
-        const normalizedSearch = normalizeText(searchTerm).trim();
-        const filtered = productsData.filter((product) => {
-          const normalizedEnName = normalizeText(product.translations.en.name);
-          const normalizedPtName = normalizeText(product.translations.pt.name);
-          
-          // Check if search term matches either English or Portuguese name
-          // Also check if the search term is a substring of the product name
-          return (
-            normalizedEnName.includes(normalizedSearch) || 
-            normalizedPtName.includes(normalizedSearch) ||
-            normalizedSearch.includes(normalizedEnName) ||
-            normalizedSearch.includes(normalizedPtName)
-          );
-        });
-        setFilteredProducts(searchTerm ? filtered : productsData);
-      }
-    } catch (error) {
-      console.error('Error filtering products:', error);
-      setFilteredProducts(productsData);
-    }
-  }, [searchParams.q, productsData]);
+    const normalizedSearch = normalizeText(query.trim());
 
-  const { t } = useTranslation('common');
+    const filtered = allProducts.filter((product) => {
+      const en = normalizeText(product.translations.en.name);
+      const pt = normalizeText(product.translations.pt.name);
+
+      return (
+        en.includes(normalizedSearch) ||
+        pt.includes(normalizedSearch) ||
+        normalizedSearch.includes(en) ||
+        normalizedSearch.includes(pt)
+      );
+    });
+
+    setFilteredProducts(query ? filtered : allProducts);
+  }, [query]);
 
   return (
     <section>
@@ -110,7 +96,7 @@ const Search: React.FC<SearchProps> = ({ searchParams }) => {
             ) : (
               <div className="col-span-full text-center">
                 <h3 className="text-sm text-center mb-4">
-                  No results found for &quot;{searchParams.q || ''}&quot;
+                  No results found for &quot;{query}&quot;
                 </h3>
                 <Link
                   href="/"
