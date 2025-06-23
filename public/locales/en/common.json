@@ -1,0 +1,176 @@
+{
+  "welcome": "Welcome to Freak Minimalism!",
+  "cart": {
+    "title": "Cart",
+    "added_to_cart": "Added to cart",
+    "add_to_cart": "Add to cart",
+    "adding_to_cart": "Adding to cart..."
+  },
+  "navbar": {
+    "about": "About",
+    "art": "Art",
+    "3dworks": "3D Works",
+    "hats": "Hats",
+    "kids": "Kids",
+    "accessories": "Accessories",
+    "woman": "Woman",
+    "man": "Man",
+    "partnerships": "Partnerships",
+    "new": "New",
+    "collections": "Collections",
+    "viewAll": "VIEW ALL",
+    "discoverWardrobe": "Discover our curated collection of minimalist products for every occasion.",
+    "artDescription": "Explore our curated collection of minimalist art pieces that bring elegance to any space.",
+    "3dworksDescription": "Discover our unique 3D art pieces and installations that add depth and dimension to your space.",
+    "hatsDescription": "Our minimalist hats combine style and functionality for every occasion.",
+    "kidsDescription": "Minimalist clothing and accessories for kids that blend style and comfort.",
+    "accessoriesDescription": "Elegant and functional accessories that complement your minimalist lifestyle.",
+    "womanDescription": "Minimalist fashion for women that combines style, comfort, and elegance.",
+    "manDescription": "Minimalist fashion for men that combines style, comfort, and sophistication.",
+    "partnershipsDescription": "Explore our collaborations with talented artists and creators.",
+    "newDescription": "Discover our latest minimalist products and collections."
+  },
+  "values": {
+    "title": "Our Values",
+    "list": [
+      { "value": "Quality Craftsmanship" },
+      { "value": "Sustainable Practices" },
+      { "value": "Timeless Design" },
+      { "value": "Customer Satisfaction" }
+    ]
+  },
+  "mission": {
+    "title": "Our Mission",
+    "content": "To create a collection of minimalist clothing that allows you to express your personal style while maintaining a clean, sophisticated look."
+  },
+  "search": {
+    "placeholder": "Search Products..."
+  },
+  "footer": {
+    "assistance": "Assistance",
+    "about": "About",
+    "customize": "Customize",
+    "sizeGuide": "Size guide",
+    "delivery": "Delivery",
+    "trademark": "Registered Trademark"
+  },
+  "about": {
+    "title": "Essence",
+    "content": "ғʀᴇᴀᴋ ̶m̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ was founded in January 2023 as a company with a passion for art and fashion.\n\nOur focus is on creating unique and exclusive embroidered clothing, as well as original 3D pieces and restoring unique items, all crafted with our unique artistic style.\n\nIn our store you'll find items you won't find anywhere else, pieces that we at ғʀᴇᴀᴋ ̶m̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ are proud to wear and showcase daily. However, if you don't find that perfect item that matches your personal style, feel free to contact us with your own idea and we'll be thrilled to bring it to life."
+  },
+  "products": {
+    "customizeButton": "Send us your idea",
+    "customizeMessage": "◐ 𝔇𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔳𝔦𝔰𝔦𝔬𝔫, 𝔡𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔰𝔱𝔶𝔩𝔢 ◑",
+    "no_size_message": "You have to select a size to save the product"
+  },
+  "cartPage": {
+    "title": "YOUR SHOPPING CART",
+    "empty": {
+      "title": "YOUR CART IS EMPTY",
+      "description": "When you have added something to your cart, it will appear here. Want to get started?",
+      "button": "Start"
+    },
+    "viewAll": "VIEW ALL",
+    "total": {
+      "label": "Total:",
+      "tax": "+ TAX INCL."
+    },
+    "checkout": "Continue"
+  },
+  "productDetails": {
+    "composition": "COMPOSITION",
+    "care": "CARE",
+    "youMightAlsoLike": "YOU MIGHT ALSO LIKE...",
+    "color": "Color"
+  },
+  "customizePage": {
+    "title": "Customize Your Order",
+    "description": "At Freak Minimalism, we understand that every individual is unique. That's why we offer a customization service to ensure you get exactly what you want.",
+    "personalization": {
+      "title": "Personalization Options",
+      "options": [
+        "Custom text embroidery",
+        "Custom color combinations",
+        "Custom sizing adjustments",
+        "Special requests"
+      ]
+    },
+    "howTo": {
+      "title": "How to Customize (Contact us by)",
+      "steps": [
+        "WhatsApp. (+351 927 771 505)",
+        "Email",
+        "Instagram"
+      ]
+    },
+    "leadTime": {
+      "title": "Lead Time",
+      "description": "Custom orders take approximately 2-3 weeks to complete. This allows us to ensure the highest quality and attention to detail."
+    }
+  },
+  "sizeGuidePage": {
+    "title": "Size Guide",
+    "description": "Finding the perfect fit is essential for comfort and style. Use our size guide to ensure you get the right size for our minimalist clothing.",
+    "howToMeasure": {
+      "title": "How to Measure",
+      "steps": [
+        "Measure your chest at the widest point",
+        "Measure your waist at the natural waistline",
+        "Measure your inseam from crotch to ankle"
+      ]
+    },
+    "sizeCharts": {
+      "title": "Size Charts",
+      "tshirts": {
+        "title": "T-Shirts",
+        "chest": "Chest (cm)",
+        "length": "Length (cm)"
+      },
+      "pants": {
+        "title": "Pants",
+        "waist": "Waist (cm)",
+        "inseam": "Inseam (cm)"
+      }
+    }
+  },
+  "deliveryPage": {
+    "title": "Delivery Information",
+    "description": "We offer fast and reliable shipping worldwide. Here's everything you need to know about our delivery process.",
+    "shippingOptions": {
+      "title": "Shipping Options",
+      "standard": {
+        "title": "Standard Shipping",
+        "duration": "5-7 business days",
+        "price": "Free for orders over €50"
+      },
+      "express": {
+        "title": "Express Shipping",
+        "duration": "2-3 business days",
+        "price": "€15"
+      }
+    },
+    "shippingAreas": {
+      "title": "Shipping Areas",
+      "europe": {
+        "title": "Europe",
+        "standard": "Standard shipping available",
+        "express": "Express shipping available"
+      },
+      "world": {
+        "title": "Rest of World",
+        "standard": "Standard shipping available",
+        "express": "Express shipping available (additional fees may apply)"
+      }
+    },
+    "tracking": {
+      "title": "Tracking Your Order",
+      "description": "Once your order is shipped, you'll receive a tracking number via email. You can track your package using this number on our website or through the carrier's website."
+    },
+    "times": {
+      "title": "Shipping Times",
+      "processing": "Processing time: 1-2 business days",
+      "standard": "Standard shipping: 5-7 business days",
+      "express": "Express shipping: 2-3 business days"
+    }
+  }
+}
