@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/types/types';
 import { products } from '@/data/products';
+import { useEffect, useState } from 'react';
 
 interface SearchProps {
   searchParams: { [key: string]: string | undefined };
@@ -19,15 +20,15 @@ const normalizeText = (text: string): string => {
 };
 
 const Search: React.FC<SearchProps> = ({ searchParams }) => {
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const productsData = products;
-  let filteredProducts: Product[] = [];
 
-  if (productsData) {
+  useEffect(() => {
     try {
-      if (searchParams.q) {
-        const searchTerm = searchParams.q as string;
-        filteredProducts = productsData.filter((product) => {
-          const normalizedSearch = normalizeText(searchTerm).trim();
+      if (productsData) {
+        const searchTerm = searchParams.q || '';
+        const normalizedSearch = normalizeText(searchTerm).trim();
+        const filtered = productsData.filter((product) => {
           const normalizedEnName = normalizeText(product.translations.en.name);
           const normalizedPtName = normalizeText(product.translations.pt.name);
           
@@ -40,13 +41,13 @@ const Search: React.FC<SearchProps> = ({ searchParams }) => {
             normalizedSearch.includes(normalizedPtName)
           );
         });
-      } else {
-        filteredProducts = productsData;
+        setFilteredProducts(searchTerm ? filtered : productsData);
       }
     } catch (error) {
       console.error('Error filtering products:', error);
+      setFilteredProducts(productsData);
     }
-  }
+  }, [searchParams.q, productsData]);
 
   const { t } = useTranslation('common');
 
@@ -70,7 +71,7 @@ const Search: React.FC<SearchProps> = ({ searchParams }) => {
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <div key={product._id} className="flex justify-between border border-solid border-border-primary rounded-md overflow-hidden flex-col">
-                  <Link href={`/products/${product._id}`} className="flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all hover:scale-[1.02]">
+                  <Link href={`/product/${product._id}`} className="flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all hover:scale-[1.02]">
                     <div className="relative">
                       <div className="relative w-full max-w-img aspect-[2/3] brightness-90">
                         <Image
