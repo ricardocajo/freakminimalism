@@ -26,31 +26,6 @@ interface Product {
 
 export const products: Product[] = [
   {
-    _id: "price_1Rcp0dCTQhRcTCnZuw62MZNr",
-    translations: {
-      en: {
-        name: "test",
-        description: "A classic freak-minimalism t-shirt, do you Lick?",
-        composition: "100% pre-shrunk cotton | 184g",
-        care: "It is recommended to iron the shirt inside out to preserve the embroidery."
-      },
-      pt: {
-        name: "test",
-        description: "Uma t-shirt clássica freak-minimalism, do you Lick?",
-        composition: "100% algodão pré-encolhido | 184g",
-        care: "Recomenda-se passar a blusa do avesso para preservar o bordado"
-      }
-    },
-    price: 1.00,
-    categories: ["man"],
-    images: [
-      "/images/tshirts/canilick1.png",
-      "/images/tshirts/canilick2.png"
-    ],
-    colors: ["White"],
-    sizes: ["M"]
-  },
-  {
     _id: "price_1RcltPCTQhRcTCnZs743CmYY",
     translations: {
       en: {
@@ -75,32 +50,6 @@ export const products: Product[] = [
     colors: ["White"],
     sizes: ["M"],
     discountPrice: 27.75
-  },
-  {
-    _id: "price_1RcpJECTQhRcTCnZ7eNVJb01",
-    translations: {
-      en: {
-        name: "Mandala Kaos Patch Fibonacci",
-        description: "-",
-        composition: "-",
-        care: "-",
-      },
-      pt: {
-        name: "Mandala Kaos Patch Fibonacci",
-        description: "-",
-        composition: "-",
-        care: "-",
-        
-      }
-    },
-    price: 10.00,
-    categories: ["partnerships", "accessories"],
-    images: [
-      "/images/parcerias/mandalakaos_fibonacci1.png",
-      "/images/parcerias/mandalakaos_fibonacci2.png"
-    ],
-    colors: ["White"],
-    sizes: ["M"]
   },
   {
     _id: "price_1RcpHYCTQhRcTCnZZ2o0wLle",
@@ -154,6 +103,32 @@ export const products: Product[] = [
     colors: ["Black"],
     sizes: ["M"],
     discountPrice: 40.00
+  },
+  {
+    _id: "price_1RcpJECTQhRcTCnZ7eNVJb01",
+    translations: {
+      en: {
+        name: "Mandala Kaos Patch Fibonacci",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Mandala Kaos Patch Fibonacci",
+        description: "-",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 10.00,
+    categories: ["partnerships", "accessories"],
+    images: [
+      "/images/parcerias/mandalakaos_fibonacci1.png",
+      "/images/parcerias/mandalakaos_fibonacci2.png"
+    ],
+    colors: ["White"],
+    sizes: ["M"]
   },
   {
     _id: "price_1RcpgqCTQhRcTCnZ7ktNsoWz",
