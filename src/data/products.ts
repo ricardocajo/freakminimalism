@@ -150,8 +150,8 @@ export const products: Product[] = [
     price: 13.50,
     categories: ["3dworks"],
     images: [
-      "/images/3d/casefm1.png",
-      "/images/3d/casefm2.png"
+      "/images/3d/boxQ1.png",
+      "/images/3d/boxQ2.png"
     ],
     colors: ["Black"],
     sizes: ["Tamanho Único"]
