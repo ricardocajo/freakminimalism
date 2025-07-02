@@ -24,7 +24,8 @@ export const Images = ({ src, alt, className }: ImagesProps) => {
       <Image
         src={src}
         alt={alt}
-        fill
+        width={500}
+        height={500}
         unoptimized={true}
         className="object-contain bg-transparent"
       />

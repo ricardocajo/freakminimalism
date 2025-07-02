@@ -1,5 +1,6 @@
 'use client';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 interface SizeGuideTranslations {
   title: string;
@@ -8,24 +9,75 @@ interface SizeGuideTranslations {
     title: string;
     steps: string[];
   };
-  sizeCharts: {
-    title: string;
-    tshirts: {
-      title: string;
-      chest: string;
-      length: string;
-    };
-    pants: {
-      title: string;
-      waist: string;
-      inseam: string;
-    };
-  };
 }
+
+interface MeasurementImage {
+  src: string;
+  alt: string;
+}
+
+interface MeasurementImages {
+  man: MeasurementImage[];
+  woman: MeasurementImage[];
+  kid: MeasurementImage[];
+}
+
+// Configuration for measurement images by category
+const measurementConfig = {
+  man: [
+    { type: 'hood', alt: 'How to measure inseam' },
+    { type: 'longsleeve', alt: 'How to measure shoulder width' },
+    { type: 'polo', alt: 'How to measure shoulder width' },
+    { type: 'sweat', alt: 'How to measure shoulder width' },
+    { type: 'tshirt', alt: 'How to measure shoulder width' },
+    { type: 'zipp', alt: 'How to measure shoulder width' },
+    { type: 'baseball', alt: 'How to measure chest' },
+    { type: 'cavas', alt: 'How to measure waist' }
+  ] as const,
+
+  woman: [
+    { type: 'hood', alt: 'How to measure bust' },
+    { type: 'polo', alt: 'How to measure waist' },
+    { type: 'tshirt', alt: 'How to measure hips' },
+    { type: 'sweat', alt: 'How to measure inseam' },
+    { type: 'zipp', alt: 'How to measure inseam' },
+    { type: 'longsleeve', alt: 'How to measure inseam' }
+  ] as const,
+
+  kid: [
+    { type: 'tshirt', alt: 'How to measure chest' },
+    { type: 'zipp', alt: 'How to measure waist' },
+    { type: 'sweat', alt: 'How to measure inseam' },
+    { type: 'hood', alt: 'How to measure shoulder width' },
+    { type: 'baseball', alt: 'How to measure shoulder width' }
+  ] as const
+} as const;
+
+// Base path for all measurement images
+const IMAGES_BASE_PATH = '/images/measurements';
+
+// Main measurement images configuration
+const measurementImages: MeasurementImages = {
+  man: measurementConfig.man.map(({ type, alt }) => ({
+    src: `${IMAGES_BASE_PATH}/man-${type}.png`,
+    alt
+  })),
+
+  woman: measurementConfig.woman.map(({ type, alt }) => ({
+    src: `${IMAGES_BASE_PATH}/woman-${type}.png`,
+    alt
+  })),
+
+  kid: measurementConfig.kid.map(({ type, alt }) => ({
+    src: `${IMAGES_BASE_PATH}/kid-${type}.png`,
+    alt
+  }))
+};
 
 export default function SizeGuidePage() {
   const { t, ready } = useTranslation();
   const translations = t('sizeGuidePage', { returnObjects: true }) as SizeGuideTranslations;
+  const [selectedCategory, setSelectedCategory] = useState<'man' | 'woman' | 'kid'>('man');
 
   if (!ready) {
     return <div>Loading...</div>;
@@ -43,94 +95,52 @@ export default function SizeGuidePage() {
           {translations.description}
         </p>
         <div className="grid gap-6">
+
+          {/* Measurement tabs section */}
           <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">{translations.howToMeasure?.title || 'How to Measure'}</h2>
-            <div className="grid gap-4">
-              {Array.isArray(translations.howToMeasure?.steps) ? (
-                translations.howToMeasure.steps.map((step, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white">{index + 1}</span>
-                    <p>{step}</p>
-                  </div>
-                ))
-              ) : (
-                <p>Loading measurements...</p>
-              )}
+            <div className="flex gap-4 mb-6">
+              <button
+                onClick={() => setSelectedCategory('man')}
+                className={`px-4 py-2 rounded-lg ${
+                  selectedCategory === 'man'
+                    ? 'bg-black text-white'
+                    : 'bg-gray-200 text-gray-700'
+                }`}
+              >
+                Man
+              </button>
+              <button
+                onClick={() => setSelectedCategory('woman')}
+                className={`px-4 py-2 rounded-lg ${
+                  selectedCategory === 'woman'
+                    ? 'bg-black text-white'
+                    : 'bg-gray-200 text-gray-700'
+                }`}
+              >
+                Woman
+              </button>
+              <button
+                onClick={() => setSelectedCategory('kid')}
+                className={`px-4 py-2 rounded-lg ${
+                  selectedCategory === 'kid'
+                    ? 'bg-black text-white'
+                    : 'bg-gray-200 text-gray-700'
+                }`}
+              >
+                Kid
+              </button>
             </div>
-          </div>
-          
-          <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">{translations.sizeCharts?.title || 'Size Charts'}</h2>
-            <div className="grid gap-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-2">{translations.sizeCharts?.tshirts?.title || 'T-Shirts'}</h3>
-                <table className="w-full border border-solid border-border-primary">
-                  <thead>
-                    <tr className="bg-black">
-                      <th className="p-2">Size</th>
-                      <th className="p-2">{translations.sizeCharts?.tshirts?.chest || 'Chest (cm)'}</th>
-                      <th className="p-2">{translations.sizeCharts?.tshirts?.length || 'Length (cm)'}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">S</td>
-                      <td className="p-2 border border-solid border-border-primary">92-96</td>
-                      <td className="p-2 border border-solid border-border-primary">69</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">M</td>
-                      <td className="p-2 border border-solid border-border-primary">98-102</td>
-                      <td className="p-2 border border-solid border-border-primary">71</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">L</td>
-                      <td className="p-2 border border-solid border-border-primary">104-108</td>
-                      <td className="p-2 border border-solid border-border-primary">73</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">XL</td>
-                      <td className="p-2 border border-solid border-border-primary">110-114</td>
-                      <td className="p-2 border border-solid border-border-primary">75</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-semibold mb-2">{translations.sizeCharts?.pants?.title || 'Pants'}</h3>
-                <table className="w-full border border-solid border-border-primary">
-                  <thead>
-                    <tr className="bg-black">
-                      <th className="p-2">Size</th>
-                      <th className="p-2">{translations.sizeCharts?.pants?.waist || 'Waist (cm)'}</th>
-                      <th className="p-2">{translations.sizeCharts?.pants?.inseam || 'Inseam (cm)'}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">S</td>
-                      <td className="p-2 border border-solid border-border-primary">76-80</td>
-                      <td className="p-2 border border-solid border-border-primary">76</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">M</td>
-                      <td className="p-2 border border-solid border-border-primary">82-86</td>
-                      <td className="p-2 border border-solid border-border-primary">78</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">L</td>
-                      <td className="p-2 border border-solid border-border-primary">88-92</td>
-                      <td className="p-2 border border-solid border-border-primary">80</td>
-                    </tr>
-                    <tr>
-                      <td className="p-2 border border-solid border-border-primary">XL</td>
-                      <td className="p-2 border border-solid border-border-primary">94-98</td>
-                      <td className="p-2 border border-solid border-border-primary">82</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+
+            <div className="grid gap-4">
+              {measurementImages[selectedCategory].map((image, index) => (
+                <div key={index} className="relative aspect-[4/3]">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
