@@ -105,6 +105,32 @@ export const products: Product[] = [
     discountPrice: 40.00
   },
   {
+    _id: "price_1RgOpkCTQhRcTCnZTlXbDTe8",
+    translations: {
+      en: {
+        name: "Butterfly Hat",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Chapéu Borboleta",
+        description: "",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 20.00,
+    categories: ["hats"],
+    images: [
+      "/images/parcerias/borboleta1.png",
+      "/images/parcerias/borboleta2.png"
+    ],
+    colors: ["Black"],
+    sizes: ["Tamanho Único"]
+  },
+  {
     _id: "price_1RcpJECTQhRcTCnZ7eNVJb01",
     translations: {
       en: {
@@ -129,6 +155,32 @@ export const products: Product[] = [
     ],
     colors: ["White"],
     sizes: ["M"]
+  },
+  {
+    _id: "price_1RgOxCCTQhRcTCnZBUQuVBzN",
+    translations: {
+      en: {
+        name: "Skull Hat",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Chapéu Caveira",
+        description: "",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 20.00,
+    categories: ["hats"],
+    images: [
+      "/images/parcerias/skull1.png",
+      "/images/parcerias/skull2.png"
+    ],
+    colors: ["Black"],
+    sizes: ["Tamanho Único"]
   },
   {
     _id: "price_1RcpgqCTQhRcTCnZ7ktNsoWz",
@@ -156,5 +208,31 @@ export const products: Product[] = [
     colors: ["White"],
     sizes: ["M"],
     discountPrice: 369.00
+  },
+  {
+    _id: "price_1RgOxCCTQhRcTCnZBUQuVBzN",
+    translations: {
+      en: {
+        name: "FM Hat",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Chapéu FM",
+        description: "",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 17.00,
+    categories: ["hats"],
+    images: [
+      "/images/parcerias/fm1.png",
+      "/images/parcerias/fm2.png"
+    ],
+    colors: ["Black","White"],
+    sizes: ["Tamanho Único"]
   }
 ];
