@@ -131,15 +131,14 @@ export default function SizeGuidePage() {
               </button>
             </div>
 
-            <div className="grid gap-4">
+            <div className="grid gap-0">
               {measurementImages[selectedCategory].map((image, index) => (
-                <div key={index} className="relative aspect-[4/3]">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
+                <img
+                  key={index}
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-contain"
+                />
               ))}
             </div>
           </div>
