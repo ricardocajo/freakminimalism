@@ -176,8 +176,8 @@ export const products: Product[] = [
     price: 16.00,
     categories: ["kids"],
     images: [
-      "/images/3d/spongebob1.png",
-      "/images/3d/spongebob2.png"
+      "/images/kids/spongebob1.png",
+      "/images/kids/spongebob2.png"
     ],
     colors: ["Black"],
     sizes: ["Tamanho Único"]
@@ -209,7 +209,7 @@ export const products: Product[] = [
     sizes: ["57x89mm"]
   },
   {
-    _id: "price_1RgOxCCTQhRcTCnZBUQuVBzN",
+    _id: "price_1RgOrLCTQhRcTCnZmHZHms4G",
     translations: {
       en: {
         name: "Skull Hat",
