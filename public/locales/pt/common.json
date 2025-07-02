@@ -4,7 +4,7 @@
     "title": "Carrinho",
     "added_to_cart": "Adicionado ao carrinho",
     "add_to_cart": "Adicionar ao carrinho",
-    "adding_to_cart": "Adicionando ao carrinho..."
+    "adding_to_cart": "A adicionar ao carrinho..."
   },
   "navbar": {
     "about": "Sobre",
@@ -19,35 +19,35 @@
     "new": "Novidades",
     "collections": "Coleções",
     "viewAll": "VER TODOS",
-    "discoverWardrobe": "Descubra nossa coleção curada de produtos minimalistas para todas as ocasiões.",
-    "artDescription": "Explore nossa coleção curada de peças de arte minimalista que trazem elegância a qualquer espaço.",
-    "3dworksDescription": "Descubra nossas peças de arte 3D únicas e instalações que adicionam profundidade e dimensão ao seu espaço.",
-    "hatsDescription": "Nossos chapéus minimalistas combinam estilo e funcionalidade para todas as ocasiões.",
+    "discoverWardrobe": "Descobre a nossa coleção curada de produtos minimalistas para todas as ocasiões.",
+    "artDescription": "Explora a nossa coleção curada de peças de arte minimalista que trazem elegância a qualquer espaço.",
+    "3dworksDescription": "Descobre as nossas peças de arte 3D únicas e instalações que adicionam profundidade e dimensão ao teu espaço.",
+    "hatsDescription": "Os nossos chapéus minimalistas combinam estilo e funcionalidade para todas as ocasiões.",
     "kidsDescription": "Roupas e acessórios minimalistas para crianças que combinam estilo e conforto.",
-    "accessoriesDescription": "Acessórios elegantes e funcionais que complementam seu estilo minimalista.",
+    "accessoriesDescription": "Acessórios elegantes e funcionais que complementam o teu estilo minimalista.",
     "womanDescription": "Moda minimalista para mulheres que combina estilo, conforto e elegância.",
     "manDescription": "Moda minimalista para homens que combina estilo, conforto e sofisticação.",
-    "partnershipsDescription": "Explore nossas colaborações com artistas e criadores talentosos.",
-    "newDescription": "Descubra nossos produtos e coleções minimalistas mais recentes."
+    "partnershipsDescription": "Explora as nossas colaborações com artistas e criadores talentosos.",
+    "newDescription": "Descobre os nossos produtos e coleções minimalistas mais recentes."
   },
   "values": {
-    "title": "Nossos Valores",
+    "title": "Os Nossos Valores",
     "list": [
       { "value": "Qualidade" },
       { "value": "Práticas Sustentáveis" },
-      { "value": "Design Eterno" },
+      { "value": "Design Intemporal" },
       { "value": "Satisfação do Cliente" }
     ]
   },
   "mission": {
-    "title": "Nossa Missão",
-    "content": "Criar uma coleção de roupas minimalistas que permita expressar seu estilo pessoal mantendo uma aparência limpa e sofisticada."
+    "title": "A Nossa Missão",
+    "content": "Criar uma coleção de roupa minimalista que permita expressar o teu estilo pessoal mantendo uma aparência limpa e sofisticada."
   },
   "search": {
-    "placeholder": "Pesquisar Produtos..."
+    "placeholder": "Procurar Produtos..."
   },
   "footer": {
-    "assistance": "Assistência",
+    "assistance": "Ajuda",
     "about": "Sobre",
     "customize": "Personalizar",
     "sizeGuide": "Guia de Tamanhos",
@@ -56,43 +56,43 @@
   },
   "about": {
     "title": "Essência",
-    "content": "ғʀᴇᴀᴋ ̶m̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ foi fundada em janeiro de 2023 como uma empresa que tem como base o gosto pela arte e moda.\n\nO nosso foco está em criar vestuário bordado único e exclusivo, assim como peças 3D originais e realizar pinturas e restaurações em peças únicas, tudo feito com o nosso estilo artístico único.\n\nNa nossa loja vocês encontrarão peças que não encontrarão em nenhum outro lugar, peças que nós da ғʀᴇᴀᴋ ̶m̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ usamos e exibimos com orgulho diariamente. No entanto, se não encontrarem a peça perfeita que se encaixa no seu estilo pessoal, sintam-se à vontade para nos contactar com a sua própria ideia e ficaremos felizes em trazer sua ideia à vida."
+    "content": "ғʀᴇᴀᴋ ̶m̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ foi fundada em janeiro de 2023 como uma empresa baseada no gosto pela arte e moda.\n\nO nosso foco está em criar vestuário bordado único e exclusivo, bem como peças 3D originais e realizar pinturas e restauros em peças únicas, tudo feito com o nosso estilo artístico próprio.\n\nNa nossa loja encontrarás peças que não encontrarás em mais lado nenhum, peças que nós da ғʀᴇᴀᴋ ̶m̶i̶n̶i̶m̶a̶l̶i̶s̶m̶ usamos e exibimos com orgulho diariamente. No entanto, se não encontrares a peça perfeita que se encaixa no teu estilo pessoal, sente-te à vontade para nos contactares com a tua própria ideia — teremos todo o gosto em trazê-la à vida."
   },
   "products": {
     "customizeButton": "Envia-nos a tua ideia",
-    "customizeMessage": "◐ 𝔇𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔳𝔦𝔰𝔦𝔬𝔫, 𝔡𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔰𝔱𝔶𝔩𝔢 ◑",
-    "no_size_message": "Você tem que selecionar um tamanho para salvar o produto"
+    "customizeMessage": "◐ 𝔘𝔪𝔞 𝔳𝔦𝔰ã𝔬 𝔡𝔦𝔣𝔢𝔯𝔢𝔫𝔱𝔢, 𝔲𝔪 𝔢𝔰𝔱𝔦𝔩𝔬 𝔡𝔦𝔣𝔢𝔯𝔢𝔫𝔱𝔢 ◑",
+    "no_size_message": "Tens de selecionar um tamanho para guardar o produto"
   },
   "cartPage": {
-    "title": "SEU CARRINHO DE COMPRAS",
+    "title": "O TEU CARRINHO DE COMPRAS",
     "empty": {
-      "title": "SEU CARRINHO ESTÁ VAZIO",
-      "description": "Quando você adicionar algo ao seu carrinho, ele aparecerá aqui. Quer começar?",
+      "title": "O TEU CARRINHO ESTÁ VAZIO",
+      "description": "Quando adicionares algo ao teu carrinho, ele aparecerá aqui. Queres começar?",
       "button": "Começar"
     },
     "viewAll": "VER TODOS",
     "total": {
       "label": "Total:",
-      "tax": "+ TAX INCL."
+      "tax": "+ IVA INCLUÍDO"
     },
     "checkout": "Continuar"
   },
   "productDetails": {
     "composition": "COMPOSIÇÃO",
     "care": "CUIDADOS",
-    "youMightAlsoLike": "VOCÊ TAMBÉM PODE GOSTAR DE...",
+    "youMightAlsoLike": "TAMBÉM PODERÁS GOSTAR DE...",
     "color": "Cor"
   },
   "customizePage": {
-    "title": "Personalize seu Pedido",
-    "description": "Na Freak Minimalism, entendemos que cada pessoa é única. É por isso que oferecemos um serviço de personalização para garantir que obtenhas exatamente aquilo que desejas.",
+    "title": "Personaliza o teu Pedido",
+    "description": "Na Freak Minimalism, entendemos que cada pessoa é única. Por isso, oferecemos um serviço de personalização para garantir que obtenhas exatamente o que desejas.",
     "personalization": {
       "title": "Opções de Personalização",
       "options": [
         "Bordado personalizado",
         "Combinações de cores personalizadas",
         "Ajustes de tamanho personalizados",
-        "Solicitações especiais"
+        "Pedidos especiais"
       ]
     },
     "howTo": {
@@ -104,25 +104,25 @@
       ]
     },
     "leadTime": {
-      "title": "Tempo de Entrega",
-      "description": "Pedidos personalizados levam aproximadamente 2-3 semanas para serem concluídos. Isso nos permite garantir a mais alta qualidade e atenção aos detalhes."
+      "title": "Prazo de Entrega",
+      "description": "Os pedidos personalizados demoram aproximadamente 2-3 semanas a ser concluídos. Isto permite-nos garantir a mais alta qualidade e atenção aos detalhes."
     }
   },
   "sizeGuidePage": {
     "title": "Guia de Tamanhos",
-    "description": "Encontrar o tamanho perfeito é essencial para o conforto e estilo. Use nosso guia de tamanhos para garantir que você obtenha o tamanho correto para nossa roupa minimalista.",
+    "description": "Encontrar o tamanho ideal é essencial para o conforto e estilo. Usa o nosso guia de tamanhos para garantir que escolhas o tamanho certo para a nossa roupa minimalista.",
     "howToMeasure": {
       "title": "Como Medir",
       "steps": [
-        "Medir o peito no ponto mais largo",
-        "Medir a cintura na linha natural da cintura",
-        "Medir a entreperna do entrecoxas ao tornozelo"
+        "Mede o peito na parte mais larga",
+        "Mede a cintura na linha natural da cintura",
+        "Mede a entreperna desde a virilha até ao tornozelo"
       ]
     },
     "sizeCharts": {
       "title": "Tabela de Tamanhos",
       "tshirts": {
-        "title": "Camisetas",
+        "title": "T-shirts",
         "chest": "Peito (cm)",
         "length": "Comprimento (cm)"
       },
@@ -135,13 +135,13 @@
   },
   "deliveryPage": {
     "title": "Informações de Entrega",
-    "description": "Oferecemos envio rápido e confiável em todo o mundo. Aqui está tudo o que você precisa saber sobre nosso processo de entrega.",
+    "description": "Oferecemos envios rápidos e fiáveis para todo o mundo. Aqui está tudo o que precisas de saber sobre o nosso processo de entrega.",
     "shippingOptions": {
       "title": "Opções de Envio",
       "standard": {
-        "title": "Envio Padrão",
+        "title": "Envio Normal",
         "duration": "5-7 dias úteis",
-        "price": "Grátis para pedidos acima de €50"
+        "price": "Grátis para encomendas acima de €50"
       },
       "express": {
         "title": "Envio Expresso",
@@ -150,26 +150,26 @@
       }
     },
     "shippingAreas": {
-      "title": "Áreas de Envio",
+      "title": "Zonas de Envio",
       "europe": {
         "title": "Europa",
-        "standard": "Envio padrão disponível",
+        "standard": "Envio normal disponível",
         "express": "Envio expresso disponível"
       },
       "world": {
         "title": "Resto do Mundo",
-        "standard": "Envio padrão disponível",
-        "express": "Envio expresso disponível (taxas adicionais podem ser aplicadas)"
+        "standard": "Envio normal disponível",
+        "express": "Envio expresso disponível (podem aplicar-se taxas adicionais)"
       }
     },
     "tracking": {
-      "title": "Acompanhamento do Pedido",
-      "description": "Assim que seu pedido for enviado, você receberá um número de rastreamento por email. Você pode rastrear seu pacote usando esse número em nosso site ou no site da transportadora."
+      "title": "Acompanhamento da Encomenda",
+      "description": "Assim que a tua encomenda for enviada, receberás um número de rastreio por email. Podes acompanhar o teu pacote com esse número no nosso site ou no site da transportadora."
     },
     "times": {
       "title": "Tempos de Envio",
       "processing": "Tempo de processamento: 1-2 dias úteis",
-      "standard": "Envio padrão: 5-7 dias úteis",
+      "standard": "Envio normal: 5-7 dias úteis",
       "express": "Envio expresso: 2-3 dias úteis"
     }
   }
