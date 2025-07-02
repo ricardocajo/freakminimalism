@@ -2,6 +2,26 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 
+interface CategoryTranslations {
+  en: string;
+  pt: string;
+}
+
+const categoryTranslations: Record<'man' | 'woman' | 'kid', CategoryTranslations> = {
+  man: {
+    en: 'Man',
+    pt: 'Homem'
+  },
+  woman: {
+    en: 'Woman',
+    pt: 'Mulher'
+  },
+  kid: {
+    en: 'Kid',
+    pt: 'Criança'
+  }
+};
+
 interface SizeGuideTranslations {
   title: string;
   description: string;
@@ -75,7 +95,7 @@ const measurementImages: MeasurementImages = {
 };
 
 export default function SizeGuidePage() {
-  const { t, ready } = useTranslation();
+  const { t, ready, i18n } = useTranslation();
   const translations = t('sizeGuidePage', { returnObjects: true }) as SizeGuideTranslations;
   const [selectedCategory, setSelectedCategory] = useState<'man' | 'woman' | 'kid'>('man');
 
@@ -107,7 +127,7 @@ export default function SizeGuidePage() {
                     : 'bg-gray-200 text-gray-700'
                 }`}
               >
-                Man
+                {categoryTranslations.man[i18n.language as keyof CategoryTranslations] || 'Man'}
               </button>
               <button
                 onClick={() => setSelectedCategory('woman')}
@@ -117,7 +137,7 @@ export default function SizeGuidePage() {
                     : 'bg-gray-200 text-gray-700'
                 }`}
               >
-                Woman
+                {categoryTranslations.woman[i18n.language as keyof CategoryTranslations] || 'Woman'}
               </button>
               <button
                 onClick={() => setSelectedCategory('kid')}
@@ -127,7 +147,7 @@ export default function SizeGuidePage() {
                     : 'bg-gray-200 text-gray-700'
                 }`}
               >
-                Kid
+                {categoryTranslations.kid[i18n.language as keyof CategoryTranslations] || 'Kid'}
               </button>
             </div>
 

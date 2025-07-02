@@ -140,37 +140,31 @@
       "title": "Shipping Options",
       "standard": {
         "title": "Standard Shipping",
-        "duration": "5-7 business days",
-        "price": "Free for orders over €50"
+        "duration": "3-7 business days",
+        "price": "Free for orders over €100"
       },
-      "express": {
-        "title": "Express Shipping",
-        "duration": "2-3 business days",
-        "price": "€15"
-      }
-    },
-    "shippingAreas": {
-      "title": "Shipping Areas",
-      "europe": {
-        "title": "Europe",
-        "standard": "Standard shipping available",
-        "express": "Express shipping available"
+      "personalize": {
+        "title": "Personalização",
+        "duration": "1-2 weeks"
       },
-      "world": {
-        "title": "Rest of World",
-        "standard": "Standard shipping available",
-        "express": "Express shipping available (additional fees may apply)"
+      "processing": {
+        "title": "Processing",
+        "duration": "1-2 business days"
+      },
+      "islands": {
+        "title": "Islands",
+        "duration": "- business days",
+        "price": "Free for orders over €100"
+      },
+      "intercontinental": {
+        "title": "Intercontinental",
+        "duration": "- business days",
+        "price": "Free for orders over €150"
       }
     },
     "tracking": {
       "title": "Tracking Your Order",
-      "description": "Once your order is shipped, you'll receive a tracking number via email. You can track your package using this number on our website or through the carrier's website."
-    },
-    "times": {
-      "title": "Shipping Times",
-      "processing": "Processing time: 1-2 business days",
-      "standard": "Standard shipping: 5-7 business days",
-      "express": "Express shipping: 2-3 business days"
+      "description": "Once your order is shipped, you'll receive a tracking number via email. You can track your package using this number on the carrier's website."
     }
   }
 }

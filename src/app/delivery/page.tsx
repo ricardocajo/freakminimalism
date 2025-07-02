@@ -11,34 +11,28 @@ interface DeliveryTranslations {
       duration: string;
       price: string;
     };
-    express: {
+    personalize: {
+      title: string;
+      duration: string;
+    };
+    processing: {
+      title: string;
+      duration: string;
+    };
+    islands: {
+      title: string;
+      duration: string;
+      price: string;
+    };
+    intercontinental: {
       title: string;
       duration: string;
       price: string;
     };
   };
-  shippingAreas: {
-    title: string;
-    europe: {
-      title: string;
-      standard: string;
-      express: string;
-    };
-    world: {
-      title: string;
-      standard: string;
-      express: string;
-    };
-  };
   tracking: {
     title: string;
     description: string;
-  };
-  times: {
-    title: string;
-    processing: string;
-    standard: string;
-    express: string;
   };
 }
 
@@ -60,34 +54,40 @@ export default function DeliveryPage() {
               <div className="flex items-center gap-2">
                 <span className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white">1</span>
                 <div>
+                  <h3 className="font-semibold">{translations.shippingOptions.personalize.title}</h3>
+                  <p className="text-gray-400">{translations.shippingOptions.personalize.duration}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white">2</span>
+                <div>
+                  <h3 className="font-semibold">{translations.shippingOptions.processing.title}</h3>
+                  <p className="text-gray-400">{translations.shippingOptions.processing.duration}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white">3</span>
+                <div>
                   <h3 className="font-semibold">{translations.shippingOptions.standard.title}</h3>
                   <p className="text-gray-400">{translations.shippingOptions.standard.duration}</p>
                   <p className="text-gray-400">{translations.shippingOptions.standard.price}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white">2</span>
+                <span className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white">4</span>
                 <div>
-                  <h3 className="font-semibold">{translations.shippingOptions.express.title}</h3>
-                  <p className="text-gray-400">{translations.shippingOptions.express.duration}</p>
-                  <p className="text-gray-400">{translations.shippingOptions.express.price}</p>
+                  <h3 className="font-semibold">{translations.shippingOptions.islands.title}</h3>
+                  <p className="text-gray-400">{translations.shippingOptions.islands.duration}</p>
+                  <p className="text-gray-400">{translations.shippingOptions.islands.price}</p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">{translations.shippingAreas.title}</h2>
-            <div className="grid gap-4">
-              <div>
-                <h3 className="font-semibold">{translations.shippingAreas.europe.title}</h3>
-                <p className="text-gray-400">{translations.shippingAreas.europe.standard}</p>
-                <p className="text-gray-400">{translations.shippingAreas.europe.express}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold">{translations.shippingAreas.world.title}</h3>
-                <p className="text-gray-400">{translations.shippingAreas.world.standard}</p>
-                <p className="text-gray-400">{translations.shippingAreas.world.express}</p>
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white">5</span>
+                <div>
+                  <h3 className="font-semibold">{translations.shippingOptions.intercontinental.title}</h3>
+                  <p className="text-gray-400">{translations.shippingOptions.intercontinental.duration}</p>
+                  <p className="text-gray-400">{translations.shippingOptions.intercontinental.price}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -99,14 +99,6 @@ export default function DeliveryPage() {
             </p>
           </div>
 
-          <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">{translations.times.title}</h2>
-            <p className="text-gray-400">
-              {translations.times.processing}<br />
-              {translations.times.standard}<br />
-              {translations.times.express}
-            </p>
-          </div>
         </div>
       </div>
     </main>

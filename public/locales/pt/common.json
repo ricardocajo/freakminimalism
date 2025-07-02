@@ -140,37 +140,31 @@
       "title": "Opções de Envio",
       "standard": {
         "title": "Envio Normal",
-        "duration": "5-7 dias úteis",
-        "price": "Grátis para encomendas acima de €50"
+        "duration": "3-7 dias úteis",
+        "price": "Grátis para encomendas acima de €100"
       },
-      "express": {
-        "title": "Envio Expresso",
-        "duration": "2-3 dias úteis",
-        "price": "€15"
-      }
-    },
-    "shippingAreas": {
-      "title": "Zonas de Envio",
-      "europe": {
-        "title": "Europa",
-        "standard": "Envio normal disponível",
-        "express": "Envio expresso disponível"
+      "personalize": {
+        "title": "Personalização",
+        "duration": "1-2 semanas"
       },
-      "world": {
-        "title": "Resto do Mundo",
-        "standard": "Envio normal disponível",
-        "express": "Envio expresso disponível (podem aplicar-se taxas adicionais)"
+      "processing": {
+        "title": "Processamento",
+        "duration": "1-2 dias úteis"
+      },
+      "islands": {
+        "title": "Envio para Ilhas",
+        "duration": "- dias úteis",
+        "price": "Grátis para encomendas acima de €100"
+      },
+      "intercontinental": {
+        "title": "Intercontinental",
+        "duration": "- dias úteis",
+        "price": "Grátis para encomendas acima de €150"
       }
     },
     "tracking": {
       "title": "Acompanhamento da Encomenda",
-      "description": "Assim que a tua encomenda for enviada, receberás um número de rastreio por email. Podes acompanhar o teu pacote com esse número no nosso site ou no site da transportadora."
-    },
-    "times": {
-      "title": "Tempos de Envio",
-      "processing": "Tempo de processamento: 1-2 dias úteis",
-      "standard": "Envio normal: 5-7 dias úteis",
-      "express": "Envio expresso: 2-3 dias úteis"
+      "description": "Assim que a tua encomenda for enviada, receberás um número de rastreio por email. Podes acompanhar o teu pacote com esse número no site da transportadora."
     }
   }
 }
