@@ -71,13 +71,13 @@ export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
             <Link
               key={product._id}
               href={`/products/${product._id}`}
-              className="flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all hover:scale-[1.02]"
+              className="flex flex-col rounded-lg shadow-md overflow-hidden transition-all hover:scale-[1.02]"
             >
-              <div className="relative">
+              <div className="relative w-full aspect-[2/3] h-full bg-transparent">
                 <Images
                   src={product.images[0]}
                   alt={product.translations[language].name}
-                  className="w-full max-w-img aspect-[2/3] brightness-90"
+                  className="brightness-90 bg-transparent"
                 />
               </div>
             </Link>

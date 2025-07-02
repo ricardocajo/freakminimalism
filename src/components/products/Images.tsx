@@ -18,16 +18,15 @@ interface ImagesProps {
   height?: number;
 }
 
-export const Images = ({ src, alt, className, width = 800, height = 1200 }: ImagesProps) => {
+export const Images = ({ src, alt, className }: ImagesProps) => {
   return (
-    <div className={`relative ${className || ''}`}>
+    <div className={`relative ${className || ''} w-full h-full bg-transparent`}>
       <Image
         src={src}
         alt={alt}
-        width={width}
-        height={height}
+        fill
         unoptimized={true}
-        className="object-cover"
+        className="object-contain bg-transparent"
       />
     </div>
   );
