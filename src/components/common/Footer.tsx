@@ -100,6 +100,15 @@ export const Footer = () => {
                 Mandala Kaos
               </Link>
             </li>
+            <li className={liStyles}>
+              <Link
+                href="https://www.instagram.com/alphared.airsoft"
+                target="_blank"
+                className={linkStyles}
+              >
+                AlphaRed
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>

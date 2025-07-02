@@ -124,8 +124,60 @@ export const products: Product[] = [
     price: 20.00,
     categories: ["hats"],
     images: [
-      "/images/parcerias/borboleta1.png",
-      "/images/parcerias/borboleta2.png"
+      "/images/hats/borboleta1.png",
+      "/images/hats/borboleta2.png"
+    ],
+    colors: ["Black"],
+    sizes: ["Tamanho Único"]
+  },
+  {
+    _id: "price_1RgQmzCTQhRcTCnZTiPkdu0v",
+    translations: {
+      en: {
+        name: "Case FM ⌬ 3D",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Caixa FM ⌬ 3D",
+        description: "",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 13.50,
+    categories: ["3dworks"],
+    images: [
+      "/images/3d/casefm1.png",
+      "/images/3d/casefm2.png"
+    ],
+    colors: ["Black"],
+    sizes: ["Tamanho Único"]
+  },
+  {
+    _id: "price_1RgQXoCTQhRcTCnZJo8RbA6s",
+    translations: {
+      en: {
+        name: "T-Shirt Spongebob Kid",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "T-Shirt Spongebob Criança",
+        description: "",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 16.00,
+    categories: ["kids"],
+    images: [
+      "/images/3d/spongebob1.png",
+      "/images/3d/spongebob2.png"
     ],
     colors: ["Black"],
     sizes: ["Tamanho Único"]
@@ -154,7 +206,7 @@ export const products: Product[] = [
       "/images/parcerias/mandalakaos_fibonacci2.png"
     ],
     colors: ["White"],
-    sizes: ["M"]
+    sizes: ["57x89mm"]
   },
   {
     _id: "price_1RgOxCCTQhRcTCnZBUQuVBzN",
@@ -176,8 +228,60 @@ export const products: Product[] = [
     price: 20.00,
     categories: ["hats"],
     images: [
-      "/images/parcerias/skull1.png",
-      "/images/parcerias/skull2.png"
+      "/images/hats/caveira1.png",
+      "/images/hats/caveira2.png"
+    ],
+    colors: ["Black"],
+    sizes: ["Tamanho Único"]
+  },
+  {
+    _id: "price_1RcpR7CTQhRcTCnZ89F6D3KZ",
+    translations: {
+      en: {
+        name: "FM Keychain",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Porta-Chaves FM",
+        description: "",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 7.50,
+    categories: ["accessories"],
+    images: [
+      "/images/acessorios/portachaves_fm1.png",
+      "/images/acessorios/portachaves_fm2.png"
+    ],
+    colors: ["Black"],
+    sizes: ["9x3cm"]
+  },
+  {
+    _id: "price_1RgQifCTQhRcTCnZxc9Kz3Iz",
+    translations: {
+      en: {
+        name: "Ohm Sign 3D",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Ohm Símbolo 3D",
+        description: "",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 17.00,
+    categories: ["3dworks"],
+    images: [
+      "/images/3d/omsign1.png",
+      "/images/3d/omsign2.png"
     ],
     colors: ["Black"],
     sizes: ["Tamanho Único"]
@@ -229,10 +333,36 @@ export const products: Product[] = [
     price: 17.00,
     categories: ["hats"],
     images: [
-      "/images/parcerias/fm1.png",
-      "/images/parcerias/fm2.png"
+      "/images/hats/fm1.png",
+      "/images/hats/fm2.png"
     ],
     colors: ["Black","White"],
     sizes: ["Tamanho Único"]
+  },
+  {
+    _id: "price_1RcpLyCTQhRcTCnZHdejxtHF",
+    translations: {
+      en: {
+        name: "Mandala Kaos Freaks Patch ",
+        description: "-",
+        composition: "-",
+        care: "-",
+      },
+      pt: {
+        name: "Mandala Kaos Patch Freaks",
+        description: "-",
+        composition: "-",
+        care: "-",
+        
+      }
+    },
+    price: 10.00,
+    categories: ["partnerships", "accessories"],
+    images: [
+      "/images/parcerias/mandalakaos_freaks1.png",
+      "/images/parcerias/mandalakaos_freaks2.png"
+    ],
+    colors: ["White"],
+    sizes: ["107x36mm"]
   }
 ];
