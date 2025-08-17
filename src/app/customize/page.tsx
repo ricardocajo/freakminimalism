@@ -1,58 +1,241 @@
 'use client';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Image from 'next/image';
 
-interface CustomizePageTranslations {
-  title: string;
-  description: string;
-  personalization: {
-    title: string;
-    options: string[];
-  };
-  howTo: {
-    title: string;
-    steps: string[];
-  };
-  leadTime: {
-    title: string;
-    description: string;
-  };
-}
+type Subcategory = {
+  name: string;
+  path: string;
+  image?: string;
+};
+
+type Category = {
+  name: string;
+  subcategories: Subcategory[];
+};
+
+const categories: Category[] = [
+  {
+    name: 'Pedido Especial',
+    subcategories: []
+  },
+  {
+    name: 'Patches',
+    subcategories: []
+  },
+  {
+    name: 'King',
+    subcategories: [
+      { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT' },
+      { name: 'Hood', path: '/personalizar/KING/HOOD' },
+      { name: 'Sweat', path: '/personalizar/KING/SWEAT' },
+      { name: 'Polo', path: '/personalizar/KING/POLO' },
+      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA' },
+      { name: 'Zipp', path: '/personalizar/KING/ZIPP' },
+      { name: 'Canvas', path: '/personalizar/KING/CANVAS' },
+    ]
+  },
+  {
+    name: 'Queen',
+    subcategories: [
+      { name: 'T-Shirt', path: '/personalizar/QUEEN/T-SHIRT' },
+      { name: 'Hood', path: '/personalizar/QUEEN/HOOD' },
+      { name: 'Sweat', path: '/personalizar/QUEEN/SWEAT' },
+      { name: 'Polo', path: '/personalizar/QUEEN/POLO' },
+      { name: 'Manga Comprida', path: '/personalizar/QUEEN/M.COMPRIDA' },
+      { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP' },
+    ]
+  },
+  {
+    name: 'Kid',
+    subcategories: [
+      { name: 'T-Shirt', path: '/personalizar/KID/T-SHIRT' },
+      { name: 'Hooded Kids', path: '/personalizar/KID/HOODEDKIDS' },
+      { name: 'Sweat', path: '/personalizar/KID/SWEAT' },
+      { name: 'Baseball', path: '/personalizar/KID/BASEBALL' },
+      { name: 'Snapback', path: '/personalizar/KID/SNAPBACK' },
+      { name: 'Zipp Kids', path: '/personalizar/KID/ZIPPKIDS' },
+      { name: 'Fraser', path: '/personalizar/KID/FRASER' },
+      { name: 'Panama', path: '/personalizar/KID/PANAMA' },
+    ]
+  },
+  {
+    name: 'Chapeus',
+    subcategories: [
+      { name: 'Basebol', path: '/personalizar/CHAPEUS/BASEBOL' },
+      { name: 'Boina', path: '/personalizar/CHAPEUS/BOINA' },
+      { name: 'Clássico', path: '/personalizar/CHAPEUS/CLASSICO' },
+      { name: 'Gola', path: '/personalizar/CHAPEUS/GOLA' },
+      { name: 'Gorro', path: '/personalizar/CHAPEUS/GORRO' },
+      { name: 'Panamá', path: '/personalizar/CHAPEUS/PANAMA' },
+      { name: 'Panamá Curto', path: '/personalizar/CHAPEUS/PANAMACURTO' },
+      { name: 'Recy', path: '/personalizar/CHAPEUS/RECY' },
+      { name: 'Snap Five', path: '/personalizar/CHAPEUS/SNAPFIVE' },
+      { name: 'Tradicional', path: '/personalizar/CHAPEUS/TRADICIONAL' },
+      { name: 'Whippy', path: '/personalizar/CHAPEUS/WHIPPY' },
+      { name: 'Zion', path: '/personalizar/CHAPEUS/ZION' },
+    ]
+  }
+];
 
 export default function CustomizePage() {
   const { t } = useTranslation();
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(null);
 
-  const translations = t('customizePage', { returnObjects: true }) as CustomizePageTranslations;
+  const handleCategorySelect = (index: number) => {
+    setSelectedCategory(selectedCategory === index ? null : index);
+    setSelectedSubcategory(null);
+  };
+
+  const handleSubcategorySelect = (subcategory: Subcategory) => {
+    setSelectedSubcategory(subcategory);
+    // Here you would typically load the products for this subcategory
+    // For now, we'll just log the selection
+    console.log('Selected subcategory:', subcategory);
+  };
+
+  const handleWhatsAppOrder = () => {
+    if (!selectedSubcategory) return;
+    
+    const message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
+                   `Categoria: ${categories[selectedCategory!].name}\n` +
+                   `Modelo: ${selectedSubcategory.name}\n\n` +
+                   `Por favor, envie mais informações sobre como proceder com a personalização.`;
+    
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/351912345678?text=${encodedMessage}`, '_blank');
+  };
 
   return (
-    <main className="flex flex-col gap-12">
-      <h1 className="text-2xl font-bold">{translations.title}</h1>
-      <div className="max-w-2xl">
-        <p className="text-lg mb-6">
-          {translations.description}
-        </p>
-        <div className="grid gap-6">
-          <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">{translations.personalization.title}</h2>
-            <ul className="list-disc list-inside text-gray-400">
-              {translations.personalization.options.map((option, index) => (
-                <li key={index}>{option}</li>
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8 text-center">Personalização</h1>
+      
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Categories Sidebar */}
+        <div className="w-full md:w-1/4">
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <h2 className="text-xl font-semibold mb-4">Categorias</h2>
+            <div className="space-y-2">
+              {categories.map((category, index) => (
+                <div key={category.name} className="border-b border-gray-200">
+                  <button
+                    onClick={() => handleCategorySelect(index)}
+                    className={`w-full text-left py-2 px-4 rounded-md transition-colors ${
+                      selectedCategory === index ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                  
+                  {selectedCategory === index && category.subcategories.length > 0 && (
+                    <div className="ml-4 mt-1 space-y-1 py-2">
+                      {category.subcategories.map((subcategory) => (
+                        <button
+                          key={subcategory.path}
+                          onClick={() => handleSubcategorySelect(subcategory)}
+                          className={`block w-full text-left py-1 px-4 text-sm rounded-md transition-colors ${
+                            selectedSubcategory?.path === subcategory.path
+                              ? 'bg-blue-50 text-blue-600 font-medium'
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
+                        >
+                          {subcategory.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
-          <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">{translations.howTo.title}</h2>
-            <ol className="list-decimal list-inside text-gray-400">
-              {translations.howTo.steps.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
-          </div>
-          <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">{translations.leadTime.title}</h2>
-            <p className="text-gray-400">
-              {translations.leadTime.description}
-            </p>
-          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1">
+          {selectedSubcategory ? (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-1/2">
+                  <div className="bg-gray-100 rounded-lg aspect-square flex items-center justify-center">
+                    <span className="text-gray-400">Imagem do produto</span>
+                  </div>
+                </div>
+                <div className="md:w-1/2">
+                  <h2 className="text-2xl font-bold mb-2">
+                    {categories[selectedCategory!].name} - {selectedSubcategory.name}
+                  </h2>
+                  
+                  <div className="space-y-6 mt-8">
+                    <div>
+                      <h3 className="font-medium mb-2">Opções de Personalização</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Cor
+                          </label>
+                          <select className="w-full border border-gray-300 rounded-md p-2">
+                            <option>Selecione uma cor</option>
+                            <option>Preto</option>
+                            <option>Branco</option>
+                            <option>Cinza</option>
+                            <option>Azul</option>
+                            <option>Verde</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Tamanho
+                          </label>
+                          <select className="w-full border border-gray-300 rounded-md p-2">
+                            <option>Selecione um tamanho</option>
+                            <option>Pequeno (S)</option>
+                            <option>Médio (M)</option>
+                            <option>Grande (L)</option>
+                            <option>Extra Grande (XL)</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Detalhes da Personalização
+                          </label>
+                          <textarea 
+                            className="w-full border border-gray-300 rounded-md p-2 min-h-[100px]"
+                            placeholder="Descreva como deseja personalizar o seu item..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={handleWhatsAppOrder}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition-colors flex items-center justify-center gap-2"
+                    >
+                      <span>Enviar Pedido por WhatsApp</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
+                        <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-md p-6 text-center">
+              <div className="max-w-md mx-auto">
+                <svg className="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <h3 className="mt-2 text-lg font-medium text-gray-900">Nenhuma categoria selecionada</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  Selecione uma categoria no menu à esquerda para ver os modelos disponíveis.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </main>
