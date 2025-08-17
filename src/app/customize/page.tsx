@@ -96,6 +96,9 @@ export default function CustomizePage() {
   };
 
   const [customMessage, setCustomMessage] = useState('');
+  const [patchDimensions, setPatchDimensions] = useState({ width: '', height: '' });
+  const [patchQuantity, setPatchQuantity] = useState('');
+  const [patchNotes, setPatchNotes] = useState('');
 
   const handleWhatsAppOrder = () => {
     if (selectedCategory === null) return;
@@ -105,8 +108,14 @@ export default function CustomizePage() {
     if (categories[selectedCategory].name === 'Pedido Especial') {
       // For special orders, use the custom message
       message = `Olá, gostaria de fazer um pedido especial:\n\n${customMessage}`;
+    } else if (categories[selectedCategory].name === 'Patches') {
+      // For Patches category
+      message = `Olá, gostaria de encomendar patches personalizados:\n\n` +
+               `Dimensões: ${patchDimensions.width || '--'}x${patchDimensions.height || '--'} mm\n` +
+               `Quantidade: ${patchQuantity || '--'}\n` +
+               `Notas adicionais: ${patchNotes || 'Nenhuma'}`;
     } else if (selectedSubcategory) {
-      // For other categories, use the structured message
+      // For other categories with subcategories
       message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
                `Categoria: ${categories[selectedCategory].name}\n` +
                `Modelo: ${selectedSubcategory.name}\n\n` +
@@ -116,7 +125,7 @@ export default function CustomizePage() {
     }
     
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://api.whatsapp.com/send?phone=351927771505&text=${encodedMessage}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=351960361839&text=${encodedMessage}`, '_blank');
   };
 
   return (
@@ -165,7 +174,90 @@ export default function CustomizePage() {
 
         {/* Main Content */}
         <div className="flex-1">
-          {selectedCategory !== null && categories[selectedCategory].name === 'Pedido Especial' ? (
+          {selectedCategory !== null && categories[selectedCategory].name === 'Patches' ? (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-2xl font-bold mb-6">Encomenda de Patches</h2>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Largura (mm) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="500"
+                      value={patchDimensions.width}
+                      onChange={(e) => setPatchDimensions(prev => ({ ...prev, width: e.target.value }))}
+                      className="w-full border-2 border-gray-300 rounded-md p-3 text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                      placeholder="Ex: 100"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Máx: 500mm</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Altura (mm) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="500"
+                      value={patchDimensions.height}
+                      onChange={(e) => setPatchDimensions(prev => ({ ...prev, height: e.target.value }))}
+                      className="w-full border-2 border-gray-300 rounded-md p-3 text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                      placeholder="Ex: 100"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Máx: 500mm</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Quantidade <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={patchQuantity}
+                    onChange={(e) => setPatchQuantity(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-md p-3 text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                    placeholder="Ex: 10"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Informações Adicionais
+                  </label>
+                  <textarea
+                    value={patchNotes}
+                    onChange={(e) => setPatchNotes(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-md p-3 min-h-[100px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                    placeholder="Detalhes sobre cores, materiais, design, etc..."
+                  />
+                </div>
+                
+                <button
+                  onClick={handleWhatsAppOrder}
+                  disabled={!patchDimensions.width || !patchDimensions.height || !patchQuantity}
+                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${
+                    patchDimensions.width && patchDimensions.height && patchQuantity
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  <span>Enviar Pedido de Patches por WhatsApp</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
+                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ) : selectedCategory !== null && categories[selectedCategory].name === 'Pedido Especial' ? (
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-bold mb-6">Pedido Especial</h2>
               <div className="space-y-6">
