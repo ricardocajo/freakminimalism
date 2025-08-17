@@ -99,6 +99,37 @@ export default function CustomizePage() {
   const [patchDimensions, setPatchDimensions] = useState({ width: '', height: '' });
   const [patchQuantity, setPatchQuantity] = useState('');
   const [patchNotes, setPatchNotes] = useState('');
+  const [designFile, setDesignFile] = useState<File | null>(null);
+  const [designPreview, setDesignPreview] = useState<string | null>(null);
+
+  const handleDesignUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        alert('O arquivo é muito grande. Por favor, envie um arquivo menor que 5MB.');
+        return;
+      }
+      setDesignFile(file);
+      
+      // Create preview for images
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setDesignPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setDesignPreview(null);
+      }
+    }
+  };
+
+  const removeDesign = () => {
+    setDesignFile(null);
+    setDesignPreview(null);
+    const fileInput = document.getElementById('design-upload') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  };
 
   const handleWhatsAppOrder = () => {
     if (selectedCategory === null) return;
@@ -113,6 +144,7 @@ export default function CustomizePage() {
       message = `Olá, gostaria de encomendar patches personalizados:\n\n` +
                `Dimensões: ${patchDimensions.width || '--'}x${patchDimensions.height || '--'} mm\n` +
                `Quantidade: ${patchQuantity || '--'}\n` +
+               `${designFile ? `Design: ${designFile.name} (anexado separadamente)\n` : ''}` +
                `Notas adicionais: ${patchNotes || 'Nenhuma'}`;
     } else if (selectedSubcategory) {
       // For other categories with subcategories
@@ -226,6 +258,66 @@ export default function CustomizePage() {
                     placeholder="Ex: 10"
                     required
                   />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Envie o seu design (opcional)
+                  </label>
+                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                    <div className="space-y-1 text-center">
+                      {designPreview ? (
+                        <div className="relative">
+                          <img src={designPreview} alt="Preview do design" className="mx-auto max-h-48 max-w-full" />
+                          <button
+                            type="button"
+                            onClick={removeDesign}
+                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            title="Remover arquivo"
+                          >
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <svg
+                            className="mx-auto h-12 w-12 text-gray-400"
+                            stroke="currentColor"
+                            fill="none"
+                            viewBox="0 0 48 48"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                          <div className="flex text-sm text-gray-600">
+                            <label
+                              htmlFor="design-upload"
+                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                            >
+                              <span>Carregue um ficheiro</span>
+                              <input
+                                id="design-upload"
+                                name="design-upload"
+                                type="file"
+                                className="sr-only"
+                                accept="image/*,.pdf,.ai,.eps,.svg"
+                                onChange={handleDesignUpload}
+                              />
+                            </label>
+                            <p className="pl-1">ou arraste e solte</p>
+                          </div>
+                          <p className="text-xs text-gray-500">PNG, JPG, PDF, AI, EPS, SVG até 5MB</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 
                 <div>
