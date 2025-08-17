@@ -95,16 +95,28 @@ export default function CustomizePage() {
     console.log('Selected subcategory:', subcategory);
   };
 
+  const [customMessage, setCustomMessage] = useState('');
+
   const handleWhatsAppOrder = () => {
-    if (!selectedSubcategory) return;
+    if (selectedCategory === null) return;
     
-    const message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
-                   `Categoria: ${categories[selectedCategory!].name}\n` +
-                   `Modelo: ${selectedSubcategory.name}\n\n` +
-                   `Por favor, envie mais informações sobre como proceder com a personalização.`;
+    let message = '';
+    
+    if (categories[selectedCategory].name === 'Pedido Especial') {
+      // For special orders, use the custom message
+      message = `Olá, gostaria de fazer um pedido especial:\n\n${customMessage}`;
+    } else if (selectedSubcategory) {
+      // For other categories, use the structured message
+      message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
+               `Categoria: ${categories[selectedCategory].name}\n` +
+               `Modelo: ${selectedSubcategory.name}\n\n` +
+               `Por favor, envie mais informações sobre como proceder com a personalização.`;
+    } else {
+      return;
+    }
     
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/351912345678?text=${encodedMessage}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=351927771505&text=${encodedMessage}`, '_blank');
   };
 
   return (
@@ -153,7 +165,39 @@ export default function CustomizePage() {
 
         {/* Main Content */}
         <div className="flex-1">
-          {selectedSubcategory ? (
+          {selectedCategory !== null && categories[selectedCategory].name === 'Pedido Especial' ? (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-2xl font-bold mb-6">Pedido Especial</h2>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Descreva o seu pedido especial com todos os detalhes:
+                  </label>
+                  <textarea
+                    value={customMessage}
+                    onChange={(e) => setCustomMessage(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-md p-4 min-h-[200px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                    placeholder="Por favor, descreva o que precisa com o máximo de detalhes possível, incluindo cores, tamanhos, materiais, etc..."
+                  />
+                </div>
+                <button
+                  onClick={handleWhatsAppOrder}
+                  disabled={!customMessage.trim()}
+                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${
+                    customMessage.trim()
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  <span>Enviar Pedido Especial por WhatsApp</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
+                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ) : selectedSubcategory ? (
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="md:w-1/2">
@@ -202,7 +246,7 @@ export default function CustomizePage() {
                             Detalhes da Personalização
                           </label>
                           <textarea 
-                            className="w-full border border-gray-300 rounded-md p-2 min-h-[100px]"
+                            className="w-full border-2 border-gray-300 rounded-md p-3 min-h-[100px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
                             placeholder="Descreva como deseja personalizar o seu item..."
                           />
                         </div>
