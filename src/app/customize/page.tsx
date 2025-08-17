@@ -99,37 +99,6 @@ export default function CustomizePage() {
   const [patchDimensions, setPatchDimensions] = useState({ width: '', height: '' });
   const [patchQuantity, setPatchQuantity] = useState('');
   const [patchNotes, setPatchNotes] = useState('');
-  const [designFile, setDesignFile] = useState<File | null>(null);
-  const [designPreview, setDesignPreview] = useState<string | null>(null);
-
-  const handleDesignUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        alert('O arquivo é muito grande. Por favor, envie um arquivo menor que 5MB.');
-        return;
-      }
-      setDesignFile(file);
-      
-      // Create preview for images
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setDesignPreview(reader.result as string);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        setDesignPreview(null);
-      }
-    }
-  };
-
-  const removeDesign = () => {
-    setDesignFile(null);
-    setDesignPreview(null);
-    const fileInput = document.getElementById('design-upload') as HTMLInputElement;
-    if (fileInput) fileInput.value = '';
-  };
 
   const handleWhatsAppOrder = () => {
     if (selectedCategory === null) return;
@@ -141,11 +110,13 @@ export default function CustomizePage() {
       message = `Olá, gostaria de fazer um pedido especial:\n\n${customMessage}`;
     } else if (categories[selectedCategory].name === 'Patches') {
       // For Patches category
-      message = `Olá, gostaria de encomendar patches personalizados:\n\n` +
-               `Dimensões: ${patchDimensions.width || '--'}x${patchDimensions.height || '--'} mm\n` +
-               `Quantidade: ${patchQuantity || '--'}\n` +
-               `${designFile ? `Design: ${designFile.name} (anexado separadamente)\n` : ''}` +
-               `Notas adicionais: ${patchNotes || 'Nenhuma'}`;
+      message = `*NOVO PEDIDO DE PATCHES*\n\n` +
+               `📏 *Dimensões:* ${patchDimensions.width || '--'} x ${patchDimensions.height || '--'} mm\n` +
+               `🔢 *Quantidade:* ${patchQuantity || '--'}\n` +
+               `📝 *Notas adicionais:* ${patchNotes || 'Nenhuma'}\n\n` +
+               `🖼️ *ENVIE A FOTO DO SEU DESIGN*\n` +
+               `Por favor, envie a imagem ou referência do seu design como uma mensagem separada logo após enviar este formulário.\n\n` +
+               `ℹ️ Certifique-se que a imagem está nítida e mostra claramente o que deseja personalizar.`;
     } else if (selectedSubcategory) {
       // For other categories with subcategories
       message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
@@ -260,78 +231,55 @@ export default function CustomizePage() {
                   />
                 </div>
                 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Envie o seu design (opcional)
-                  </label>
-                  <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                    <div className="space-y-1 text-center">
-                      {designPreview ? (
-                        <div className="relative">
-                          <img src={designPreview} alt="Preview do design" className="mx-auto max-h-48 max-w-full" />
-                          <button
-                            type="button"
-                            onClick={removeDesign}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                            title="Remover arquivo"
-                          >
-                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          </button>
-                        </div>
-                      ) : (
-                        <>
-                          <svg
-                            className="mx-auto h-12 w-12 text-gray-400"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                          >
-                            <path
-                              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <div className="flex text-sm text-gray-600">
-                            <label
-                              htmlFor="design-upload"
-                              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
-                            >
-                              <span>Carregue um ficheiro</span>
-                              <input
-                                id="design-upload"
-                                name="design-upload"
-                                type="file"
-                                className="sr-only"
-                                accept="image/*,.pdf,.ai,.eps,.svg"
-                                onChange={handleDesignUpload}
-                              />
-                            </label>
-                            <p className="pl-1">ou arraste e solte</p>
-                          </div>
-                          <p className="text-xs text-gray-500">PNG, JPG, PDF, AI, EPS, SVG até 5MB</p>
-                        </>
-                      )}
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-yellow-700">
+                        <span className="font-bold">Atenção:</span> Após enviar este formulário, você será direcionado para o WhatsApp. Por favor, envie uma foto ou imagem de referência do seu design como uma mensagem separada.
+                      </p>
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Informações Adicionais
+                    Detalhes do Design
+                    <span className="text-xs font-normal text-gray-500 block">Descreva as cores, materiais e detalhes do seu design</span>
                   </label>
-                  <textarea
+                  <textarea 
                     value={patchNotes}
                     onChange={(e) => setPatchNotes(e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-md p-3 min-h-[100px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
-                    placeholder="Detalhes sobre cores, materiais, design, etc..."
+                    placeholder="Ex: Fundo preto com letras brancas, borda dourada, tecido de algodão..."
                   />
                 </div>
                 
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h2a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-blue-800">Como enviar seu design</h3>
+                      <div className="mt-1 text-sm text-blue-700">
+                        <ol className="list-decimal pl-4 space-y-1">
+                          <li>Clique no botão abaixo para abrir o WhatsApp</li>
+                          <li>O aplicativo irá abrir com uma mensagem pré-preenchida</li>
+                          <li>Envie uma foto do seu design como resposta a esta mensagem</li>
+                          <li>Certifique-se que a imagem está nítida e mostra todos os detalhes</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <button
                   onClick={handleWhatsAppOrder}
                   disabled={!patchDimensions.width || !patchDimensions.height || !patchQuantity}
@@ -341,12 +289,16 @@ export default function CustomizePage() {
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
-                  <span>Enviar Pedido de Patches por WhatsApp</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
                     <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
                     <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
                   </svg>
+                  <span>Enviar Pedido e Anexar Design</span>
                 </button>
+                
+                <p className="text-xs text-gray-500 text-center mt-2">
+                  Você será redirecionado para o WhatsApp para completar seu pedido
+                </p>
               </div>
             </div>
           ) : selectedCategory !== null && categories[selectedCategory].name === 'Pedido Especial' ? (
