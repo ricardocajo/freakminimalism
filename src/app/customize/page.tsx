@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 
@@ -14,6 +14,53 @@ type Category = {
   subcategories: Subcategory[];
 };
 
+// Map color/file codes to human-readable names. Extend this as needed.
+// Example: "00.png" -> code "00" -> "White/Branco"
+const COLOR_CODE_MAP: Record<string, string> = {
+  '00': 'Branco / White',
+  '11': 'Preto / Black',
+  '1A': 'Azul Marinho / Navy',
+  '1C': 'Azul Royal / Royal Blue',
+  '1L': 'Azul Claro / Light Blue',
+  '24': 'Vermelho / Red',
+  '2C': 'Borgonha / Burgundy',
+  '32': 'Verde / Green',
+  '33': 'Verde Escuro / Dark Green',
+  '3E': 'Verde Garrafa / Bottle Green',
+  '42': 'Amarelo / Yellow',
+  '44': 'Mostarda / Mustard',
+  '48': 'Laranja / Orange',
+  '4F': 'Tijolo / Brick',
+  '4K': 'Bege / Beige',
+  '4L': 'Creme / Cream',
+  '52': 'Roxo / Purple',
+  '54': 'Rosa / Pink',
+  '55': 'Magenta / Magenta',
+  '5J': 'Coral / Coral',
+  '5N': 'Salmão / Salmon',
+  '5P': 'Pêssego / Peach',
+  '5R': 'Cereja / Cherry',
+  '62': 'Cinzento / Gray',
+  '63': 'Cinza Escuro / Dark Gray',
+  '64': 'Cinza Claro / Light Gray',
+  '6D': 'Carvão / Charcoal',
+  '6K': 'Grafite / Graphite',
+  '6M': 'Antracite / Anthracite',
+  '6N': 'Prata / Silver',
+  '6P': 'Chumbo / Lead',
+  '6T': 'Petróleo / Teal',
+  '6W': 'Azul Petróleo / Petrol Blue',
+  '6X': 'Azul Escuro / Dark Blue',
+  '6Y': 'Azul Noite / Midnight Blue',
+  '80': 'Verde Lima / Lime',
+  '81': 'Verde Claro / Light Green',
+  '92': 'Castanho / Brown',
+  '93': 'Chocolate / Chocolate',
+  '96': 'Camel / Camel',
+  'B5': 'Azul Pastel / Pastel Blue',
+  'B6': 'Verde Pastel / Pastel Green',
+};
+
 const categories: Category[] = [
   {
     name: 'Pedido Especial',
@@ -26,54 +73,54 @@ const categories: Category[] = [
   {
     name: 'King',
     subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT' },
-      { name: 'Hood', path: '/personalizar/KING/HOOD' },
-      { name: 'Sweat', path: '/personalizar/KING/SWEAT' },
-      { name: 'Polo', path: '/personalizar/KING/POLO' },
-      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA' },
-      { name: 'Zipp', path: '/personalizar/KING/ZIPP' },
-      { name: 'Canvas', path: '/personalizar/KING/CANVAS' },
+      { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT', image: '/images/personalizar/KING/T-SHIRT/1.jpg' },
+      { name: 'Hood', path: '/personalizar/KING/HOOD', image: '/images/personalizar/KING/HOOD/1.jpg' },
+      { name: 'Sweat', path: '/personalizar/KING/SWEAT', image: '/images/personalizar/KING/SWEAT/1.jpg' },
+      { name: 'Polo', path: '/personalizar/KING/POLO', image: '/images/personalizar/KING/POLO/1.jpg' },
+      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA', image: '/images/personalizar/KING/M.COMPRIDA/1.jpg' },
+      { name: 'Zipp', path: '/personalizar/KING/ZIPP', image: '/images/personalizar/KING/ZIPP/1.jpg' },
+      { name: 'Canvas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/1.jpg' },
     ]
   },
   {
     name: 'Queen',
     subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/QUEEN/T-SHIRT' },
-      { name: 'Hood', path: '/personalizar/QUEEN/HOOD' },
-      { name: 'Sweat', path: '/personalizar/QUEEN/SWEAT' },
-      { name: 'Polo', path: '/personalizar/QUEEN/POLO' },
-      { name: 'Manga Comprida', path: '/personalizar/QUEEN/M.COMPRIDA' },
-      { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP' },
+      { name: 'T-Shirt', path: '/personalizar/QUEEN/T-SHIRT', image: '/images/personalizar/QUEEN/T-SHIRT/1.jpg' },
+      { name: 'Hood', path: '/personalizar/QUEEN/HOOD', image: '/images/personalizar/QUEEN/HOOD/1.jpg' },
+      { name: 'Sweat', path: '/personalizar/QUEEN/SWEAT', image: '/images/personalizar/QUEEN/SWEAT/1.jpg' },
+      { name: 'Polo', path: '/personalizar/QUEEN/POLO', image: '/images/personalizar/QUEEN/POLO/1.jpg' },
+      { name: 'Manga Comprida', path: '/personalizar/QUEEN/M.COMPRIDA', image: '/images/personalizar/QUEEN/M.COMPRIDA/1.jpg' },
+      { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP', image: '/images/personalizar/QUEEN/ZIPP/1.jpg' },
     ]
   },
   {
     name: 'Kid',
     subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/KID/T-SHIRT' },
-      { name: 'Hooded Kids', path: '/personalizar/KID/HOODEDKIDS' },
-      { name: 'Sweat', path: '/personalizar/KID/SWEAT' },
-      { name: 'Baseball', path: '/personalizar/KID/BASEBALL' },
-      { name: 'Snapback', path: '/personalizar/KID/SNAPBACK' },
-      { name: 'Zipp Kids', path: '/personalizar/KID/ZIPPKIDS' },
-      { name: 'Fraser', path: '/personalizar/KID/FRASER' },
-      { name: 'Panama', path: '/personalizar/KID/PANAMA' },
+      { name: 'T-Shirt', path: '/personalizar/KID/T-SHIRT', image: '/images/personalizar/KID/T-SHIRT/1.jpg' },
+      { name: 'Hooded Kids', path: '/personalizar/KID/HOODEDKIDS', image: '/images/personalizar/KID/HOODEDKIDS/1.jpg' },
+      { name: 'Sweat', path: '/personalizar/KID/SWEAT', image: '/images/personalizar/KID/SWEAT/1.jpg' },
+      { name: 'Baseball', path: '/personalizar/KID/BASEBALL', image: '/images/personalizar/KID/BASEBALL/1.jpg' },
+      { name: 'Snapback', path: '/personalizar/KID/SNAPBACK', image: '/images/personalizar/KID/SNAPBACK/1.jpg' },
+      { name: 'Zipp Kids', path: '/personalizar/KID/ZIPPKIDS', image: '/images/personalizar/KID/ZIPPKIDS/1.jpg' },
+      { name: 'Fraser', path: '/personalizar/KID/FRASER', image: '/images/personalizar/KID/FRASER/1.jpg' },
+      { name: 'Panama', path: '/personalizar/KID/PANAMA', image: '/images/personalizar/KID/PANAMA/1.jpg' },
     ]
   },
   {
     name: 'Chapeus',
     subcategories: [
-      { name: 'Basebol', path: '/personalizar/CHAPEUS/BASEBOL' },
-      { name: 'Boina', path: '/personalizar/CHAPEUS/BOINA' },
-      { name: 'Clássico', path: '/personalizar/CHAPEUS/CLASSICO' },
-      { name: 'Gola', path: '/personalizar/CHAPEUS/GOLA' },
-      { name: 'Gorro', path: '/personalizar/CHAPEUS/GORRO' },
-      { name: 'Panamá', path: '/personalizar/CHAPEUS/PANAMA' },
-      { name: 'Panamá Curto', path: '/personalizar/CHAPEUS/PANAMACURTO' },
-      { name: 'Recy', path: '/personalizar/CHAPEUS/RECY' },
-      { name: 'Snap Five', path: '/personalizar/CHAPEUS/SNAPFIVE' },
-      { name: 'Tradicional', path: '/personalizar/CHAPEUS/TRADICIONAL' },
-      { name: 'Whippy', path: '/personalizar/CHAPEUS/WHIPPY' },
-      { name: 'Zion', path: '/personalizar/CHAPEUS/ZION' },
+      { name: 'Basebol', path: '/personalizar/CHAPEUS/BASEBOL', image: '/images/personalizar/CHAPEUS/BASEBOL/1.jpg' },
+      { name: 'Boina', path: '/personalizar/CHAPEUS/BOINA', image: '/images/personalizar/CHAPEUS/BOINA/1.jpg' },
+      { name: 'Clássico', path: '/personalizar/CHAPEUS/CLASSICO', image: '/images/personalizar/CHAPEUS/CLASSICO/1.jpg' },
+      { name: 'Gola', path: '/personalizar/CHAPEUS/GOLA', image: '/images/personalizar/CHAPEUS/GOLA/1.jpg' },
+      { name: 'Gorro', path: '/personalizar/CHAPEUS/GORRO', image: '/images/personalizar/CHAPEUS/GORRO/1.jpg' },
+      { name: 'Panamá', path: '/personalizar/CHAPEUS/PANAMA', image: '/images/personalizar/CHAPEUS/PANAMA/1.jpg' },
+      { name: 'Panamá Curto', path: '/personalizar/CHAPEUS/PANAMACURTO', image: '/images/personalizar/CHAPEUS/PANAMACURTO/1.jpg' },
+      { name: 'Recy', path: '/personalizar/CHAPEUS/RECY', image: '/images/personalizar/CHAPEUS/RECY/1.jpg' },
+      { name: 'Snap Five', path: '/personalizar/CHAPEUS/SNAPFIVE', image: '/images/personalizar/CHAPEUS/SNAPFIVE/1.jpg' },
+      { name: 'Tradicional', path: '/personalizar/CHAPEUS/TRADICIONAL', image: '/images/personalizar/CHAPEUS/TRADICIONAL/1.jpg' },
+      { name: 'Whippy', path: '/personalizar/CHAPEUS/WHIPPY', image: '/images/personalizar/CHAPEUS/WHIPPY/1.jpg' },
+      { name: 'Zion', path: '/personalizar/CHAPEUS/ZION', image: '/images/personalizar/CHAPEUS/ZION/1.jpg' },
     ]
   }
 ];
@@ -98,6 +145,51 @@ export default function CustomizePage() {
   const [customMessage, setCustomMessage] = useState('');
   const [patchDimensions, setPatchDimensions] = useState({ width: '', height: '' });
   const [patchQuantity, setPatchQuantity] = useState('');
+
+  // Holds image filenames available for the selected product (e.g., ["00.png", "1A.png"]) 
+  const [productImages, setProductImages] = useState<string[]>([]);
+
+  // Convenience: currently selected category/model names from the subcategory path
+  const [currentCatModel, setCurrentCatModel] = useState<{ cat: string; model: string } | null>(null);
+
+  // Currently selected image filename (e.g., "00.png").
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedSubcategory) {
+      setProductImages([]);
+      setCurrentCatModel(null);
+      return;
+    }
+    // path format: /personalizar/<CATEGORY>/<MODEL>
+    const parts = selectedSubcategory.path.split('/').filter(Boolean);
+    // Expecting ["personalizar", "CAT", "MODEL"]
+    if (parts.length >= 3) {
+      const cat = parts[1];
+      const model = parts[2];
+      setCurrentCatModel({ cat, model });
+
+      const fetchImages = async () => {
+        try {
+          const res = await fetch(`/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`);
+          if (!res.ok) throw new Error('Failed to load images');
+          const data = await res.json();
+          const imgs: string[] = Array.isArray(data.images) ? data.images : [];
+          setProductImages(imgs);
+          setSelectedImage(imgs.length > 0 ? imgs[0] : null);
+        } catch (err) {
+          setProductImages([]);
+          setSelectedImage(null);
+        }
+      };
+
+      fetchImages();
+    } else {
+      setProductImages([]);
+      setCurrentCatModel(null);
+      setSelectedImage(null);
+    }
+  }, [selectedSubcategory]);
   const [patchNotes, setPatchNotes] = useState('');
 
   const handleWhatsAppOrder = () => {
@@ -337,8 +429,19 @@ export default function CustomizePage() {
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="md:w-1/2">
-                  <div className="bg-gray-100 rounded-lg aspect-square flex items-center justify-center">
-                    <span className="text-gray-400">Imagem do produto</span>
+                  <div className="bg-gray-100 rounded-lg aspect-square flex items-center justify-center overflow-hidden">
+                    {currentCatModel && selectedImage ? (
+                      <Image
+                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${selectedImage}`}
+                        alt={`${selectedSubcategory.name} - ${categories[selectedCategory!].name}`}
+                        width={500}
+                        height={500}
+                        className="w-full h-full object-contain"
+                        priority
+                      />
+                    ) : (
+                      <span className="text-gray-400">Imagem do produto</span>
+                    )}
                   </div>
                 </div>
                 <div className="md:w-1/2">
@@ -347,6 +450,7 @@ export default function CustomizePage() {
                   </h2>
                   
                   <div className="space-y-6 mt-8">
+                    {/* Thumbnails removed per request; using dropdown selector below */}
                     <div>
                       <h3 className="font-medium mb-2">Opções de Personalização</h3>
                       <div className="space-y-4">
@@ -354,13 +458,24 @@ export default function CustomizePage() {
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Cor
                           </label>
-                          <select className="w-full border border-gray-300 rounded-md p-2">
-                            <option>Selecione uma cor</option>
-                            <option>Preto</option>
-                            <option>Branco</option>
-                            <option>Cinza</option>
-                            <option>Azul</option>
-                            <option>Verde</option>
+                          <select
+                            className="w-full border border-gray-300 rounded-md p-2"
+                            value={selectedImage ?? ''}
+                            onChange={(e) => setSelectedImage(e.target.value)}
+                            disabled={productImages.length === 0}
+                          >
+                            <option value="" disabled>
+                              {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
+                            </option>
+                            {productImages.map((img) => {
+                              const code = img.replace(/\.[^.]+$/, '');
+                              const label = COLOR_CODE_MAP[code] || code;
+                              return (
+                                <option key={img} value={img}>
+                                  {label}
+                                </option>
+                              );
+                            })}
                           </select>
                         </div>
                         
