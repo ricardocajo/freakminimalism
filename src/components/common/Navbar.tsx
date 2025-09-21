@@ -12,6 +12,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation, useSSR } from 'react-i18next';
 import { useEffect } from 'react';
 import i18n from '@/i18n';
+import FMLogo from "./FMLogo";
 
 interface Navbar {
   // totalItemsCart: number;
@@ -139,7 +140,7 @@ export const Navbar = () => {
             href="/about"
             className="text-sm px-4 py-2 transition-all lg:text-[#A1A1A1] hover:text-[#EDEDED] font-medium flex items-center"
           >
-            {t('navbar.about')}
+            <FMLogo className="h-6 w-auto transform origin-left scale-150" width={72} height={24} />
           </Link>
         </li>
         <li>

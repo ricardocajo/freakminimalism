@@ -17,13 +17,13 @@ type Category = {
 // Map color/file codes to human-readable names. Extend this as needed.
 // Example: "00.png" -> code "00" -> "White/Branco"
 const COLOR_CODE_MAP: Record<string, string> = {
-  '00': 'Branco / White',
+  '00': 'Branco',
   '11': 'Preto / Black',
   '1A': 'Azul Marinho / Navy',
   '1C': 'Azul Royal / Royal Blue',
   '1L': 'Azul Claro / Light Blue',
   '24': 'Vermelho / Red',
-  '2C': 'Borgonha / Burgundy',
+  '2C': 'Amarelo',
   '32': 'Verde / Green',
   '33': 'Verde Escuro / Dark Green',
   '3E': 'Verde Garrafa / Bottle Green',
@@ -57,8 +57,8 @@ const COLOR_CODE_MAP: Record<string, string> = {
   '92': 'Castanho / Brown',
   '93': 'Chocolate / Chocolate',
   '96': 'Camel / Camel',
-  'B5': 'Azul Pastel / Pastel Blue',
-  'B6': 'Verde Pastel / Pastel Green',
+  'B5': 'Vermelho e Branco',
+  'B6': 'Azul e Branco',
 };
 
 const categories: Category[] = [
