@@ -12,7 +12,7 @@ export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="prose prose-lg max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold mb-12 text-center">{t('about.title')}</h1>
+        <h1 className="text-4xl font-bold mb-12 text-center glow-title">{t('about.title')}</h1>
         <div className="space-y-8">
           {paragraphs.map((paragraph, index) => (
             <p key={index} className="text-lg leading-relaxed text-center">
