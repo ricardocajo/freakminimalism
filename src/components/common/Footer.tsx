@@ -97,7 +97,7 @@ export const Footer = () => {
                 target="_blank"
                 className={linkStyles}
               >
-                Mandala Kaos
+                MandalaKaos
               </Link>
             </li>
             <li className={liStyles}>
@@ -107,6 +107,15 @@ export const Footer = () => {
                 className={linkStyles}
               >
                 AlphaRed
+              </Link>
+            </li>
+            <li className={liStyles}>
+              <Link
+                href="https://www.instagram.com/cultureisnotdead_/"
+                target="_blank"
+                className={linkStyles}
+              >
+                For The Culture
               </Link>
             </li>
           </ul>
