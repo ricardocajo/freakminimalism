@@ -19,8 +19,6 @@ type Category = {
 const COLOR_CODE_MAP: Record<string, string> = {
   '00': 'Branco',
   '11': 'Preto Escuro',
-  //'1A': 'Preto',
-  //'1C': 'Preto',
   '1L': 'Azul Claro / Light Blue',
   '24': 'Vermelho / Red',
   '2C': 'Amarelo Solar',
