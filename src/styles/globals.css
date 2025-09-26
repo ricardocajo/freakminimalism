@@ -210,3 +210,22 @@ main {
     animation: none;
   }
 }
+
+/* Scoped text outline for About page to ensure readability on all backgrounds */
+.about-contrast h1,
+.about-contrast p {
+  /* Multi-directional shadows to simulate an outline */
+  text-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.85),
+     1px -1px 0 rgba(0, 0, 0, 0.85),
+    -1px  1px 0 rgba(0, 0, 0, 0.85),
+     1px  1px 0 rgba(0, 0, 0, 0.85),
+     0    0   6px rgba(0, 0, 0, 0.6);
+  /* Light stroke for cross-browser support (especially for the title where glow anim may override text-shadow) */
+  -webkit-text-stroke: 0.4px rgba(0, 0, 0, 0.6);
+}
+
+.about-contrast h1 {
+  /* Stronger stroke for large headings, persists even with glow animation */
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.9);
+}
