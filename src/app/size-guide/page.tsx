@@ -97,7 +97,7 @@ const measurementImages: MeasurementImages = {
 export default function SizeGuidePage() {
   const { t, ready, i18n } = useTranslation();
   const translations = t('sizeGuidePage', { returnObjects: true }) as SizeGuideTranslations;
-  const [selectedCategory, setSelectedCategory] = useState<'man' | 'woman' | 'kid'>('man');
+  const [openCategory, setOpenCategory] = useState<null | 'man' | 'woman' | 'kid'>(null);
 
   if (!ready) {
     return <div>Loading...</div>;
@@ -114,54 +114,39 @@ export default function SizeGuidePage() {
         <p className="text-lg mb-6">
           {translations.description}
         </p>
-        <div className="grid gap-6">
-
-          {/* Measurement tabs section */}
-          <div className="p-6 border border-solid border-border-primary rounded-lg">
-            <div className="flex gap-4 mb-6">
-              <button
-                onClick={() => setSelectedCategory('man')}
-                className={`px-4 py-2 rounded-lg ${
-                  selectedCategory === 'man'
-                    ? 'bg-black text-white'
-                    : 'bg-gray-200 text-gray-700'
-                }`}
-              >
-                {categoryTranslations.man[i18n.language as keyof CategoryTranslations] || 'Man'}
-              </button>
-              <button
-                onClick={() => setSelectedCategory('woman')}
-                className={`px-4 py-2 rounded-lg ${
-                  selectedCategory === 'woman'
-                    ? 'bg-black text-white'
-                    : 'bg-gray-200 text-gray-700'
-                }`}
-              >
-                {categoryTranslations.woman[i18n.language as keyof CategoryTranslations] || 'Woman'}
-              </button>
-              <button
-                onClick={() => setSelectedCategory('kid')}
-                className={`px-4 py-2 rounded-lg ${
-                  selectedCategory === 'kid'
-                    ? 'bg-black text-white'
-                    : 'bg-gray-200 text-gray-700'
-                }`}
-              >
-                {categoryTranslations.kid[i18n.language as keyof CategoryTranslations] || 'Kid'}
-              </button>
-            </div>
-
-            <div className="grid gap-0">
-              {measurementImages[selectedCategory].map((image, index) => (
-                <img
-                  key={index}
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-contain"
-                />
-              ))}
-            </div>
-          </div>
+        <div className="grid gap-4">
+          {/* Accordion items for each category */}
+          {(['man','woman','kid'] as Array<'man'|'woman'|'kid'>).map((cat) => {
+            const isOpen = openCategory === cat;
+            const label = categoryTranslations[cat][i18n.language as keyof CategoryTranslations] || cat;
+            return (
+              <div key={cat} className="border border-solid border-border-primary rounded-lg overflow-hidden">
+                <button
+                  className={`w-full flex items-center justify-between px-4 py-3 text-left transition-colors ${isOpen ? 'bg-[#111] text-white' : 'bg-background-secondary hover:bg-[#1a1a1a]'}`}
+                  onClick={() => setOpenCategory(isOpen ? null : cat)}
+                  aria-expanded={isOpen}
+                  aria-controls={`panel-${cat}`}
+                >
+                  <span className="font-medium">{label}</span>
+                  <span className="ml-3 text-sm opacity-80">{isOpen ? '−' : '+'}</span>
+                </button>
+                {isOpen && (
+                  <div id={`panel-${cat}`} className="p-4 border-t border-solid border-border-primary">
+                    <div className="grid gap-0">
+                      {measurementImages[cat].map((image, index) => (
+                        <img
+                          key={index}
+                          src={image.src}
+                          alt={image.alt}
+                          className="w-full h-full object-contain"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </main>
