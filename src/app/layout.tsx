@@ -33,8 +33,12 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Freak Minimalism",
-  description: "Minimalist clothing store",
+  title: {
+    default: "Freak Minimalism",
+    template: "%s | Freak Minimalism",
+  },
+  description:
+    "Freak Minimalism — minimalist apparel and custom designs. Descobre a nossa coleção e envia-nos a tua ideia para criarmos algo só teu.",
 };
 
 export default function RootLayout({
