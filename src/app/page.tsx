@@ -10,8 +10,8 @@ const Home = async () => {
       <section className="py-2 text-center">
         <span className="text-sm text-[#A1A1A1]">◐ 𝔇𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔳𝔦𝔰𝔦𝔬𝔫, 𝔡𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔰𝔱𝔶𝔩𝔢 ◑</span>
       </section>
-      {/* Intro section - occupies top half of the screen */}
-      <section className="min-h-[50vh] flex items-center justify-center px-4">
+      {/* Intro section - occupies top half of the screen (taller on mobile) */}
+      <section className="min-h-[60vh] sm:min-h-[50vh] flex items-center justify-center px-4">
         <div className="max-w-3xl text-center space-y-4 about-contrast">
           <p className="text-lg leading-relaxed">
             Bem-vindo ao nosso website
