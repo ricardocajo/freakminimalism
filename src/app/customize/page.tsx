@@ -83,6 +83,7 @@ const COLOR_CODE_MAP: Record<string, string> = {
   '92': 'Cinzento Claro',
   '93': 'Cinzento Escuro',
   '96': 'Preto Claro',
+  '95': 'Preto',
   'B5': 'Vermelho e Branco',
   'B6': 'Azul e Branco',
 };
@@ -143,6 +144,7 @@ const categories: Category[] = [
     name: 'Unisex',
     subcategories: [
       { name: 'Cavas', path: '/personalizar/UNISEX/CAVAS', image: '/images/personalizar/UNISEX/CAVAS/Ibiza_Black_Front.jpg' },
+      { name: 'Calças', path: '/personalizar/UNISEX/CALCAS' },
       { name: 'Oversize', path: '/personalizar/UNISEX/OVERSIZE', image: '/images/personalizar/UNISEX/OVERSIZE/fjord_preto_f.jpg' },
       { name: 'Sweat Scarda', path: '/personalizar/UNISEX/SWEAT SCARDA', image: '/images/personalizar/UNISEX/SWEAT SCARDA/preto_f.jpg' },
     ]
@@ -404,10 +406,18 @@ export default function CustomizePage() {
               setSelectedView('Front');
             }
           } else {
-            const first = imgs.length > 0 ? imgs[0] : null;
-            setSelectedImage(first);
-            if (first) {
-              const base = first.replace(/\.[^.]+$/, '');
+            // Simple mode (flat color cards). Prefer a black/dark preview if available: 95 -> 11 -> 00 -> first
+            const preferredOrder = ['95', '11', '00'];
+            const chosen = (() => {
+              for (const code of preferredOrder) {
+                const hit = imgs.find((n) => n.replace(/\.[^.]+$/, '').toUpperCase() === code);
+                if (hit) return hit;
+              }
+              return imgs.length > 0 ? imgs[0] : null;
+            })();
+            setSelectedImage(chosen);
+            if (chosen) {
+              const base = chosen.replace(/\.[^.]+$/, '');
               const code = base.toUpperCase();
               const label = COLOR_CODE_MAP[code] || base;
               setSelectedColor(label);
