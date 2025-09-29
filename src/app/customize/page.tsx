@@ -96,7 +96,8 @@ const categories: Category[] = [
   {
     name: 'Kid',
     subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/KID/T-SHIRT', image: '/images/personalizar/KID/T-SHIRT/1.jpg' },
+      { name: 'T-Shirt', path: '/personalizar/KID/T-SHIRT', image: '/images/personalizar/KID/T-SHIRT/Ankara Kids_Black_Front.jpg' },
+      { name: 'Calças', path: '/personalizar/KID/CALCAS', image: '/images/personalizar/KID/CALCAS/preto_f.jpg' },
       { name: 'Hooded Kids', path: '/personalizar/KID/HOODEDKIDS', image: '/images/personalizar/KID/HOODEDKIDS/1.jpg' },
       { name: 'Sweat', path: '/personalizar/KID/SWEAT', image: '/images/personalizar/KID/SWEAT/1.jpg' },
       { name: 'Baseball', path: '/personalizar/KID/BASEBALL', image: '/images/personalizar/KID/BASEBALL/1.jpg' },
