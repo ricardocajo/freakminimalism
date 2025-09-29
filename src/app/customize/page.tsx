@@ -140,8 +140,17 @@ export default function CustomizePage() {
   const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(null);
 
   const handleCategorySelect = (index: number) => {
-    setSelectedCategory(selectedCategory === index ? null : index);
-    setSelectedSubcategory(null);
+    const isSame = selectedCategory === index;
+    if (isSame) {
+      // Collapse if clicking the same category
+      setSelectedCategory(null);
+      setSelectedSubcategory(null);
+      return;
+    }
+    // Select category and auto-select its first subcategory (if any)
+    setSelectedCategory(index);
+    const first = categories[index]?.subcategories?.[0] ?? null;
+    setSelectedSubcategory(first || null);
   };
 
   const handleSubcategorySelect = (subcategory: Subcategory) => {
