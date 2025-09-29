@@ -155,12 +155,42 @@ export default function CustomizePage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   // Density selection for T-SHIRT (KING/QUEEN) models, e.g., '150' | '190'
   const [density, setDensity] = useState<string | null>(null);
+  // For T-SHIRT in density mode: selected color and view
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedView, setSelectedView] = useState<'Front' | 'Side' | 'Back'>('Front');
+  // Embroidery position selector
+  const [embroideryPosition, setEmbroideryPosition] = useState<'Frente' | 'Trás'>('Frente');
+
+  // Parse filename like "Luanda_Apple Green_Front.jpg" → { brand, color, view }
+  const parseTeeName = (name: string) => {
+    const m = name.match(/^(Luanda|Ankara)_(.+)_(Front|Side|Back)\.[^.]+$/i);
+    if (!m) return null as null | { brand: string; color: string; view: 'Front'|'Side'|'Back' };
+    return { brand: m[1], color: m[2], view: m[3] as 'Front'|'Side'|'Back' };
+  };
+
+  const isTeeWithDensity = (cat?: string, model?: string) => model === 'T-SHIRT' && (cat === 'KING' || cat === 'QUEEN');
+  // View navigation helpers
+  const viewOrder: ('Front'|'Side'|'Back')[] = ['Front', 'Side', 'Back'];
+  const goPrevView = () => {
+    setSelectedView((prev) => {
+      const idx = viewOrder.indexOf(prev);
+      return viewOrder[(idx + viewOrder.length - 1) % viewOrder.length];
+    });
+  };
+  const goNextView = () => {
+    setSelectedView((prev) => {
+      const idx = viewOrder.indexOf(prev);
+      return viewOrder[(idx + 1) % viewOrder.length];
+    });
+  };
 
   useEffect(() => {
     if (!selectedSubcategory) {
       setProductImages([]);
       setCurrentCatModel(null);
       setDensity(null);
+      setSelectedColor(null);
+      setSelectedView('Front');
       return;
     }
     // path format: /personalizar/<CATEGORY>/<MODEL>
@@ -173,7 +203,7 @@ export default function CustomizePage() {
 
       const fetchImages = async () => {
         try {
-          const isTShirtWithDensity = model === 'T-SHIRT' && (cat === 'KING' || cat === 'QUEEN');
+          const isTShirtWithDensity = isTeeWithDensity(cat, model);
           // Initialize default density if applicable
           let effectiveDensity = density;
           if (isTShirtWithDensity && !effectiveDensity) {
@@ -197,10 +227,31 @@ export default function CustomizePage() {
             imgs = Array.isArray(data.images) ? data.images : [];
           }
           setProductImages(imgs);
-          setSelectedImage(imgs.length > 0 ? imgs[0] : null);
+          if (isTShirtWithDensity) {
+            // choose first valid Front image, set color and image
+            const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
+            const first = valid.find(v => v.view === 'Front') || valid[0];
+            if (first) {
+              setSelectedColor(first.color);
+              // find filename for that selection
+              const fname = imgs.find(n => {
+                const p = parseTeeName(n);
+                return p && p.color === first.color && p.view === 'Front';
+              }) || null;
+              setSelectedImage(fname);
+              setSelectedView('Front');
+            } else {
+              setSelectedColor(null);
+              setSelectedImage(null);
+              setSelectedView('Front');
+            }
+          } else {
+            setSelectedImage(imgs.length > 0 ? imgs[0] : null);
+          }
         } catch (err) {
           setProductImages([]);
           setSelectedImage(null);
+          setSelectedColor(null);
         }
       };
 
@@ -210,8 +261,29 @@ export default function CustomizePage() {
       setCurrentCatModel(null);
       setSelectedImage(null);
       setDensity(null);
+      setSelectedColor(null);
+      setSelectedView('Front');
     }
   }, [selectedSubcategory, density]);
+
+  // Keep selectedImage in sync for tee density mode when color/view changes
+  useEffect(() => {
+    if (!currentCatModel) return;
+    if (!isTeeWithDensity(currentCatModel.cat, currentCatModel.model)) return;
+    const imgs = productImages;
+    if (!imgs || imgs.length === 0 || !selectedColor) return;
+    // find exact match; if missing current view, fallback order Front→Side→Back
+    const order: ('Front'|'Side'|'Back')[] = [selectedView, 'Front', 'Side', 'Back'];
+    let chosen: string | null = null;
+    for (const v of order) {
+      const match = imgs.find(n => {
+        const p = parseTeeName(n);
+        return p && p.color === selectedColor && p.view === v;
+      });
+      if (match) { chosen = match; break; }
+    }
+    setSelectedImage(chosen);
+  }, [selectedColor, selectedView, productImages, currentCatModel]);
   const [patchNotes, setPatchNotes] = useState('');
 
   const handleWhatsAppOrder = () => {
@@ -233,9 +305,14 @@ export default function CustomizePage() {
                `ℹ️ Certifique-se que a imagem está nítida e mostra claramente o que deseja personalizar.`;
     } else if (selectedSubcategory) {
       // For other categories with subcategories
+      const dens = density ? (density === '150' ? '150 g/m² — Luanda' : density === '190' ? '190 g/m² — Ankara' : density) : null;
+      const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
       message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
                `Categoria: ${categories[selectedCategory].name}\n` +
-               `Modelo: ${selectedSubcategory.name}\n\n` +
+               `Modelo: ${selectedSubcategory.name}\n` +
+               `${dens ? `Densidade: ${dens}\n` : ''}` +
+               `${cor ? `Cor/Imagem: ${cor}\n` : ''}` +
+               `Posição do bordado: ${embroideryPosition}\n\n` +
                `Por favor, envie mais informações sobre como proceder com a personalização.`;
     } else {
       return;
@@ -451,7 +528,7 @@ export default function CustomizePage() {
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="md:w-1/2">
-                  <div className="bg-gray-100 rounded-lg aspect-square flex items-center justify-center overflow-hidden">
+                  <div className="relative bg-gray-100 rounded-lg aspect-square flex items-center justify-center overflow-hidden">
                     {currentCatModel && selectedImage ? (
                       <Image
                         src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${(density && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? density + '/' : '')}${selectedImage}`}
@@ -463,6 +540,29 @@ export default function CustomizePage() {
                       />
                     ) : (
                       <span className="text-gray-400">Imagem do produto</span>
+                    )}
+                    {currentCatModel && isTeeWithDensity(currentCatModel.cat, currentCatModel.model) && selectedImage && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={goPrevView}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full p-2 shadow"
+                          aria-label="Anterior"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={goNextView}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full p-2 shadow"
+                          aria-label="Seguinte"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+                        </button>
+                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs bg-black/60 text-white px-2 py-1 rounded">
+                          Vista: {selectedView}
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>
@@ -491,38 +591,51 @@ export default function CustomizePage() {
                             </select>
                           </div>
                         )}
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            {currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? 'Imagem' : 'Cor'}
-                          </label>
-                          <select
-                            className="w-full border border-gray-300 rounded-md p-2"
-                            value={selectedImage ?? ''}
-                            onChange={(e) => setSelectedImage(e.target.value)}
-                            disabled={productImages.length === 0}
-                          >
-                            <option value="" disabled>
-                              {productImages.length > 0
-                                ? (currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? 'Selecione uma imagem' : 'Selecione uma cor')
-                                : (currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? 'Sem imagens disponíveis' : 'Sem cores disponíveis')}
-                            </option>
-                            {productImages.map((img) => {
-                              const isT = currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN');
-                              let label: string;
-                              if (isT) {
-                                label = img.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
-                              } else {
+                        {currentCatModel && isTeeWithDensity(currentCatModel.cat, currentCatModel.model) ? (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
+                            <select
+                              className="w-full border border-gray-300 rounded-md p-2"
+                              value={selectedColor ?? ''}
+                              onChange={(e) => setSelectedColor(e.target.value)}
+                              disabled={productImages.length === 0}
+                            >
+                              <option value="" disabled>
+                                {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
+                              </option>
+                              {Array.from(new Set(productImages
+                                .map((n) => parseTeeName(n))
+                                .filter(Boolean)
+                                .map((p) => (p as {brand:string;color:string;view:'Front'|'Side'|'Back'}).color)
+                              )).map((color) => (
+                                <option key={color as string} value={color as string}>{color as string}</option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
+                            <select
+                              className="w-full border border-gray-300 rounded-md p-2"
+                              value={selectedImage ?? ''}
+                              onChange={(e) => setSelectedImage(e.target.value)}
+                              disabled={productImages.length === 0}
+                            >
+                              <option value="" disabled>
+                                {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
+                              </option>
+                              {productImages.map((img) => {
                                 const code = img.replace(/\.[^.]+$/, '');
-                                label = COLOR_CODE_MAP[code] || code;
-                              }
-                              return (
-                                <option key={img} value={img}>
-                                  {label}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
+                                const label = COLOR_CODE_MAP[code] || code;
+                                return (
+                                  <option key={img} value={img}>
+                                    {label}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        )}
                         
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -534,6 +647,19 @@ export default function CustomizePage() {
                             <option>Médio (M)</option>
                             <option>Grande (L)</option>
                             <option>Extra Grande (XL)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Posição do Bordado
+                          </label>
+                          <select
+                            className="w-full border border-gray-300 rounded-md p-2"
+                            value={embroideryPosition}
+                            onChange={(e) => setEmbroideryPosition(e.target.value as 'Frente' | 'Trás')}
+                          >
+                            <option value="Frente">Frente</option>
+                            <option value="Trás">Trás</option>
                           </select>
                         </div>
                         
