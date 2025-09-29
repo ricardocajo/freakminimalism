@@ -94,86 +94,68 @@ const COLOR_CODE_MAP: Record<string, string> = {
   'B6': 'Azul e Branco',
 };
 
-const categories: Category[] = [
-  {
-    name: 'Patches',
-    subcategories: []
-  },
-  {
-    name: 'Pedido Especial',
-    subcategories: []
-  },
-  // New: Chapeu category with previews pulled from existing folders
-  {
-    name: 'Chapeu',
-    subcategories: [
-      { name: 'Boina', path: '/personalizar/CHAPEUS/BOINA', image: '/images/personalizar/CHAPEUS/BOINA/11.png' },
-      { name: 'Clássico', path: '/personalizar/CHAPEUS/CLASSICO', image: '/images/personalizar/CHAPEUS/CLASSICO/00.png' },
-      { name: 'Gola', path: '/personalizar/CHAPEUS/GOLA', image: '/images/personalizar/CHAPEUS/GOLA/11.png' },
-      { name: 'Gorro', path: '/personalizar/CHAPEUS/GORRO', image: '/images/personalizar/CHAPEUS/GORRO/11.png' },
-      { name: 'Panama', path: '/personalizar/CHAPEUS/PANAMA', image: '/images/personalizar/CHAPEUS/PANAMA/00.png' },
-      { name: 'Panama Curto', path: '/personalizar/CHAPEUS/PANAMACURTO', image: '/images/personalizar/CHAPEUS/PANAMACURTO/00.png' },
-      { name: 'Recy', path: '/personalizar/CHAPEUS/RECY', image: '/images/personalizar/CHAPEUS/RECY/00.png' },
-      { name: 'Snap Five', path: '/personalizar/CHAPEUS/SNAPFIVE', image: '/images/personalizar/CHAPEUS/SNAPFIVE/00.png' },
-      { name: 'Tradicional', path: '/personalizar/CHAPEUS/TRADICIONAL', image: '/images/personalizar/CHAPEUS/TRADICIONAL/00.png' },
-      { name: 'Whippy', path: '/personalizar/CHAPEUS/WHIPPY', image: '/images/personalizar/CHAPEUS/WHIPPY/52.png' },
-      { name: 'Zion', path: '/personalizar/CHAPEUS/ZION', image: '/images/personalizar/CHAPEUS/ZION/00.png' },
-    ]
-  },
-  {
-    name: 'Kid',
-    subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/KID/T-SHIRT', image: '/images/personalizar/KID/T-SHIRT/Ankara Kids_Black_Front.jpg' },
-      { name: 'Calças', path: '/personalizar/KID/CALCAS', image: '/images/personalizar/KID/CALCAS/preto_f.jpg' },
-      { name: 'Polos', path: '/personalizar/KID/POLOS', image: '/images/personalizar/KID/POLOS/Adam kids_Black_Front.jpg' },
-      { name: 'Hooded Kids', path: '/personalizar/KID/HOODEDKIDS', image: '/images/personalizar/KID/HOODEDKIDS/bc560103.jpg' },
-      { name: 'Sweat', path: '/personalizar/KID/SWEAT', image: '/images/personalizar/KID/SWEAT/11.png' },
-      { name: 'Snapback', path: '/personalizar/KID/SNAPBACK', image: '/images/personalizar/KID/SNAPBACK/11.png' },
-      { name: 'Zipp Kids', path: '/personalizar/KID/ZIPPKIDS', image: '/images/personalizar/KID/ZIPPKIDS/11.png' },
-      { name: 'Fraser', path: '/personalizar/KID/FRASER', image: '/images/personalizar/KID/FRASER/11.png' },
-      { name: 'Panama', path: '/personalizar/KID/PANAMA', image: '/images/personalizar/KID/PANAMA/11.png' },
-    ]
-  },
-  {
-    name: 'Queen',
-    subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/QUEEN/T-SHIRT' },
-      { name: 'Hood', path: '/personalizar/QUEEN/HOOD', image: '/images/personalizar/QUEEN/HOOD/00.png' },
-      { name: 'Sweat', path: '/personalizar/QUEEN/SWEAT', image: '/images/personalizar/QUEEN/SWEAT/00.png' },
-      { name: 'Polo', path: '/personalizar/QUEEN/POLO', image: '/images/personalizar/QUEEN/POLO/Monaco Women_Black_Front.jpg' },
-      { name: 'Manga Comprida', path: '/personalizar/QUEEN/MANGA CUMPRIDA', image: '/images/personalizar/QUEEN/MANGA CUMPRIDA/Bucharest Women_Black_Front.jpg' },
-      { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP', image: '/images/personalizar/QUEEN/ZIPP/95.png' },
-      { name: 'Polar Gama Women', path: '/personalizar/QUEEN/POLAR', image: '/images/personalizar/QUEEN/POLAR GAMA WOMEN/300/preto_f.jpg' },
-    ]
-  },
-  {
-    name: 'Unisex',
-    subcategories: [
-      { name: 'Cavas', path: '/personalizar/UNISEX/CAVAS', image: '/images/personalizar/UNISEX/CAVAS/Ibiza_Black_Front.jpg' },
-      { name: 'Calças', path: '/personalizar/UNISEX/CALCAS' },
-      { name: 'Oversize', path: '/personalizar/UNISEX/OVERSIZE', image: '/images/personalizar/UNISEX/OVERSIZE/fjord_preto_f.jpg' },
-      { name: 'Sweat Scarda', path: '/personalizar/UNISEX/SWEAT SCARDA', image: '/images/personalizar/UNISEX/SWEAT SCARDA/preto_f.jpg' },
-    ]
-  },
-  // Mantemos King ativo por agora; se quiser remover do menu, diga-me.
-  {
-    name: 'King',
-    subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT', image: '/images/personalizar/KING/T-SHIRT/150/Luanda_Black_Front.jpg' },
-      { name: 'Hood', path: '/personalizar/KING/HOOD', image: '/images/personalizar/KING/HOOD/00.png' },
-      { name: 'Sweat', path: '/personalizar/KING/SWEAT', image: '/images/personalizar/KING/SWEAT/00.png' },
-      { name: 'Polo', path: '/personalizar/KING/POLO', image: '/images/personalizar/KING/POLO/00.png' },
-      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA', image: '/images/personalizar/KING/M.COMPRIDA/Bucharest_Black_Front.jpg' },
-      { name: 'Zipp', path: '/personalizar/KING/ZIPP', image: '/images/personalizar/KING/ZIPP/95.png' },
-      { name: 'Cavas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/00.png' },
-    ]
-  },
-];
+// Helper to prettify model folder names into display names
+const prettyModelName = (raw: string) =>
+  raw
+    .replace(/_/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^M\.COMPRIDA$/i, 'Manga Comprida')
+    .replace(/^SWEAT SCARDA$/i, 'Sweat Scarda');
 
 export default function CustomizePage() {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(null);
+
+  // Dynamic categories populated from filesystem via API
+  // We include two utility-only categories at the top: Patches and Pedido Especial
+  const [categories, setCategories] = useState<Category[]>([
+    { name: 'Patches', subcategories: [] },
+    { name: 'Pedido Especial', subcategories: [] },
+  ]);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/personalizar/categories', { cache: 'no-store' });
+        const data = await res.json();
+        const cats: string[] = Array.isArray(data.categories) ? data.categories : [];
+        const built = await Promise.all(
+          cats.map(async (cat) => {
+            const r = await fetch(`/api/personalizar/models?category=${encodeURIComponent(cat)}`, { cache: 'no-store' });
+            const d = await r.json();
+            const models: string[] = Array.isArray(d.models) ? d.models : [];
+            
+            // Map model names from roupa.json to actual folder names
+            const subs: Subcategory[] = models.map((modelName) => {
+              // modelName comes from roupa.json (e.g., "SNAP FIVE", "T-SHIRT", "HOODED KIDS")
+              // We need to find the matching folder (e.g., "SNAPFIVE", "T-SHIRT", "HOODEDKIDS")
+              // For display, use the roupa.json name; for path, normalize to folder name
+              const folderName = modelName.toUpperCase().replace(/\s+/g, '');
+              return {
+                name: prettyModelName(modelName),
+                path: `/personalizar/${cat}/${folderName}`,
+              };
+            });
+            
+            return { 
+              name: cat === 'CHAPEUS' ? 'Chapéus' : cat.charAt(0) + cat.slice(1).toLowerCase(), 
+              subcategories: subs 
+            } as Category;
+          })
+        );
+        setCategories([
+          { name: 'Patches', subcategories: [] },
+          { name: 'Pedido Especial', subcategories: [] },
+          ...built,
+        ]);
+      } catch {
+        // keep defaults
+      }
+    };
+    load();
+  }, []);
 
   const handleCategorySelect = (index: number) => {
     const isSame = selectedCategory === index;
@@ -293,10 +275,10 @@ export default function CustomizePage() {
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
           const densityUrl = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
           const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('GAMA WOMEN')}` : '';
-          // Alternate layout you have on disk: model folder is "POLAR GAMA WOMEN" with density 300
+          // Alternate layout you have on disk: model folder is "POLAR GAMA WOMEN"
           const altModel = (cat === 'QUEEN' && model === 'POLAR') ? 'POLAR GAMA WOMEN' : model;
           const altBaseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(altModel)}`;
-          const altDensityUrl = (altModel !== model) ? `${altBaseUrl}&density=300` : '';
+          const altDensityUrl = '';
 
           let imgs: string[] = [];
           // Try density first when applicable
@@ -323,19 +305,7 @@ export default function CustomizePage() {
               setImageNameMode('brand_color_view');
             }
           }
-          // If still empty and alternate model exists, try its density folder 300
-          if (imgs.length === 0 && altDensityUrl) {
-            const resAlt = await fetch(altDensityUrl);
-            if (!resAlt.ok) throw new Error('Failed to load images');
-            const dataAlt = await resAlt.json();
-            const altImgs: string[] = Array.isArray(dataAlt.images) ? dataAlt.images : [];
-            if (altImgs.length > 0) {
-              imgs = altImgs;
-              setImageMode('gama');
-              setImageFolderPrefix('300/');
-              setImageNameMode('polar_gw');
-            }
-          }
+          // Removed density 300 support
           // If still empty, try alternate model base folder without density (folder structure: POLAR GAMA WOMEN/*.jpg)
           if (imgs.length === 0 && altModel !== model) {
             const resAltBase = await fetch(altBaseUrl);
@@ -563,10 +533,6 @@ export default function CustomizePage() {
           ? '150 g/m² — Luanda'
           : (density || folderDensity) === '190'
             ? '190 g/m² — Ankara'
-            : (density || folderDensity) === '300'
-              ? (currentCatModel && currentCatModel.model === 'T-SHIRT' && currentCatModel.cat === 'QUEEN'
-                  ? '300 g/m² — Game Woman'
-                  : '300 g/m²')
               : `${density || folderDensity} g/m²`
         : null;
       const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
@@ -847,65 +813,60 @@ export default function CustomizePage() {
                     <div>
                       <h3 className="font-medium mb-2">Opções de Personalização</h3>
                       <div className="space-y-4">
-                        {currentCatModel && (
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Densidade</label>
-                            <select
-                              className="w-full border border-gray-300 rounded-md p-2"
-                              value={density ?? ''}
-                              onChange={(e) => setDensity(e.target.value)}
-                              disabled={(() => {
-                                const { cat, model } = currentCatModel;
-                                if (model === 'T-SHIRT') return false;
-                                if (model === 'POLO') return false;
-                                if (cat === 'QUEEN' && model === 'POLAR') return false;
-                                // New models with configured densities
-                                if (model === 'HOOD') return false;            // 280
-                                if (model === 'ZIPP') return false;            // 280
-                                if (model === 'CAVAS') return false;           // 140
-                                if (model === 'OVERSIZE') return false;        // 220
-                                if (model === 'SWEAT SCARDA') return false;    // 240
-                                if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') return false; // 150
-                                return true;
-                              })()}
-                            >
-                              {(() => {
-                                const { cat, model } = currentCatModel;
-                                const opts: { value: string; label: string }[] = [];
-                                if (model === 'T-SHIRT') {
-                                  opts.push({ value: '150', label: '150 g/m² — Luanda' });
-                                  opts.push({ value: '190', label: '190 g/m² — Ankara' });
-                                  if (cat === 'QUEEN') opts.push({ value: '300', label: '300 g/m² — Gama Women' });
-                                } else if (model === 'POLO') {
-                                  opts.push({ value: '240', label: '240 g/m²' });
-                                } else if (cat === 'QUEEN' && model === 'POLAR') {
-                                  opts.push({ value: '300', label: '300 g/m² — Gama Women' });
-                                } else if (model === 'HOOD') {
-                                  opts.push({ value: '280', label: '280 g/m²' });
-                                } else if (model === 'ZIPP') {
-                                  opts.push({ value: '280', label: '280 g/m²' });
-                                } else if (model === 'CAVAS') {
-                                  opts.push({ value: '140', label: '140 g/m²' });
-                                } else if (model === 'OVERSIZE') {
-                                  opts.push({ value: '220', label: '220 g/m²' });
-                                } else if (model === 'SWEAT SCARDA') {
-                                  opts.push({ value: '240', label: '240 g/m²' });
-                                } else if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') {
-                                  opts.push({ value: '150', label: '150 g/m²' });
-                                }
-                                const hasOpts = opts.length > 0;
-                                return (
-                                  <>
-                                    <option value="" disabled>{hasOpts ? 'Selecione uma densidade' : 'Sem densidades configuradas'}</option>
-                                    {opts.map(o => (
-                                      <option key={o.value} value={o.value}>{o.label}</option>
-                                    ))}
-                                  </>
-                                );
-                              })()}
-                            </select>
-                          </div>
-                        )}
+                        {currentCatModel && (() => {
+                          const { cat, model } = currentCatModel;
+                          const opts: { value: string; label: string }[] = [];
+                          if (model === 'T-SHIRT') {
+                            opts.push({ value: '150', label: '150 g/m² — Luanda' });
+                            opts.push({ value: '190', label: '190 g/m² — Ankara' });
+                          } else if (model === 'POLO') {
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          } else if (cat === 'QUEEN' && model === 'POLAR') {
+                            // No density options for POLAR
+                          } else if (model === 'HOOD') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'ZIPP') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'CAVAS') {
+                            opts.push({ value: '140', label: '140 g/m²' });
+                          } else if (model === 'OVERSIZE') {
+                            opts.push({ value: '220', label: '220 g/m²' });
+                          } else if (model === 'SWEAT SCARDA') {
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          } else if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') {
+                            opts.push({ value: '150', label: '150 g/m²' });
+                          }
+                          
+                          if (opts.length === 0) return null;
+                          
+                          return (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Densidade</label>
+                              <div className="flex flex-wrap gap-3">
+                                {opts.map(opt => (
+                                  <label
+                                    key={opt.value}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-md border cursor-pointer transition-all ${
+                                      density === opt.value
+                                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                                        : 'border-gray-300 bg-white hover:border-gray-400'
+                                    }`}
+                                  >
+                                    <input
+                                      type="radio"
+                                      name="density"
+                                      value={opt.value}
+                                      checked={density === opt.value}
+                                      onChange={(e) => setDensity(e.target.value)}
+                                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm font-medium">{opt.label}</span>
+                                  </label>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })()}
                         {(currentCatModel && (imageMode === 'density' || imageMode === 'gama')) ? (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
