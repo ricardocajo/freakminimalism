@@ -248,7 +248,7 @@ export default function CustomizePage() {
     if (model === 'SWEAT SCARDA' || model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') return true;
     return false;
   };
-  const isQueenPolarWithGama = (cat?: string, model?: string) => cat === 'QUEEN' && model === 'POLAR';
+  const isQueenPolarWithGama = (cat?: string, model?: string) => cat === 'QUEEN' && (model === 'POLAR' || model === 'POLAR ZIPP WOMEN' || model === 'POLARZIPPWOMEN');
   // View navigation helpers
   const viewOrder: ('Front'|'Side'|'Back')[] = ['Front', 'Side', 'Back'];
   const goPrevView = () => {
