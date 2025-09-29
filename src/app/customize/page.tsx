@@ -177,12 +177,15 @@ export default function CustomizePage() {
   // Embroidery position selector
   const [embroideryPosition, setEmbroideryPosition] = useState<'Frente' | 'Trás'>('Frente');
 
-  // Parse filename like "Luanda_Apple Green_Front.jpg" → { brand, color, view }
+  // Parse filename like "Luanda_Apple Green_Front.jpg" or "Ankara_Alperce_F.jpg"
+  // → { brand, color, view }
   const parseTeeName = (name: string) => {
     // Accept any brand prefix (e.g., Luanda, Ankara, Game Woman, etc.) before first underscore
-    const m = name.match(/^([^_]+)_(.+)_(Front|Side|Back)\.[^.]+$/i);
+    const m = name.match(/^([^_]+)_(.+)_(Front|Side|Back|F|L|C)\.[^.]+$/i);
     if (!m) return null as null | { brand: string; color: string; view: 'Front'|'Side'|'Back' };
-    return { brand: m[1], color: m[2], view: m[3] as 'Front'|'Side'|'Back' };
+    const raw = m[3].toLowerCase();
+    const view = raw === 'f' ? 'Front' : raw === 'l' ? 'Side' : raw === 'c' ? 'Back' : (m[3] as 'Front'|'Side'|'Back');
+    return { brand: m[1], color: m[2], view };
   };
 
   // Parse filename like "preto_f.jpg" (POLAR GAMA WOMEN set) → { color: 'preto', view: 'Front'|'Side'|'Back' }
