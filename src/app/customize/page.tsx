@@ -98,13 +98,12 @@ const categories: Category[] = [
     subcategories: [
       { name: 'T-Shirt', path: '/personalizar/KID/T-SHIRT', image: '/images/personalizar/KID/T-SHIRT/Ankara Kids_Black_Front.jpg' },
       { name: 'Calças', path: '/personalizar/KID/CALCAS', image: '/images/personalizar/KID/CALCAS/preto_f.jpg' },
-      { name: 'Hooded Kids', path: '/personalizar/KID/HOODEDKIDS', image: '/images/personalizar/KID/HOODEDKIDS/1.jpg' },
-      { name: 'Sweat', path: '/personalizar/KID/SWEAT', image: '/images/personalizar/KID/SWEAT/1.jpg' },
-      { name: 'Baseball', path: '/personalizar/KID/BASEBALL', image: '/images/personalizar/KID/BASEBALL/1.jpg' },
-      { name: 'Snapback', path: '/personalizar/KID/SNAPBACK', image: '/images/personalizar/KID/SNAPBACK/1.jpg' },
-      { name: 'Zipp Kids', path: '/personalizar/KID/ZIPPKIDS', image: '/images/personalizar/KID/ZIPPKIDS/1.jpg' },
-      { name: 'Fraser', path: '/personalizar/KID/FRASER', image: '/images/personalizar/KID/FRASER/1.jpg' },
-      { name: 'Panama', path: '/personalizar/KID/PANAMA', image: '/images/personalizar/KID/PANAMA/1.jpg' },
+      { name: 'Hooded Kids', path: '/personalizar/KID/HOODEDKIDS', image: '/images/personalizar/KID/HOODEDKIDS/bc560103.jpg' },
+      { name: 'Sweat', path: '/personalizar/KID/SWEAT', image: '/images/personalizar/KID/SWEAT/11.png' },
+      { name: 'Snapback', path: '/personalizar/KID/SNAPBACK', image: '/images/personalizar/KID/SNAPBACK/11.png' },
+      { name: 'Zipp Kids', path: '/personalizar/KID/ZIPPKIDS', image: '/images/personalizar/KID/ZIPPKIDS/11.png' },
+      { name: 'Fraser', path: '/personalizar/KID/FRASER', image: '/images/personalizar/KID/FRASER/11.png' },
+      { name: 'Panama', path: '/personalizar/KID/PANAMA', image: '/images/personalizar/KID/PANAMA/11.png' },
     ]
   },
   {
