@@ -674,12 +674,14 @@ export default function CustomizePage() {
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
                         </button>
-                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs bg-black/60 text-white px-2 py-1 rounded">
-                          Vista: {selectedView}
-                        </div>
                       </>
                     )}
                   </div>
+                  {currentCatModel && (imageMode === 'density' || imageMode === 'gama') && selectedImage && (
+                    <div className="mt-2 text-xs text-gray-600">
+                      Vista: {selectedView}
+                    </div>
+                  )}
                 </div>
                 <div className="md:w-1/2">
                   <h2 className="text-2xl font-bold mb-2">
