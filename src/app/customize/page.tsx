@@ -163,12 +163,14 @@ export default function CustomizePage() {
 
   // Parse filename like "Luanda_Apple Green_Front.jpg" → { brand, color, view }
   const parseTeeName = (name: string) => {
-    const m = name.match(/^(Luanda|Ankara)_(.+)_(Front|Side|Back)\.[^.]+$/i);
+    // Accept any brand prefix (e.g., Luanda, Ankara, Game Woman, etc.) before first underscore
+    const m = name.match(/^([^_]+)_(.+)_(Front|Side|Back)\.[^.]+$/i);
     if (!m) return null as null | { brand: string; color: string; view: 'Front'|'Side'|'Back' };
     return { brand: m[1], color: m[2], view: m[3] as 'Front'|'Side'|'Back' };
   };
 
   const isTeeWithDensity = (cat?: string, model?: string) => model === 'T-SHIRT' && (cat === 'KING' || cat === 'QUEEN');
+  const isQueenPolarWithGama = (cat?: string, model?: string) => cat === 'QUEEN' && model === 'POLAR';
   // View navigation helpers
   const viewOrder: ('Front'|'Side'|'Back')[] = ['Front', 'Side', 'Back'];
   const goPrevView = () => {
@@ -213,14 +215,15 @@ export default function CustomizePage() {
 
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
           const urlWithDensity = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : baseUrl;
+          const urlWithGama = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('GAMA WOMEN')}` : urlWithDensity;
 
-          let res = await fetch(urlWithDensity);
+          let res = await fetch(urlWithGama);
           if (!res.ok) throw new Error('Failed to load images');
           let data = await res.json();
           let imgs: string[] = Array.isArray(data.images) ? data.images : [];
 
           // Fallback to base folder if density folder has no images
-          if (imgs.length === 0 && isTShirtWithDensity) {
+          if (imgs.length === 0 && (isTShirtWithDensity || isQueenPolarWithGama(cat, model))) {
             res = await fetch(baseUrl);
             if (!res.ok) throw new Error('Failed to load images');
             data = await res.json();
@@ -243,6 +246,23 @@ export default function CustomizePage() {
             } else {
               setSelectedColor(null);
               setSelectedImage(null);
+              setSelectedView('Front');
+            }
+          } else if (isQueenPolarWithGama(cat, model)) {
+            // For QUEEN/POLAR with GAMA WOMEN, group by color; prefer Front if available
+            const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
+            const first = valid.find(v => v.view === 'Front') || valid[0];
+            if (first) {
+              setSelectedColor(first.color);
+              const fname = imgs.find(n => {
+                const p = parseTeeName(n);
+                return p && p.color === first.color && (p.view === 'Front' || p.view === first.view);
+              }) || null;
+              setSelectedImage(fname);
+              setSelectedView(first.view);
+            } else {
+              setSelectedColor(null);
+              setSelectedImage(imgs.length > 0 ? imgs[0] : null);
               setSelectedView('Front');
             }
           } else {
@@ -305,7 +325,15 @@ export default function CustomizePage() {
                `ℹ️ Certifique-se que a imagem está nítida e mostra claramente o que deseja personalizar.`;
     } else if (selectedSubcategory) {
       // For other categories with subcategories
-      const dens = density ? (density === '150' ? '150 g/m² — Luanda' : density === '190' ? '190 g/m² — Ankara' : density) : null;
+      const dens = density
+        ? density === '150'
+          ? '150 g/m² — Luanda'
+          : density === '190'
+            ? '190 g/m² — Ankara'
+            : density === '300'
+              ? '300 g/m² — Game Woman'
+              : density
+        : null;
       const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
       message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
                `Categoria: ${categories[selectedCategory].name}\n` +
@@ -541,7 +569,7 @@ export default function CustomizePage() {
                     ) : (
                       <span className="text-gray-400">Imagem do produto</span>
                     )}
-                    {currentCatModel && isTeeWithDensity(currentCatModel.cat, currentCatModel.model) && selectedImage && (
+                    {currentCatModel && (isTeeWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model)) && selectedImage && (
                       <>
                         <button
                           type="button"
@@ -588,10 +616,13 @@ export default function CustomizePage() {
                             >
                               <option value="150">150 g/m² — Luanda</option>
                               <option value="190">190 g/m² — Ankara</option>
+                              {currentCatModel && currentCatModel.cat === 'QUEEN' && (
+                                <option value="300">300 g/m² — Game Woman</option>
+                              )}
                             </select>
                           </div>
                         )}
-                        {currentCatModel && isTeeWithDensity(currentCatModel.cat, currentCatModel.model) ? (
+                        {(currentCatModel && (isTeeWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) ? (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
                             <select

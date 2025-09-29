@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     const category = searchParams.get('category');
     const model = searchParams.get('model');
     const density = searchParams.get('density');
+    const gama = searchParams.get('gama');
 
     if (!category || !model) {
       return NextResponse.json({ error: 'Missing category or model' }, { status: 400 });
@@ -17,8 +18,9 @@ export async function GET(request: Request) {
 
     // Build absolute directory path under public/
     // If density is provided, attempt to read from the density subfolder
+    // Else if gama is provided, attempt to read from the gama subfolder
     const baseDir = path.join(process.cwd(), 'public', 'images', 'personalizar', category, model);
-    const dir = density ? path.join(baseDir, density) : baseDir;
+    const dir = density ? path.join(baseDir, density) : (gama ? path.join(baseDir, gama) : baseDir);
 
     let entries: string[] = [];
     try {
