@@ -103,7 +103,7 @@ const categories: Category[] = [
       { name: 'Hood', path: '/personalizar/KING/HOOD', image: '/images/personalizar/KING/HOOD/00.png' },
       { name: 'Sweat', path: '/personalizar/KING/SWEAT', image: '/images/personalizar/KING/SWEAT/00.png' },
       { name: 'Polo', path: '/personalizar/KING/POLO', image: '/images/personalizar/KING/POLO/00.png' },
-      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA' },
+      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA', image: '/images/personalizar/KING/M.COMPRIDA/Bucharest_Black_Front.jpg' },
       { name: 'Zipp', path: '/personalizar/KING/ZIPP', image: '/images/personalizar/KING/ZIPP/95.png' },
       { name: 'Cavas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/00.png' },
     ]
@@ -434,6 +434,47 @@ export default function CustomizePage() {
     setSelectedImage(chosen);
   }, [selectedColor, selectedView, productImages, currentCatModel]);
   const [patchNotes, setPatchNotes] = useState('');
+
+  // Product info (description and washing instructions)
+  type ProductInfo = {
+    description?: string;
+    washing?: string[];
+  };
+  const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
+
+  // Load product info JSON from public images folders based on current selection
+  useEffect(() => {
+    const loadInfo = async () => {
+      if (!currentCatModel) { setProductInfo(null); return; }
+      const { cat, model } = currentCatModel;
+      // Try multiple possible locations to accommodate existing structures
+      const urls: string[] = [
+        `/images/personalizar/${cat}/${model}/produto.json`,
+        `/images/personalizar/${cat}/produto.json`,
+      ];
+      // Special handling for QUEEN/POLAR that may live under POLAR GAMA WOMEN
+      if (cat === 'QUEEN' && model === 'POLAR') {
+        urls.push(`/images/personalizar/${cat}/POLAR GAMA WOMEN/produto.json`);
+      }
+      // Attempt fetch in order; first successful JSON wins
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (res.ok) {
+            const data = await res.json();
+            // Expected shape: { description?: string, washing?: string[] }
+            setProductInfo({
+              description: typeof data.description === 'string' ? data.description : undefined,
+              washing: Array.isArray(data.washing) ? data.washing.filter((x: unknown) => typeof x === 'string') : undefined,
+            });
+            return;
+          }
+        } catch { /* ignore and try next */ }
+      }
+      setProductInfo(null);
+    };
+    loadInfo();
+  }, [currentCatModel]);
 
   const handleWhatsAppOrder = () => {
     if (selectedCategory === null) return;
@@ -874,6 +915,26 @@ export default function CustomizePage() {
                             </div>
                           </div>
                         </div>
+
+                        {/* Product Description */}
+                        {productInfo?.description && (
+                          <div className="bg-white border rounded-lg p-4">
+                            <h3 className="text-sm font-semibold mb-2">Descrição do Produto</h3>
+                            <p className="text-sm text-gray-700 whitespace-pre-line">{productInfo.description}</p>
+                          </div>
+                        )}
+
+                        {/* Washing Instructions */}
+                        {productInfo?.washing && productInfo.washing.length > 0 && (
+                          <div className="bg-white border rounded-lg p-4">
+                            <h3 className="text-sm font-semibold mb-2">Instruções de Lavagem</h3>
+                            <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
+                              {productInfo.washing.map((item, idx) => (
+                                <li key={idx}>{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
 
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                           <div className="flex items-start">
