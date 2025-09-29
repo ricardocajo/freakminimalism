@@ -153,11 +153,14 @@ export default function CustomizePage() {
 
   // Currently selected image filename (e.g., "00.png").
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // Density selection for T-SHIRT (KING/QUEEN) models, e.g., '150' | '190'
+  const [density, setDensity] = useState<string | null>(null);
 
   useEffect(() => {
     if (!selectedSubcategory) {
       setProductImages([]);
       setCurrentCatModel(null);
+      setDensity(null);
       return;
     }
     // path format: /personalizar/<CATEGORY>/<MODEL>
@@ -170,10 +173,29 @@ export default function CustomizePage() {
 
       const fetchImages = async () => {
         try {
-          const res = await fetch(`/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`);
+          const isTShirtWithDensity = model === 'T-SHIRT' && (cat === 'KING' || cat === 'QUEEN');
+          // Initialize default density if applicable
+          let effectiveDensity = density;
+          if (isTShirtWithDensity && !effectiveDensity) {
+            effectiveDensity = '150';
+            setDensity('150');
+          }
+
+          const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
+          const urlWithDensity = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : baseUrl;
+
+          let res = await fetch(urlWithDensity);
           if (!res.ok) throw new Error('Failed to load images');
-          const data = await res.json();
-          const imgs: string[] = Array.isArray(data.images) ? data.images : [];
+          let data = await res.json();
+          let imgs: string[] = Array.isArray(data.images) ? data.images : [];
+
+          // Fallback to base folder if density folder has no images
+          if (imgs.length === 0 && isTShirtWithDensity) {
+            res = await fetch(baseUrl);
+            if (!res.ok) throw new Error('Failed to load images');
+            data = await res.json();
+            imgs = Array.isArray(data.images) ? data.images : [];
+          }
           setProductImages(imgs);
           setSelectedImage(imgs.length > 0 ? imgs[0] : null);
         } catch (err) {
@@ -187,8 +209,9 @@ export default function CustomizePage() {
       setProductImages([]);
       setCurrentCatModel(null);
       setSelectedImage(null);
+      setDensity(null);
     }
-  }, [selectedSubcategory]);
+  }, [selectedSubcategory, density]);
   const [patchNotes, setPatchNotes] = useState('');
 
   const handleWhatsAppOrder = () => {
@@ -431,7 +454,7 @@ export default function CustomizePage() {
                   <div className="bg-gray-100 rounded-lg aspect-square flex items-center justify-center overflow-hidden">
                     {currentCatModel && selectedImage ? (
                       <Image
-                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${selectedImage}`}
+                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${(density && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? density + '/' : '')}${selectedImage}`}
                         alt={`${selectedSubcategory.name} - ${categories[selectedCategory!].name}`}
                         width={500}
                         height={500}
@@ -453,9 +476,24 @@ export default function CustomizePage() {
                     <div>
                       <h3 className="font-medium mb-2">Opções de Personalização</h3>
                       <div className="space-y-4">
+                        {currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') && (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Densidade
+                            </label>
+                            <select
+                              className="w-full border border-gray-300 rounded-md p-2"
+                              value={density ?? '150'}
+                              onChange={(e) => setDensity(e.target.value)}
+                            >
+                              <option value="150">150 g/m² — Luanda</option>
+                              <option value="190">190 g/m² — Ankara</option>
+                            </select>
+                          </div>
+                        )}
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Cor
+                            {currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? 'Imagem' : 'Cor'}
                           </label>
                           <select
                             className="w-full border border-gray-300 rounded-md p-2"
@@ -464,11 +502,19 @@ export default function CustomizePage() {
                             disabled={productImages.length === 0}
                           >
                             <option value="" disabled>
-                              {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
+                              {productImages.length > 0
+                                ? (currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? 'Selecione uma imagem' : 'Selecione uma cor')
+                                : (currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? 'Sem imagens disponíveis' : 'Sem cores disponíveis')}
                             </option>
                             {productImages.map((img) => {
-                              const code = img.replace(/\.[^.]+$/, '');
-                              const label = COLOR_CODE_MAP[code] || code;
+                              const isT = currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN');
+                              let label: string;
+                              if (isT) {
+                                label = img.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+                              } else {
+                                const code = img.replace(/\.[^.]+$/, '');
+                                label = COLOR_CODE_MAP[code] || code;
+                              }
                               return (
                                 <option key={img} value={img}>
                                   {label}

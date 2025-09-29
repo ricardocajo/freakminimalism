@@ -9,13 +9,16 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const model = searchParams.get('model');
+    const density = searchParams.get('density');
 
     if (!category || !model) {
       return NextResponse.json({ error: 'Missing category or model' }, { status: 400 });
     }
 
     // Build absolute directory path under public/
-    const dir = path.join(process.cwd(), 'public', 'images', 'personalizar', category, model);
+    // If density is provided, attempt to read from the density subfolder
+    const baseDir = path.join(process.cwd(), 'public', 'images', 'personalizar', category, model);
+    const dir = density ? path.join(baseDir, density) : baseDir;
 
     let entries: string[] = [];
     try {
