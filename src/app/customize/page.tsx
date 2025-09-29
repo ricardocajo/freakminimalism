@@ -287,10 +287,16 @@ export default function CustomizePage() {
             imgs = Array.isArray(dataB.images) ? dataB.images : [];
             // If the folder uses short view suffixes (e.g., preto_f.jpg), switch to polar_gw parsing
             const hasPolarGW = imgs.some((n: string) => /^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+            // If the folder uses brand/color/view like "Ankara Kids_Black_Front.jpg", enable brand_color_view with arrows
+            const hasBrandColorView = imgs.some((n: string) => /^([^_]+)_(.+)_(Front|Side|Back)\.[^.]+$/i.test(n));
             if (hasPolarGW) {
               setImageMode('gama');
               setImageFolderPrefix('');
               setImageNameMode('polar_gw');
+            } else if (hasBrandColorView) {
+              setImageMode('gama');
+              setImageFolderPrefix('');
+              setImageNameMode('brand_color_view');
             } else {
               setImageMode('simple');
               setImageFolderPrefix('');
@@ -678,7 +684,7 @@ export default function CustomizePage() {
                   </div>
                   {currentCatModel && (imageMode === 'density' || imageMode === 'gama') && selectedImage && (
                     <div className="mt-2 text-xs text-gray-600">
-                      Vista: {selectedView}
+                      Vista: {selectedView === 'Front' ? 'Frente' : selectedView === 'Side' ? 'Lado' : 'Costas'}
                     </div>
                   )}
                 </div>
