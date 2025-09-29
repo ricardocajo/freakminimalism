@@ -148,6 +148,10 @@ export default function CustomizePage() {
 
   // Holds image filenames available for the selected product (e.g., ["00.png", "1A.png"]) 
   const [productImages, setProductImages] = useState<string[]>([]);
+  // Which mode the current images correspond to: density/gama/simple
+  const [imageMode, setImageMode] = useState<'density'|'gama'|'simple'>('simple');
+  // Folder prefix to prepend when rendering images (e.g., '150/' or 'GAMA WOMEN/' or '')
+  const [imageFolderPrefix, setImageFolderPrefix] = useState<string>('');
 
   // Convenience: currently selected category/model names from the subcategory path
   const [currentCatModel, setCurrentCatModel] = useState<{ cat: string; model: string } | null>(null);
@@ -190,6 +194,8 @@ export default function CustomizePage() {
   useEffect(() => {
     if (!selectedSubcategory) {
       setProductImages([]);
+      setImageMode('simple');
+      setImageFolderPrefix('');
       setCurrentCatModel(null);
       setDensity(null);
       setSelectedColor(null);
@@ -210,28 +216,51 @@ export default function CustomizePage() {
           // Initialize default density if applicable
           let effectiveDensity = density;
           if (isTShirtWithDensity && !effectiveDensity) {
-            effectiveDensity = '150';
-            setDensity('150');
+            // Default per model: T-SHIRT -> 150, POLO -> 240
+            const def = model === 'POLO' ? '240' : '150';
+            effectiveDensity = def;
+            setDensity(def);
           }
 
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
-          const urlWithDensity = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : baseUrl;
-          const urlWithGama = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('GAMA WOMEN')}` : urlWithDensity;
+          const densityUrl = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
+          const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('GAMA WOMEN')}` : '';
 
-          let res = await fetch(urlWithGama);
-          if (!res.ok) throw new Error('Failed to load images');
-          let data = await res.json();
-          let imgs: string[] = Array.isArray(data.images) ? data.images : [];
-
-          // Fallback to base folder if density folder has no images
-          if (imgs.length === 0 && (isTShirtWithDensity || isQueenPolarWithGama(cat, model))) {
-            res = await fetch(baseUrl);
+          let imgs: string[] = [];
+          // Try density first when applicable
+          if (densityUrl) {
+            const res = await fetch(densityUrl);
             if (!res.ok) throw new Error('Failed to load images');
-            data = await res.json();
+            const data = await res.json();
             imgs = Array.isArray(data.images) ? data.images : [];
+            if (imgs.length > 0) {
+              setImageMode('density');
+              setImageFolderPrefix(`${effectiveDensity}/`);
+            }
+          }
+          // If no density images and this is QUEEN/POLAR, try gama folder
+          if (imgs.length === 0 && gamaUrl) {
+            const resG = await fetch(gamaUrl);
+            if (!resG.ok) throw new Error('Failed to load images');
+            const dataG = await resG.json();
+            const gamaImgs: string[] = Array.isArray(dataG.images) ? dataG.images : [];
+            if (gamaImgs.length > 0) {
+              imgs = gamaImgs;
+              setImageMode('gama');
+              setImageFolderPrefix('GAMA WOMEN/');
+            }
+          }
+          // Fallback to base folder
+          if (imgs.length === 0) {
+            const resB = await fetch(baseUrl);
+            if (!resB.ok) throw new Error('Failed to load images');
+            const dataB = await resB.json();
+            imgs = Array.isArray(dataB.images) ? dataB.images : [];
+            setImageMode('simple');
+            setImageFolderPrefix('');
           }
           setProductImages(imgs);
-          if (isTShirtWithDensity) {
+          if (imageMode === 'density' || isTShirtWithDensity) {
             // choose first valid Front image, set color and image
             const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
             const first = valid.find(v => v.view === 'Front') || valid[0];
@@ -249,7 +278,7 @@ export default function CustomizePage() {
               setSelectedImage(null);
               setSelectedView('Front');
             }
-          } else if (isQueenPolarWithGama(cat, model)) {
+          } else if (imageMode === 'gama' || isQueenPolarWithGama(cat, model)) {
             // For QUEEN/POLAR with GAMA WOMEN, group by color; prefer Front if available
             const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
             const first = valid.find(v => v.view === 'Front') || valid[0];
@@ -287,10 +316,10 @@ export default function CustomizePage() {
     }
   }, [selectedSubcategory, density]);
 
-  // Keep selectedImage in sync for density models (T-SHIRT/POLO) and QUEEN/POLAR when color/view changes
+  // Keep selectedImage in sync for density/gama modes when color/view changes
   useEffect(() => {
     if (!currentCatModel) return;
-    if (!(isModelWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) return;
+    if (!(imageMode === 'density' || imageMode === 'gama')) return;
     const imgs = productImages;
     if (!imgs || imgs.length === 0 || !selectedColor) return;
     // find exact match; if missing current view, fallback order Front→Side→Back
@@ -333,7 +362,7 @@ export default function CustomizePage() {
             ? '190 g/m² — Ankara'
             : density === '300'
               ? '300 g/m² — Game Woman'
-              : density
+              : `${density} g/m²`
         : null;
       const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
       // Determine if this is QUEEN/POLAR to show Gama info
@@ -566,11 +595,7 @@ export default function CustomizePage() {
                   <div className="relative bg-gray-100 rounded-lg aspect-square flex items-center justify-center overflow-hidden">
                     {currentCatModel && selectedImage ? (
                       <Image
-                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${(
-                          density && isModelWithDensity(currentCatModel.cat, currentCatModel.model)
-                            ? density + '/'
-                            : (isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model) ? 'GAMA WOMEN/' : '')
-                        )}${selectedImage}`}
+                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${imageFolderPrefix}${selectedImage}`}
                         alt={`${selectedSubcategory.name} - ${categories[selectedCategory!].name}`}
                         width={500}
                         height={500}
@@ -580,7 +605,7 @@ export default function CustomizePage() {
                     ) : (
                       <span className="text-gray-400">Imagem do produto</span>
                     )}
-                    {currentCatModel && (isModelWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model)) && selectedImage && (
+                    {currentCatModel && (imageMode === 'density' || imageMode === 'gama') && selectedImage && (
                       <>
                         <button
                           type="button"
@@ -625,15 +650,24 @@ export default function CustomizePage() {
                               value={density ?? '150'}
                               onChange={(e) => setDensity(e.target.value)}
                             >
-                              <option value="150">150 g/m² — Luanda</option>
-                              <option value="190">190 g/m² — Ankara</option>
-                              {currentCatModel && currentCatModel.cat === 'QUEEN' && (
-                                <option value="300">300 g/m² — Game Woman</option>
+                              {currentCatModel.model === 'T-SHIRT' && (
+                                <>
+                                  <option value="150">150 g/m² — Luanda</option>
+                                  <option value="190">190 g/m² — Ankara</option>
+                                  {currentCatModel.cat === 'QUEEN' && (
+                                    <option value="300">300 g/m² — Game Woman</option>
+                                  )}
+                                </>
+                              )}
+                              {currentCatModel.model === 'POLO' && (
+                                <>
+                                  <option value="240">240 g/m²</option>
+                                </>
                               )}
                             </select>
                           </div>
                         )}
-                        {(currentCatModel && (isModelWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) ? (
+                        {(currentCatModel && (imageMode === 'density' || imageMode === 'gama')) ? (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
                             <select
