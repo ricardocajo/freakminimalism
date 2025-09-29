@@ -72,24 +72,24 @@ const categories: Category[] = [
   {
     name: 'King',
     subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT', image: '/images/personalizar/KING/T-SHIRT/1.jpg' },
-      { name: 'Hood', path: '/personalizar/KING/HOOD', image: '/images/personalizar/KING/HOOD/1.jpg' },
-      { name: 'Sweat', path: '/personalizar/KING/SWEAT', image: '/images/personalizar/KING/SWEAT/1.jpg' },
-      { name: 'Polo', path: '/personalizar/KING/POLO', image: '/images/personalizar/KING/POLO/1.jpg' },
-      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA', image: '/images/personalizar/KING/M.COMPRIDA/1.jpg' },
-      { name: 'Zipp', path: '/personalizar/KING/ZIPP', image: '/images/personalizar/KING/ZIPP/1.jpg' },
-      { name: 'Canvas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/1.jpg' },
+      { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT', image: '/images/personalizar/KING/T-SHIRT/150/Luanda_Black_Front.jpg' },
+      { name: 'Hood', path: '/personalizar/KING/HOOD', image: '/images/personalizar/KING/HOOD/00.png' },
+      { name: 'Sweat', path: '/personalizar/KING/SWEAT', image: '/images/personalizar/KING/SWEAT/00.png' },
+      { name: 'Polo', path: '/personalizar/KING/POLO', image: '/images/personalizar/KING/POLO/00.png' },
+      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA', image: '/images/personalizar/KING/ZIPP/95.png' },
+      { name: 'Zipp', path: '/personalizar/KING/ZIPP', image: '/images/personalizar/KING/ZIPP/95.png' },
+      { name: 'Canvas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/00.png' },
     ]
   },
   {
     name: 'Queen',
     subcategories: [
-      { name: 'T-Shirt', path: '/personalizar/QUEEN/T-SHIRT', image: '/images/personalizar/QUEEN/T-SHIRT/1.jpg' },
-      { name: 'Hood', path: '/personalizar/QUEEN/HOOD', image: '/images/personalizar/QUEEN/HOOD/1.jpg' },
-      { name: 'Sweat', path: '/personalizar/QUEEN/SWEAT', image: '/images/personalizar/QUEEN/SWEAT/1.jpg' },
-      { name: 'Polo', path: '/personalizar/QUEEN/POLO', image: '/images/personalizar/QUEEN/POLO/1.jpg' },
-      { name: 'Manga Comprida', path: '/personalizar/QUEEN/M.COMPRIDA', image: '/images/personalizar/QUEEN/M.COMPRIDA/1.jpg' },
-      { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP', image: '/images/personalizar/QUEEN/ZIPP/1.jpg' },
+      { name: 'T-Shirt', path: '/personalizar/QUEEN/T-SHIRT', image: '/images/personalizar/QUEEN/T-SHIRT/150/Luanda_Black_Front.jpg' },
+      { name: 'Hood', path: '/personalizar/QUEEN/HOOD', image: '/images/personalizar/QUEEN/HOOD/00.png' },
+      { name: 'Sweat', path: '/personalizar/QUEEN/SWEAT', image: '/images/personalizar/QUEEN/SWEAT/00.png' },
+      { name: 'Polo', path: '/personalizar/QUEEN/POLO', image: '/images/personalizar/QUEEN/POLO/00.png' },
+      { name: 'Manga Comprida', path: '/personalizar/QUEEN/MANGA CUMPRIDA', image: '/images/personalizar/QUEEN/MANGA CUMPRIDA/Bucharest Women/Bucharest Women/Bucharest Women_Black_Front.jpg' },
+      { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP', image: '/images/personalizar/QUEEN/ZIPP/95.png' },
       { name: 'Polar Gama Women', path: '/personalizar/QUEEN/POLAR', image: '/images/personalizar/QUEEN/POLAR GAMA WOMEN/300/preto_f.jpg' },
     ]
   },
