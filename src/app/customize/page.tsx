@@ -286,9 +286,17 @@ export default function CustomizePage() {
             if (!resB.ok) throw new Error('Failed to load images');
             const dataB = await resB.json();
             imgs = Array.isArray(dataB.images) ? dataB.images : [];
-            setImageMode('simple');
-            setImageFolderPrefix('');
-            setImageNameMode('brand_color_view');
+            // If the folder uses short view suffixes (e.g., preto_f.jpg), switch to polar_gw parsing
+            const hasPolarGW = imgs.some((n: string) => /^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+            if (hasPolarGW) {
+              setImageMode('gama');
+              setImageFolderPrefix('');
+              setImageNameMode('polar_gw');
+            } else {
+              setImageMode('simple');
+              setImageFolderPrefix('');
+              setImageNameMode('brand_color_view');
+            }
           }
           setProductImages(imgs);
           if (imageMode === 'density' || isTShirtWithDensity) {
@@ -647,11 +655,6 @@ export default function CustomizePage() {
                       />
                     ) : (
                       <span className="text-gray-400">Imagem do produto</span>
-                    )}
-                    {selectedImage && (
-                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-white/80 text-gray-700 text-xs px-2 py-1 rounded shadow">
-                        {(selectedImage || '').replace(/\.[^.]+$/, '')}
-                      </div>
                     )}
                     {currentCatModel && (imageMode === 'density' || imageMode === 'gama') && selectedImage && (
                       <>
