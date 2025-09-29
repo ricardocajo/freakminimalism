@@ -108,6 +108,14 @@ const categories: Category[] = [
     ]
   },
   {
+    name: 'Unisex',
+    subcategories: [
+      { name: 'Cavas', path: '/personalizar/UNISEX/CAVAS', image: '/images/personalizar/UNISEX/CAVAS/placeholder.jpg' },
+      { name: 'Oversize', path: '/personalizar/UNISEX/OVERSIZE', image: '/images/personalizar/UNISEX/OVERSIZE/fjord_preto_f.jpg' },
+      { name: 'Sweat Scarda', path: '/personalizar/UNISEX/SWEAT SCARDA', image: '/images/personalizar/UNISEX/SWEAT SCARDA/placeholder.jpg' },
+    ]
+  },
+  {
     name: 'Chapeus',
     subcategories: [
       { name: 'Basebol', path: '/personalizar/CHAPEUS/BASEBOL', image: '/images/personalizar/CHAPEUS/BASEBOL/1.jpg' },
