@@ -170,7 +170,7 @@ export default function CustomizePage() {
     return { brand: m[1], color: m[2], view: m[3] as 'Front'|'Side'|'Back' };
   };
 
-  const isTeeWithDensity = (cat?: string, model?: string) => model === 'T-SHIRT' && (cat === 'KING' || cat === 'QUEEN');
+  const isModelWithDensity = (cat?: string, model?: string) => (model === 'T-SHIRT' || model === 'POLO') && (cat === 'KING' || cat === 'QUEEN');
   const isQueenPolarWithGama = (cat?: string, model?: string) => cat === 'QUEEN' && model === 'POLAR';
   // View navigation helpers
   const viewOrder: ('Front'|'Side'|'Back')[] = ['Front', 'Side', 'Back'];
@@ -206,7 +206,7 @@ export default function CustomizePage() {
 
       const fetchImages = async () => {
         try {
-          const isTShirtWithDensity = isTeeWithDensity(cat, model);
+          const isTShirtWithDensity = isModelWithDensity(cat, model);
           // Initialize default density if applicable
           let effectiveDensity = density;
           if (isTShirtWithDensity && !effectiveDensity) {
@@ -287,10 +287,10 @@ export default function CustomizePage() {
     }
   }, [selectedSubcategory, density]);
 
-  // Keep selectedImage in sync for tee density mode and QUEEN/POLAR when color/view changes
+  // Keep selectedImage in sync for density models (T-SHIRT/POLO) and QUEEN/POLAR when color/view changes
   useEffect(() => {
     if (!currentCatModel) return;
-    if (!(isTeeWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) return;
+    if (!(isModelWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) return;
     const imgs = productImages;
     if (!imgs || imgs.length === 0 || !selectedColor) return;
     // find exact match; if missing current view, fallback order Front→Side→Back
@@ -567,7 +567,7 @@ export default function CustomizePage() {
                     {currentCatModel && selectedImage ? (
                       <Image
                         src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${(
-                          density && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN')
+                          density && isModelWithDensity(currentCatModel.cat, currentCatModel.model)
                             ? density + '/'
                             : (isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model) ? 'GAMA WOMEN/' : '')
                         )}${selectedImage}`}
@@ -580,7 +580,7 @@ export default function CustomizePage() {
                     ) : (
                       <span className="text-gray-400">Imagem do produto</span>
                     )}
-                    {currentCatModel && (isTeeWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model)) && selectedImage && (
+                    {currentCatModel && (isModelWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model)) && selectedImage && (
                       <>
                         <button
                           type="button"
@@ -615,7 +615,7 @@ export default function CustomizePage() {
                     <div>
                       <h3 className="font-medium mb-2">Opções de Personalização</h3>
                       <div className="space-y-4">
-                        {currentCatModel && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') && (
+                        {currentCatModel && (currentCatModel.model === 'T-SHIRT' || currentCatModel.model === 'POLO') && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') && (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                               Densidade
@@ -633,7 +633,7 @@ export default function CustomizePage() {
                             </select>
                           </div>
                         )}
-                        {(currentCatModel && (isTeeWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) ? (
+                        {(currentCatModel && (isModelWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) ? (
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
                             <select
