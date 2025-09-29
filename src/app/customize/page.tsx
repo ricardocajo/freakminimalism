@@ -93,6 +93,10 @@ const categories: Category[] = [
     subcategories: []
   },
   {
+    name: 'Pedido Especial',
+    subcategories: []
+  },
+  {
     name: 'King',
     subcategories: [
       { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT', image: '/images/personalizar/KING/T-SHIRT/150/Luanda_Black_Front.jpg' },
