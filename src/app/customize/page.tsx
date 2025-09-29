@@ -72,6 +72,9 @@ const COLOR_CODE_MAP: Record<string, string> = {
   '5N': 'Roxo Radiante',
   '5P': 'Pêssego / Peach',
   '5R': 'Cereja / Cherry',
+  '5T': 'Rosa / Pink',
+  '5W': 'Vinho / Wine',
+  '5Z': 'Fúcsia / Fuchsia',
   '62': 'Azul Milenio',
   '63': 'Cinza Escuro / Dark Gray',
   '64': 'Cinza Claro / Light Gray',
@@ -90,6 +93,21 @@ const COLOR_CODE_MAP: Record<string, string> = {
   '93': 'Cinzento Escuro',
   '96': 'Preto Claro',
   '95': 'Preto',
+  '9C': 'Azul Royal / Royal Blue',
+  '9F': 'Azul Celeste / Sky Blue',
+  '9G': 'Turquesa / Turquoise',
+  '1D': 'Azul Marinho / Navy',
+  '2E': 'Amarelo / Yellow',
+  '39': 'Verde / Green',
+  '3H': 'Verde Militar / Military Green',
+  '4M': 'Laranja Vivo / Bright Orange',
+  '6I': 'Cinza Médio / Medium Gray',
+  '6L': 'Cinza / Gray',
+  '6S': 'Cinza Chumbo / Lead Gray',
+  '6V': 'Azul Aço / Steel Blue',
+  'CM': 'Camuflado / Camouflage',
+  '141': 'Azul Claro',
+  '47': 'Verde Claro',
   'B5': 'Vermelho e Branco',
   'B6': 'Azul e Branco',
 };
@@ -118,7 +136,7 @@ export default function CustomizePage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/personalizar/categories', { cache: 'no-store' });
+        const res = await fetch('/api/personalizar/categories', { cache: 'force-cache' });
         const data = await res.json();
         const cats: string[] = Array.isArray(data.categories) ? data.categories : [];
         const built = await Promise.all(
@@ -215,7 +233,7 @@ export default function CustomizePage() {
     return { brand: m[1], color: m[2], view };
   };
 
-  // Parse filename like "preto_f.jpg" (POLAR GAMA WOMEN set) → { color: 'preto', view: 'Front'|'Side'|'Back' }
+  // Parse filename like "preto_f.jpg" (POLAR ZIPP WOMEN set) → { color: 'preto', view: 'Front'|'Side'|'Back' }
   const parsePolarGWName = (name: string) => {
     const m = name.match(/^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/);
     if (!m) return null as null | { color: string; view: 'Front'|'Side'|'Back' };
@@ -279,9 +297,9 @@ export default function CustomizePage() {
 
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
           const densityUrl = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
-          const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('GAMA WOMEN')}` : '';
-          // Alternate layout you have on disk: model folder is "POLAR GAMA WOMEN"
-          const altModel = (cat === 'QUEEN' && model === 'POLAR') ? 'POLAR GAMA WOMEN' : model;
+          const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('ZIPP WOMEN')}` : '';
+          // Alternate layout you have on disk: model folder is "POLAR ZIPP WOMEN"
+          const altModel = (cat === 'QUEEN' && model === 'POLAR') ? 'POLAR ZIPP WOMEN' : model;
           const altBaseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(altModel)}`;
           const altDensityUrl = '';
 
@@ -306,12 +324,12 @@ export default function CustomizePage() {
             if (gamaImgs.length > 0) {
               imgs = gamaImgs;
               setImageMode('gama');
-              setImageFolderPrefix('GAMA WOMEN/');
+              setImageFolderPrefix('ZIPP WOMEN/');
               setImageNameMode('brand_color_view');
             }
           }
           // Removed density 300 support
-          // If still empty, try alternate model base folder without density (folder structure: POLAR GAMA WOMEN/*.jpg)
+          // If still empty, try alternate model base folder without density (folder structure: POLAR ZIPP WOMEN/*.jpg)
           if (imgs.length === 0 && altModel !== model) {
             const resAltBase = await fetch(altBaseUrl);
             if (!resAltBase.ok) throw new Error('Failed to load images');
@@ -484,9 +502,9 @@ export default function CustomizePage() {
         `/images/personalizar/${cat}/${model}/produto.json`,
         `/images/personalizar/${cat}/produto.json`,
       ];
-      // Special handling for QUEEN/POLAR that may live under POLAR GAMA WOMEN
+      // Special handling for QUEEN/POLAR that may live under POLAR ZIPP WOMEN
       if (cat === 'QUEEN' && model === 'POLAR') {
-        urls.push(`/images/personalizar/${cat}/POLAR GAMA WOMEN/produto.json`);
+        urls.push(`/images/personalizar/${cat}/POLAR ZIPP WOMEN/produto.json`);
       }
       // Attempt fetch in order; first successful JSON wins
       for (const url of urls) {
