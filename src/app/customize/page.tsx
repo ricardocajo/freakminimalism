@@ -559,7 +559,11 @@ export default function CustomizePage() {
                   <div className="relative bg-gray-100 rounded-lg aspect-square flex items-center justify-center overflow-hidden">
                     {currentCatModel && selectedImage ? (
                       <Image
-                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${(density && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') ? density + '/' : '')}${selectedImage}`}
+                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${(
+                          density && currentCatModel.model === 'T-SHIRT' && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN')
+                            ? density + '/'
+                            : (isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model) ? 'GAMA WOMEN/' : '')
+                        )}${selectedImage}`}
                         alt={`${selectedSubcategory.name} - ${categories[selectedCategory!].name}`}
                         width={500}
                         height={500}
