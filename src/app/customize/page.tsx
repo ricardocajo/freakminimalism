@@ -647,6 +647,11 @@ export default function CustomizePage() {
                     ) : (
                       <span className="text-gray-400">Imagem do produto</span>
                     )}
+                    {selectedImage && (
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-white/80 text-gray-700 text-xs px-2 py-1 rounded shadow">
+                        {(selectedImage || '').replace(/\.[^.]+$/, '')}
+                      </div>
+                    )}
                     {currentCatModel && (imageMode === 'density' || imageMode === 'gama') && selectedImage && (
                       <>
                         <button
