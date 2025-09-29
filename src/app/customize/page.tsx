@@ -382,7 +382,16 @@ export default function CustomizePage() {
               setSelectedView('Front');
             }
           } else {
-            setSelectedImage(imgs.length > 0 ? imgs[0] : null);
+            const first = imgs.length > 0 ? imgs[0] : null;
+            setSelectedImage(first);
+            if (first) {
+              const base = first.replace(/\.[^.]+$/, '');
+              const code = base.toUpperCase();
+              const label = COLOR_CODE_MAP[code] || base;
+              setSelectedColor(label);
+            } else {
+              setSelectedColor(null);
+            }
           }
         } catch (err) {
           setProductImages([]);
