@@ -152,6 +152,8 @@ export default function CustomizePage() {
   const [imageMode, setImageMode] = useState<'density'|'gama'|'simple'>('simple');
   // Folder prefix to prepend when rendering images (e.g., '150/' or 'GAMA WOMEN/' or '')
   const [imageFolderPrefix, setImageFolderPrefix] = useState<string>('');
+  // Naming mode for parsing filenames
+  const [imageNameMode, setImageNameMode] = useState<'brand_color_view'|'polar_gw'>('brand_color_view');
 
   // Convenience: currently selected category/model names from the subcategory path
   const [currentCatModel, setCurrentCatModel] = useState<{ cat: string; model: string } | null>(null);
@@ -172,6 +174,15 @@ export default function CustomizePage() {
     const m = name.match(/^([^_]+)_(.+)_(Front|Side|Back)\.[^.]+$/i);
     if (!m) return null as null | { brand: string; color: string; view: 'Front'|'Side'|'Back' };
     return { brand: m[1], color: m[2], view: m[3] as 'Front'|'Side'|'Back' };
+  };
+
+  // Parse filename like "preto_f.jpg" (POLAR GAMA WOMEN set) → { color: 'preto', view: 'Front'|'Side'|'Back' }
+  const parsePolarGWName = (name: string) => {
+    const m = name.match(/^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/);
+    if (!m) return null as null | { color: string; view: 'Front'|'Side'|'Back' };
+    const view = m[2] === 'f' ? 'Front' : m[2] === 'l' ? 'Side' : 'Back';
+    const color = m[1].replace(/_/g, ' ');
+    return { color, view };
   };
 
   const isModelWithDensity = (cat?: string, model?: string) => (model === 'T-SHIRT' || model === 'POLO') && (cat === 'KING' || cat === 'QUEEN');
@@ -225,6 +236,10 @@ export default function CustomizePage() {
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
           const densityUrl = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
           const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('GAMA WOMEN')}` : '';
+          // Alternate layout you have on disk: model folder is "POLAR GAMA WOMEN" with density 300
+          const altModel = (cat === 'QUEEN' && model === 'POLAR') ? 'POLAR GAMA WOMEN' : model;
+          const altBaseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(altModel)}`;
+          const altDensityUrl = (altModel !== model) ? `${altBaseUrl}&density=300` : '';
 
           let imgs: string[] = [];
           // Try density first when applicable
@@ -238,7 +253,7 @@ export default function CustomizePage() {
               setImageFolderPrefix(`${effectiveDensity}/`);
             }
           }
-          // If no density images and this is QUEEN/POLAR, try gama folder
+          // If no density images and this is QUEEN/POLAR, try gama folder under POLAR
           if (imgs.length === 0 && gamaUrl) {
             const resG = await fetch(gamaUrl);
             if (!resG.ok) throw new Error('Failed to load images');
@@ -248,6 +263,20 @@ export default function CustomizePage() {
               imgs = gamaImgs;
               setImageMode('gama');
               setImageFolderPrefix('GAMA WOMEN/');
+              setImageNameMode('brand_color_view');
+            }
+          }
+          // If still empty and alternate model exists, try its density folder 300
+          if (imgs.length === 0 && altDensityUrl) {
+            const resAlt = await fetch(altDensityUrl);
+            if (!resAlt.ok) throw new Error('Failed to load images');
+            const dataAlt = await resAlt.json();
+            const altImgs: string[] = Array.isArray(dataAlt.images) ? dataAlt.images : [];
+            if (altImgs.length > 0) {
+              imgs = altImgs;
+              setImageMode('gama');
+              setImageFolderPrefix('300/');
+              setImageNameMode('polar_gw');
             }
           }
           // Fallback to base folder
@@ -258,6 +287,7 @@ export default function CustomizePage() {
             imgs = Array.isArray(dataB.images) ? dataB.images : [];
             setImageMode('simple');
             setImageFolderPrefix('');
+            setImageNameMode('brand_color_view');
           }
           setProductImages(imgs);
           if (imageMode === 'density' || isTShirtWithDensity) {
@@ -280,12 +310,14 @@ export default function CustomizePage() {
             }
           } else if (imageMode === 'gama' || isQueenPolarWithGama(cat, model)) {
             // For QUEEN/POLAR with GAMA WOMEN, group by color; prefer Front if available
-            const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
-            const first = valid.find(v => v.view === 'Front') || valid[0];
+            const items = imageNameMode === 'polar_gw'
+              ? imgs.map(parsePolarGWName).filter(Boolean) as {color:string;view:'Front'|'Side'|'Back'}[]
+              : imgs.map(parseTeeName).filter(Boolean) as {brand?:string;color:string;view:'Front'|'Side'|'Back'}[];
+            const first = items.find(v => v.view === 'Front') || items[0];
             if (first) {
               setSelectedColor(first.color);
               const fname = imgs.find(n => {
-                const p = parseTeeName(n);
+                const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
                 return p && p.color === first.color && (p.view === 'Front' || p.view === first.view);
               }) || null;
               setSelectedImage(fname);
@@ -327,7 +359,7 @@ export default function CustomizePage() {
     let chosen: string | null = null;
     for (const v of order) {
       const match = imgs.find(n => {
-        const p = parseTeeName(n);
+        const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
         return p && p.color === selectedColor && p.view === v;
       });
       if (match) { chosen = match; break; }
@@ -355,14 +387,24 @@ export default function CustomizePage() {
                `ℹ️ Certifique-se que a imagem está nítida e mostra claramente o que deseja personalizar.`;
     } else if (selectedSubcategory) {
       // For other categories with subcategories
-      const dens = density
-        ? density === '150'
+      // Determine density label from state or folder prefix
+      const folderDensity = (() => {
+        if (!density && imageFolderPrefix) {
+          const m = imageFolderPrefix.match(/^(\d+)\//);
+          return m ? m[1] : null;
+        }
+        return null;
+      })();
+      const dens = (density || folderDensity)
+        ? (density || folderDensity) === '150'
           ? '150 g/m² — Luanda'
-          : density === '190'
+          : (density || folderDensity) === '190'
             ? '190 g/m² — Ankara'
-            : density === '300'
-              ? '300 g/m² — Game Woman'
-              : `${density} g/m²`
+            : (density || folderDensity) === '300'
+              ? (currentCatModel && currentCatModel.model === 'T-SHIRT' && currentCatModel.cat === 'QUEEN'
+                  ? '300 g/m² — Game Woman'
+                  : '300 g/m²')
+              : `${density || folderDensity} g/m²`
         : null;
       const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
       // Determine if this is QUEEN/POLAR to show Gama info
@@ -680,9 +722,9 @@ export default function CustomizePage() {
                                 {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
                               </option>
                               {Array.from(new Set(productImages
-                                .map((n) => parseTeeName(n))
+                                .map((n) => imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n))
                                 .filter(Boolean)
-                                .map((p) => (p as {brand:string;color:string;view:'Front'|'Side'|'Back'}).color)
+                                .map((p) => (p as {color:string}).color)
                               )).map((color) => (
                                 <option key={color as string} value={color as string}>{color as string}</option>
                               ))}
