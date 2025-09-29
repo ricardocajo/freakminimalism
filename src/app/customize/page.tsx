@@ -9,6 +9,33 @@ type Subcategory = {
   image?: string;
 };
 
+// Format raw color labels from filenames into pretty labels (Title Case, spaces, basic accents)
+const prettyColorLabel = (raw: string) => {
+  // normalize underscores/hyphens to spaces
+  let s = raw.replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+  // handle common lowercase underscores coming from file parsing
+  // title case basic words, keep small words lowercase
+  const small = new Set(['de', 'da', 'do', 'das', 'dos', 'e']);
+  s = s
+    .split(' ')
+    .map((w, i) => {
+      const lw = w.toLowerCase();
+      if (i > 0 && small.has(lw)) return lw;
+      return lw.charAt(0).toUpperCase() + lw.slice(1);
+    })
+    .join(' ');
+  // minimal accent fixes for Portuguese terms commonly found
+  s = s
+    .replace(/Medio/gi, 'Médio')
+    .replace(/Vermelho/gi, 'Vermelho')
+    .replace(/Verde/gi, 'Verde')
+    .replace(/Preto/gi, 'Preto')
+    .replace(/Cinza/gi, 'Cinza')
+    .replace(/Floresta/gi, 'Floresta')
+    .replace(/Marinho/gi, 'Marinho');
+  return s;
+};
+
 type Category = {
   name: string;
   subcategories: Subcategory[];
@@ -61,6 +88,10 @@ const COLOR_CODE_MAP: Record<string, string> = {
 };
 
 const categories: Category[] = [
+  {
+    name: 'Patches',
+    subcategories: []
+  },
   {
     name: 'King',
     subcategories: [
@@ -275,6 +306,19 @@ export default function CustomizePage() {
               setImageNameMode('polar_gw');
             }
           }
+          // If still empty, try alternate model base folder without density (folder structure: POLAR GAMA WOMEN/*.jpg)
+          if (imgs.length === 0 && altModel !== model) {
+            const resAltBase = await fetch(altBaseUrl);
+            if (!resAltBase.ok) throw new Error('Failed to load images');
+            const dataAltBase = await resAltBase.json();
+            const altBaseImgs: string[] = Array.isArray(dataAltBase.images) ? dataAltBase.images : [];
+            if (altBaseImgs.length > 0) {
+              imgs = altBaseImgs;
+              setImageMode('gama');
+              setImageFolderPrefix('');
+              setImageNameMode('polar_gw');
+            }
+          }
           // Fallback to base folder
           if (imgs.length === 0) {
             const resB = await fetch(baseUrl);
@@ -427,7 +471,7 @@ export default function CustomizePage() {
                `Modelo: ${selectedSubcategory.name}\n` +
                `${isQueenPolar ? `Gama: GAMA WOMEN\n` : ''}` +
                `${dens ? `Densidade: ${dens}\n` : ''}` +
-               `${cor ? `Cor/Imagem: ${cor}\n` : ''}` +
+               `${cor ? `Cor/Imagem: ${prettyColorLabel(cor)}\n` : ''}` +
                `Posição do bordado: ${embroideryPosition}\n\n` +
                `Por favor, envie mais informações sobre como proceder com a personalização.`;
     } else {
