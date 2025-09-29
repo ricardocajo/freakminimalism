@@ -9,6 +9,12 @@ type Subcategory = {
   image?: string;
 };
 
+// Only models that actually have density subfolders should toggle images by density.
+// As requested, only T-SHIRT will switch images by density; others keep default imagery.
+function isModelWithDensity(cat: string, model: string): boolean {
+  return model === 'T-SHIRT';
+}
+
 // Format raw color labels from filenames into pretty labels (Title Case, spaces, basic accents)
 const prettyColorLabel = (raw: string) => {
   // normalize underscores/hyphens to spaces
@@ -443,6 +449,27 @@ export default function CustomizePage() {
     }
   }, [selectedSubcategory, density]);
 
+  // Auto-set default density per model when switching model/category
+  useEffect(() => {
+    if (!currentCatModel) { setDensity(null); return; }
+    const { cat, model } = currentCatModel;
+    const pickDefaultDensity = (): string | null => {
+      if (model === 'T-SHIRT') return '150';
+      if (model === 'POLO') return '240';
+      if (model === 'HOOD') return '280';
+      if (model === 'ZIPP') return '280';
+      if (model === 'CAVAS') return '140';
+      if (model === 'OVERSIZE') return '220';
+      if (model === 'SWEAT SCARDA') return '240';
+      if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') return '150';
+      // For QUEEN POLAR we treat via gama folder, not density
+      if (cat === 'QUEEN' && model === 'POLAR') return null;
+      return null;
+    };
+    const def = pickDefaultDensity();
+    setDensity(def);
+  }, [currentCatModel]);
+
   // Keep selectedImage in sync for density/gama modes when color/view changes
   useEffect(() => {
     if (!currentCatModel) return;
@@ -820,30 +847,62 @@ export default function CustomizePage() {
                     <div>
                       <h3 className="font-medium mb-2">Opções de Personalização</h3>
                       <div className="space-y-4">
-                        {currentCatModel && (currentCatModel.model === 'T-SHIRT' || currentCatModel.model === 'POLO') && (currentCatModel.cat === 'KING' || currentCatModel.cat === 'QUEEN') && (
+                        {currentCatModel && (
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Densidade
-                            </label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Densidade</label>
                             <select
                               className="w-full border border-gray-300 rounded-md p-2"
-                              value={density ?? '150'}
+                              value={density ?? ''}
                               onChange={(e) => setDensity(e.target.value)}
+                              disabled={(() => {
+                                const { cat, model } = currentCatModel;
+                                if (model === 'T-SHIRT') return false;
+                                if (model === 'POLO') return false;
+                                if (cat === 'QUEEN' && model === 'POLAR') return false;
+                                // New models with configured densities
+                                if (model === 'HOOD') return false;            // 280
+                                if (model === 'ZIPP') return false;            // 280
+                                if (model === 'CAVAS') return false;           // 140
+                                if (model === 'OVERSIZE') return false;        // 220
+                                if (model === 'SWEAT SCARDA') return false;    // 240
+                                if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') return false; // 150
+                                return true;
+                              })()}
                             >
-                              {currentCatModel.model === 'T-SHIRT' && (
-                                <>
-                                  <option value="150">150 g/m² — Luanda</option>
-                                  <option value="190">190 g/m² — Ankara</option>
-                                  {currentCatModel.cat === 'QUEEN' && (
-                                    <option value="300">300 g/m² — Game Woman</option>
-                                  )}
-                                </>
-                              )}
-                              {currentCatModel.model === 'POLO' && (
-                                <>
-                                  <option value="240">240 g/m²</option>
-                                </>
-                              )}
+                              {(() => {
+                                const { cat, model } = currentCatModel;
+                                const opts: { value: string; label: string }[] = [];
+                                if (model === 'T-SHIRT') {
+                                  opts.push({ value: '150', label: '150 g/m² — Luanda' });
+                                  opts.push({ value: '190', label: '190 g/m² — Ankara' });
+                                  if (cat === 'QUEEN') opts.push({ value: '300', label: '300 g/m² — Gama Women' });
+                                } else if (model === 'POLO') {
+                                  opts.push({ value: '240', label: '240 g/m²' });
+                                } else if (cat === 'QUEEN' && model === 'POLAR') {
+                                  opts.push({ value: '300', label: '300 g/m² — Gama Women' });
+                                } else if (model === 'HOOD') {
+                                  opts.push({ value: '280', label: '280 g/m²' });
+                                } else if (model === 'ZIPP') {
+                                  opts.push({ value: '280', label: '280 g/m²' });
+                                } else if (model === 'CAVAS') {
+                                  opts.push({ value: '140', label: '140 g/m²' });
+                                } else if (model === 'OVERSIZE') {
+                                  opts.push({ value: '220', label: '220 g/m²' });
+                                } else if (model === 'SWEAT SCARDA') {
+                                  opts.push({ value: '240', label: '240 g/m²' });
+                                } else if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') {
+                                  opts.push({ value: '150', label: '150 g/m²' });
+                                }
+                                const hasOpts = opts.length > 0;
+                                return (
+                                  <>
+                                    <option value="" disabled>{hasOpts ? 'Selecione uma densidade' : 'Sem densidades configuradas'}</option>
+                                    {opts.map(o => (
+                                      <option key={o.value} value={o.value}>{o.label}</option>
+                                    ))}
+                                  </>
+                                );
+                              })()}
                             </select>
                           </div>
                         )}
@@ -952,17 +1011,7 @@ export default function CustomizePage() {
                           </div>
                         )}
 
-                        {/* Washing Instructions */}
-                        {productInfo?.washing && productInfo.washing.length > 0 && (
-                          <div className="bg-white border rounded-lg p-4">
-                            <h3 className="text-sm font-semibold mb-2">Instruções de Lavagem</h3>
-                            <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
-                              {productInfo.washing.map((item, idx) => (
-                                <li key={idx}>{item}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
+                        {/* Washing Instructions removed by request */}
 
                         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                           <div className="flex items-start">
