@@ -90,6 +90,7 @@ const categories: Category[] = [
       { name: 'Polo', path: '/personalizar/QUEEN/POLO', image: '/images/personalizar/QUEEN/POLO/1.jpg' },
       { name: 'Manga Comprida', path: '/personalizar/QUEEN/M.COMPRIDA', image: '/images/personalizar/QUEEN/M.COMPRIDA/1.jpg' },
       { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP', image: '/images/personalizar/QUEEN/ZIPP/1.jpg' },
+      { name: 'Polar Gama Women', path: '/personalizar/QUEEN/POLAR', image: '/images/personalizar/QUEEN/POLAR/GAMA WOMEN/1.jpg' },
     ]
   },
   {
@@ -286,10 +287,10 @@ export default function CustomizePage() {
     }
   }, [selectedSubcategory, density]);
 
-  // Keep selectedImage in sync for tee density mode when color/view changes
+  // Keep selectedImage in sync for tee density mode and QUEEN/POLAR when color/view changes
   useEffect(() => {
     if (!currentCatModel) return;
-    if (!isTeeWithDensity(currentCatModel.cat, currentCatModel.model)) return;
+    if (!(isTeeWithDensity(currentCatModel.cat, currentCatModel.model) || isQueenPolarWithGama(currentCatModel.cat, currentCatModel.model))) return;
     const imgs = productImages;
     if (!imgs || imgs.length === 0 || !selectedColor) return;
     // find exact match; if missing current view, fallback order Front→Side→Back
@@ -335,9 +336,15 @@ export default function CustomizePage() {
               : density
         : null;
       const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
+      // Determine if this is QUEEN/POLAR to show Gama info
+      const isQueenPolar = (() => {
+        const parts = selectedSubcategory.path.split('/').filter(Boolean);
+        return parts.length >= 3 && parts[1] === 'QUEEN' && parts[2] === 'POLAR';
+      })();
       message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
                `Categoria: ${categories[selectedCategory].name}\n` +
                `Modelo: ${selectedSubcategory.name}\n` +
+               `${isQueenPolar ? `Gama: GAMA WOMEN\n` : ''}` +
                `${dens ? `Densidade: ${dens}\n` : ''}` +
                `${cor ? `Cor/Imagem: ${cor}\n` : ''}` +
                `Posição do bordado: ${embroideryPosition}\n\n` +
