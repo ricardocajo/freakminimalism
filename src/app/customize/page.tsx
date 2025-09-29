@@ -62,23 +62,15 @@ const COLOR_CODE_MAP: Record<string, string> = {
 
 const categories: Category[] = [
   {
-    name: 'Pedido Especial',
-    subcategories: []
-  },
-  {
-    name: 'Patches',
-    subcategories: []
-  },
-  {
     name: 'King',
     subcategories: [
       { name: 'T-Shirt', path: '/personalizar/KING/T-SHIRT', image: '/images/personalizar/KING/T-SHIRT/150/Luanda_Black_Front.jpg' },
       { name: 'Hood', path: '/personalizar/KING/HOOD', image: '/images/personalizar/KING/HOOD/00.png' },
       { name: 'Sweat', path: '/personalizar/KING/SWEAT', image: '/images/personalizar/KING/SWEAT/00.png' },
       { name: 'Polo', path: '/personalizar/KING/POLO', image: '/images/personalizar/KING/POLO/00.png' },
-      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA', image: '/images/personalizar/KING/ZIPP/95.png' },
+      { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA' },
       { name: 'Zipp', path: '/personalizar/KING/ZIPP', image: '/images/personalizar/KING/ZIPP/95.png' },
-      { name: 'Canvas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/00.png' },
+      { name: 'Cavas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/00.png' },
     ]
   },
   {
@@ -110,26 +102,9 @@ const categories: Category[] = [
   {
     name: 'Unisex',
     subcategories: [
-      { name: 'Cavas', path: '/personalizar/UNISEX/CAVAS', image: '/images/personalizar/UNISEX/CAVAS/placeholder.jpg' },
+      { name: 'Cavas', path: '/personalizar/UNISEX/CAVAS' },
       { name: 'Oversize', path: '/personalizar/UNISEX/OVERSIZE', image: '/images/personalizar/UNISEX/OVERSIZE/fjord_preto_f.jpg' },
-      { name: 'Sweat Scarda', path: '/personalizar/UNISEX/SWEAT SCARDA', image: '/images/personalizar/UNISEX/SWEAT SCARDA/placeholder.jpg' },
-    ]
-  },
-  {
-    name: 'Chapeus',
-    subcategories: [
-      { name: 'Basebol', path: '/personalizar/CHAPEUS/BASEBOL', image: '/images/personalizar/CHAPEUS/BASEBOL/1.jpg' },
-      { name: 'Boina', path: '/personalizar/CHAPEUS/BOINA', image: '/images/personalizar/CHAPEUS/BOINA/1.jpg' },
-      { name: 'Clássico', path: '/personalizar/CHAPEUS/CLASSICO', image: '/images/personalizar/CHAPEUS/CLASSICO/1.jpg' },
-      { name: 'Gola', path: '/personalizar/CHAPEUS/GOLA', image: '/images/personalizar/CHAPEUS/GOLA/1.jpg' },
-      { name: 'Gorro', path: '/personalizar/CHAPEUS/GORRO', image: '/images/personalizar/CHAPEUS/GORRO/1.jpg' },
-      { name: 'Panamá', path: '/personalizar/CHAPEUS/PANAMA', image: '/images/personalizar/CHAPEUS/PANAMA/1.jpg' },
-      { name: 'Panamá Curto', path: '/personalizar/CHAPEUS/PANAMACURTO', image: '/images/personalizar/CHAPEUS/PANAMACURTO/1.jpg' },
-      { name: 'Recy', path: '/personalizar/CHAPEUS/RECY', image: '/images/personalizar/CHAPEUS/RECY/1.jpg' },
-      { name: 'Snap Five', path: '/personalizar/CHAPEUS/SNAPFIVE', image: '/images/personalizar/CHAPEUS/SNAPFIVE/1.jpg' },
-      { name: 'Tradicional', path: '/personalizar/CHAPEUS/TRADICIONAL', image: '/images/personalizar/CHAPEUS/TRADICIONAL/1.jpg' },
-      { name: 'Whippy', path: '/personalizar/CHAPEUS/WHIPPY', image: '/images/personalizar/CHAPEUS/WHIPPY/1.jpg' },
-      { name: 'Zion', path: '/personalizar/CHAPEUS/ZION', image: '/images/personalizar/CHAPEUS/ZION/1.jpg' },
+      { name: 'Sweat Scarda', path: '/personalizar/UNISEX/SWEAT SCARDA' },
     ]
   }
 ];
