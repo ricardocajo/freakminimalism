@@ -90,7 +90,7 @@ const categories: Category[] = [
       { name: 'Polo', path: '/personalizar/QUEEN/POLO', image: '/images/personalizar/QUEEN/POLO/1.jpg' },
       { name: 'Manga Comprida', path: '/personalizar/QUEEN/M.COMPRIDA', image: '/images/personalizar/QUEEN/M.COMPRIDA/1.jpg' },
       { name: 'Zipp', path: '/personalizar/QUEEN/ZIPP', image: '/images/personalizar/QUEEN/ZIPP/1.jpg' },
-      { name: 'Polar Gama Women', path: '/personalizar/QUEEN/POLAR', image: '/images/personalizar/QUEEN/POLAR/GAMA WOMEN/1.jpg' },
+      { name: 'Polar Gama Women', path: '/personalizar/QUEEN/POLAR', image: '/images/personalizar/QUEEN/POLAR GAMA WOMEN/300/preto_f.jpg' },
     ]
   },
   {
