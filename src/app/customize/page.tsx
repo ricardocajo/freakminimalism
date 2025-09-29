@@ -245,10 +245,15 @@ export default function CustomizePage() {
   const isModelWithDensity = (cat?: string, model?: string) => {
     if (model === 'T-SHIRT' || model === 'POLO') return true;
     if (model === 'HOOD' || model === 'ZIPP' || model === 'OVERSIZE') return true;
-    if (model === 'SWEAT SCARDA' || model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') return true;
+    if (model === 'SWEAT SCARDA' || model === 'SWEAT') return true;
+    // M.COMPRIDA has images directly in folder, not in density subfolders
     return false;
   };
-  const isQueenPolarWithGama = (cat?: string, model?: string) => cat === 'QUEEN' && (model === 'POLAR' || model === 'POLAR ZIPP WOMEN' || model === 'POLARZIPPWOMEN');
+  const isQueenPolarWithGama = (cat?: string, model?: string) => {
+    if (cat === 'QUEEN' && (model === 'POLAR' || model === 'POLAR ZIPP WOMEN' || model === 'POLARZIPPWOMEN')) return true;
+    if (cat === 'KING' && (model === 'POLAR ZIPP' || model === 'POLARZIPP')) return true;
+    return false;
+  };
   // View navigation helpers
   const viewOrder: ('Front'|'Side'|'Back')[] = ['Front', 'Side', 'Back'];
   const goPrevView = () => {
@@ -298,6 +303,8 @@ export default function CustomizePage() {
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
           const densityUrl = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
           const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('ZIPP WOMEN')}` : '';
+          // KID MANGA CUMPRIDA uses Bucharest Kids subfolder
+          const kidsGamaUrl = (cat === 'KID' && (model === 'MANGA CUMPRIDA' || model === 'MANGACUMPRIDA' || model === 'M.COMPRIDA')) ? `${baseUrl}&gama=${encodeURIComponent('Bucharest Kids')}` : '';
           // Alternate layout you have on disk: model folder is "POLAR ZIPP WOMEN"
           const altModel = (cat === 'QUEEN' && model === 'POLAR') ? 'POLAR ZIPP WOMEN' : model;
           const altBaseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(altModel)}`;
@@ -326,6 +333,19 @@ export default function CustomizePage() {
               setImageMode('gama');
               setImageFolderPrefix('ZIPP WOMEN/');
               setImageNameMode('brand_color_view');
+            }
+          }
+          // If no density images and this is KID/MANGA CUMPRIDA, try Bucharest Kids subfolder
+          if (imgs.length === 0 && kidsGamaUrl) {
+            const resK = await fetch(kidsGamaUrl);
+            if (!resK.ok) throw new Error('Failed to load images');
+            const dataK = await resK.json();
+            const kidsImgs: string[] = Array.isArray(dataK.images) ? dataK.images : [];
+            if (kidsImgs.length > 0) {
+              imgs = kidsImgs;
+              setImageMode('gama');
+              setImageFolderPrefix('Bucharest Kids/');
+              setImageNameMode('polar_gw');
             }
           }
           // Removed density 300 support
