@@ -478,18 +478,24 @@ export default function CustomizePage() {
     if (!currentCatModel) { setDensity(null); return; }
     const { cat, model } = currentCatModel;
     const pickDefaultDensity = (): string | null => {
-      if (model === 'T-SHIRT') return '150';
-      if (model === 'POLO') return '240';
+      // Normalize model name for comparison
+      const normalizedModel = model.toUpperCase().replace(/\s+/g, '');
+      
+      if (model === 'T-SHIRT' || normalizedModel === 'TSHIRT') return '150';
+      if (model === 'POLO' || model === 'POLOS') return '240';
       // QUEEN HOOD has images directly in folder, not in density subfolders
       if (cat === 'QUEEN' && model === 'HOOD') return null;
-      if (model === 'HOOD' || model === 'HOODED KIDS') return '280';
-      if (model === 'ZIPP' || model === 'ZIPP KIDS') return '280';
-      if (model === 'SWEAT' || model === 'SWEAT SCARDA') return '240';
+      if (model === 'HOOD' || model === 'HOODED KIDS' || normalizedModel === 'HOODEDKIDS') return '280';
+      if (model === 'ZIPP' || model === 'ZIPP KIDS' || normalizedModel === 'ZIPPKIDS') return '280';
+      if (model === 'SWEAT' || model === 'SWEAT SCARDA' || normalizedModel === 'SWEATSCARDA') return '240';
       if (model === 'OVERSIZE') return '220';
-      if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA') return '150';
+      if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA' || normalizedModel === 'MANGACUMPRIDA') return '150';
       if (model === 'CALCAS') return '280';
       if (model === 'CAMISAS') return '150';
       if (model === 'FRASER') return '280';
+      if (model === 'SNAP BACK' || normalizedModel === 'SNAPBACK') return '240';
+      if (model === 'PANAMA') return '240';
+      if (model === 'POLAR ZIPP WOMEN' || normalizedModel === 'POLARZIPPWOMEN') return '280';
       // For QUEEN POLAR we treat via gama folder, not density
       if (cat === 'QUEEN' && model === 'POLAR') return null;
       // Default for any other model
@@ -875,26 +881,36 @@ export default function CustomizePage() {
                         {currentCatModel && (() => {
                           const { cat, model } = currentCatModel;
                           const opts: { value: string; label: string }[] = [];
-                          if (model === 'T-SHIRT') {
+                          
+                          // Normalize model name for comparison
+                          const normalizedModel = model.toUpperCase().replace(/\s+/g, '');
+                          
+                          if (model === 'T-SHIRT' || normalizedModel === 'TSHIRT') {
                             opts.push({ value: '150', label: '150 g/m² — Luanda' });
                             opts.push({ value: '190', label: '190 g/m² — Ankara' });
-                          } else if (model === 'POLO') {
+                          } else if (model === 'POLO' || model === 'POLOS') {
                             opts.push({ value: '240', label: '240 g/m²' });
-                          } else if (model === 'HOOD' || model === 'HOODED KIDS') {
+                          } else if (model === 'HOOD' || model === 'HOODED KIDS' || normalizedModel === 'HOODEDKIDS') {
                             opts.push({ value: '280', label: '280 g/m²' });
-                          } else if (model === 'ZIPP' || model === 'ZIPP KIDS') {
+                          } else if (model === 'ZIPP' || model === 'ZIPP KIDS' || normalizedModel === 'ZIPPKIDS') {
                             opts.push({ value: '280', label: '280 g/m²' });
-                          } else if (model === 'SWEAT' || model === 'SWEAT SCARDA') {
+                          } else if (model === 'SWEAT' || model === 'SWEAT SCARDA' || normalizedModel === 'SWEATSCARDA') {
                             opts.push({ value: '240', label: '240 g/m²' });
                           } else if (model === 'OVERSIZE') {
                             opts.push({ value: '220', label: '220 g/m²' });
-                          } else if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA' || model === 'MANGA CUMPRIDA') {
+                          } else if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA' || normalizedModel === 'MANGACUMPRIDA') {
                             opts.push({ value: '150', label: '150 g/m²' });
                           } else if (model === 'CALCAS') {
                             opts.push({ value: '280', label: '280 g/m²' });
                           } else if (model === 'CAMISAS') {
                             opts.push({ value: '150', label: '150 g/m²' });
                           } else if (model === 'FRASER') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'SNAP BACK' || normalizedModel === 'SNAPBACK') {
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          } else if (model === 'PANAMA') {
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          } else if (model === 'POLAR ZIPP WOMEN' || normalizedModel === 'POLARZIPPWOMEN') {
                             opts.push({ value: '280', label: '280 g/m²' });
                           } else {
                             // Default density for any other model
