@@ -119,7 +119,8 @@ const prettyModelName = (raw: string) =>
     .replace(/\s+/g, ' ')
     .trim()
     .replace(/^M\.COMPRIDA$/i, 'Manga Comprida')
-    .replace(/^SWEAT SCARDA$/i, 'Sweat Scarda');
+    .replace(/^SWEAT SCARDA$/i, 'Sweat Scarda')
+    .replace(/^POLAR ZIPP WOMEN$/i, 'Polar Zipp Women');
 
 export default function CustomizePage() {
   const { t } = useTranslation();
@@ -244,6 +245,8 @@ export default function CustomizePage() {
 
   const isModelWithDensity = (cat?: string, model?: string) => {
     if (model === 'T-SHIRT' || model === 'POLO') return true;
+    // QUEEN HOOD has images directly in folder, not in density subfolders
+    if (model === 'HOOD' && cat === 'QUEEN') return false;
     if (model === 'HOOD' || model === 'ZIPP' || model === 'OVERSIZE') return true;
     if (model === 'SWEAT SCARDA' || model === 'SWEAT') return true;
     // M.COMPRIDA has images directly in folder, not in density subfolders
@@ -406,30 +409,39 @@ export default function CustomizePage() {
               setSelectedView('Front');
             }
           } else if (imageMode === 'gama' || isQueenPolarWithGama(cat, model)) {
-            // For QUEEN/POLAR with GAMA WOMEN, group by color; prefer Front if available
+            // For QUEEN/POLAR with GAMA WOMEN, group by color; always start with Front view
             const items = imageNameMode === 'polar_gw'
               ? imgs.map(parsePolarGWName).filter(Boolean) as {color:string;view:'Front'|'Side'|'Back'}[]
               : imgs.map(parseTeeName).filter(Boolean) as {brand?:string;color:string;view:'Front'|'Side'|'Back'}[];
             const first = items.find(v => v.view === 'Front') || items[0];
             if (first) {
               setSelectedColor(first.color);
+              // Always prefer Front view for initial selection
               const fname = imgs.find(n => {
                 const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
-                return p && p.color === first.color && (p.view === 'Front' || p.view === first.view);
+                return p && p.color === first.color && p.view === 'Front';
+              }) || imgs.find(n => {
+                const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
+                return p && p.color === first.color;
               }) || null;
               setSelectedImage(fname);
-              setSelectedView(first.view);
+              setSelectedView('Front');
             } else {
               setSelectedColor(null);
               setSelectedImage(imgs.length > 0 ? imgs[0] : null);
               setSelectedView('Front');
             }
           } else {
-            // Simple mode (flat color cards). Prefer a black/dark preview if available: 95 -> 11 -> 00 -> first
-            const preferredOrder = ['95', '11', '00'];
+            // Simple mode (flat color cards). Prefer 1D (Navy) first, then black/dark preview if available: 1D -> 95 -> 11 -> 00 -> first
+            const preferredOrder = ['1D', '95', '11', '00'];
             const chosen = (() => {
               for (const code of preferredOrder) {
-                const hit = imgs.find((n) => n.replace(/\.[^.]+$/, '').toUpperCase() === code);
+                const hit = imgs.find((n) => {
+                  const basename = n.replace(/\.[^.]+$/, '');
+                  // Match patterns like "bc560328_1d" or just "1d"
+                  const colorCode = basename.split('_').pop()?.toUpperCase();
+                  return colorCode === code;
+                });
                 if (hit) return hit;
               }
               return imgs.length > 0 ? imgs[0] : null;
@@ -468,6 +480,8 @@ export default function CustomizePage() {
     const pickDefaultDensity = (): string | null => {
       if (model === 'T-SHIRT') return '150';
       if (model === 'POLO') return '240';
+      // QUEEN HOOD has images directly in folder, not in density subfolders
+      if (cat === 'QUEEN' && model === 'HOOD') return null;
       if (model === 'HOOD' || model === 'HOODED KIDS') return '280';
       if (model === 'ZIPP' || model === 'ZIPP KIDS') return '280';
       if (model === 'SWEAT' || model === 'SWEAT SCARDA') return '240';
@@ -887,31 +901,32 @@ export default function CustomizePage() {
                             opts.push({ value: '240', label: '240 g/m²' });
                           }
                           
-                          if (opts.length === 0) return null;
-                          
+                          // Always show density selector
                           return (
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">Densidade</label>
                               <div className="flex flex-wrap gap-3">
                                 {opts.map(opt => (
-                                  <label
+                                  <div
                                     key={opt.value}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-md border cursor-pointer transition-all ${
-                                      density === opt.value
+                                    onClick={() => opts.length > 1 && setDensity(opt.value)}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-md border transition-all ${
+                                      density === opt.value || opts.length === 1
                                         ? 'border-blue-500 bg-blue-50 text-blue-700'
                                         : 'border-gray-300 bg-white hover:border-gray-400'
-                                    }`}
+                                    } ${opts.length > 1 ? 'cursor-pointer' : ''}`}
                                   >
-                                    <input
-                                      type="radio"
-                                      name="density"
-                                      value={opt.value}
-                                      checked={density === opt.value}
-                                      onChange={(e) => setDensity(e.target.value)}
-                                      className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                                    />
+                                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                                      density === opt.value || opts.length === 1
+                                        ? 'border-blue-600 bg-blue-600'
+                                        : 'border-gray-400'
+                                    }`}>
+                                      {(density === opt.value || opts.length === 1) && (
+                                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                                      )}
+                                    </div>
                                     <span className="text-sm font-medium">{opt.label}</span>
-                                  </label>
+                                  </div>
                                 ))}
                               </div>
                             </div>
