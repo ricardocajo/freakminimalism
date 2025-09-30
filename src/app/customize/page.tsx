@@ -483,8 +483,7 @@ export default function CustomizePage() {
       
       if (model === 'T-SHIRT' || normalizedModel === 'TSHIRT') return '150';
       if (model === 'POLO' || model === 'POLOS') return '240';
-      // QUEEN HOOD has images directly in folder, not in density subfolders
-      if (cat === 'QUEEN' && model === 'HOOD') return null;
+      // HOOD always shows 280g, even if images are in root folder (like QUEEN HOOD)
       if (model === 'HOOD' || model === 'HOODED KIDS' || normalizedModel === 'HOODEDKIDS') return '280';
       if (model === 'ZIPP' || model === 'ZIPP KIDS' || normalizedModel === 'ZIPPKIDS') return '280';
       if (model === 'SWEAT' || model === 'SWEAT SCARDA' || normalizedModel === 'SWEATSCARDA') return '240';
@@ -496,8 +495,6 @@ export default function CustomizePage() {
       if (model === 'SNAP BACK' || normalizedModel === 'SNAPBACK') return '240';
       if (model === 'PANAMA') return '240';
       if (model === 'POLAR ZIPP WOMEN' || normalizedModel === 'POLARZIPPWOMEN') return '280';
-      // For QUEEN POLAR we treat via gama folder, not density
-      if (cat === 'QUEEN' && model === 'POLAR') return null;
       // Default for any other model
       return '240';
     };
