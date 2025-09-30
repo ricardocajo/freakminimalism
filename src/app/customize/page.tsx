@@ -151,7 +151,13 @@ export default function CustomizePage() {
               // modelName comes from roupa.json (e.g., "SNAP FIVE", "T-SHIRT", "HOODED KIDS")
               // We need to find the matching folder (e.g., "SNAPFIVE", "T-SHIRT", "HOODEDKIDS")
               // For display, use the roupa.json name; for path, normalize to folder name
-              const folderName = modelName.toUpperCase().replace(/\s+/g, '');
+              // Exception: "POLAR ZIPP WOMEN" keeps spaces in folder name
+              let folderName: string;
+              if (modelName === 'POLAR ZIPP WOMEN') {
+                folderName = 'POLAR ZIPP WOMEN';
+              } else {
+                folderName = modelName.toUpperCase().replace(/\s+/g, '');
+              }
               return {
                 name: prettyModelName(modelName),
                 path: `/personalizar/${cat}/${folderName}`,
@@ -253,7 +259,7 @@ export default function CustomizePage() {
     return false;
   };
   const isQueenPolarWithGama = (cat?: string, model?: string) => {
-    if (cat === 'QUEEN' && (model === 'POLAR' || model === 'POLAR ZIPP WOMEN' || model === 'POLARZIPPWOMEN')) return true;
+    if (cat === 'QUEEN' && (model === 'POLAR ZIPP WOMEN' || model === 'POLARZIPPWOMEN')) return true;
     if (cat === 'KING' && (model === 'POLAR ZIPP' || model === 'POLARZIPP')) return true;
     return false;
   };
@@ -297,8 +303,8 @@ export default function CustomizePage() {
           // Initialize default density if applicable
           let effectiveDensity = density;
           if (isTShirtWithDensity && !effectiveDensity) {
-            // Default per model: T-SHIRT -> 150, POLO -> 240
-            const def = model === 'POLO' ? '240' : '150';
+            // Default per model: T-SHIRT -> 190 (Ankara), POLO -> 240
+            const def = model === 'POLO' ? '240' : '190';
             effectiveDensity = def;
             setDensity(def);
           }
@@ -308,8 +314,8 @@ export default function CustomizePage() {
           const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('ZIPP WOMEN')}` : '';
           // KID MANGA CUMPRIDA uses Bucharest Kids subfolder
           const kidsGamaUrl = (cat === 'KID' && (model === 'MANGA CUMPRIDA' || model === 'MANGACUMPRIDA' || model === 'M.COMPRIDA')) ? `${baseUrl}&gama=${encodeURIComponent('Bucharest Kids')}` : '';
-          // Alternate layout you have on disk: model folder is "POLAR ZIPP WOMEN"
-          const altModel = (cat === 'QUEEN' && model === 'POLAR') ? 'POLAR ZIPP WOMEN' : model;
+          // No alternate model needed anymore
+          const altModel = model;
           const altBaseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(altModel)}`;
           const altDensityUrl = '';
 
@@ -481,7 +487,7 @@ export default function CustomizePage() {
       // Normalize model name for comparison
       const normalizedModel = model.toUpperCase().replace(/\s+/g, '');
       
-      if (model === 'T-SHIRT' || normalizedModel === 'TSHIRT') return '150';
+      if (model === 'T-SHIRT' || normalizedModel === 'TSHIRT') return '190';
       if (model === 'POLO' || model === 'POLOS') return '240';
       // HOOD always shows 280g, even if images are in root folder (like QUEEN HOOD)
       if (model === 'HOOD' || model === 'HOODED KIDS' || normalizedModel === 'HOODEDKIDS') return '280';
@@ -539,10 +545,7 @@ export default function CustomizePage() {
         `/images/personalizar/${cat}/${model}/produto.json`,
         `/images/personalizar/${cat}/produto.json`,
       ];
-      // Special handling for QUEEN/POLAR that may live under POLAR ZIPP WOMEN
-      if (cat === 'QUEEN' && model === 'POLAR') {
-        urls.push(`/images/personalizar/${cat}/POLAR ZIPP WOMEN/produto.json`);
-      }
+      // No special handling needed - model name matches folder name
       // Attempt fetch in order; first successful JSON wins
       for (const url of urls) {
         try {
@@ -598,10 +601,10 @@ export default function CustomizePage() {
               : `${density || folderDensity} g/m²`
         : null;
       const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
-      // Determine if this is QUEEN/POLAR to show Gama info
+      // Determine if this is QUEEN/POLAR ZIPP WOMEN to show Gama info
       const isQueenPolar = (() => {
         const parts = selectedSubcategory.path.split('/').filter(Boolean);
-        return parts.length >= 3 && parts[1] === 'QUEEN' && parts[2] === 'POLAR';
+        return parts.length >= 3 && parts[1] === 'QUEEN' && parts[2] === 'POLAR ZIPP WOMEN';
       })();
       message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
                `Categoria: ${categories[selectedCategory].name}\n` +
@@ -914,7 +917,7 @@ export default function CustomizePage() {
                             opts.push({ value: '240', label: '240 g/m²' });
                           }
                           
-                          // Always show density selector
+                          // Always show density selector - with bullet point and label
                           return (
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-2">Densidade</label>
@@ -923,22 +926,20 @@ export default function CustomizePage() {
                                   <div
                                     key={opt.value}
                                     onClick={() => opts.length > 1 && setDensity(opt.value)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-md border transition-all ${
+                                    className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-all ${
+                                      opts.length > 1 ? 'cursor-pointer' : ''
+                                    } ${
                                       density === opt.value || opts.length === 1
-                                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                        : 'border-gray-300 bg-white hover:border-gray-400'
-                                    } ${opts.length > 1 ? 'cursor-pointer' : ''}`}
+                                        ? 'bg-blue-50'
+                                        : 'hover:bg-gray-50'
+                                    }`}
                                   >
-                                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                                    <div className={`w-3 h-3 rounded-full ${
                                       density === opt.value || opts.length === 1
-                                        ? 'border-blue-600 bg-blue-600'
-                                        : 'border-gray-400'
-                                    }`}>
-                                      {(density === opt.value || opts.length === 1) && (
-                                        <div className="w-2 h-2 bg-white rounded-full"></div>
-                                      )}
-                                    </div>
-                                    <span className="text-sm font-medium">{opt.label}</span>
+                                        ? 'bg-blue-600'
+                                        : 'bg-gray-300'
+                                    }`}></div>
+                                    <span className="text-sm font-medium text-gray-700">{opt.label}</span>
                                   </div>
                                 ))}
                               </div>
