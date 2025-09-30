@@ -1,19 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 
 type Subcategory = {
   name: string;
   path: string;
-  image?: string;
 };
 
-// Only models that actually have density subfolders should toggle images by density.
-// As requested, only T-SHIRT will switch images by density; others keep default imagery.
-function isModelWithDensity(cat: string, model: string): boolean {
-  return model === 'T-SHIRT';
-}
 
 // Format raw color labels from filenames into pretty labels (Title Case, spaces, basic accents)
 const prettyColorLabel = (raw: string) => {
@@ -123,7 +116,6 @@ const prettyModelName = (raw: string) =>
     .replace(/^POLAR ZIPP WOMEN$/i, 'Polar Zipp Women');
 
 export default function CustomizePage() {
-  const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(null);
 
@@ -249,15 +241,6 @@ export default function CustomizePage() {
     return { color, view };
   };
 
-  const isModelWithDensity = (cat?: string, model?: string) => {
-    if (model === 'T-SHIRT' || model === 'POLO') return true;
-    // QUEEN HOOD has images directly in folder, not in density subfolders
-    if (model === 'HOOD' && cat === 'QUEEN') return false;
-    if (model === 'HOOD' || model === 'ZIPP' || model === 'OVERSIZE') return true;
-    if (model === 'SWEAT SCARDA' || model === 'SWEAT') return true;
-    // M.COMPRIDA has images directly in folder, not in density subfolders
-    return false;
-  };
   const isQueenPolarWithGama = (cat?: string, model?: string) => {
     if (cat === 'QUEEN' && (model === 'POLAR ZIPP WOMEN' || model === 'POLARZIPPWOMEN')) return true;
     if (cat === 'KING' && (model === 'POLAR ZIPP' || model === 'POLARZIPP')) return true;
@@ -299,26 +282,12 @@ export default function CustomizePage() {
 
       const fetchImages = async () => {
         try {
-          const isTShirtWithDensity = isModelWithDensity(cat, model);
-          // Initialize default density if applicable
           let effectiveDensity = density;
-          if (isTShirtWithDensity && !effectiveDensity) {
-            // Default per model: T-SHIRT -> 190 (Ankara), POLO -> 170
-            const def = model === 'POLO' ? '170' : '190';
-            effectiveDensity = def;
-            setDensity(def);
-          }
 
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
-          // Always use density parameter if we have an effective density value
           const densityUrl = effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
           const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('ZIPP WOMEN')}` : '';
-          // KID MANGA CUMPRIDA uses Bucharest Kids subfolder
           const kidsGamaUrl = (cat === 'KID' && (model === 'MANGA CUMPRIDA' || model === 'MANGACUMPRIDA' || model === 'M.COMPRIDA')) ? `${baseUrl}&gama=${encodeURIComponent('Bucharest Kids')}` : '';
-          // No alternate model needed anymore
-          const altModel = model;
-          const altBaseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(altModel)}`;
-          const altDensityUrl = '';
 
           let imgs: string[] = [];
           // Try density first when applicable
@@ -358,20 +327,6 @@ export default function CustomizePage() {
               setImageNameMode('polar_gw');
             }
           }
-          // Removed density 300 support
-          // If still empty, try alternate model base folder without density (folder structure: POLAR ZIPP WOMEN/*.jpg)
-          if (imgs.length === 0 && altModel !== model) {
-            const resAltBase = await fetch(altBaseUrl);
-            if (!resAltBase.ok) throw new Error('Failed to load images');
-            const dataAltBase = await resAltBase.json();
-            const altBaseImgs: string[] = Array.isArray(dataAltBase.images) ? dataAltBase.images : [];
-            if (altBaseImgs.length > 0) {
-              imgs = altBaseImgs;
-              setImageMode('gama');
-              setImageFolderPrefix('');
-              setImageNameMode('polar_gw');
-            }
-          }
           // Fallback to base folder
           if (imgs.length === 0) {
             const resB = await fetch(baseUrl);
@@ -397,7 +352,7 @@ export default function CustomizePage() {
             }
           }
           setProductImages(imgs);
-          if (imageMode === 'density' || isTShirtWithDensity) {
+          if (imageMode === 'density') {
             // choose first valid Front image, set color and image
             const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
             const first = valid.find(v => v.view === 'Front') || valid[0];
