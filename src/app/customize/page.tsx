@@ -303,14 +303,15 @@ export default function CustomizePage() {
           // Initialize default density if applicable
           let effectiveDensity = density;
           if (isTShirtWithDensity && !effectiveDensity) {
-            // Default per model: T-SHIRT -> 190 (Ankara), POLO -> 240
-            const def = model === 'POLO' ? '240' : '190';
+            // Default per model: T-SHIRT -> 190 (Ankara), POLO -> 170
+            const def = model === 'POLO' ? '170' : '190';
             effectiveDensity = def;
             setDensity(def);
           }
 
           const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
-          const densityUrl = isTShirtWithDensity && effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
+          // Always use density parameter if we have an effective density value
+          const densityUrl = effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
           const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('ZIPP WOMEN')}` : '';
           // KID MANGA CUMPRIDA uses Bucharest Kids subfolder
           const kidsGamaUrl = (cat === 'KID' && (model === 'MANGA CUMPRIDA' || model === 'MANGACUMPRIDA' || model === 'M.COMPRIDA')) ? `${baseUrl}&gama=${encodeURIComponent('Bucharest Kids')}` : '';
