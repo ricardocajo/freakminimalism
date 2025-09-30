@@ -297,8 +297,20 @@ export default function CustomizePage() {
             const data = await res.json();
             imgs = Array.isArray(data.images) ? data.images : [];
             if (imgs.length > 0) {
-              setImageMode('density');
-              setImageFolderPrefix(`${effectiveDensity}/`);
+              // Check if density folder uses polar_gw format (e.g., azul_marinho_f.jpg or fjord_branco_f.jpg)
+              const hasPolarGW = imgs.some((n: string) => /^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+              // Check if it uses brand_color_shortview format (e.g., fjord_branco_f.jpg with brand prefix)
+              const hasBrandColorShort = imgs.some((n: string) => /^([a-zA-Z]+)_([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+              if (hasPolarGW) {
+                setImageMode('gama');
+                setImageFolderPrefix(`${effectiveDensity}/`);
+                // Use brand_color_view parsing for brand_color_short format, polar_gw for simple color_view
+                setImageNameMode(hasBrandColorShort ? 'brand_color_view' : 'polar_gw');
+              } else {
+                setImageMode('density');
+                setImageFolderPrefix(`${effectiveDensity}/`);
+                setImageNameMode('brand_color_view');
+              }
             }
           }
           // If no density images and this is QUEEN/POLAR, try gama folder under POLAR
@@ -328,6 +340,7 @@ export default function CustomizePage() {
             }
           }
           // Fallback to base folder
+          let detectedMode: 'density'|'gama'|'simple' = 'simple';
           if (imgs.length === 0) {
             const resB = await fetch(baseUrl);
             if (!resB.ok) throw new Error('Failed to load images');
@@ -338,21 +351,33 @@ export default function CustomizePage() {
             // If the folder uses brand/color/view like "Ankara Kids_Black_Front.jpg", enable brand_color_view with arrows
             const hasBrandColorView = imgs.some((n: string) => /^([^_]+)_(.+)_(Front|Side|Back)\.[^.]+$/i.test(n));
             if (hasPolarGW) {
+              detectedMode = 'gama';
               setImageMode('gama');
               setImageFolderPrefix('');
               setImageNameMode('polar_gw');
             } else if (hasBrandColorView) {
+              detectedMode = 'gama';
               setImageMode('gama');
               setImageFolderPrefix('');
               setImageNameMode('brand_color_view');
             } else {
+              detectedMode = 'simple';
               setImageMode('simple');
               setImageFolderPrefix('');
               setImageNameMode('brand_color_view');
             }
+          } else {
+            // If we loaded images from density or gama folder, update detectedMode
+            if (densityUrl && imgs.length > 0) {
+              // Check if density folder uses polar_gw format
+              const hasPolarGW = imgs.some((n: string) => /^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+              detectedMode = hasPolarGW ? 'gama' : 'density';
+            } else if ((gamaUrl || kidsGamaUrl) && imgs.length > 0) {
+              detectedMode = 'gama';
+            }
           }
           setProductImages(imgs);
-          if (imageMode === 'density') {
+          if (detectedMode === 'density') {
             // choose first valid Front image, set color and image
             const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
             const first = valid.find(v => v.view === 'Front') || valid[0];
@@ -370,7 +395,7 @@ export default function CustomizePage() {
               setSelectedImage(null);
               setSelectedView('Front');
             }
-          } else if (imageMode === 'gama' || isQueenPolarWithGama(cat, model)) {
+          } else if (detectedMode === 'gama' || isQueenPolarWithGama(cat, model)) {
             // For QUEEN/POLAR with GAMA WOMEN, group by color; always start with Front view
             const items = imageNameMode === 'polar_gw'
               ? imgs.map(parsePolarGWName).filter(Boolean) as {color:string;view:'Front'|'Side'|'Back'}[]
@@ -453,7 +478,6 @@ export default function CustomizePage() {
       if (model === 'OVERSIZE') return '220';
       if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA' || normalizedModel === 'MANGACUMPRIDA') return '145';
       if (model === 'CALCAS') return '300';
-      if (model === 'CAVAS') return '140';
       if (model === 'CAMISAS') return '150';
       if (model === 'FRASER') return '280';
       if (model === 'SNAP BACK' || normalizedModel === 'SNAPBACK') return '240';
@@ -863,8 +887,6 @@ export default function CustomizePage() {
                             opts.push({ value: '145', label: '145 g/m²' });
                           } else if (model === 'CALCAS') {
                             opts.push({ value: '300', label: '300 g/m²' });
-                          } else if (model === 'CAVAS') {
-                            opts.push({ value: '140', label: '140 g/m²' });
                           } else if (model === 'CAMISAS') {
                             opts.push({ value: '150', label: '150 g/m²' });
                           } else if (model === 'FRASER') {
@@ -945,8 +967,11 @@ export default function CustomizePage() {
                                 {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
                               </option>
                               {productImages.map((img) => {
-                                const code = img.replace(/\.[^.]+$/, '');
-                                const label = COLOR_CODE_MAP[code] || code;
+                                // Extract color code from filename (e.g., "bc560329_00.jpg" -> "00")
+                                const basename = img.replace(/\.[^.]+$/, '');
+                                const parts = basename.split('_');
+                                const colorCode = parts[parts.length - 1].toUpperCase();
+                                const label = COLOR_CODE_MAP[colorCode] || prettyColorLabel(colorCode);
                                 return (
                                   <option key={img} value={img}>
                                     {label}

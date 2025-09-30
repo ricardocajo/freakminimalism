@@ -51,8 +51,7 @@ const measurementConfig = {
     { type: 'sweat', alt: 'How to measure shoulder width' },
     { type: 'tshirt', alt: 'How to measure shoulder width' },
     { type: 'zipp', alt: 'How to measure shoulder width' },
-    { type: 'baseball', alt: 'How to measure chest' },
-    { type: 'cavas', alt: 'How to measure waist' }
+    { type: 'baseball', alt: 'How to measure chest' }
   ] as const,
 
   woman: [
