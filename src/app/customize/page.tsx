@@ -105,7 +105,6 @@ const categories: Category[] = [
       { name: 'Polo', path: '/personalizar/KING/POLO', image: '/images/personalizar/KING/POLO/00.png' },
       { name: 'Manga Comprida', path: '/personalizar/KING/M.COMPRIDA' },
       { name: 'Zipp', path: '/personalizar/KING/ZIPP', image: '/images/personalizar/KING/ZIPP/95.png' },
-      { name: 'Cavas', path: '/personalizar/KING/CAVAS', image: '/images/personalizar/KING/CAVAS/00.png' },
     ]
   },
   {
