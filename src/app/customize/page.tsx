@@ -994,7 +994,7 @@ export default function CustomizePage() {
                                 // Cria um mapa para armazenar as cores únicas
                                 const colorMap = new Map();
                                 
-                                // Processa todas as imagens para extrair códigos de cor
+                                // Processa todas as imagens para extrair códigos e nomes de cor
                                 productImages.forEach(img => {
                                   // Remove a extensão do arquivo
                                   const basename = img.replace(/\.[^.]+$/, '');
@@ -1002,18 +1002,51 @@ export default function CustomizePage() {
                                   const parts = basename.split('_');
                                   
                                   // O código da cor está na segunda parte (índice 1)
-                                  if (parts.length >= 2) {
+                                  // O nome da cor começa na terceira parte (índice 2)
+                                  if (parts.length >= 3) {
                                     const code = parts[1].toUpperCase();
-                                    // Obtém o nome da cor do mapeamento ou usa o código como fallback
-                                    const name = COLOR_NAMES[code] || code;
+                                    
+                                    // Para a pasta HOOD/280, o formato é bc560328_5z_dark_cherry.jpg
+                                    // Queremos pegar tudo após o código (partes 2 em diante) e formatar
+                                    let nameParts = parts.slice(2);
+                                    
+                                    // Remove sufixos numéricos (_2, _3, etc.)
+                                    nameParts = nameParts.map((part: string) => part.replace(/\d+$/, ''));
+                                    
+                                    // Junta as partes do nome e formata
+                                    let name = nameParts.join(' ')
+                                      .replace(/_/g, ' ') // Substitui underscores por espaços
+                                      .trim()
+                                      .toUpperCase()
+                                      .replace(/\b\w/g, (l: string) => l.toUpperCase()); // Primeira letra de cada palavra em maiúscula
+                                    
+                                    // Corrige nomes específicos se necessário
+                                    name = name
+                                      .replace(/M Gr/g, 'M GR') // Para HEATHER M GR
+                                      .replace(/Pure/g, 'PURE')
+                                      .replace(/Navy Blue/g, 'NAVY BLUE')
+                                      .replace(/Dark Cherry/g, 'DARK CHERRY')
+                                      .replace(/Grey Fog/g, 'GREY FOG')
+                                      .replace(/Magenta Pink/g, 'MAGENTA PINK')
+                                      .replace(/Soft Rose/g, 'SOFT ROSE')
+                                      .replace(/Radiant Purp/g, 'RADIANT PURP')
+                                      .replace(/Aqua Green/g, 'AQUA GREEN')
+                                      .replace(/Verde Escuro/g, 'VERDE ESCURO')
+                                      .replace(/Pure Orange/g, 'PURE ORANGE')
+                                      .replace(/Yellow Fizz/g, 'YELLOW FIZZ')
+                                      .replace(/Black Pure/g, 'BLACK PURE')
+                                      .replace(/Nordic Blue/g, 'NORDIC BLUE')
+                                      .replace(/Pure Sky/g, 'PURE SKY')
+                                      .replace(/Heather M Gr/g, 'HEATHER M GR')
+                                      .replace(/Cinza Claro/g, 'CINZA CLARO');
                                     
                                     // Adiciona ao mapa se ainda não existir
                                     if (!colorMap.has(code)) {
                                       colorMap.set(code, { 
                                         code,
-                                        name,
+                                        name: name,
                                         img,
-                                        displayText: `${code} - ${name}`
+                                        displayText: `${name} - ${code}`
                                       });
                                     }
                                   }
