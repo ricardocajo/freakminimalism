@@ -1,0 +1,1100 @@
+'use client';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+
+type Subcategory = {
+  name: string;
+  path: string;
+};
+
+
+// Format raw color labels from filenames into pretty labels (Title Case, spaces, basic accents)
+const prettyColorLabel = (raw: string) => {
+  // normalize underscores/hyphens to spaces
+  let s = raw.replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+  // handle common lowercase underscores coming from file parsing
+  // title case basic words, keep small words lowercase
+  const small = new Set(['de', 'da', 'do', 'das', 'dos', 'e']);
+  s = s
+    .split(' ')
+    .map((w, i) => {
+      const lw = w.toLowerCase();
+      if (i > 0 && small.has(lw)) return lw;
+      return lw.charAt(0).toUpperCase() + lw.slice(1);
+    })
+    .join(' ');
+  // minimal accent fixes for Portuguese terms commonly found
+  s = s
+    .replace(/Medio/gi, 'Médio')
+    .replace(/Vermelho/gi, 'Vermelho')
+    .replace(/Verde/gi, 'Verde')
+    .replace(/Preto/gi, 'Preto')
+    .replace(/Cinza/gi, 'Cinza')
+    .replace(/Floresta/gi, 'Floresta')
+    .replace(/Marinho/gi, 'Marinho');
+  return s;
+};
+
+type Category = {
+  name: string;
+  subcategories: Subcategory[];
+};
+
+// Map color/file codes to human-readable names. Extend this as needed.
+// Example: "00.png" -> code "00" -> "White/Branco"
+const COLOR_CODE_MAP: Record<string, string> = {
+  '00': 'Branco',
+  '11': 'Preto Escuro',
+  '1L': 'Azul Claro / Light Blue',
+  '24': 'Vermelho / Red',
+  '2C': 'Amarelo Solar',
+  '32': 'Laranja',
+  '33': 'Verde Escuro / Dark Green',
+  '37': 'Castanho',
+  '3E': 'Verde Garrafa / Bottle Green',
+  '42': 'Verde',
+  '44': 'Verde Escuro',
+  '48': 'Laranja / Orange',
+  '4F': 'Verde Orquidia',
+  '4K': 'Bege / Beige',
+  '4L': 'Castanho Urbano',
+  '52': 'Vermelho',
+  '54': 'Bordeaux',
+  '55': 'Magenta / Magenta',
+  '5J': 'Coral / Coral',
+  '5N': 'Roxo Radiante',
+  '5P': 'Pêssego / Peach',
+  '5R': 'Cereja / Cherry',
+  '5T': 'Rosa / Pink',
+  '5W': 'Vinho / Wine',
+  '5Z': 'Fúcsia / Fuchsia',
+  '62': 'Azul Milenio',
+  '63': 'Cinza Escuro / Dark Gray',
+  '64': 'Cinza Claro / Light Gray',
+  '6D': 'Carvão / Charcoal',
+  '6K': 'Grafite / Graphite',
+  '6M': 'Antracite / Anthracite',
+  '6N': 'Prata / Silver',
+  '6P': 'Chumbo / Lead',
+  '6T': 'Petróleo / Teal',
+  '6W': 'Azul Petróleo / Petrol Blue',
+  '6X': 'Azul Escuro / Dark Blue',
+  '6Y': 'Azul Noite / Midnight Blue',
+  '80': 'Verde Lima / Lime',
+  '81': 'Bege',
+  '92': 'Cinzento Claro',
+  '93': 'Cinzento Escuro',
+  '96': 'Preto Claro',
+  '95': 'Preto',
+  '9C': 'Azul Royal / Royal Blue',
+  '9F': 'Azul Celeste / Sky Blue',
+  '9G': 'Turquesa / Turquoise',
+  '1D': 'Azul Marinho / Navy',
+  '2E': 'Amarelo / Yellow',
+  '39': 'Verde / Green',
+  '3H': 'Verde Militar / Military Green',
+  '4M': 'Laranja Vivo / Bright Orange',
+  '6I': 'Cinza Médio / Medium Gray',
+  '6L': 'Cinza / Gray',
+  '6S': 'Cinza Chumbo / Lead Gray',
+  '6V': 'Azul Aço / Steel Blue',
+  'CM': 'Camuflado / Camouflage',
+  '141': 'Azul Claro',
+  '47': 'Verde Claro',
+  'B5': 'Vermelho e Branco',
+  'B6': 'Azul e Branco',
+};
+
+// Helper to prettify model folder names into display names
+const prettyModelName = (raw: string) =>
+  raw
+    .replace(/_/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^M\.COMPRIDA$/i, 'Manga Comprida')
+    .replace(/^SWEAT SCARDA$/i, 'Sweat Scarda')
+    .replace(/^POLAR ZIPP WOMEN$/i, 'Polar Zipp Women');
+
+export default function CustomizePage() {
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(null);
+
+  // Dynamic categories populated from filesystem via API
+  // We include two utility-only categories at the top: Patches and Pedido Especial
+  const [categories, setCategories] = useState<Category[]>([
+    { name: 'Patches', subcategories: [] },
+    { name: 'Pedido Especial', subcategories: [] },
+  ]);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/personalizar/categories', { cache: 'force-cache' });
+        const data = await res.json();
+        const cats: string[] = Array.isArray(data.categories) ? data.categories : [];
+        const built = await Promise.all(
+          cats.map(async (cat) => {
+            const r = await fetch(`/api/personalizar/models?category=${encodeURIComponent(cat)}`, { cache: 'no-store' });
+            const d = await r.json();
+            const models: string[] = Array.isArray(d.models) ? d.models : [];
+            
+            // Map model names from roupa.json to actual folder names
+            const subs: Subcategory[] = models.map((modelName) => {
+              // modelName comes from roupa.json (e.g., "SNAP FIVE", "T-SHIRT", "HOODED KIDS")
+              // We need to find the matching folder (e.g., "SNAPFIVE", "T-SHIRT", "HOODEDKIDS")
+              // For display, use the roupa.json name; for path, normalize to folder name
+              // Exception: "POLAR ZIPP WOMEN" keeps spaces in folder name
+              let folderName: string;
+              if (modelName === 'POLAR ZIPP WOMEN') {
+                folderName = 'POLAR ZIPP WOMEN';
+              } else {
+                folderName = modelName.toUpperCase().replace(/\s+/g, '');
+              }
+              return {
+                name: prettyModelName(modelName),
+                path: `/personalizar/${cat}/${folderName}`,
+              };
+            });
+            
+            return { 
+              name: cat === 'CHAPEUS' ? 'Chapéus' : cat.charAt(0) + cat.slice(1).toLowerCase(), 
+              subcategories: subs 
+            } as Category;
+          })
+        );
+        setCategories([
+          { name: 'Patches', subcategories: [] },
+          { name: 'Pedido Especial', subcategories: [] },
+          ...built,
+        ]);
+      } catch {
+        // keep defaults
+      }
+    };
+    load();
+  }, []);
+
+  const handleCategorySelect = (index: number) => {
+    const isSame = selectedCategory === index;
+    if (isSame) {
+      // Collapse if clicking the same category
+      setSelectedCategory(null);
+      setSelectedSubcategory(null);
+      return;
+    }
+    // Select category and auto-select its first subcategory (if any)
+    setSelectedCategory(index);
+    const first = categories[index]?.subcategories?.[0] ?? null;
+    setSelectedSubcategory(first || null);
+  };
+
+  const handleSubcategorySelect = (subcategory: Subcategory) => {
+    setSelectedSubcategory(subcategory);
+    // Here you would typically load the products for this subcategory
+    // For now, we'll just log the selection
+    console.log('Selected subcategory:', subcategory);
+  };
+
+  const [customMessage, setCustomMessage] = useState('');
+  const [patchDimensions, setPatchDimensions] = useState({ width: '', height: '' });
+  const [patchQuantity, setPatchQuantity] = useState('');
+
+  // Holds image filenames available for the selected product (e.g., ["00.png", "1A.png"]) 
+  const [productImages, setProductImages] = useState<string[]>([]);
+  // Which mode the current images correspond to: density/gama/simple
+  const [imageMode, setImageMode] = useState<'density'|'gama'|'simple'>('simple');
+  // Folder prefix to prepend when rendering images (e.g., '150/' or 'GAMA WOMEN/' or '')
+  const [imageFolderPrefix, setImageFolderPrefix] = useState<string>('');
+  // Naming mode for parsing filenames
+  const [imageNameMode, setImageNameMode] = useState<'brand_color_view'|'polar_gw'>('brand_color_view');
+
+  // Convenience: currently selected category/model names from the subcategory path
+  const [currentCatModel, setCurrentCatModel] = useState<{ cat: string; model: string } | null>(null);
+
+  // Currently selected image filename (e.g., "00.png").
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // Density selection for T-SHIRT (KING/QUEEN) models, e.g., '150' | '190'
+  const [density, setDensity] = useState<string | null>(null);
+  // For T-SHIRT in density mode: selected color and view
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedView, setSelectedView] = useState<'Front' | 'Side' | 'Back'>('Front');
+  // Embroidery position selector
+  const [embroideryPosition, setEmbroideryPosition] = useState<'Frente' | 'Trás'>('Frente');
+
+  // Parse filename like "Luanda_Apple Green_Front.jpg" or "Ankara_Alperce_F.jpg"
+  // → { brand, color, view }
+  const parseTeeName = (name: string) => {
+    // Accept any brand prefix (e.g., Luanda, Ankara, Game Woman, etc.) before first underscore
+    const m = name.match(/^([^_]+)_(.+)_(Front|Side|Back|F|L|C)\.[^.]+$/i);
+    if (!m) return null as null | { brand: string; color: string; view: 'Front'|'Side'|'Back' };
+    const raw = m[3].toLowerCase();
+    const view = raw === 'f' ? 'Front' : raw === 'l' ? 'Side' : raw === 'c' ? 'Back' : (m[3] as 'Front'|'Side'|'Back');
+    return { brand: m[1], color: m[2], view };
+  };
+
+  // Parse filename like "preto_f.jpg" (POLAR ZIPP WOMEN set) → { color: 'preto', view: 'Front'|'Side'|'Back' }
+  const parsePolarGWName = (name: string) => {
+    const m = name.match(/^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/);
+    if (!m) return null as null | { color: string; view: 'Front'|'Side'|'Back' };
+    const view = m[2] === 'f' ? 'Front' : m[2] === 'l' ? 'Side' : 'Back';
+    const color = m[1].replace(/_/g, ' ');
+    return { color, view };
+  };
+
+  const isQueenPolarWithGama = (cat?: string, model?: string) => {
+    if (cat === 'QUEEN' && (model === 'POLAR ZIPP WOMEN' || model === 'POLARZIPPWOMEN')) return true;
+    if (cat === 'KING' && (model === 'POLAR ZIPP' || model === 'POLARZIPP')) return true;
+    return false;
+  };
+  // View navigation helpers
+  const viewOrder: ('Front'|'Side'|'Back')[] = ['Front', 'Side', 'Back'];
+  const goPrevView = () => {
+    setSelectedView((prev) => {
+      const idx = viewOrder.indexOf(prev);
+      return viewOrder[(idx + viewOrder.length - 1) % viewOrder.length];
+    });
+  };
+  const goNextView = () => {
+    setSelectedView((prev) => {
+      const idx = viewOrder.indexOf(prev);
+      return viewOrder[(idx + 1) % viewOrder.length];
+    });
+  };
+
+  useEffect(() => {
+    if (!selectedSubcategory) {
+      setProductImages([]);
+      setImageMode('simple');
+      setImageFolderPrefix('');
+      setCurrentCatModel(null);
+      setDensity(null);
+      setSelectedColor(null);
+      setSelectedView('Front');
+      return;
+    }
+    // path format: /personalizar/<CATEGORY>/<MODEL>
+    const parts = selectedSubcategory.path.split('/').filter(Boolean);
+    // Expecting ["personalizar", "CAT", "MODEL"]
+    if (parts.length >= 3) {
+      const cat = parts[1];
+      const model = parts[2];
+      setCurrentCatModel({ cat, model });
+
+      const fetchImages = async () => {
+        try {
+          let effectiveDensity = density;
+
+          const baseUrl = `/api/personalizar/images?category=${encodeURIComponent(cat)}&model=${encodeURIComponent(model)}`;
+          const densityUrl = effectiveDensity ? `${baseUrl}&density=${encodeURIComponent(effectiveDensity)}` : '';
+          const gamaUrl = isQueenPolarWithGama(cat, model) ? `${baseUrl}&gama=${encodeURIComponent('ZIPP WOMEN')}` : '';
+          const kidsGamaUrl = (cat === 'KID' && (model === 'MANGA CUMPRIDA' || model === 'MANGACUMPRIDA' || model === 'M.COMPRIDA')) ? `${baseUrl}&gama=${encodeURIComponent('Bucharest Kids')}` : '';
+
+          let imgs: string[] = [];
+          // Try density first when applicable
+          if (densityUrl) {
+            const res = await fetch(densityUrl);
+            if (!res.ok) throw new Error('Failed to load images');
+            const data = await res.json();
+            imgs = Array.isArray(data.images) ? data.images : [];
+            if (imgs.length > 0) {
+              // Check if density folder uses polar_gw format (e.g., azul_marinho_f.jpg or fjord_branco_f.jpg)
+              const hasPolarGW = imgs.some((n: string) => /^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+              // Check if it uses brand_color_shortview format (e.g., fjord_branco_f.jpg with brand prefix)
+              const hasBrandColorShort = imgs.some((n: string) => /^([a-zA-Z]+)_([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+              if (hasPolarGW) {
+                setImageMode('gama');
+                setImageFolderPrefix(`${effectiveDensity}/`);
+                // Use brand_color_view parsing for brand_color_short format, polar_gw for simple color_view
+                setImageNameMode(hasBrandColorShort ? 'brand_color_view' : 'polar_gw');
+              } else {
+                setImageMode('density');
+                setImageFolderPrefix(`${effectiveDensity}/`);
+                setImageNameMode('brand_color_view');
+              }
+            }
+          }
+          // If no density images and this is QUEEN/POLAR, try gama folder under POLAR
+          if (imgs.length === 0 && gamaUrl) {
+            const resG = await fetch(gamaUrl);
+            if (!resG.ok) throw new Error('Failed to load images');
+            const dataG = await resG.json();
+            const gamaImgs: string[] = Array.isArray(dataG.images) ? dataG.images : [];
+            if (gamaImgs.length > 0) {
+              imgs = gamaImgs;
+              setImageMode('gama');
+              setImageFolderPrefix('ZIPP WOMEN/');
+              setImageNameMode('brand_color_view');
+            }
+          }
+          // If no density images and this is KID/MANGA CUMPRIDA, try Bucharest Kids subfolder
+          if (imgs.length === 0 && kidsGamaUrl) {
+            const resK = await fetch(kidsGamaUrl);
+            if (!resK.ok) throw new Error('Failed to load images');
+            const dataK = await resK.json();
+            const kidsImgs: string[] = Array.isArray(dataK.images) ? dataK.images : [];
+            if (kidsImgs.length > 0) {
+              imgs = kidsImgs;
+              setImageMode('gama');
+              setImageFolderPrefix('Bucharest Kids/');
+              setImageNameMode('polar_gw');
+            }
+          }
+          // Fallback to base folder
+          let detectedMode: 'density'|'gama'|'simple' = 'simple';
+          if (imgs.length === 0) {
+            const resB = await fetch(baseUrl);
+            if (!resB.ok) throw new Error('Failed to load images');
+            const dataB = await resB.json();
+            imgs = Array.isArray(dataB.images) ? dataB.images : [];
+            // If the folder uses short view suffixes (e.g., preto_f.jpg), switch to polar_gw parsing
+            const hasPolarGW = imgs.some((n: string) => /^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+            // If the folder uses brand/color/view like "Ankara Kids_Black_Front.jpg", enable brand_color_view with arrows
+            const hasBrandColorView = imgs.some((n: string) => /^([^_]+)_(.+)_(Front|Side|Back)\.[^.]+$/i.test(n));
+            if (hasPolarGW) {
+              detectedMode = 'gama';
+              setImageMode('gama');
+              setImageFolderPrefix('');
+              setImageNameMode('polar_gw');
+            } else if (hasBrandColorView) {
+              detectedMode = 'gama';
+              setImageMode('gama');
+              setImageFolderPrefix('');
+              setImageNameMode('brand_color_view');
+            } else {
+              detectedMode = 'simple';
+              setImageMode('simple');
+              setImageFolderPrefix('');
+              setImageNameMode('brand_color_view');
+            }
+          } else {
+            // If we loaded images from density or gama folder, update detectedMode
+            if (densityUrl && imgs.length > 0) {
+              // Check if density folder uses polar_gw format
+              const hasPolarGW = imgs.some((n: string) => /^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/.test(n));
+              detectedMode = hasPolarGW ? 'gama' : 'density';
+            } else if ((gamaUrl || kidsGamaUrl) && imgs.length > 0) {
+              detectedMode = 'gama';
+            }
+          }
+          setProductImages(imgs);
+          if (detectedMode === 'density') {
+            // choose first valid Front image, set color and image
+            const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
+            const first = valid.find(v => v.view === 'Front') || valid[0];
+            if (first) {
+              setSelectedColor(first.color);
+              // find filename for that selection
+              const fname = imgs.find(n => {
+                const p = parseTeeName(n);
+                return p && p.color === first.color && p.view === 'Front';
+              }) || null;
+              setSelectedImage(fname);
+              setSelectedView('Front');
+            } else {
+              setSelectedColor(null);
+              setSelectedImage(null);
+              setSelectedView('Front');
+            }
+          } else if (detectedMode === 'gama' || isQueenPolarWithGama(cat, model)) {
+            // For QUEEN/POLAR with GAMA WOMEN, group by color; always start with Front view
+            const items = imageNameMode === 'polar_gw'
+              ? imgs.map(parsePolarGWName).filter(Boolean) as {color:string;view:'Front'|'Side'|'Back'}[]
+              : imgs.map(parseTeeName).filter(Boolean) as {brand?:string;color:string;view:'Front'|'Side'|'Back'}[];
+            const first = items.find(v => v.view === 'Front') || items[0];
+            if (first) {
+              setSelectedColor(first.color);
+              // Always prefer Front view for initial selection
+              const fname = imgs.find(n => {
+                const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
+                return p && p.color === first.color && p.view === 'Front';
+              }) || imgs.find(n => {
+                const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
+                return p && p.color === first.color;
+              }) || null;
+              setSelectedImage(fname);
+              setSelectedView('Front');
+            } else {
+              setSelectedColor(null);
+              setSelectedImage(imgs.length > 0 ? imgs[0] : null);
+              setSelectedView('Front');
+            }
+          } else {
+            // Simple mode (flat color cards). Prefer 1D (Navy) first, then black/dark preview if available: 1D -> 95 -> 11 -> 00 -> first
+            const preferredOrder = ['1D', '95', '11', '00'];
+            const chosen = (() => {
+              for (const code of preferredOrder) {
+                const hit = imgs.find((n) => {
+                  const basename = n.replace(/\.[^.]+$/, '');
+                  // Match patterns like "bc560328_1d" or just "1d"
+                  const colorCode = basename.split('_').pop()?.toUpperCase();
+                  return colorCode === code;
+                });
+                if (hit) return hit;
+              }
+              return imgs.length > 0 ? imgs[0] : null;
+            })();
+            setSelectedImage(chosen);
+            if (chosen) {
+              // Use filename without extension as color name
+              const colorName = chosen.replace(/\.[^.]+$/, '');
+              setSelectedColor(colorName);
+            } else {
+              setSelectedColor(null);
+            }
+          }
+        } catch (err) {
+          setProductImages([]);
+          setSelectedImage(null);
+          setSelectedColor(null);
+        }
+      };
+
+      fetchImages();
+    } else {
+      setProductImages([]);
+      setCurrentCatModel(null);
+      setSelectedImage(null);
+      setDensity(null);
+      setSelectedColor(null);
+      setSelectedView('Front');
+    }
+  }, [selectedSubcategory, density]);
+
+  // Auto-set default density per model when switching model/category
+  useEffect(() => {
+    if (!currentCatModel) { setDensity(null); return; }
+    const { cat, model } = currentCatModel;
+    const pickDefaultDensity = (): string | null => {
+      // Normalize model name for comparison
+      const normalizedModel = model.toUpperCase().replace(/\s+/g, '');
+      
+      if (model === 'T-SHIRT' || normalizedModel === 'TSHIRT') return '190';
+      if (model === 'POLO' || model === 'POLOS') return '170';
+      // HOOD always shows 280g, even if images are in root folder (like QUEEN HOOD)
+      if (model === 'HOOD' || model === 'HOODED KIDS' || normalizedModel === 'HOODEDKIDS') return '280';
+      if (model === 'ZIPP' || model === 'ZIPP KIDS' || normalizedModel === 'ZIPPKIDS') return '280';
+      if (model === 'SWEAT') return '280';
+      if (model === 'SWEAT SCARDA' || normalizedModel === 'SWEATSCARDA') return '240';
+      if (model === 'OVERSIZE') return '220';
+      if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA' || normalizedModel === 'MANGACUMPRIDA') return '145';
+      if (model === 'CALCAS') return '300';
+      if (model === 'CAMISAS') return '150';
+      if (model === 'FRASER') return '280';
+      if (model === 'SNAP BACK' || normalizedModel === 'SNAPBACK') return '240';
+      if (model === 'PANAMA') return '240';
+      if (model === 'POLAR ZIPP WOMEN' || normalizedModel === 'POLARZIPPWOMEN') return '280';
+      if (model === 'POLAR ZIPP' || normalizedModel === 'POLARZIPP') return '280';
+      // Default for any other model
+      return '240';
+    };
+    const def = pickDefaultDensity();
+    setDensity(def);
+  }, [currentCatModel]);
+
+  // Keep selectedImage in sync for density/gama modes when color/view changes
+  useEffect(() => {
+    if (!currentCatModel) return;
+    if (!(imageMode === 'density' || imageMode === 'gama')) return;
+    const imgs = productImages;
+    if (!imgs || imgs.length === 0 || !selectedColor) return;
+    // find exact match; if missing current view, fallback order Front→Side→Back
+    const order: ('Front'|'Side'|'Back')[] = [selectedView, 'Front', 'Side', 'Back'];
+    let chosen: string | null = null;
+    for (const v of order) {
+      const match = imgs.find(n => {
+        const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
+        return p && p.color === selectedColor && p.view === v;
+      });
+      if (match) { chosen = match; break; }
+    }
+    setSelectedImage(chosen);
+  }, [selectedColor, selectedView, productImages, currentCatModel]);
+  const [patchNotes, setPatchNotes] = useState('');
+
+  // Product info (description and washing instructions)
+  type ProductInfo = {
+    description?: string;
+    washing?: string[];
+  };
+  const [productInfo, setProductInfo] = useState<ProductInfo | null>(null);
+
+  // Load product info JSON from public images folders based on current selection
+  useEffect(() => {
+    const loadInfo = async () => {
+      if (!currentCatModel) { setProductInfo(null); return; }
+      const { cat, model } = currentCatModel;
+      // Try multiple possible locations to accommodate existing structures
+      const urls: string[] = [
+        `/images/personalizar/${cat}/${model}/produto.json`,
+        `/images/personalizar/${cat}/produto.json`,
+      ];
+      // No special handling needed - model name matches folder name
+      // Attempt fetch in order; first successful JSON wins
+      for (const url of urls) {
+        try {
+          const res = await fetch(url, { cache: 'no-store' });
+          if (res.ok) {
+            const data = await res.json();
+            // Expected shape: { description?: string, washing?: string[] }
+            setProductInfo({
+              description: typeof data.description === 'string' ? data.description : undefined,
+              washing: Array.isArray(data.washing) ? data.washing.filter((x: unknown) => typeof x === 'string') : undefined,
+            });
+            return;
+          }
+        } catch { /* ignore and try next */ }
+      }
+      setProductInfo(null);
+    };
+    loadInfo();
+  }, [currentCatModel]);
+
+  const handleWhatsAppOrder = () => {
+    if (selectedCategory === null) return;
+    
+    let message = '';
+    
+    if (categories[selectedCategory].name === 'Pedido Especial') {
+      // For special orders, use the custom message
+      message = `Olá, gostaria de fazer um pedido especial:\n\n${customMessage}`;
+    } else if (categories[selectedCategory].name === 'Patches') {
+      // For Patches category
+      message = `*NOVO PEDIDO DE PATCHES*\n\n` +
+               `📏 *Dimensões:* ${patchDimensions.width || '--'} x ${patchDimensions.height || '--'} mm\n` +
+               `🔢 *Quantidade:* ${patchQuantity || '--'}\n` +
+               `📝 *Notas adicionais:* ${patchNotes || 'Nenhuma'}\n\n` +
+               `🖼️ *ENVIE A FOTO DO SEU DESIGN*\n` +
+               `Por favor, envie a imagem ou referência do seu design como uma mensagem separada logo após enviar este formulário.\n\n` +
+               `ℹ️ Certifique-se que a imagem está nítida e mostra claramente o que deseja personalizar.`;
+    } else if (selectedSubcategory) {
+      // For other categories with subcategories
+      // Determine density label from state or folder prefix
+      const folderDensity = (() => {
+        if (!density && imageFolderPrefix) {
+          const m = imageFolderPrefix.match(/^(\d+)\//);
+          return m ? m[1] : null;
+        }
+        return null;
+      })();
+      const dens = (density || folderDensity)
+        ? (density || folderDensity) === '150'
+          ? '150 g/m² — Luanda'
+          : (density || folderDensity) === '190'
+            ? '190 g/m² — Ankara'
+              : `${density || folderDensity} g/m²`
+        : null;
+      const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
+      // Determine if this is QUEEN/POLAR ZIPP WOMEN to show Gama info
+      const isQueenPolar = (() => {
+        const parts = selectedSubcategory.path.split('/').filter(Boolean);
+        return parts.length >= 3 && parts[1] === 'QUEEN' && parts[2] === 'POLAR ZIPP WOMEN';
+      })();
+      message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
+               `Categoria: ${categories[selectedCategory].name}\n` +
+               `Modelo: ${selectedSubcategory.name}\n` +
+               `${isQueenPolar ? `Gama: GAMA WOMEN\n` : ''}` +
+               `${dens ? `Densidade: ${dens}\n` : ''}` +
+               `${cor ? `Cor/Imagem: ${prettyColorLabel(cor)}\n` : ''}` +
+               `Posição do bordado: ${embroideryPosition}\n\n` +
+               `Por favor, envie mais informações sobre como proceder com a personalização.`;
+    } else {
+      return;
+    }
+    
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://api.whatsapp.com/send?phone=351960361839&text=${encodedMessage}`, '_blank');
+  };
+
+  return (
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8 text-center">Personalização</h1>
+      
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Categories Sidebar */}
+        <div className="w-full md:w-1/4">
+          <div className="bg-white rounded-lg shadow-md p-4">
+            <h2 className="text-xl font-semibold mb-4">Categorias</h2>
+            <div className="space-y-2">
+              {categories.map((category, index) => (
+                <div key={category.name} className="border-b border-gray-200">
+                  <button
+                    onClick={() => handleCategorySelect(index)}
+                    className={`w-full text-left py-2 px-4 rounded-md transition-colors ${
+                      selectedCategory === index ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    {category.name}
+                  </button>
+                  
+                  {selectedCategory === index && category.subcategories.length > 0 && (
+                    <div className="ml-4 mt-1 space-y-1 py-2">
+                      {category.subcategories.map((subcategory) => (
+                        <button
+                          key={subcategory.path}
+                          onClick={() => handleSubcategorySelect(subcategory)}
+                          className={`block w-full text-left py-1 px-4 text-sm rounded-md transition-colors ${
+                            selectedSubcategory?.path === subcategory.path
+                              ? 'bg-blue-50 text-blue-600 font-medium'
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
+                        >
+                          {subcategory.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1">
+          {selectedCategory !== null && categories[selectedCategory].name === 'Patches' ? (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-2xl font-bold mb-6">Encomenda de Patches</h2>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Largura (mm) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="500"
+                      value={patchDimensions.width}
+                      onChange={(e) => setPatchDimensions(prev => ({ ...prev, width: e.target.value }))}
+                      className="w-full border-2 border-gray-300 rounded-md p-3 text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                      placeholder="Ex: 100"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Máx: 500mm</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Altura (mm) <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="500"
+                      value={patchDimensions.height}
+                      onChange={(e) => setPatchDimensions(prev => ({ ...prev, height: e.target.value }))}
+                      className="w-full border-2 border-gray-300 rounded-md p-3 text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                      placeholder="Ex: 100"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Máx: 500mm</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Quantidade <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={patchQuantity}
+                    onChange={(e) => setPatchQuantity(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-md p-3 text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                    placeholder="Ex: 10"
+                    required
+                  />
+                </div>
+                
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-yellow-700">
+                        <span className="font-bold">Atenção:</span> Após enviar este formulário, você será direcionado para o WhatsApp. Por favor, envie uma foto ou imagem de referência do seu design como uma mensagem separada.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Detalhes do Design
+                    <span className="text-xs font-normal text-gray-500 block">Descreva as cores, materiais e detalhes do seu design</span>
+                  </label>
+                  <textarea 
+                    value={patchNotes}
+                    onChange={(e) => setPatchNotes(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-md p-3 min-h-[100px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                    placeholder="Ex: Fundo preto com letras brancas, borda dourada, tecido de algodão..."
+                  />
+                </div>
+                
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h2a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-blue-800">Como enviar seu design</h3>
+                      <div className="mt-1 text-sm text-blue-700">
+                        <ol className="list-decimal pl-4 space-y-1">
+                          <li>Clique no botão abaixo para abrir o WhatsApp</li>
+                          <li>O aplicativo irá abrir com uma mensagem pré-preenchida</li>
+                          <li>Envie uma foto do seu design como resposta a esta mensagem</li>
+                          <li>Certifique-se que a imagem está nítida e mostra todos os detalhes</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleWhatsAppOrder}
+                  disabled={!patchDimensions.width || !patchDimensions.height || !patchQuantity}
+                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${
+                    patchDimensions.width && patchDimensions.height && patchQuantity
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
+                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
+                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                  </svg>
+                  <span>Enviar Pedido e Anexar Design</span>
+                </button>
+                
+                <p className="text-xs text-gray-500 text-center mt-2">
+                  Você será redirecionado para o WhatsApp para completar seu pedido
+                </p>
+              </div>
+            </div>
+          ) : selectedCategory !== null && categories[selectedCategory].name === 'Pedido Especial' ? (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h2 className="text-2xl font-bold mb-6">Pedido Especial</h2>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Descreva o seu pedido especial com todos os detalhes:
+                  </label>
+                  <textarea
+                    value={customMessage}
+                    onChange={(e) => setCustomMessage(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-md p-4 min-h-[200px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                    placeholder="Por favor, descreva o que precisa com o máximo de detalhes possível, incluindo cores, tamanhos, materiais, etc..."
+                  />
+                </div>
+                <button
+                  onClick={handleWhatsAppOrder}
+                  disabled={!customMessage.trim()}
+                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${
+                    customMessage.trim()
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  <span>Enviar Pedido Especial por WhatsApp</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
+                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ) : selectedSubcategory ? (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-1/2">
+                  <div className="relative bg-gray-100 rounded-lg aspect-square flex items-center justify-center overflow-hidden">
+                    {currentCatModel && selectedImage ? (
+                      <Image
+                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${imageFolderPrefix}${selectedImage}`}
+                        alt={`${selectedSubcategory.name} - ${categories[selectedCategory!].name}`}
+                        width={500}
+                        height={500}
+                        className="w-full h-full object-contain"
+                        priority
+                      />
+                    ) : (
+                      <span className="text-gray-400">Imagem do produto</span>
+                    )}
+                    {currentCatModel && (imageMode === 'density' || imageMode === 'gama') && selectedImage && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={goPrevView}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full p-2 shadow"
+                          aria-label="Anterior"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={goNextView}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full p-2 shadow"
+                          aria-label="Seguinte"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  {currentCatModel && (imageMode === 'density' || imageMode === 'gama') && selectedImage && (
+                    <div className="mt-2 text-xs text-gray-600">
+                      Vista: {selectedView === 'Front' ? 'Frente' : selectedView === 'Side' ? 'Lado' : 'Costas'}
+                    </div>
+                  )}
+                </div>
+                <div className="md:w-1/2">
+                  <h2 className="text-2xl font-bold mb-2">
+                    {categories[selectedCategory!].name} - {selectedSubcategory.name}
+                  </h2>
+                  
+                  <div className="space-y-6 mt-8">
+                    {/* Thumbnails removed per request; using dropdown selector below */}
+                    <div>
+                      <h3 className="font-medium mb-2">Opções de Personalização</h3>
+                      <div className="space-y-4">
+                        {currentCatModel && (() => {
+                          const { cat, model } = currentCatModel;
+                          const opts: { value: string; label: string }[] = [];
+                          
+                          // Normalize model name for comparison
+                          const normalizedModel = model.toUpperCase().replace(/\s+/g, '');
+                          
+                          if (model === 'T-SHIRT' || normalizedModel === 'TSHIRT') {
+                            opts.push({ value: '150', label: '150 g/m² — Luanda' });
+                            opts.push({ value: '190', label: '190 g/m² — Ankara' });
+                          } else if (model === 'POLO' || model === 'POLOS') {
+                            opts.push({ value: '170', label: '170 g/m²' });
+                          } else if (model === 'HOOD' || model === 'HOODED KIDS' || normalizedModel === 'HOODEDKIDS') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'ZIPP' || model === 'ZIPP KIDS' || normalizedModel === 'ZIPPKIDS') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'SWEAT') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'SWEAT SCARDA' || normalizedModel === 'SWEATSCARDA') {
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          } else if (model === 'OVERSIZE') {
+                            opts.push({ value: '220', label: '220 g/m²' });
+                          } else if (model === 'M.COMPRIDA' || model === 'MANGA CUMPRIDA' || normalizedModel === 'MANGACUMPRIDA') {
+                            opts.push({ value: '145', label: '145 g/m²' });
+                          } else if (model === 'CALCAS') {
+                            opts.push({ value: '300', label: '300 g/m²' });
+                          } else if (model === 'CAMISAS') {
+                            opts.push({ value: '150', label: '150 g/m²' });
+                          } else if (model === 'FRASER') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'SNAP BACK' || normalizedModel === 'SNAPBACK') {
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          } else if (model === 'PANAMA') {
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          } else if (model === 'POLAR ZIPP WOMEN' || normalizedModel === 'POLARZIPPWOMEN') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else if (model === 'POLAR ZIPP' || normalizedModel === 'POLARZIPP') {
+                            opts.push({ value: '280', label: '280 g/m²' });
+                          } else {
+                            // Default density for any other model
+                            opts.push({ value: '240', label: '240 g/m²' });
+                          }
+                          
+                          // Always show density selector - with bullet point and label
+                          return (
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Densidade</label>
+                              <div className="flex flex-wrap gap-3">
+                                {opts.map(opt => (
+                                  <div
+                                    key={opt.value}
+                                    onClick={() => opts.length > 1 && setDensity(opt.value)}
+                                    className={`flex items-center gap-2 px-3 py-1.5 rounded-md transition-all ${
+                                      opts.length > 1 ? 'cursor-pointer' : ''
+                                    } ${
+                                      density === opt.value || opts.length === 1
+                                        ? 'bg-blue-50'
+                                        : 'hover:bg-gray-50'
+                                    }`}
+                                  >
+                                    <div className={`w-3 h-3 rounded-full ${
+                                      density === opt.value || opts.length === 1
+                                        ? 'bg-blue-600'
+                                        : 'bg-gray-300'
+                                    }`}></div>
+                                    <span className="text-sm font-medium text-gray-700">{opt.label}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })()}
+                        {(currentCatModel && (imageMode === 'density' || imageMode === 'gama')) ? (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
+                            <select
+                              className="w-full border border-gray-300 rounded-md p-2"
+                              value={selectedColor ?? ''}
+                              onChange={(e) => setSelectedColor(e.target.value)}
+                              disabled={productImages.length === 0}
+                            >
+                              <option value="" disabled>
+                                {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
+                              </option>
+                              {Array.from(new Set(productImages
+                                .map((n) => imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n))
+                                .filter(Boolean)
+                                .map((p) => (p as {color:string}).color)
+                              )).map((color) => (
+                                <option key={color as string} value={color as string}>{color as string}</option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Cor</label>
+                            <select
+                              className="w-full border border-gray-300 rounded-md p-2"
+                              value={selectedImage ?? ''}
+                              onChange={(e) => setSelectedImage(e.target.value)}
+                              disabled={productImages.length === 0}
+                            >
+                              <option value="" disabled>
+                                {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
+                              </option>
+                              {productImages.map((img) => {
+                                // Extract color code from filename (e.g., "bc560329_00.jpg" -> "00")
+                                const basename = img.replace(/\.[^.]+$/, '');
+                                const parts = basename.split('_');
+                                const colorCode = parts[parts.length - 1].toUpperCase();
+                                const label = COLOR_CODE_MAP[colorCode] || prettyColorLabel(colorCode);
+                                return (
+                                  <option key={img} value={img}>
+                                    {label}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        )}
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Tamanho
+                          </label>
+                          <select className="w-full border border-gray-300 rounded-md p-2">
+                            <option>Selecione um tamanho</option>
+                            <option>Pequeno (S)</option>
+                            <option>Médio (M)</option>
+                            <option>Grande (L)</option>
+                            <option>Extra Grande (XL)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Posição do Bordado
+                          </label>
+                          <select
+                            className="w-full border border-gray-300 rounded-md p-2"
+                            value={embroideryPosition}
+                            onChange={(e) => setEmbroideryPosition(e.target.value as 'Frente' | 'Trás')}
+                          >
+                            <option value="Frente">Frente</option>
+                            <option value="Trás">Trás</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Detalhes da Personalização
+                          </label>
+                          <textarea 
+                            className="w-full border-2 border-gray-300 rounded-md p-3 min-h-[100px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
+                            placeholder="Descreva como deseja personalizar o seu item..."
+                          />
+                        </div>
+                        {/* Info boxes similar to Patches flow */}
+                        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                          <div className="flex">
+                            <div className="flex-shrink-0">
+                              <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                            <div className="ml-3">
+                              <p className="text-sm text-yellow-700">
+                                <span className="font-bold">Atenção:</span> Após enviar este pedido, você será direcionado para o WhatsApp. Por favor, envie uma foto ou imagem de referência do seu design como uma mensagem separada.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Product Description */}
+                        {productInfo?.description && (
+                          <div className="bg-white border rounded-lg p-4">
+                            <h3 className="text-sm font-semibold mb-2">Descrição do Produto</h3>
+                            <p className="text-sm text-gray-700 whitespace-pre-line">{productInfo.description}</p>
+                          </div>
+                        )}
+
+                        {/* Washing Instructions removed by request */}
+
+                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                          <div className="flex items-start">
+                            <div className="flex-shrink-0">
+                              <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h2a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                            <div className="ml-3">
+                              <h3 className="text-sm font-medium text-blue-800">Como enviar seu design</h3>
+                              <div className="mt-1 text-sm text-blue-700">
+                                <ol className="list-decimal pl-4 space-y-1">
+                                  <li>Clique no botão abaixo para abrir o WhatsApp</li>
+                                  <li>O aplicativo irá abrir com uma mensagem pré-preenchida</li>
+                                  <li>Envie uma foto do seu design como resposta a esta mensagem</li>
+                                  <li>Certifique-se que a imagem está nítida e mostra todos os detalhes</li>
+                                </ol>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={handleWhatsAppOrder}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition-colors flex items-center justify-center gap-2"
+                    >
+                      <span>Enviar Pedido por WhatsApp</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
+                        <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-md p-6 text-center">
+              <div className="max-w-md mx-auto">
+                <svg className="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <h3 className="mt-2 text-lg font-medium text-gray-900">Nenhuma categoria selecionada</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  Selecione uma categoria no menu à esquerda para ver os modelos disponíveis.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </main>
+  );
+}
