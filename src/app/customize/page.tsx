@@ -40,13 +40,37 @@ type Category = {
   subcategories: Subcategory[];
 };
 
-// Map color/file codes to human-readable names. Extend this as needed.
-// Example: "00.png" -> code "00" -> "White/Branco"
+// Mapeamento completo de códigos para nomes de cores
+const COLOR_NAMES: Record<string, string> = {
+  '00': 'BRANCO',
+  '1D': 'BLACK PURE',
+  '2E': 'YELLOW FIZZ',
+  '39': 'CAQUI',
+  '3H': 'PURE ORANGE',
+  '44': 'VERDE ESCURO',
+  '4M': 'AQUA GREEN',
+  '52': 'VERMELHO',
+  '5N': 'RADIANT PURP',
+  '5T': 'SOFT ROSE',
+  '5W': 'MAGENTA PINK',
+  '5Z': 'DARK CHERRY',
+  '6I': 'PURE SKY',
+  '6L': 'ROYAL',
+  '6S': 'NAVY BLUE',
+  '6V': 'NORDIC BLUE',
+  '95': 'CINZA CLARO',
+  '9C': 'HEATHER M GR',
+  '9F': 'ASPHALT',
+  '9G': 'GREY FOG'
+};
+
+// Mapa de compatibilidade para manter compatibilidade com código existente
 const COLOR_CODE_MAP: Record<string, string> = {
-  '00': 'Branco',
+  ...COLOR_NAMES,
+  // Mapeamentos antigos mantidos para compatibilidade
   '11': 'Preto Escuro',
-  '1L': 'Azul Claro / Light Blue',
-  '24': 'Vermelho / Red',
+  '1L': 'Azul Claro',
+  '24': 'Vermelho',
   '2C': 'Amarelo Solar',
   '32': 'Laranja',
   '33': 'Verde Escuro / Dark Green',
@@ -966,18 +990,51 @@ export default function CustomizePage() {
                               <option value="" disabled>
                                 {productImages.length > 0 ? 'Selecione uma cor' : 'Sem cores disponíveis'}
                               </option>
-                              {productImages.map((img) => {
-                                // Extract color code from filename (e.g., "bc560329_00.jpg" -> "00")
-                                const basename = img.replace(/\.[^.]+$/, '');
-                                const parts = basename.split('_');
-                                const colorCode = parts[parts.length - 1].toUpperCase();
-                                const label = COLOR_CODE_MAP[colorCode] || prettyColorLabel(colorCode);
-                                return (
-                                  <option key={img} value={img}>
-                                    {label}
+                              {(() => {
+                                // Cria um mapa para armazenar as cores únicas
+                                const colorMap = new Map();
+                                
+                                // Processa todas as imagens para extrair códigos de cor
+                                productImages.forEach(img => {
+                                  // Remove a extensão do arquivo
+                                  const basename = img.replace(/\.[^.]+$/, '');
+                                  // Divide o nome do arquivo por underscores
+                                  const parts = basename.split('_');
+                                  
+                                  // O código da cor está na segunda parte (índice 1)
+                                  if (parts.length >= 2) {
+                                    const code = parts[1].toUpperCase();
+                                    // Obtém o nome da cor do mapeamento ou usa o código como fallback
+                                    const name = COLOR_NAMES[code] || code;
+                                    
+                                    // Adiciona ao mapa se ainda não existir
+                                    if (!colorMap.has(code)) {
+                                      colorMap.set(code, { 
+                                        code,
+                                        name,
+                                        img,
+                                        displayText: `${code} - ${name}`
+                                      });
+                                    }
+                                  }
+                                });
+
+                                // Converte o mapa para array e ordena
+                                const sortedColors = Array.from(colorMap.values()).sort((a, b) => {
+                                  // Coloca "BRANCO" sempre em primeiro
+                                  if (a.name === 'BRANCO') return -1;
+                                  if (b.name === 'BRANCO') return 1;
+                                  // Ordena os demais alfabeticamente pelo nome
+                                  return a.name.localeCompare(b.name);
+                                });
+
+                                // Retorna as opções do seletor
+                                return sortedColors.map(({ code, name, img, displayText }) => (
+                                  <option key={code} value={img}>
+                                    {displayText}
                                   </option>
-                                );
-                              })}
+                                ));
+                              })()}
                             </select>
                           </div>
                         )}
