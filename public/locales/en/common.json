@@ -75,6 +75,10 @@
       "label": "Total:",
       "tax": "+ TAX INCL."
     },
+    "promo": {
+      "label": "Have a promo code?",
+      "placeholder": "Enter promo code"
+    },
     "checkout": "Continue"
   },
   "productDetails": {

@@ -21,7 +21,9 @@ export const SingleProduct = ({ product }: SingleProductProps) => {
   const { i18n } = useTranslation();
   const language = i18n.language as 'en' | 'pt';
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(
+    product.sizes.length ? product.sizes[0] : null
+  );
 
   return (
     <div className="flex flex-col gap-10">

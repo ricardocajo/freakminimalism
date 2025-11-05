@@ -75,6 +75,10 @@
       "label": "Total:",
       "tax": "+ IVA INCLUÍDO"
     },
+    "promo": {
+      "label": "Tem um código promocional?",
+      "placeholder": "Insira o código promocional"
+    },
     "checkout": "Continuar"
   },
   "productDetails": {

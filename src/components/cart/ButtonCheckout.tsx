@@ -8,9 +8,10 @@ import { CartItem } from "@/contexts/CartContext";
 
 interface ButtonCheckoutProps {
   cartItems: CartItem[];
+  promoCode?: string;
 }
 
-export const ButtonCheckout = ({ cartItems }: ButtonCheckoutProps) => {
+export const ButtonCheckout = ({ cartItems, promoCode }: ButtonCheckoutProps) => {
   const [isPending, startTransition] = useTransition();
 
   const lineItems = useMemo(
@@ -24,14 +25,14 @@ export const ButtonCheckout = ({ cartItems }: ButtonCheckoutProps) => {
 
   const handleCheckout = useCallback(async () => {
     try {
-      const response = await axios.post("/api/stripe/checkout_sessions", { cartItems });
+      const response = await axios.post("/api/stripe/checkout_sessions", { cartItems, promoCode });
       const { url } = response.data;
       window.location.href = url;
     } catch (error) {
       console.error("Error creating checkout session:", error);
       toast.error("Failed to create checkout session");
     }
-  }, [cartItems]);
+  }, [cartItems, promoCode]);
 
   return (
     <button

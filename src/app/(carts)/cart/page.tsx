@@ -7,6 +7,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const ButtonCheckout = dynamic(
   () => import("@/components/cart/ButtonCheckout"),
@@ -22,7 +23,8 @@ const ButtonCheckout = dynamic(
 
 export default function CartPage() {
   const { cart, removeFromCart, decrementQuantity, addToCart, total } = useCart();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [promoCode, setPromoCode] = useState<string>("");
 
   return (
     <div className="pt-12">
@@ -150,16 +152,35 @@ export default function CartPage() {
             </div>
           ))
         )}
-        <div className="fixed left-[50%] translate-x-[-50%] bottom-4 w-[90%] z-10 sm:w-[360px] rounded-xl overflow-hidden flex bg-black border border-solid border-border-primary h-min">
-          <div className="flex flex-col p-2.5 justify-center w-1/2 gap-2 text-center">
-            <div className="flex gap-2.5 justify-center text-sm">
-              <span>{t('cartPage.total.label')}</span>
-              <span>{total.toFixed(2)}€</span>
-            </div>
-            <span className="text-xs">{t('cartPage.total.tax')}</span>
+        <div className="fixed left-[50%] translate-x-[-50%] bottom-4 w-[90%] z-10 sm:w-[420px] rounded-xl overflow-hidden flex flex-col bg-black border border-solid border-border-primary h-min">
+          <div className="flex items-center gap-2 p-2.5 border-b border-border-primary bg-background-secondary">
+            <span className="text-sm whitespace-nowrap px-1">
+              {(t('cartPage.promo.label') !== 'cartPage.promo.label')
+                ? t('cartPage.promo.label')
+                : (i18n.language === 'pt' ? 'Tem um código promocional?' : 'Have a promo code?')}
+            </span>
+            <input
+              type="text"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value.trim())}
+              placeholder={(t('cartPage.promo.placeholder') !== 'cartPage.promo.placeholder')
+                ? t('cartPage.promo.placeholder')
+                : (i18n.language === 'pt' ? 'Insira o código promocional' : 'Enter promo code')}
+              className="flex-1 bg-transparent border border-border-primary rounded px-3 py-2 text-sm placeholder:text-[#777] focus:outline-none focus:border-border-secondary"
+              aria-label={(i18n.language === 'pt' ? 'Código promocional' : 'Promo code')}
+            />
           </div>
-          <div className="w-1/2 border-l border-solid bg-background-secondary border-border-primary">
-            <ButtonCheckout cartItems={cart} />
+          <div className="flex">
+            <div className="flex flex-col p-2.5 justify-center w-1/2 gap-2 text-center">
+              <div className="flex gap-2.5 justify-center text-sm">
+                <span>{t('cartPage.total.label')}</span>
+                <span>{total.toFixed(2)}€</span>
+              </div>
+              <span className="text-xs">{t('cartPage.total.tax')}</span>
+            </div>
+            <div className="w-1/2 border-l border-solid bg-background-secondary border-border-primary">
+              <ButtonCheckout cartItems={cart} promoCode={promoCode || undefined} />
+            </div>
           </div>
         </div>
       </div>
