@@ -109,15 +109,15 @@ export const products: Product[] = [
     translations: {
       en: {
         name: "Butterfly Hat",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "Chapéu Borboleta",
         description: "",
-        composition: "-",
-        care: "-",
+        composition: "",
+        care: "",
         
       }
     },
@@ -135,15 +135,15 @@ export const products: Product[] = [
     translations: {
       en: {
         name: "Case FM ⌬ 3D",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "Caixa FM ⌬ 3D",
         description: "",
-        composition: "-",
-        care: "-",
+        composition: "",
+        care: "",
         
       }
     },
@@ -153,7 +153,7 @@ export const products: Product[] = [
       "/images/3d/boxQ1.png",
       "/images/3d/boxQ2.png"
     ],
-    colors: ["Black"],
+    colors: ["deepskyblue"],
     sizes: ["Tamanho Único"]
   },
   {
@@ -161,15 +161,15 @@ export const products: Product[] = [
     translations: {
       en: {
         name: "T-Shirt Spongebob Kid",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "T-Shirt Spongebob Criança",
         description: "",
-        composition: "-",
-        care: "-",
+        composition: "",
+        care: "",
         
       }
     },
@@ -179,7 +179,7 @@ export const products: Product[] = [
       "/images/kids/spongebob1.png",
       "/images/kids/spongebob2.png"
     ],
-    colors: ["Black"],
+    colors: ["White"],
     sizes: ["Tamanho Único"]
   },
   {
@@ -187,15 +187,15 @@ export const products: Product[] = [
     translations: {
       en: {
         name: "Mandala Kaos Patch Fibonacci",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "Mandala Kaos Patch Fibonacci",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
         
       }
     },
@@ -203,51 +203,25 @@ export const products: Product[] = [
     categories: ["partnerships", "accessories"],
     images: [
       "/images/parcerias/mandalakaos_fibonacci1.png",
-      "/images/parcerias/mandalakaos_fibonacci2.png"
+      "/images/parcerias/mandalakaos_fibonacci1.png"
     ],
-    colors: ["White"],
+    colors: ["goldenrod"],
     sizes: ["57x89mm"]
-  },
-  {
-    _id: "price_1RgOrLCTQhRcTCnZmHZHms4G",
-    translations: {
-      en: {
-        name: "Skull Hat",
-        description: "-",
-        composition: "-",
-        care: "-",
-      },
-      pt: {
-        name: "Chapéu Caveira",
-        description: "",
-        composition: "-",
-        care: "-",
-        
-      }
-    },
-    price: 20.00,
-    categories: ["hats"],
-    images: [
-      "/images/hats/caveira1.png",
-      "/images/hats/caveira2.png"
-    ],
-    colors: ["Black"],
-    sizes: ["Tamanho Único"]
   },
   {
     _id: "price_1RcpR7CTQhRcTCnZ89F6D3KZ",
     translations: {
       en: {
         name: "FM Keychain",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "Porta-Chaves FM",
         description: "",
-        composition: "-",
-        care: "-",
+        composition: "",
+        care: "",
         
       }
     },
@@ -265,15 +239,15 @@ export const products: Product[] = [
     translations: {
       en: {
         name: "Ohm Sign 3D",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "Ohm Símbolo 3D",
         description: "",
-        composition: "-",
-        care: "-",
+        composition: "",
+        care: "",
         
       }
     },
@@ -309,8 +283,8 @@ export const products: Product[] = [
       "/images/art/girls1.png",
       "/images/art/girls2.png"
     ],
-    colors: ["White"],
-    sizes: ["M"],
+    colors: ["bisque"],
+    sizes: ["Tamanho Único"],
     discountPrice: 369.00
   },
   {
@@ -318,15 +292,15 @@ export const products: Product[] = [
     translations: {
       en: {
         name: "FM Hat",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "Chapéu FM",
         description: "",
-        composition: "-",
-        care: "-",
+        composition: "",
+        care: "",
         
       }
     },
@@ -336,7 +310,7 @@ export const products: Product[] = [
       "/images/hats/fm1.png",
       "/images/hats/fm2.png"
     ],
-    colors: ["Black","White"],
+    colors: ["Black"],
     sizes: ["Tamanho Único"]
   },
   {
@@ -344,15 +318,15 @@ export const products: Product[] = [
     translations: {
       en: {
         name: "Mandala Kaos Freaks Patch ",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
       },
       pt: {
         name: "Mandala Kaos Patch Freaks",
-        description: "-",
-        composition: "-",
-        care: "-",
+        description: "",
+        composition: "",
+        care: "",
         
       }
     },

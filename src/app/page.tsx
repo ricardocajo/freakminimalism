@@ -22,6 +22,27 @@ const Home = async () => {
           </p>
         </div>
       </section>
+      {/* Commented out flyer section
+      <section className="min-h-[60vh] sm:min-h-[50vh] flex flex-col items-center justify-center px-4 py-8 space-y-6">
+        <div className="w-full max-w-md">
+          <img 
+            src="/flyer.jpg" 
+            alt="Flyer da nossa coleção" 
+            className="w-full h-auto rounded-lg shadow-lg"
+          />
+        </div>
+        <div className="text-center">
+          <a 
+            href="https://maps.app.goo.gl/nevep4rEbcf7UVSm9" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg hover:underline flex items-center justify-center gap-2"
+          >
+            📍 R. Alm. Cândido dos Reis, Montijo
+          </a>
+        </div>
+      </section>
+      */}
 
       {/* Mid-screen content: Products (original CTA remains within Products component) */}
       <section className="container mx-auto px-4">
