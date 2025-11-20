@@ -8,17 +8,40 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(request: Request) {
   try {
-    const { cartItems } = await request.json();
+    const { cartItems, promoCode } = await request.json();
     
     const lineItems = cartItems.map((item: CartItem) => ({
       price: item._id, // Using _id as the Stripe price ID
       quantity: item.quantity
     }));
 
+    // Resolve Stripe Promotion Code if provided
+    let discounts: Stripe.Checkout.SessionCreateParams.Discount[] | undefined;
+    if (promoCode && typeof promoCode === 'string' && promoCode.length > 0) {
+      try {
+        const promoList = await stripe.promotionCodes.list({
+          code: promoCode,
+          active: true,
+          limit: 1,
+        });
+        const found = promoList.data[0];
+        if (found) {
+          discounts = [
+            {
+              promotion_code: found.id,
+            },
+          ];
+        }
+      } catch (e) {
+        console.warn('Failed to look up promotion code:', e);
+      }
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
+      discounts,
       billing_address_collection: 'required',
       shipping_address_collection: {
       allowed_countries: ['PT'],
