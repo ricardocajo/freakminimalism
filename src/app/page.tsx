@@ -10,7 +10,7 @@ const Home = async () => {
       <section className="py-2 text-center">
         <span className="text-sm text-[#A1A1A1]">◐ 𝔇𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔳𝔦𝔰𝔦𝔬𝔫, 𝔡𝔦𝔣𝔣𝔢𝔯𝔢𝔫𝔱 𝔰𝔱𝔶𝔩𝔢 ◑</span>
       </section>
-      {/* Intro section - occupies top half of the screen (taller on mobile) */}
+      {/* Intro section - occupies top half of the screen (taller on mobile)
       <section className="min-h-[60vh] sm:min-h-[50vh] flex items-center justify-center px-4">
         <div className="max-w-3xl text-center space-y-4 about-contrast">
           <p className="text-lg leading-relaxed">
@@ -21,12 +21,12 @@ const Home = async () => {
             para criarmos algo só teu.
           </p>
         </div>
-      </section>
-      {/* Commented out flyer section
+      </section>*/}
+      {/* Montra section */}
       <section className="min-h-[60vh] sm:min-h-[50vh] flex flex-col items-center justify-center px-4 py-8 space-y-6">
         <div className="w-full max-w-md">
           <img 
-            src="/flyer.jpg" 
+            src="/montra.jpg" 
             alt="Flyer da nossa coleção" 
             className="w-full h-auto rounded-lg shadow-lg"
           />
@@ -42,7 +42,6 @@ const Home = async () => {
           </a>
         </div>
       </section>
-      */}
 
       {/* Mid-screen content: Products (original CTA remains within Products component) */}
       <section className="container mx-auto px-4">
