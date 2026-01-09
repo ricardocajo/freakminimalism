@@ -33,12 +33,12 @@ const Home = async () => {
         </div>
         <div className="text-center">
           <a 
-            href="https://maps.app.goo.gl/nevep4rEbcf7UVSm9" 
+            href="https://www.google.com/maps/place/FREAK+MINIMALISM/@38.705919,-8.9758421,897m/data=!3m2!1e3!4b1!4m6!3m5!1s0xd19394e41250b15:0x7c512b28289c73b5!8m2!3d38.7059148!4d-8.9732618!16s%2Fg%2F11yqtvgslz?entry=ttu&g_ep=EgoyMDI2MDEwNi4wIKXMDSoKLDEwMDc5MjA3MUgBUAM%3D" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-lg hover:underline flex items-center justify-center gap-2"
           >
-            📍 R. Alm. Cândido dos Reis, Montijo
+            📍 R. Alm. Cândido dos Reis 57, 2870-150 Montijo
           </a>
         </div>
       </section>
