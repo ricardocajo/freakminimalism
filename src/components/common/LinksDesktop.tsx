@@ -12,6 +12,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 export function LinksDesktop() {
@@ -19,6 +20,17 @@ export function LinksDesktop() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link
+              href="https://cliente.freak-minimalism.com/"
+              target="_blank"
+              className={navigationMenuTriggerStyle()}
+            >
+              FreakCard
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>{t('navbar.collections')}</NavigationMenuTrigger>
           <NavigationMenuContent>

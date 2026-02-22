@@ -114,6 +114,11 @@ export const Navbar = () => {
         <div className="flex items-center justify-center h-full max-h-[90%]">
           <ul className="flex flex-col justify-between text-sm gap-9">
             <li className="flex items-center justify-center">
+              <Link href="https://cliente.freak-minimalism.com/" target="_blank" onClick={toggleHeader}>
+                FreakCard
+              </Link>
+            </li>
+            <li className="flex items-center justify-center">
               <Link href={linksData[0].path} onClick={toggleHeader}>
                 {linksData[0].name}
               </Link>
