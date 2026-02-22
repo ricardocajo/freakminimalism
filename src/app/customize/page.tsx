@@ -722,7 +722,8 @@ export default function CustomizePage() {
                         width={500}
                         height={500}
                         className="w-full h-full object-contain"
-                        priority
+                        quality={75}
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <span className="text-gray-400">Imagem do produto</span>
