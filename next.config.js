@@ -1,7 +1,6 @@
 const nextConfig = {
   images: {
     domains: [],
-    unoptimized: true,
   },
 };
 

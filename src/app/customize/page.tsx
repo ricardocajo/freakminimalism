@@ -234,6 +234,7 @@ export default function CustomizePage() {
 
   const isModelWithDensity = (cat?: string, model?: string) => (model === 'T-SHIRT' || model === 'POLO') && (cat === 'KING' || cat === 'QUEEN');
   const isQueenPolarWithGama = (cat?: string, model?: string) => cat === 'QUEEN' && model === 'POLAR';
+  const isChapeus = selectedCategory !== null && categories[selectedCategory]?.name === 'Chapéus';
   // View navigation helpers
   const viewOrder: ('Front' | 'Side' | 'Back')[] = ['Front', 'Side', 'Back'];
   const goPrevView = () => {
@@ -538,8 +539,8 @@ export default function CustomizePage() {
                           key={subcategory.path}
                           onClick={() => handleSubcategorySelect(subcategory)}
                           className={`block w-full text-left py-1 px-4 text-sm rounded-md transition-colors ${selectedSubcategory?.path === subcategory.path
-                              ? 'bg-blue-50 text-blue-600 font-medium'
-                              : 'text-gray-600 hover:bg-gray-50'
+                            ? 'bg-blue-50 text-blue-600 font-medium'
+                            : 'text-gray-600 hover:bg-gray-50'
                             }`}
                         >
                           {subcategory.name}
@@ -662,8 +663,8 @@ export default function CustomizePage() {
                   onClick={handleWhatsAppOrder}
                   disabled={!patchDimensions.width || !patchDimensions.height || !patchQuantity}
                   className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${patchDimensions.width && patchDimensions.height && patchQuantity
-                      ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
@@ -697,8 +698,8 @@ export default function CustomizePage() {
                   onClick={handleWhatsAppOrder}
                   disabled={!customMessage.trim()}
                   className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${customMessage.trim()
-                      ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                 >
                   <span>Enviar Pedido Especial por WhatsApp</span>
@@ -840,26 +841,38 @@ export default function CustomizePage() {
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Tamanho
                           </label>
-                          <select className="w-full border border-gray-300 rounded-md p-2">
-                            <option>Selecione um tamanho</option>
-                            <option>Pequeno (S)</option>
-                            <option>Médio (M)</option>
-                            <option>Grande (L)</option>
-                            <option>Extra Grande (XL)</option>
-                          </select>
+                          {isChapeus ? (
+                            <div className="w-full border border-gray-300 rounded-md p-2 bg-gray-50 text-gray-700">
+                              Tamanho único
+                            </div>
+                          ) : (
+                            <select className="w-full border border-gray-300 rounded-md p-2">
+                              <option>Selecione um tamanho</option>
+                              <option>Pequeno (S)</option>
+                              <option>Médio (M)</option>
+                              <option>Grande (L)</option>
+                              <option>Extra Grande (XL)</option>
+                            </select>
+                          )}
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Posição do Bordado
                           </label>
-                          <select
-                            className="w-full border border-gray-300 rounded-md p-2"
-                            value={embroideryPosition}
-                            onChange={(e) => setEmbroideryPosition(e.target.value as 'Frente' | 'Trás')}
-                          >
-                            <option value="Frente">Frente</option>
-                            <option value="Trás">Trás</option>
-                          </select>
+                          {isChapeus ? (
+                            <div className="w-full border border-gray-300 rounded-md p-2 bg-gray-50 text-gray-700">
+                              Frente
+                            </div>
+                          ) : (
+                            <select
+                              className="w-full border border-gray-300 rounded-md p-2"
+                              value={embroideryPosition}
+                              onChange={(e) => setEmbroideryPosition(e.target.value as 'Frente' | 'Trás')}
+                            >
+                              <option value="Frente">Frente</option>
+                              <option value="Trás">Trás</option>
+                            </select>
+                          )}
                         </div>
 
                         <div>
