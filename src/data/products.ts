@@ -26,7 +26,7 @@ interface Product {
 
 export const products: Product[] = [
   {
-    _id: "price_1T3d65CTQhRcTCnZVS5isCZ2",
+    _id: "price_1T3f4wCTQhRcTCnZNDQh84Rk",
     translations: {
       en: {
         name: "Mushroom Hat",
@@ -52,7 +52,7 @@ export const products: Product[] = [
     sizes: ["Tamanho Único"]
   },
   {
-    _id: "price_1T3cOHCTQhRcTCnZZ1wtyjZy",
+    _id: "price_1T3f2ECTQhRcTCnZOi6BdSAb",
     translations: {
       en: {
         name: "Montijo Clay Vase",
@@ -182,7 +182,7 @@ export const products: Product[] = [
     sizes: ["Tamanho Único"]
   },
   {
-    _id: "price_1T3ckgCTQhRcTCnZzLsfn33h",
+    _id: "price_1T3fFPCTQhRcTCnZ3aaI3igs",
     translations: {
       en: {
         name: "MandalaKaos Baseline Hat",
@@ -234,7 +234,7 @@ export const products: Product[] = [
     sizes: ["9x3cm"]
   },
   {
-    _id: "price_1T3caMCTQhRcTCnZZB6GFbxd",
+    _id: "price_1T3f3SCTQhRcTCnZnh2pvwAS",
     translations: {
       en: {
         name: "Montijo Clay Mug",
@@ -287,7 +287,7 @@ export const products: Product[] = [
     discountPrice: 369.00
   },
   {
-    _id: "price_1T3cxACTQhRcTCnZ0nzTYtXX",
+    _id: "price_1T3f5kCTQhRcTCnZzgLMsVcW",
     translations: {
       en: {
         name: "Pokemon Hat",
@@ -313,7 +313,7 @@ export const products: Product[] = [
     sizes: ["Tamanho Único"]
   },
   {
-    _id: "price_1T3cdjCTQhRcTCnZWsFO1lS6",
+    _id: "price_1T3f7JCTQhRcTCnZ0ZWtiRF1",
     translations: {
       en: {
         name: "Montijo Clay Base",
