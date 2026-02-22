@@ -156,84 +156,6 @@ export const products: Product[] = [
     sizes: ["Tamanho Único"]
   },
   {
-    _id: "price_1RgQmzCTQhRcTCnZTiPkdu0v",
-    translations: {
-      en: {
-        name: "Case FM ⌬ 3D",
-        description: "",
-        composition: "",
-        care: "",
-      },
-      pt: {
-        name: "Caixa FM ⌬ 3D",
-        description: "",
-        composition: "",
-        care: "",
-
-      }
-    },
-    price: 13.50,
-    categories: ["3dworks"],
-    images: [
-      "/images/3d/boxQ1.png",
-      "/images/3d/boxQ2.png"
-    ],
-    colors: ["deepskyblue"],
-    sizes: ["Tamanho Único"]
-  },
-  {
-    _id: "price_1RgQXoCTQhRcTCnZJo8RbA6s",
-    translations: {
-      en: {
-        name: "T-Shirt Spongebob Kid",
-        description: "",
-        composition: "",
-        care: "",
-      },
-      pt: {
-        name: "T-Shirt Spongebob Criança",
-        description: "",
-        composition: "",
-        care: "",
-
-      }
-    },
-    price: 16.00,
-    categories: ["kids"],
-    images: [
-      "/images/kids/spongebob1.png",
-      "/images/kids/spongebob2.png"
-    ],
-    colors: ["White"],
-    sizes: ["Tamanho Único"]
-  },
-  {
-    _id: "price_1RcpJECTQhRcTCnZ7eNVJb01",
-    translations: {
-      en: {
-        name: "Mandala Kaos Patch Fibonacci",
-        description: "",
-        composition: "",
-        care: "",
-      },
-      pt: {
-        name: "Mandala Kaos Patch Fibonacci",
-        description: "",
-        composition: "",
-        care: "",
-
-      }
-    },
-    price: 10.00,
-    categories: ["partnerships", "accessories"],
-    images: [
-      "/images/parcerias/mandalakaos_fibonacci1.png",
-      "/images/parcerias/mandalakaos_fibonacci1.png"
-    ],
-    colors: ["goldenrod"],
-    sizes: ["57x89mm"]
-  },
-  {
     _id: "price_1RcpR7CTQhRcTCnZ89F6D3KZ",
     translations: {
       en: {
@@ -260,29 +182,29 @@ export const products: Product[] = [
     sizes: ["9x3cm"]
   },
   {
-    _id: "price_1RgQifCTQhRcTCnZxc9Kz3Iz",
+    _id: "price_1T3caMCTQhRcTCnZZB6GFbxd",
     translations: {
       en: {
-        name: "Ohm Sign 3D",
-        description: "",
-        composition: "",
-        care: "",
+        name: "Montijo Clay Mug",
+        description: "Montijo Clay Mug",
+        composition: "Clay",
+        care: "-",
       },
       pt: {
-        name: "Ohm Símbolo 3D",
-        description: "",
-        composition: "",
-        care: "",
+        name: "Caneca Montijo",
+        description: "Caneca de Barro Montijo",
+        composition: "Barro",
+        care: "-",
 
       }
     },
-    price: 17.00,
-    categories: ["3dworks"],
+    price: 6,
+    categories: ["art"],
     images: [
-      "/images/3d/omsign1.png",
-      "/images/3d/omsign2.png"
+      "/images/art/canecamontijo1.png",
+      "/images/art/canecamontijo2.png"
     ],
-    colors: ["Black"],
+    colors: ["White"],
     sizes: ["Tamanho Único"]
   },
   {
@@ -337,31 +259,5 @@ export const products: Product[] = [
     ],
     colors: ["Black"],
     sizes: ["Tamanho Único"]
-  },
-  {
-    _id: "price_1RcpLyCTQhRcTCnZHdejxtHF",
-    translations: {
-      en: {
-        name: "Mandala Kaos Freaks Patch ",
-        description: "",
-        composition: "",
-        care: "",
-      },
-      pt: {
-        name: "Mandala Kaos Patch Freaks",
-        description: "",
-        composition: "",
-        care: "",
-
-      }
-    },
-    price: 10.00,
-    categories: ["partnerships", "accessories"],
-    images: [
-      "/images/parcerias/mandalakaos_freaks1.png",
-      "/images/parcerias/mandalakaos_freaks2.png"
-    ],
-    colors: ["White"],
-    sizes: ["107x36mm"]
   }
 ];
