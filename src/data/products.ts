@@ -26,6 +26,31 @@ interface Product {
 
 export const products: Product[] = [
   {
+    _id: "price_1T3cOHCTQhRcTCnZZ1wtyjZy",
+    translations: {
+      en: {
+        name: "Montijo Clay Vase",
+        description: "A classic freak-minimalism t-shirt, do you Lick?",
+        composition: "Clay",
+        care: "-"
+      },
+      pt: {
+        name: "Jarro Montijo",
+        description: "Vaso de Barro Montijo",
+        composition: "Barro",
+        care: "-"
+      }
+    },
+    price: 7,
+    categories: ["art"],
+    images: [
+      "/images/art/vasomontijo1.png",
+      "/images/art/vasomontijo2.png"
+    ],
+    colors: ["White"],
+    sizes: ["Tamanho Único"]
+  },
+  {
     _id: "price_1RcltPCTQhRcTCnZs743CmYY",
     translations: {
       en: {
@@ -65,7 +90,7 @@ export const products: Product[] = [
         description: "Para fãs de Demon Slayer - Estilo Nezuko",
         composition: "65% algodão, 35% poliéster",
         care: "Lavar na máquina em água fria. Não alvejar. Passar a ferro em baixa temperatura.",
-        
+
       }
     },
     price: 25.00,
@@ -118,7 +143,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 20.00,
@@ -144,7 +169,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 13.50,
@@ -170,7 +195,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 16.00,
@@ -196,7 +221,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 10.00,
@@ -222,7 +247,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 7.50,
@@ -248,7 +273,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 17.00,
@@ -274,7 +299,7 @@ export const products: Product[] = [
         description: "Artista: Andre Daniel",
         composition: "Dimensoes: 80x48 cm",
         care: "-",
-        
+
       }
     },
     price: 777.00,
@@ -301,7 +326,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 17.00,
@@ -327,7 +352,7 @@ export const products: Product[] = [
         description: "",
         composition: "",
         care: "",
-        
+
       }
     },
     price: 10.00,
