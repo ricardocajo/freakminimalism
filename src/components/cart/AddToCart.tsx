@@ -42,7 +42,7 @@ export const AddToCart = ({
 
     startTransition(() => {
       addToCart(cartItem);
-      toast.success(t('cart.added_to_cart'));
+      toast.success(t('cart.added_to_cart'), { duration: 1500 });
     });
   }, [product, selectedColor, selectedSize, addToCart, t, i18n.language]);
 
