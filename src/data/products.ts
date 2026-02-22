@@ -156,6 +156,32 @@ export const products: Product[] = [
     sizes: ["Tamanho Único"]
   },
   {
+    _id: "price_1T3ckgCTQhRcTCnZzLsfn33h",
+    translations: {
+      en: {
+        name: "MandalaKaos Baseline Hat",
+        description: "Hat from MandalaKaos Baseline",
+        composition: "",
+        care: "",
+      },
+      pt: {
+        name: "Chapéu MandalaKaos Baseline",
+        description: "Chapéu da MandalaKaos Baseline",
+        composition: "",
+        care: "",
+
+      }
+    },
+    price: 20.00,
+    categories: ["hats", "parcerias"],
+    images: [
+      "/images/parcerias/mandalabaselinehat1.png",
+      "/images/parcerias/mandalabaselinehat2.png"
+    ],
+    colors: ["Black"],
+    sizes: ["Tamanho Único"]
+  },
+  {
     _id: "price_1RcpR7CTQhRcTCnZ89F6D3KZ",
     translations: {
       en: {
@@ -258,6 +284,32 @@ export const products: Product[] = [
       "/images/hats/fm2.png"
     ],
     colors: ["Black"],
+    sizes: ["Tamanho Único"]
+  },
+  {
+    _id: "price_1T3cdjCTQhRcTCnZWsFO1lS6",
+    translations: {
+      en: {
+        name: "Montijo Clay Base",
+        description: "Montijo Clay Base",
+        composition: "Clay",
+        care: "-",
+      },
+      pt: {
+        name: "Base Montijo",
+        description: "Base de Barro Montijo",
+        composition: "Barro",
+        care: "-",
+
+      }
+    },
+    price: 8,
+    categories: ["art"],
+    images: [
+      "/images/art/basemontijo1.png",
+      "/images/art/basemontijo2.png"
+    ],
+    colors: ["White"],
     sizes: ["Tamanho Único"]
   }
 ];
