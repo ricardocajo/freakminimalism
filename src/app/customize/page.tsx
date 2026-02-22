@@ -290,6 +290,11 @@ export default function CustomizePage() {
           const altDensityUrl = (altModel !== model) ? `${altBaseUrl}&density=300` : '';
 
           let imgs: string[] = [];
+          // Use local variables to track the mode set during this fetch,
+          // since React state updates are batched and not immediately available.
+          let localImageMode: 'density' | 'gama' | 'simple' = 'simple';
+          let localImageNameMode: 'brand_color_view' | 'polar_gw' = 'brand_color_view';
+
           // Try density first when applicable
           if (densityUrl) {
             const res = await fetch(densityUrl);
@@ -297,6 +302,7 @@ export default function CustomizePage() {
             const data = await res.json();
             imgs = Array.isArray(data.images) ? data.images : [];
             if (imgs.length > 0) {
+              localImageMode = 'density';
               setImageMode('density');
               setImageFolderPrefix(`${effectiveDensity}/`);
             }
@@ -309,6 +315,8 @@ export default function CustomizePage() {
             const gamaImgs: string[] = Array.isArray(dataG.images) ? dataG.images : [];
             if (gamaImgs.length > 0) {
               imgs = gamaImgs;
+              localImageMode = 'gama';
+              localImageNameMode = 'brand_color_view';
               setImageMode('gama');
               setImageFolderPrefix('GAMA WOMEN/');
               setImageNameMode('brand_color_view');
@@ -322,6 +330,8 @@ export default function CustomizePage() {
             const altImgs: string[] = Array.isArray(dataAlt.images) ? dataAlt.images : [];
             if (altImgs.length > 0) {
               imgs = altImgs;
+              localImageMode = 'gama';
+              localImageNameMode = 'polar_gw';
               setImageMode('gama');
               setImageFolderPrefix('300/');
               setImageNameMode('polar_gw');
@@ -335,6 +345,8 @@ export default function CustomizePage() {
             const altBaseImgs: string[] = Array.isArray(dataAltBase.images) ? dataAltBase.images : [];
             if (altBaseImgs.length > 0) {
               imgs = altBaseImgs;
+              localImageMode = 'gama';
+              localImageNameMode = 'polar_gw';
               setImageMode('gama');
               setImageFolderPrefix('');
               setImageNameMode('polar_gw');
@@ -351,21 +363,27 @@ export default function CustomizePage() {
             // If the folder uses brand/color/view like "Ankara Kids_Black_Front.jpg", enable brand_color_view with arrows
             const hasBrandColorView = imgs.some((n: string) => /^([^_]+)_(.+)_(Front|Side|Back)\.[^.]+$/i.test(n));
             if (hasPolarGW) {
+              localImageMode = 'gama';
+              localImageNameMode = 'polar_gw';
               setImageMode('gama');
               setImageFolderPrefix('');
               setImageNameMode('polar_gw');
             } else if (hasBrandColorView) {
+              localImageMode = 'gama';
+              localImageNameMode = 'brand_color_view';
               setImageMode('gama');
               setImageFolderPrefix('');
               setImageNameMode('brand_color_view');
             } else {
+              localImageMode = 'simple';
+              localImageNameMode = 'brand_color_view';
               setImageMode('simple');
               setImageFolderPrefix('');
               setImageNameMode('brand_color_view');
             }
           }
           setProductImages(imgs);
-          if (imageMode === 'density' || isTShirtWithDensity) {
+          if (localImageMode === 'density' || isTShirtWithDensity) {
             // choose first valid Front image, set color and image
             const valid = imgs.map(parseTeeName).filter(Boolean) as { brand: string; color: string; view: 'Front' | 'Side' | 'Back' }[];
             const first = valid.find(v => v.view === 'Front') || valid[0];
@@ -383,16 +401,16 @@ export default function CustomizePage() {
               setSelectedImage(null);
               setSelectedView('Front');
             }
-          } else if (imageMode === 'gama' || isQueenPolarWithGama(cat, model)) {
+          } else if (localImageMode === 'gama' || isQueenPolarWithGama(cat, model)) {
             // For QUEEN/POLAR with GAMA WOMEN, group by color; prefer Front if available
-            const items = imageNameMode === 'polar_gw'
+            const items = localImageNameMode === 'polar_gw'
               ? imgs.map(parsePolarGWName).filter(Boolean) as { color: string; view: 'Front' | 'Side' | 'Back' }[]
               : imgs.map(parseTeeName).filter(Boolean) as { brand?: string; color: string; view: 'Front' | 'Side' | 'Back' }[];
             const first = items.find(v => v.view === 'Front') || items[0];
             if (first) {
               setSelectedColor(first.color);
               const fname = imgs.find(n => {
-                const p = imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
+                const p = localImageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n);
                 return p && p.color === first.color && (p.view === 'Front' || p.view === first.view);
               }) || null;
               setSelectedImage(fname);
