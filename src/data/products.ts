@@ -26,6 +26,32 @@ interface Product {
 
 export const products: Product[] = [
   {
+    _id: "price_1T3d65CTQhRcTCnZVS5isCZ2",
+    translations: {
+      en: {
+        name: "Mushroom Hat",
+        description: "Mushroom Panama Hat",
+        composition: "",
+        care: "",
+      },
+      pt: {
+        name: "Panamá Cogumelo",
+        description: "Panamá Cogumelo",
+        composition: "",
+        care: "",
+
+      }
+    },
+    price: 17.00,
+    categories: ["hats"],
+    images: [
+      "/images/hats/mushroompanama1.png",
+      "/images/hats/mushroompanama2.png"
+    ],
+    colors: ["Beige"],
+    sizes: ["Tamanho Único"]
+  },
+  {
     _id: "price_1T3cOHCTQhRcTCnZZ1wtyjZy",
     translations: {
       en: {
@@ -261,17 +287,17 @@ export const products: Product[] = [
     discountPrice: 369.00
   },
   {
-    _id: "price_1RgOxCCTQhRcTCnZBUQuVBzN",
+    _id: "price_1T3cxACTQhRcTCnZ0nzTYtXX",
     translations: {
       en: {
-        name: "FM Hat",
-        description: "",
+        name: "Pokemon Hat",
+        description: "Pokemon Panama Hat",
         composition: "",
         care: "",
       },
       pt: {
-        name: "Chapéu FM",
-        description: "",
+        name: "Chapéu Pokemon",
+        description: "Panamá Pokemon",
         composition: "",
         care: "",
 
@@ -280,10 +306,10 @@ export const products: Product[] = [
     price: 17.00,
     categories: ["hats"],
     images: [
-      "/images/hats/fm1.png",
-      "/images/hats/fm2.png"
+      "/images/hats/pokemonpanama1.png",
+      "/images/hats/pokemonpanama2.png"
     ],
-    colors: ["Black"],
+    colors: ["Beige"],
     sizes: ["Tamanho Único"]
   },
   {
