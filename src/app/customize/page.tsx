@@ -140,6 +140,23 @@ const categories: Category[] = [
       { name: 'Oversize', path: '/personalizar/UNISEX/OVERSIZE', image: '/images/personalizar/UNISEX/OVERSIZE/fjord_preto_f.jpg' },
       { name: 'Sweat Scarda', path: '/personalizar/UNISEX/SWEAT SCARDA' },
     ]
+  },
+  {
+    name: 'Chapéus',
+    subcategories: [
+      { name: 'Basebol', path: '/personalizar/CHAPEUS/BASEBOL', image: '/images/personalizar/CHAPEUS/BASEBOL/00.png' },
+      { name: 'Boina', path: '/personalizar/CHAPEUS/BOINA', image: '/images/personalizar/CHAPEUS/BOINA/11.png' },
+      { name: 'Clássico', path: '/personalizar/CHAPEUS/CLASSICO', image: '/images/personalizar/CHAPEUS/CLASSICO/00.png' },
+      { name: 'Gola', path: '/personalizar/CHAPEUS/GOLA', image: '/images/personalizar/CHAPEUS/GOLA/11.png' },
+      { name: 'Gorro', path: '/personalizar/CHAPEUS/GORRO', image: '/images/personalizar/CHAPEUS/GORRO/11.png' },
+      { name: 'Panamá', path: '/personalizar/CHAPEUS/PANAMA', image: '/images/personalizar/CHAPEUS/PANAMA/00.png' },
+      { name: 'Panamá Curto', path: '/personalizar/CHAPEUS/PANAMACURTO', image: '/images/personalizar/CHAPEUS/PANAMACURTO/00.png' },
+      { name: 'Recy', path: '/personalizar/CHAPEUS/RECY', image: '/images/personalizar/CHAPEUS/RECY/00.png' },
+      { name: 'Snap Five', path: '/personalizar/CHAPEUS/SNAPFIVE', image: '/images/personalizar/CHAPEUS/SNAPFIVE/00.png' },
+      { name: 'Tradicional', path: '/personalizar/CHAPEUS/TRADICIONAL', image: '/images/personalizar/CHAPEUS/TRADICIONAL/00.png' },
+      { name: 'Whippy', path: '/personalizar/CHAPEUS/WHIPPY', image: '/images/personalizar/CHAPEUS/WHIPPY/52.png' },
+      { name: 'Zion', path: '/personalizar/CHAPEUS/ZION', image: '/images/personalizar/CHAPEUS/ZION/00.png' },
+    ]
   }
 ];
 
@@ -176,11 +193,11 @@ export default function CustomizePage() {
   // Holds image filenames available for the selected product (e.g., ["00.png", "1A.png"]) 
   const [productImages, setProductImages] = useState<string[]>([]);
   // Which mode the current images correspond to: density/gama/simple
-  const [imageMode, setImageMode] = useState<'density'|'gama'|'simple'>('simple');
+  const [imageMode, setImageMode] = useState<'density' | 'gama' | 'simple'>('simple');
   // Folder prefix to prepend when rendering images (e.g., '150/' or 'GAMA WOMEN/' or '')
   const [imageFolderPrefix, setImageFolderPrefix] = useState<string>('');
   // Naming mode for parsing filenames
-  const [imageNameMode, setImageNameMode] = useState<'brand_color_view'|'polar_gw'>('brand_color_view');
+  const [imageNameMode, setImageNameMode] = useState<'brand_color_view' | 'polar_gw'>('brand_color_view');
 
   // Convenience: currently selected category/model names from the subcategory path
   const [currentCatModel, setCurrentCatModel] = useState<{ cat: string; model: string } | null>(null);
@@ -200,16 +217,16 @@ export default function CustomizePage() {
   const parseTeeName = (name: string) => {
     // Accept any brand prefix (e.g., Luanda, Ankara, Game Woman, etc.) before first underscore
     const m = name.match(/^([^_]+)_(.+)_(Front|Side|Back|F|L|C)\.[^.]+$/i);
-    if (!m) return null as null | { brand: string; color: string; view: 'Front'|'Side'|'Back' };
+    if (!m) return null as null | { brand: string; color: string; view: 'Front' | 'Side' | 'Back' };
     const raw = m[3].toLowerCase();
-    const view = raw === 'f' ? 'Front' : raw === 'l' ? 'Side' : raw === 'c' ? 'Back' : (m[3] as 'Front'|'Side'|'Back');
+    const view = raw === 'f' ? 'Front' : raw === 'l' ? 'Side' : raw === 'c' ? 'Back' : (m[3] as 'Front' | 'Side' | 'Back');
     return { brand: m[1], color: m[2], view };
   };
 
   // Parse filename like "preto_f.jpg" (POLAR GAMA WOMEN set) → { color: 'preto', view: 'Front'|'Side'|'Back' }
   const parsePolarGWName = (name: string) => {
     const m = name.match(/^([a-zA-Z_]+)_(f|l|c)\.[^.]+$/);
-    if (!m) return null as null | { color: string; view: 'Front'|'Side'|'Back' };
+    if (!m) return null as null | { color: string; view: 'Front' | 'Side' | 'Back' };
     const view = m[2] === 'f' ? 'Front' : m[2] === 'l' ? 'Side' : 'Back';
     const color = m[1].replace(/_/g, ' ');
     return { color, view };
@@ -218,7 +235,7 @@ export default function CustomizePage() {
   const isModelWithDensity = (cat?: string, model?: string) => (model === 'T-SHIRT' || model === 'POLO') && (cat === 'KING' || cat === 'QUEEN');
   const isQueenPolarWithGama = (cat?: string, model?: string) => cat === 'QUEEN' && model === 'POLAR';
   // View navigation helpers
-  const viewOrder: ('Front'|'Side'|'Back')[] = ['Front', 'Side', 'Back'];
+  const viewOrder: ('Front' | 'Side' | 'Back')[] = ['Front', 'Side', 'Back'];
   const goPrevView = () => {
     setSelectedView((prev) => {
       const idx = viewOrder.indexOf(prev);
@@ -349,7 +366,7 @@ export default function CustomizePage() {
           setProductImages(imgs);
           if (imageMode === 'density' || isTShirtWithDensity) {
             // choose first valid Front image, set color and image
-            const valid = imgs.map(parseTeeName).filter(Boolean) as {brand:string;color:string;view:'Front'|'Side'|'Back'}[];
+            const valid = imgs.map(parseTeeName).filter(Boolean) as { brand: string; color: string; view: 'Front' | 'Side' | 'Back' }[];
             const first = valid.find(v => v.view === 'Front') || valid[0];
             if (first) {
               setSelectedColor(first.color);
@@ -368,8 +385,8 @@ export default function CustomizePage() {
           } else if (imageMode === 'gama' || isQueenPolarWithGama(cat, model)) {
             // For QUEEN/POLAR with GAMA WOMEN, group by color; prefer Front if available
             const items = imageNameMode === 'polar_gw'
-              ? imgs.map(parsePolarGWName).filter(Boolean) as {color:string;view:'Front'|'Side'|'Back'}[]
-              : imgs.map(parseTeeName).filter(Boolean) as {brand?:string;color:string;view:'Front'|'Side'|'Back'}[];
+              ? imgs.map(parsePolarGWName).filter(Boolean) as { color: string; view: 'Front' | 'Side' | 'Back' }[]
+              : imgs.map(parseTeeName).filter(Boolean) as { brand?: string; color: string; view: 'Front' | 'Side' | 'Back' }[];
             const first = items.find(v => v.view === 'Front') || items[0];
             if (first) {
               setSelectedColor(first.color);
@@ -421,7 +438,7 @@ export default function CustomizePage() {
     const imgs = productImages;
     if (!imgs || imgs.length === 0 || !selectedColor) return;
     // find exact match; if missing current view, fallback order Front→Side→Back
-    const order: ('Front'|'Side'|'Back')[] = [selectedView, 'Front', 'Side', 'Back'];
+    const order: ('Front' | 'Side' | 'Back')[] = [selectedView, 'Front', 'Side', 'Back'];
     let chosen: string | null = null;
     for (const v of order) {
       const match = imgs.find(n => {
@@ -436,21 +453,21 @@ export default function CustomizePage() {
 
   const handleWhatsAppOrder = () => {
     if (selectedCategory === null) return;
-    
+
     let message = '';
-    
+
     if (categories[selectedCategory].name === 'Pedido Especial') {
       // For special orders, use the custom message
       message = `Olá, gostaria de fazer um pedido especial:\n\n${customMessage}`;
     } else if (categories[selectedCategory].name === 'Patches') {
       // For Patches category
       message = `*NOVO PEDIDO DE PATCHES*\n\n` +
-               `📏 *Dimensões:* ${patchDimensions.width || '--'} x ${patchDimensions.height || '--'} mm\n` +
-               `🔢 *Quantidade:* ${patchQuantity || '--'}\n` +
-               `📝 *Notas adicionais:* ${patchNotes || 'Nenhuma'}\n\n` +
-               `🖼️ *ENVIE A FOTO DO SEU DESIGN*\n` +
-               `Por favor, envie a imagem ou referência do seu design como uma mensagem separada logo após enviar este formulário.\n\n` +
-               `ℹ️ Certifique-se que a imagem está nítida e mostra claramente o que deseja personalizar.`;
+        `📏 *Dimensões:* ${patchDimensions.width || '--'} x ${patchDimensions.height || '--'} mm\n` +
+        `🔢 *Quantidade:* ${patchQuantity || '--'}\n` +
+        `📝 *Notas adicionais:* ${patchNotes || 'Nenhuma'}\n\n` +
+        `🖼️ *ENVIE A FOTO DO SEU DESIGN*\n` +
+        `Por favor, envie a imagem ou referência do seu design como uma mensagem separada logo após enviar este formulário.\n\n` +
+        `ℹ️ Certifique-se que a imagem está nítida e mostra claramente o que deseja personalizar.`;
     } else if (selectedSubcategory) {
       // For other categories with subcategories
       // Determine density label from state or folder prefix
@@ -468,8 +485,8 @@ export default function CustomizePage() {
             ? '190 g/m² — Ankara'
             : (density || folderDensity) === '300'
               ? (currentCatModel && currentCatModel.model === 'T-SHIRT' && currentCatModel.cat === 'QUEEN'
-                  ? '300 g/m² — Game Woman'
-                  : '300 g/m²')
+                ? '300 g/m² — Game Woman'
+                : '300 g/m²')
               : `${density || folderDensity} g/m²`
         : null;
       const cor = selectedColor ? selectedColor : (selectedImage ? selectedImage.replace(/\.[^.]+$/, '') : null);
@@ -479,17 +496,17 @@ export default function CustomizePage() {
         return parts.length >= 3 && parts[1] === 'QUEEN' && parts[2] === 'POLAR';
       })();
       message = `Olá, gostaria de encomendar um item personalizado:\n\n` +
-               `Categoria: ${categories[selectedCategory].name}\n` +
-               `Modelo: ${selectedSubcategory.name}\n` +
-               `${isQueenPolar ? `Gama: GAMA WOMEN\n` : ''}` +
-               `${dens ? `Densidade: ${dens}\n` : ''}` +
-               `${cor ? `Cor/Imagem: ${prettyColorLabel(cor)}\n` : ''}` +
-               `Posição do bordado: ${embroideryPosition}\n\n` +
-               `Por favor, envie mais informações sobre como proceder com a personalização.`;
+        `Categoria: ${categories[selectedCategory].name}\n` +
+        `Modelo: ${selectedSubcategory.name}\n` +
+        `${isQueenPolar ? `Gama: GAMA WOMEN\n` : ''}` +
+        `${dens ? `Densidade: ${dens}\n` : ''}` +
+        `${cor ? `Cor/Imagem: ${prettyColorLabel(cor)}\n` : ''}` +
+        `Posição do bordado: ${embroideryPosition}\n\n` +
+        `Por favor, envie mais informações sobre como proceder com a personalização.`;
     } else {
       return;
     }
-    
+
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://api.whatsapp.com/send?phone=351960361839&text=${encodedMessage}`, '_blank');
   };
@@ -497,7 +514,7 @@ export default function CustomizePage() {
   return (
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center">Personalização</h1>
-      
+
       <div className="flex flex-col md:flex-row gap-8">
         {/* Categories Sidebar */}
         <div className="w-full md:w-1/4">
@@ -508,24 +525,22 @@ export default function CustomizePage() {
                 <div key={category.name} className="border-b border-gray-200">
                   <button
                     onClick={() => handleCategorySelect(index)}
-                    className={`w-full text-left py-2 px-4 rounded-md transition-colors ${
-                      selectedCategory === index ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'
-                    }`}
+                    className={`w-full text-left py-2 px-4 rounded-md transition-colors ${selectedCategory === index ? 'bg-gray-100 font-medium' : 'hover:bg-gray-50'
+                      }`}
                   >
                     {category.name}
                   </button>
-                  
+
                   {selectedCategory === index && category.subcategories.length > 0 && (
                     <div className="ml-4 mt-1 space-y-1 py-2">
                       {category.subcategories.map((subcategory) => (
                         <button
                           key={subcategory.path}
                           onClick={() => handleSubcategorySelect(subcategory)}
-                          className={`block w-full text-left py-1 px-4 text-sm rounded-md transition-colors ${
-                            selectedSubcategory?.path === subcategory.path
+                          className={`block w-full text-left py-1 px-4 text-sm rounded-md transition-colors ${selectedSubcategory?.path === subcategory.path
                               ? 'bg-blue-50 text-blue-600 font-medium'
                               : 'text-gray-600 hover:bg-gray-50'
-                          }`}
+                            }`}
                         >
                           {subcategory.name}
                         </button>
@@ -578,7 +593,7 @@ export default function CustomizePage() {
                     <p className="text-xs text-gray-500 mt-1">Máx: 500mm</p>
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Quantidade <span className="text-red-500">*</span>
@@ -593,7 +608,7 @@ export default function CustomizePage() {
                     required
                   />
                 </div>
-                
+
                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
                   <div className="flex">
                     <div className="flex-shrink-0">
@@ -614,14 +629,14 @@ export default function CustomizePage() {
                     Detalhes do Design
                     <span className="text-xs font-normal text-gray-500 block">Descreva as cores, materiais e detalhes do seu design</span>
                   </label>
-                  <textarea 
+                  <textarea
                     value={patchNotes}
                     onChange={(e) => setPatchNotes(e.target.value)}
                     className="w-full border-2 border-gray-300 rounded-md p-3 min-h-[100px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
                     placeholder="Ex: Fundo preto com letras brancas, borda dourada, tecido de algodão..."
                   />
                 </div>
-                
+
                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-4">
                   <div className="flex items-start">
                     <div className="flex-shrink-0">
@@ -646,19 +661,18 @@ export default function CustomizePage() {
                 <button
                   onClick={handleWhatsAppOrder}
                   disabled={!patchDimensions.width || !patchDimensions.height || !patchQuantity}
-                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${
-                    patchDimensions.width && patchDimensions.height && patchQuantity
+                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${patchDimensions.width && patchDimensions.height && patchQuantity
                       ? 'bg-green-600 hover:bg-green-700 text-white'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
-                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
-                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z" />
+                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z" />
                   </svg>
                   <span>Enviar Pedido e Anexar Design</span>
                 </button>
-                
+
                 <p className="text-xs text-gray-500 text-center mt-2">
                   Você será redirecionado para o WhatsApp para completar seu pedido
                 </p>
@@ -682,16 +696,15 @@ export default function CustomizePage() {
                 <button
                   onClick={handleWhatsAppOrder}
                   disabled={!customMessage.trim()}
-                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${
-                    customMessage.trim()
+                  className={`w-full py-3 px-6 rounded-md font-medium flex items-center justify-center gap-2 ${customMessage.trim()
                       ? 'bg-green-600 hover:bg-green-700 text-white'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
+                    }`}
                 >
                   <span>Enviar Pedido Especial por WhatsApp</span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
-                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                    <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z" />
+                    <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z" />
                   </svg>
                 </button>
               </div>
@@ -721,7 +734,7 @@ export default function CustomizePage() {
                           className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full p-2 shadow"
                           aria-label="Anterior"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                         </button>
                         <button
                           type="button"
@@ -729,7 +742,7 @@ export default function CustomizePage() {
                           className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 rounded-full p-2 shadow"
                           aria-label="Seguinte"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                         </button>
                       </>
                     )}
@@ -744,7 +757,7 @@ export default function CustomizePage() {
                   <h2 className="text-2xl font-bold mb-2">
                     {categories[selectedCategory!].name} - {selectedSubcategory.name}
                   </h2>
-                  
+
                   <div className="space-y-6 mt-8">
                     {/* Thumbnails removed per request; using dropdown selector below */}
                     <div>
@@ -792,7 +805,7 @@ export default function CustomizePage() {
                               {Array.from(new Set(productImages
                                 .map((n) => imageNameMode === 'polar_gw' ? parsePolarGWName(n) : parseTeeName(n))
                                 .filter(Boolean)
-                                .map((p) => (p as {color:string}).color)
+                                .map((p) => (p as { color: string }).color)
                               )).map((color) => (
                                 <option key={color as string} value={color as string}>{color as string}</option>
                               ))}
@@ -822,7 +835,7 @@ export default function CustomizePage() {
                             </select>
                           </div>
                         )}
-                        
+
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Tamanho
@@ -848,12 +861,12 @@ export default function CustomizePage() {
                             <option value="Trás">Trás</option>
                           </select>
                         </div>
-                        
+
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
                             Detalhes da Personalização
                           </label>
-                          <textarea 
+                          <textarea
                             className="w-full border-2 border-gray-300 rounded-md p-3 min-h-[100px] text-gray-900 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors"
                             placeholder="Descreva como deseja personalizar o seu item..."
                           />
@@ -896,15 +909,15 @@ export default function CustomizePage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <button
                       onClick={handleWhatsAppOrder}
                       className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-md transition-colors flex items-center justify-center gap-2"
                     >
                       <span>Enviar Pedido por WhatsApp</span>
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z"/>
-                        <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z"/>
+                        <path d="M17.498 14.382l-1.106-1.624-1.715-.415c-.603-.146-1.15.25-1.55.65l-1.23 1.23c-1.36-1.36-3.67-3.66-3.67-3.67l1.23-1.23c.4-.4.796-1.05.65-1.55l-.415-1.715-1.624-1.106c-.9-.6-2.2-.4-2.9.4l-1.23 1.23c-.3.3-.5.7-.5 1.15 0 .1 0 .25.05.35 1.1 3.54 3.77 6.21 7.31 7.31.1.05.25.05.35.05.45 0 .85-.2 1.15-.5l1.23-1.23c.7-.7 1-1.95.4-2.9z" />
+                        <path d="M17.5 6.5c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1zm-4 0c.6 0 1-.4 1-1s-.4-1-1-1-1 .4-1 1 .4 1 1 1z" />
                       </svg>
                     </button>
                   </div>
