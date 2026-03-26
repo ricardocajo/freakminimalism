@@ -17,7 +17,7 @@ export const Footer = () => {
       image: "/images/social/instagram.svg"
     },
     {
-      href: "https://api.whatsapp.com/send?phone=351927771505",
+      href: "https://api.whatsapp.com/send?phone=351960361839",
       title: "WhatsApp",
       image: "/images/social/whatsapp.svg"
     },
