@@ -36,6 +36,10 @@ const Home = async () => {
           />*/}
           <img 
             src="/flyer.jpeg"
+            width="100%"
+            height="400"
+            style={{ border: 0, borderRadius: '0.5rem' }}
+            href="https://api.whatsapp.com/send?phone=351960361839"
             alt="Flyer festa" 
             className="w-full h-auto rounded-lg shadow-lg"
           />
