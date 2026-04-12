@@ -35,7 +35,7 @@ const Home = async () => {
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d897!2d-8.9758421!3d38.705919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd19394e41250b15%3A0x7c512b28289c73b5!2sFREAK%20MINIMALISM!5e0!3m2!1spt-PT!2spt!4v1"
           />*/}
           <a
-            href="https://api.whatsapp.com/send?phone=351960361839"
+            href="https://api.whatsapp.com/send?phone=351963601750"
             target="_blank"
             rel="noopener noreferrer"
           >
