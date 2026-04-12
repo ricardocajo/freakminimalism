@@ -527,7 +527,7 @@ export default function CustomizePage() {
     }
 
     const encodedMessage = encodeURIComponent(message);
-    window.open(`https://api.whatsapp.com/send?phone=351960361839&text=${encodedMessage}`, '_blank');
+    window.open(`https://api.whatsapp.com/send?phone=351963601750&text=${encodedMessage}`, '_blank');
   };
 
   return (
