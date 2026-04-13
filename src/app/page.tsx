@@ -59,7 +59,7 @@ const Home = async () => {
             📍 R. Alm. Cândido dos Reis 57, 2870-150 Montijo
           </a>*/}
           <a
-            href="https://api.whatsapp.com/send?phone=351960361839"
+            href="https://api.whatsapp.com/send?phone=351963601750"
             target="_blank"
             rel="noopener noreferrer"
             className="text-lg hover:underline flex items-center justify-center gap-2"
