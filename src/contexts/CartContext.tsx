@@ -1,109 +1,108 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { Product, type CartItem } from "@/types/types";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { type CartItem } from "@/types/types";
 
 export type { CartItem };
 
 interface CartContextType {
   cart: CartItem[];
   totalItems: number;
+  total: number;
   addToCart: (item: CartItem) => void;
   removeFromCart: (item: CartItem) => void;
-  decrementQuantity: (itemId: string) => void;
+  decrementQuantity: (item: CartItem) => void;
   emptyCart: () => void;
 }
+
+const CART_STORAGE_KEY = "cart";
+
+const sameVariant = (a: CartItem, b: CartItem) =>
+  a._id === b._id && a.color === b.color && a.size === b.size;
+
+const loadInitialCart = (): CartItem[] => {
+  if (typeof window === "undefined") return [];
+  try {
+    const saved = window.localStorage.getItem(CART_STORAGE_KEY);
+    if (!saved) return [];
+    const parsed = JSON.parse(saved);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const hydrated = useRef(false);
 
+  // Hydrate from localStorage once on mount. Using a ref prevents the
+  // persist effect from writing the empty default before hydration.
   useEffect(() => {
-    const savedCart = typeof window !== 'undefined' ? localStorage.getItem("cart") : null;
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
+    setCart(loadInitialCart());
+    hydrated.current = true;
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem("cart", JSON.stringify(cart));
+    if (!hydrated.current) return;
+    try {
+      window.localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    } catch {
+      // Ignore quota / access errors
     }
   }, [cart]);
 
-  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-
-  const total = cart.reduce((sum, item) => {
-    const price = item.discountPrice ? item.discountPrice : item.price;
-    return sum + (price * item.quantity);
-  }, 0);
-
   const addToCart = (item: CartItem) => {
-    const existingItem = cart.find((cartItem) => 
-      cartItem._id === item._id && 
-      cartItem.color === item.color && 
-      cartItem.size === item.size
-    );
-
-    if (existingItem) {
-      setCart((prev) =>
-        prev.map((cartItem) =>
-          cartItem._id === item._id && 
-          cartItem.color === item.color && 
-          cartItem.size === item.size
+    setCart((prev) => {
+      const existing = prev.find((cartItem) => sameVariant(cartItem, item));
+      if (existing) {
+        return prev.map((cartItem) =>
+          sameVariant(cartItem, item)
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        )
-      );
-    } else {
-      setCart((prev) => [...prev, item]);
-    }
+            : cartItem,
+        );
+      }
+      return [...prev, item];
+    });
   };
 
   const removeFromCart = (item: CartItem) => {
-    setCart((prev) => prev.filter((cartItem) => 
-      !(cartItem._id === item._id && 
-        cartItem.color === item.color && 
-        cartItem.size === item.size)
-    ));
+    setCart((prev) => prev.filter((cartItem) => !sameVariant(cartItem, item)));
   };
 
-  const decrementQuantity = (itemId: string) => {
-    const item = cart.find((cartItem) => cartItem._id === itemId);
-    if (item && item.quantity > 1) {
-      setCart((prev) =>
-        prev.map((cartItem) =>
-          cartItem._id === itemId
-            ? { ...cartItem, quantity: cartItem.quantity - 1 }
-            : cartItem
-        )
+  const decrementQuantity = (item: CartItem) => {
+    setCart((prev) => {
+      const target = prev.find((cartItem) => sameVariant(cartItem, item));
+      if (!target) return prev;
+      if (target.quantity <= 1) {
+        return prev.filter((cartItem) => !sameVariant(cartItem, item));
+      }
+      return prev.map((cartItem) =>
+        sameVariant(cartItem, item)
+          ? { ...cartItem, quantity: cartItem.quantity - 1 }
+          : cartItem,
       );
-    } else if (item) {
-      removeFromCart(item);
-    }
+    });
   };
 
-  const emptyCart = () => {
-    setCart([]);
-  };
+  const emptyCart = () => setCart([]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem("cart", JSON.stringify(cart));
+  const { totalItems, total } = useMemo(() => {
+    let items = 0;
+    let sum = 0;
+    for (const item of cart) {
+      items += item.quantity;
+      const price = item.discountPrice ?? item.price;
+      sum += price * item.quantity;
     }
+    return { totalItems: items, total: sum };
   }, [cart]);
 
   return (
     <CartContext.Provider
-      value={{
-        cart,
-        totalItems,
-        addToCart,
-        removeFromCart,
-        decrementQuantity,
-        emptyCart,
-      }}
+      value={{ cart, totalItems, total, addToCart, removeFromCart, decrementQuantity, emptyCart }}
     >
       {children}
     </CartContext.Provider>
@@ -115,11 +114,5 @@ export function useCart() {
   if (context === undefined) {
     throw new Error("useCart must be used within a CartProvider");
   }
-  return {
-    ...context,
-    total: context.cart.reduce((sum, item) => {
-      const price = item.discountPrice ? item.discountPrice : item.price;
-      return sum + (price * item.quantity);
-    }, 0)
-  };
+  return context;
 }

@@ -44,7 +44,10 @@
     "content": "Criar uma coleção de roupa minimalista que permita expressar o teu estilo pessoal mantendo uma aparência limpa e sofisticada."
   },
   "search": {
-    "placeholder": "Procurar Produtos..."
+    "placeholder": "Procurar Produtos...",
+    "results": "Resultados da Pesquisa",
+    "noResults": "Nenhum resultado encontrado para \"{{query}}\"",
+    "backToHome": "Voltar à Página Inicial"
   },
   "footer": {
     "assistance": "Ajuda",

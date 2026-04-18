@@ -12,8 +12,8 @@ export const ProductCartInfo = ({ cartItem }: ProductCartInfoProps) => {
   const { addToCart, decrementQuantity } = useCart();
 
   const handleDelOneItem = useCallback(() => {
-    decrementQuantity(cartItem._id);
-  }, [cartItem._id, decrementQuantity]);
+    decrementQuantity(cartItem);
+  }, [cartItem, decrementQuantity]);
 
   const handleAddItem = useCallback(() => {
     addToCart(cartItem);

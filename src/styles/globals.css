@@ -7,26 +7,6 @@
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;
 
-  --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-  --secondary-glow: linear-gradient(
-    to bottom right,
-    rgba(1, 65, 255, 0),
-    rgba(1, 65, 255, 0),
-    rgba(1, 65, 255, 0.3)
-  );
-
-  --tile-start-rgb: 2, 13, 46;
-  --tile-end-rgb: 2, 5, 19;
-  --tile-border: conic-gradient(
-    #ffffff80,
-    #ffffff40,
-    #ffffff30,
-    #ffffff20,
-    #ffffff10,
-    #ffffff10,
-    #ffffff80
-  );
-
   --callout-rgb: 20, 20, 20;
   --callout-border-rgb: 108, 108, 108;
   --card-rgb: 100, 100, 100;
@@ -45,16 +25,12 @@ body {
 }
 
 body {
-  color: #b5a1e2;
-  text-shadow: 
-    0 0 10px rgba(181, 161, 226, 0.5),
-    0 0 20px rgba(181, 161, 226, 0.4),
-    0 0 30px rgba(181, 161, 226, 0.3);
-  font-family: 'Quicksand', system-ui, sans-serif;
+  color: #e5e1f2;
+  font-family: "Quicksand", system-ui, sans-serif;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.9),
-    rgba(0, 0, 0, 0.9)
+    rgba(var(--background-start-rgb)),
+    rgba(var(--background-end-rgb))
   );
 }
 
@@ -62,16 +38,6 @@ body {
 .navbar,
 .footer {
   color: #ffffff !important;
-}
-
-/* Remove duplicate background gradient */
-/* Fix for the background gradient */
-body {
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--background-start-rgb)),
-    rgba(var(--background-end-rgb))
-  );
 }
 
 a {
@@ -93,33 +59,10 @@ main {
   width: 80px;
 }
 
-.swiper-wrapper {
-  max-width: 250px;
-}
-
-.swiper-wrapper img {
-  width: 100%;
-  display: block;
-  height: auto;
-}
-
-.swiper-pagination-clickable .swiper-pagination-bullet {
-  width: 15px;
-  height: 1px;
-  background-color: #000;
-  opacity: 1;
-  border-radius: 0;
-}
-
-.swiper-pagination-clickable .swiper-pagination-bullet-active {
-  height: 3px;
-}
-
 @keyframes shine {
   0% {
     background-position: 200% 0;
   }
-
   100% {
     background-position: -200% 0;
   }
@@ -149,9 +92,11 @@ main {
   }
 }
 
-/* Title glow and subtle bounce animations */
+/* Title glow and subtle bounce animations — scoped to opt-in via the
+ * .glow-title class so body copy stays readable. */
 @keyframes glow-pulse {
-  0%, 100% {
+  0%,
+  100% {
     text-shadow:
       0 0 10px rgba(255, 255, 255, 0.6),
       0 0 20px rgba(0, 179, 255, 0.35),
@@ -165,26 +110,9 @@ main {
   }
 }
 
-@keyframes bounce-y-subtle {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-.glow-title {
-  /* Keep layout stable while animating */
-  will-change: transform, text-shadow;
-  animation:
-    glow-pulse 2.8s ease-in-out infinite,
-    bounce-y-subtle 3.6s ease-in-out infinite;
-}
-
-/* Combined bounce + tilt to avoid transform conflicts across multiple animations */
 @keyframes bounce-tilt-subtle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   25% {
@@ -199,7 +127,7 @@ main {
 }
 
 .glow-title {
-  /* Use combined transform animation to include tilt without conflicts */
+  will-change: transform, text-shadow;
   animation:
     glow-pulse 2.8s ease-in-out infinite,
     bounce-tilt-subtle 3.6s ease-in-out infinite;
@@ -214,18 +142,15 @@ main {
 /* Scoped text outline for About page to ensure readability on all backgrounds */
 .about-contrast h1,
 .about-contrast p {
-  /* Multi-directional shadows to simulate an outline */
   text-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.85),
-     1px -1px 0 rgba(0, 0, 0, 0.85),
-    -1px  1px 0 rgba(0, 0, 0, 0.85),
-     1px  1px 0 rgba(0, 0, 0, 0.85),
-     0    0   6px rgba(0, 0, 0, 0.6);
-  /* Light stroke for cross-browser support (especially for the title where glow anim may override text-shadow) */
+    1px -1px 0 rgba(0, 0, 0, 0.85),
+    -1px 1px 0 rgba(0, 0, 0, 0.85),
+    1px 1px 0 rgba(0, 0, 0, 0.85),
+    0 0 6px rgba(0, 0, 0, 0.6);
   -webkit-text-stroke: 0.4px rgba(0, 0, 0, 0.6);
 }
 
 .about-contrast h1 {
-  /* Stronger stroke for large headings, persists even with glow animation */
   -webkit-text-stroke: 1px rgba(0, 0, 0, 0.9);
 }

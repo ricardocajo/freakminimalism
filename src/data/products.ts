@@ -1,28 +1,4 @@
-interface ProductTranslations {
-  en: {
-    name: string;
-    description: string;
-    composition: string;
-    care: string;
-  };
-  pt: {
-    name: string;
-    description: string;
-    composition: string;
-    care: string;
-  };
-}
-
-interface Product {
-  _id: string;
-  translations: ProductTranslations;
-  price: number;
-  categories: string[];
-  images: string[];
-  colors: string[];
-  sizes: string[];
-  discountPrice?: number;
-}
+import type { Product } from "@/types/types";
 
 export const products: Product[] = [
   {

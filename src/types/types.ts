@@ -1,4 +1,4 @@
-interface ProductTranslations {
+export interface ProductTranslations {
   en: {
     name: string;
     description: string;
@@ -23,8 +23,6 @@ export interface Product {
   sizes: string[];
   categories: string[];
 }
-
-export type ProductDocument = Product;
 
 export interface CartItem {
   _id: string;

@@ -12,8 +12,10 @@ interface ProductsProps {
 
 export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
   const { t, i18n } = useTranslation();
-  const language = i18n.language as 'en' | 'pt';
-  const showCustomization = extraClassname.startsWith('category-') || extraClassname === '';
+  const language = i18n.language as "en" | "pt";
+  const showCustomization =
+    extraClassname.startsWith("category-") || extraClassname === "";
+
   const gridClassname = [
     "grid gap-x-3.5 gap-y-6 sm:gap-y-9",
     extraClassname === "colums-mobile" && "grid-cols-auto-fill-110",
@@ -22,20 +24,6 @@ export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
   ]
     .filter(Boolean)
     .join(" ");
-
-  // Only filter products by category if extraClassname starts with 'category-'
-  const filteredProducts = extraClassname.startsWith('category-') 
-    ? products.filter((product: Product) => {
-        // Get the category from extraClassname (remove 'category-')
-        const category = extraClassname.replace('category-', '').toLowerCase();
-        
-        // Normalize all product categories to lowercase for comparison
-        const productCategories = product.categories.map(cat => cat.toLowerCase());
-        
-        // Check if the category matches any of the product's categories
-        return productCategories.includes(category);
-      })
-    : products;
 
   return (
     <div className="flex flex-col gap-6 mt-4">
@@ -46,7 +34,7 @@ export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
               href="/customize"
               className="inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-[#00B4DB] to-[#0083B0] text-white rounded-full hover:from-[#00A1CE] hover:to-[#007195] transition-all"
             >
-              Envia-nos a tua ideia
+              {t("products.customizeButton")}
               <svg
                 className="w-2.5 h-2.5"
                 fill="none"
@@ -65,43 +53,61 @@ export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
         </div>
       )}
       <div className={gridClassname + " " + extraClassname}>
-        {filteredProducts.map((product: Product) => (
-          <div key={product._id} className="flex justify-between border border-solid border-border-primary rounded-md overflow-hidden flex-col">
-            <Link
+        {products.map((product) => {
+          const name = product.translations[language].name;
+          const hasDiscount = Boolean(product.discountPrice);
+          const discountPct = hasDiscount
+            ? Math.round(
+                ((product.price - (product.discountPrice as number)) /
+                  product.price) *
+                  100,
+              )
+            : 0;
+          return (
+            <div
               key={product._id}
-              href={`/products/${product._id}`}
-              className="flex flex-col rounded-lg shadow-md overflow-hidden transition-all hover:scale-[1.02]"
+              className="group relative flex flex-col justify-between border border-solid border-border-primary rounded-lg overflow-hidden bg-background-secondary transition-all duration-200 hover:border-[#3a3a3a] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
             >
-              <div className="relative w-full aspect-[2/3] h-full bg-transparent">
-                <Images
-                  src={product.images[0]}
-                  alt={product.translations[language].name}
-                  className="brightness-90 bg-transparent"
-                />
-              </div>
-            </Link>
-            <div className="flex justify-between flex-col gap-2.5 p-3.5 bg-background-secondary z-10">
-              <div className="flex justify-between w-full">
-                <Link href={`/products/${product._id}`} className="w-10/12">
-                  <h2 className="text-sm font-semibold truncate">{product.translations[language].name}</h2>
+              {hasDiscount && (
+                <span className="absolute top-2 left-2 z-10 inline-flex items-center justify-center px-2 py-0.5 text-xs font-semibold text-white bg-[#E53E3E] rounded-full shadow-md">
+                  -{discountPct}%
+                </span>
+              )}
+              <Link
+                href={`/products/${product._id}`}
+                aria-label={name}
+                className="flex flex-col overflow-hidden"
+              >
+                <div className="relative w-full aspect-[2/3] bg-transparent overflow-hidden">
+                  <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-[1.04]">
+                    <Images
+                      src={product.images[0]}
+                      alt={name}
+                      className="brightness-95 group-hover:brightness-100 transition duration-200"
+                    />
+                  </div>
+                </div>
+              </Link>
+              <div className="flex flex-col gap-1.5 px-3.5 py-3 border-t border-border-primary">
+                <Link href={`/products/${product._id}`} className="min-w-0">
+                  <h2 className="text-sm font-semibold truncate">{name}</h2>
                 </Link>
-                {product.discountPrice && (
-                  <span className="flex items-center justify-center px-2 py-1 text-xs font-semibold text-white bg-[#E53E3E] rounded-full">
-                    {Math.round(((product.price - product.discountPrice) / product.price) * 100)}% OFF
-                  </span>
+                {hasDiscount ? (
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm font-semibold">
+                      {product.discountPrice}€
+                    </span>
+                    <span className="text-xs line-through text-[#7F7F7F]">
+                      {product.price}€
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-sm">{product.price}€</span>
                 )}
               </div>
-              {product.discountPrice ? (
-                <div className="flex items-center gap-1">
-                  <span className="text-sm line-through text-[#A1A1A1]">{product.price}€</span>
-                  <span className="text-sm font-semibold">{product.discountPrice}€</span>
-                </div>
-              ) : (
-                <span className="text-sm">{product.price}€</span>
-              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

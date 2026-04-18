@@ -108,7 +108,7 @@ export default function CartPage() {
                 <div className="flex items-center justify-between sm:hidden">
                   <div className="flex bg-black w-min">
                     <button
-                      onClick={() => decrementQuantity(item._id)}
+                      onClick={() => decrementQuantity(item)}
                       className="flex items-center justify-center w-8 h-8 p-2 border border-solid rounded-l text-[#A1A1A1] transition-all hover:text-white border-border-primary"
                     >
                       -
@@ -128,7 +128,7 @@ export default function CartPage() {
                 <div className="items-center justify-between hidden sm:flex">
                   <div className="flex bg-black w-min">
                     <button
-                      onClick={() => decrementQuantity(item._id)}
+                      onClick={() => decrementQuantity(item)}
                       className="flex items-center justify-center w-8 h-8 p-2 border border-solid rounded-l text-[#A1A1A1] transition-all hover:text-white border-border-primary"
                     >
                       -

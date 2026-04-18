@@ -51,7 +51,7 @@ export const Footer = () => {
               </Link>
             ))}
             <span className="flex items-center text-sm text-[#A1A1A1]">
-              &copy; 2025
+              &copy; {new Date().getFullYear()}
             </span>
             <span className="flex items-center text-sm text-[#A1A1A1] mt-2">
               {t('footer.trademark')}: 716875®

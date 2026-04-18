@@ -44,7 +44,10 @@
     "content": "To create a collection of minimalist clothing that allows you to express your personal style while maintaining a clean, sophisticated look."
   },
   "search": {
-    "placeholder": "Search Products..."
+    "placeholder": "Search Products...",
+    "results": "Search Results",
+    "noResults": "No results found for \"{{query}}\"",
+    "backToHome": "Back to Home"
   },
   "footer": {
     "assistance": "Assistance",

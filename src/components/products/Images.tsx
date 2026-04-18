@@ -1,14 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Skeleton } from "../ui/skeleton";
-
-interface ImagesProps {
-  src: string;
-  alt: string;
-  className?: string;
-}
 
 interface ImagesProps {
   src: string;
@@ -16,19 +8,30 @@ interface ImagesProps {
   className?: string;
   width?: number;
   height?: number;
+  sizes?: string;
+  priority?: boolean;
 }
 
-export const Images = ({ src, alt, className }: ImagesProps) => {
+export const Images = ({
+  src,
+  alt,
+  className,
+  width = 500,
+  height = 750,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  priority = false,
+}: ImagesProps) => {
   return (
-    <div className={`relative ${className || ''} w-full h-full bg-transparent`}>
+    <div className={`relative ${className || ""} w-full h-full bg-transparent`}>
       <Image
         src={src}
         alt={alt}
-        width={500}
-        height={500}
-        unoptimized={true}
+        width={width}
+        height={height}
+        sizes={sizes}
+        priority={priority}
         className="object-contain bg-transparent"
       />
     </div>
   );
-}
+};

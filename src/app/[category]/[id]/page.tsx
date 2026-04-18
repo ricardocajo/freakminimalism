@@ -3,7 +3,6 @@
 import { SingleProduct } from "@/components/products/SingleProduct";
 import { Products } from "@/components/products/Products";
 import { getProduct, getRandomProducts } from "@/app/actions";
-import { ProductDocument } from "@/types/types";
 import { Suspense } from "react";
 import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
 import SingleProductSkeleton from "@/components/skeletons/SingleProductSkeleton";
