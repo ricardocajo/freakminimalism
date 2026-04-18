@@ -27,11 +27,16 @@ body {
 body {
   color: #e5e1f2;
   font-family: "Quicksand", system-ui, sans-serif;
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--background-start-rgb)),
-    rgba(var(--background-end-rgb))
-  );
+  background-color: #000;
+  /* A darkening gradient sits above the artwork so body copy stays legible
+   * regardless of where the user has scrolled. */
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)),
+    url("/fundo.jpeg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /* Keep navbar and footer text white */
