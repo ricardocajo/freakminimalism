@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
+import { Suspense } from "react";
 import "@/styles/globals.css";
 import { I18nProvider } from "@/components/common/I18nProvider";
 import { CartProvider } from "@/contexts/CartContext";
@@ -10,24 +11,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Providers from "./Providers";
 import { Toaster } from "sonner";
 
-// Client components wrapper
-const ClientComponents = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      <Navbar />
-      {children}
-      <Toaster position="top-right" />
-      <Analytics />
-      <SpeedInsights />
-      <Footer />
-    </>
-  );
-};
-
 const quicksand = Quicksand({
   subsets: ["latin"],
   display: "swap",
-  weight: ['300', '400', '500', '600', '700']
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -44,18 +31,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="pt">
       <body className={quicksand.className} style={{ minHeight: "100vh" }}>
         <I18nProvider>
           <CartProvider>
             <Providers>
-              <ClientComponents>
-                <main className="pointer-events-auto">
-                  {children}
-                </main>
-              </ClientComponents>
+              {/* Navbar reads useSearchParams() — Next 14.2+ requires a
+                * Suspense boundary so static prerender can bail out cleanly. */}
+              <Suspense fallback={null}>
+                <Navbar />
+              </Suspense>
+              <main className="pointer-events-auto">{children}</main>
+              <Toaster position="top-right" />
+              <Analytics />
+              <SpeedInsights />
+              <Footer />
             </Providers>
           </CartProvider>
         </I18nProvider>

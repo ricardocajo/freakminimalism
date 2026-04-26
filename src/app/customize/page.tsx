@@ -93,6 +93,8 @@ export default function CustomizePage() {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedView, setSelectedView] = useState<View>("Front");
   const [embroideryPosition, setEmbroideryPosition] = useState<"Frente" | "Trás">("Frente");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [customizationDetails, setCustomizationDetails] = useState<string>("");
 
   const isChapeus =
     selectedCategory !== null && CATEGORIES[selectedCategory]?.name === "Chapéus";
@@ -117,6 +119,13 @@ export default function CustomizePage() {
       const idx = VIEW_ORDER.indexOf(prev);
       return VIEW_ORDER[(idx + 1) % VIEW_ORDER.length];
     });
+
+  // Reset per-product fields when the user picks a different subcategory.
+  useEffect(() => {
+    setSelectedSize("");
+    setCustomizationDetails("");
+    setEmbroideryPosition("Frente");
+  }, [selectedSubcategory]);
 
   // Fetch image set for the current subcategory/density -------------------
   useEffect(() => {
@@ -387,6 +396,9 @@ export default function CustomizePage() {
         selectedSubcategory.path.split("/").filter(Boolean)[1] === "QUEEN" &&
         selectedSubcategory.path.split("/").filter(Boolean)[2] === "POLAR";
 
+      const sizeLine = isChapeus ? "Tamanho único" : selectedSize;
+      const trimmedDetails = customizationDetails.trim();
+
       message =
         `Olá, gostaria de encomendar um item personalizado:\n\n` +
         `Categoria: ${categoryName}\n` +
@@ -394,8 +406,10 @@ export default function CustomizePage() {
         (isQueenPolar ? `Gama: GAMA WOMEN\n` : "") +
         (dens ? `Densidade: ${dens}\n` : "") +
         (cor ? `Cor/Imagem: ${prettyColorLabel(cor)}\n` : "") +
-        `Posição do bordado: ${embroideryPosition}\n\n` +
-        `Por favor, envie mais informações sobre como proceder com a personalização.`;
+        (sizeLine ? `Tamanho: ${sizeLine}\n` : "") +
+        `Posição do bordado: ${embroideryPosition}\n` +
+        (trimmedDetails ? `\nDetalhes da personalização:\n${trimmedDetails}\n` : "") +
+        `\nPor favor, envie mais informações sobre como proceder com a personalização.`;
     } else {
       return;
     }
@@ -721,14 +735,19 @@ export default function CustomizePage() {
                               Tamanho único
                             </div>
                           ) : (
-                            <select className={selectBase} aria-label="Tamanho" defaultValue="">
+                            <select
+                              className={selectBase}
+                              aria-label="Tamanho"
+                              value={selectedSize}
+                              onChange={(e) => setSelectedSize(e.target.value)}
+                            >
                               <option value="" disabled>
                                 Selecione um tamanho
                               </option>
-                              <option>Pequeno (S)</option>
-                              <option>Médio (M)</option>
-                              <option>Grande (L)</option>
-                              <option>Extra Grande (XL)</option>
+                              <option value="Pequeno (S)">Pequeno (S)</option>
+                              <option value="Médio (M)">Médio (M)</option>
+                              <option value="Grande (L)">Grande (L)</option>
+                              <option value="Extra Grande (XL)">Extra Grande (XL)</option>
                             </select>
                           )}
                         </div>
@@ -756,6 +775,8 @@ export default function CustomizePage() {
                           <textarea
                             className={`${inputBase} min-h-[100px]`}
                             placeholder="Descreva como deseja personalizar o seu item..."
+                            value={customizationDetails}
+                            onChange={(e) => setCustomizationDetails(e.target.value)}
                           />
                         </div>
 

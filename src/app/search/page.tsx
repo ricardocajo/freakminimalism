@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { products as allProducts } from "@/data/products";
 import { Product } from "@/types/types";
 import Image from "next/image";
@@ -13,7 +13,7 @@ const normalizeText = (text: string): string => {
   return text.normalize("NFD").replace(/[^\w\s]/g, "").toLowerCase();
 };
 
-const Search = () => {
+const SearchContent = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -123,4 +123,10 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default function Search() {
+  return (
+    <Suspense fallback={null}>
+      <SearchContent />
+    </Suspense>
+  );
+}

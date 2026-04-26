@@ -1,72 +1,50 @@
-"use client";
-
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { SingleProduct } from "@/components/products/SingleProduct";
 import { Products } from "@/components/products/Products";
-import { getProduct, getRandomProducts } from "@/app/actions";
-import { Suspense } from "react";
-import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
-import SingleProductSkeleton from "@/components/skeletons/SingleProductSkeleton";
-import { useTranslation } from "react-i18next";
+import { getProduct, getRandomProducts, products } from "@/app/actions";
+import { YouMightAlsoLikeHeading } from "./YouMightAlsoLike";
 
 interface ProductPageProps {
   params: {
+    category: string;
     id: string;
   };
 }
 
-const ProductPage = ({ params }: ProductPageProps) => {
-  const { t } = useTranslation();
-  const product = getProduct(params.id);
-  const randomProducts = getRandomProducts(params.id);
+export function generateStaticParams() {
+  // Pre-render every product page at build time. The category segment is
+  // cosmetic for product lookups (id is unique), so we use the first
+  // category tag the product carries to produce a sensible URL.
+  return products.map((p) => ({
+    category: (p.categories[0] || "new").toLowerCase(),
+    id: p._id,
+  }));
+}
 
+export function generateMetadata({ params }: ProductPageProps): Metadata {
+  const product = getProduct(params.id);
   if (!product) {
-    return <div>Product not found</div>;
+    return { title: "Product not found" };
   }
+  // Default metadata to English; the rendered UI hydrates with the user's
+  // language client-side.
+  const { name, description } = product.translations.en;
+  return { title: name, description: description || undefined };
+}
+
+export default function ProductPage({ params }: ProductPageProps) {
+  const product = getProduct(params.id);
+  if (!product) {
+    notFound();
+  }
+  const randomProducts = getRandomProducts(params.id);
 
   return (
     <section className="pt-14">
-      <Suspense
-        fallback={
-          <div>
-            <SingleProductSkeleton />
-            <h2 className="mt-24 mb-5 text-xl font-bold sm:text-2xl">
-              {t('productDetails.youMightAlsoLike')}
-            </h2>
-            <ProductSkeleton
-              extraClassname={"colums-mobile"}
-              numberProducts={6}
-            />
-          </div>
-        }
-      >
-        <AllProducts id={params.id} />
-      </Suspense>
+      <SingleProduct product={product} />
+      <YouMightAlsoLikeHeading />
+      <Products products={randomProducts} />
     </section>
   );
-};
-
-interface AllProductsProps {
-  id: string;
 }
-
-const AllProducts = ({ id }: AllProductsProps) => {
-  const { t } = useTranslation();
-  const product = getProduct(id);
-  const randomProducts = getRandomProducts(id);
-
-  if (!product) {
-    return <div>Product not found</div>;
-  }
-
-  return (
-    <div>
-      <SingleProduct product={product} />
-      <h2 className="mt-24 mb-5 text-xl font-bold sm:text-2xl">
-        {t('productDetails.youMightAlsoLike')}
-      </h2>
-      <Products products={randomProducts} />
-    </div>
-  );
-}
-
-export default ProductPage;

@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-export default function SuccessPage() {
+const SuccessHandler = () => {
   const { emptyCart } = useCart();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,6 +29,10 @@ export default function SuccessPage() {
     return () => clearTimeout(redirect);
   }, [router, emptyCart, searchParams]);
 
+  return null;
+};
+
+export default function SuccessPage() {
   return (
     <div className="container mx-auto py-12">
       <div className="text-center">
@@ -37,6 +41,9 @@ export default function SuccessPage() {
           Thank you for your purchase. You will be redirected to the home page shortly.
         </p>
       </div>
+      <Suspense fallback={null}>
+        <SuccessHandler />
+      </Suspense>
     </div>
   );
 }
