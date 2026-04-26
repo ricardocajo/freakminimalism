@@ -1,7 +1,6 @@
 "use client";
 
-import axios from "axios";
-import { useTransition, useCallback, useMemo } from "react";
+import { useCallback, useTransition } from "react";
 import { Loader } from "../common/Loader";
 import { toast } from "sonner";
 import { CartItem } from "@/contexts/CartContext";
@@ -14,19 +13,20 @@ interface ButtonCheckoutProps {
 export const ButtonCheckout = ({ cartItems, promoCode }: ButtonCheckoutProps) => {
   const [isPending, startTransition] = useTransition();
 
-  const lineItems = useMemo(
-    () =>
-      cartItems.map((item) => ({
-        price: item._id, // Using _id as the Stripe price ID
-        quantity: item.quantity,
-      })),
-    [cartItems]
-  );
-
   const handleCheckout = useCallback(async () => {
     try {
-      const response = await axios.post("/api/stripe/checkout_sessions", { cartItems, promoCode });
-      const { url } = response.data;
+      const res = await fetch("/api/stripe/checkout_sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartItems, promoCode }),
+      });
+      if (!res.ok) {
+        throw new Error(`Checkout failed (${res.status})`);
+      }
+      const { url } = await res.json();
+      if (!url) {
+        throw new Error("Missing checkout URL");
+      }
       window.location.href = url;
     } catch (error) {
       console.error("Error creating checkout session:", error);

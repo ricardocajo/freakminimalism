@@ -4,40 +4,35 @@ import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
 import { Suspense } from "react";
 
 type Props = {
-  params: {
-    category: string;
-  };
+  params: Promise<{ category: string }>;
 };
 
-export async function generateMetadata({ params }: Props) {
-  const capitalizeFirstLetter = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+const capitalizeFirstLetter = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-  const capitalizedCategory = capitalizeFirstLetter(params.category);
+export async function generateMetadata({ params }: Props) {
+  const { category } = await params;
+  const capitalized = capitalizeFirstLetter(category);
 
   return {
-    title: `${capitalizedCategory}`,
-    description: `${capitalizedCategory} — Descobre peças minimalistas e personalizáveis da Freak Minimalism.`,
+    title: capitalized,
+    description: `${capitalized} — Descobre peças minimalistas e personalizáveis da Freak Minimalism.`,
   };
 }
 
+const CategoryProducts = ({ category }: { category: string }) => {
+  const products = getCategoryProducts(category);
+  return <Products products={products} extraClassname={`category-${category.toLowerCase()}`} />;
+};
+
 const CategoryPage = async ({ params }: Props) => {
+  const { category } = await params;
   return (
-    <section className="">
-      <Suspense
-        fallback={<ProductSkeleton extraClassname="" numberProducts={6} />}
-      >
-        <CategoryProducts category={params.category} />
+    <section>
+      <Suspense fallback={<ProductSkeleton extraClassname="" numberProducts={6} />}>
+        <CategoryProducts category={category} />
       </Suspense>
     </section>
   );
-};
-
-const CategoryProducts = async ({ category }: { category: string }) => {
-  const products = await getCategoryProducts(category);
-
-  return <Products products={products} extraClassname={`category-${category.toLowerCase()}`} />;
 };
 
 export default CategoryPage;

@@ -6,10 +6,7 @@ import { getProduct, getRandomProducts, products } from "@/app/actions";
 import { YouMightAlsoLikeHeading } from "./YouMightAlsoLike";
 
 interface ProductPageProps {
-  params: {
-    category: string;
-    id: string;
-  };
+  params: Promise<{ category: string; id: string }>;
 }
 
 export function generateStaticParams() {
@@ -22,8 +19,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: ProductPageProps): Metadata {
-  const product = getProduct(params.id);
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const product = getProduct(id);
   if (!product) {
     return { title: "Product not found" };
   }
@@ -33,12 +31,13 @@ export function generateMetadata({ params }: ProductPageProps): Metadata {
   return { title: name, description: description || undefined };
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const product = getProduct(params.id);
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { id } = await params;
+  const product = getProduct(id);
   if (!product) {
     notFound();
   }
-  const randomProducts = getRandomProducts(params.id);
+  const randomProducts = getRandomProducts(id);
 
   return (
     <section className="pt-14">
