@@ -1,18 +1,59 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
-import { CartItem } from '@/types/types';
+import { products } from '@/data/products';
 
+// API version pin is kept for backwards-compat with whichever Stripe API revision
+// the account is using. Bump this in lockstep with the loyalty webhook when you upgrade.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-08-16',
 });
 
+// Server-side whitelist of valid Stripe price IDs sourced from the static catalog.
+// Prevents a manipulated client from swapping in arbitrary prices on this account.
+const VALID_PRICE_IDS = new Set(products.map(p => p._id));
+
+const MAX_LINE_ITEMS = 50;
+const MAX_QUANTITY_PER_ITEM = 20;
+
+interface IncomingCartItem {
+  _id: unknown;
+  quantity: unknown;
+}
+
 export async function POST(request: Request) {
   try {
-    const { cartItems, promoCode } = await request.json();
-    
-    const lineItems = cartItems.map((item: CartItem) => ({
-      price: item._id, // Using _id as the Stripe price ID
-      quantity: item.quantity
+    const { cartItems, promoCode, freakCardEmail } = await request.json();
+
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
+      return NextResponse.json({ error: 'empty_cart' }, { status: 400 });
+    }
+    if (cartItems.length > MAX_LINE_ITEMS) {
+      return NextResponse.json({ error: 'too_many_items' }, { status: 400 });
+    }
+
+    // Aggregate quantities for any duplicate price IDs the client sent
+    const aggregated = new Map<string, number>();
+    for (const raw of cartItems as IncomingCartItem[]) {
+      if (typeof raw._id !== 'string' || !VALID_PRICE_IDS.has(raw._id)) {
+        return NextResponse.json({ error: 'invalid_item' }, { status: 400 });
+      }
+      const qty = Number(raw.quantity);
+      if (!Number.isInteger(qty) || qty < 1 || qty > MAX_QUANTITY_PER_ITEM) {
+        return NextResponse.json({ error: 'invalid_quantity' }, { status: 400 });
+      }
+      aggregated.set(raw._id, (aggregated.get(raw._id) || 0) + qty);
+    }
+    // Cap aggregated quantity per line as well
+    for (const [id, qty] of aggregated) {
+      if (qty > MAX_QUANTITY_PER_ITEM) {
+        return NextResponse.json({ error: 'invalid_quantity' }, { status: 400 });
+      }
+      void id;
+    }
+
+    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = Array.from(aggregated, ([priceId, quantity]) => ({
+      price: priceId,
+      quantity,
     }));
 
     // Resolve Stripe Promotion Code if provided
@@ -37,14 +78,22 @@ export async function POST(request: Request) {
       }
     }
 
+    // Optional FREAK CARD email — if the customer enters one, we pre-fill the Stripe
+    // checkout email so the loyalty webhook can match the purchase to their account.
+    const trimmedEmail =
+      typeof freakCardEmail === 'string' && /\S+@\S+\.\S+/.test(freakCardEmail)
+        ? freakCardEmail.trim().toLowerCase()
+        : undefined;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
       discounts,
+      ...(trimmedEmail ? { customer_email: trimmedEmail } : {}),
       billing_address_collection: 'required',
       shipping_address_collection: {
-      allowed_countries: ['PT'],
+        allowed_countries: ['PT'],
       },
       shipping_options: [
         {
@@ -54,14 +103,18 @@ export async function POST(request: Request) {
               amount: 550,
               currency: 'eur',
             },
-            display_name: 'Shipping', // Required
-            // delivery_estimate is optional
+            display_name: 'Shipping',
           },
         },
       ],
+      // Metadata flows through to the webhook so the loyalty side knows this came
+      // from the storefront (vs. a subscription invoice on the FREAK CARD site).
+      metadata: {
+        source: 'freakminimalism',
+        ...(trimmedEmail ? { freak_card_email: trimmedEmail } : {}),
+      },
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cart`,
-
     });
 
     return NextResponse.json({ url: session.url });

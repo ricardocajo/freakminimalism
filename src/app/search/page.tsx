@@ -67,7 +67,7 @@ const SearchContent = () => {
                   className="flex justify-between border border-solid border-border-primary rounded-md overflow-hidden flex-col"
                 >
                   <Link
-                    href={`/products/${product._id}`}
+                    href={`/${product.categories[0] || "new"}/${product._id}`}
                     className="flex flex-col rounded-lg shadow-md overflow-hidden transition-all hover:scale-[1.02]"
                   >
                     <div className="relative w-full aspect-[2/3] brightness-90">
@@ -82,7 +82,7 @@ const SearchContent = () => {
                   </Link>
                   <div className="flex justify-between flex-col gap-2.5 p-3.5 bg-background-secondary z-10">
                     <div className="flex justify-between w-full">
-                      <Link href={`/products/${product._id}`} className="w-10/12">
+                      <Link href={`/${product.categories[0] || "new"}/${product._id}`} className="w-10/12">
                         <h2 className="text-sm font-semibold truncate">
                           {product.translations[language].name}
                         </h2>

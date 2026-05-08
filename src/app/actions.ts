@@ -22,3 +22,12 @@ export const getCategoryProducts = (category: string) => {
 
 export const getProduct = (productId: string) =>
   products.find((product) => product._id === productId);
+
+// Canonical URL for a product detail page. The route is /[category]/[id],
+// so we need to pick a category for the path. Falls back to "new" if the
+// product is unknown or has no categories.
+export const productHref = (productId: string): string => {
+  const product = getProduct(productId);
+  const category = product?.categories?.[0] || "new";
+  return `/${category}/${productId}`;
+};

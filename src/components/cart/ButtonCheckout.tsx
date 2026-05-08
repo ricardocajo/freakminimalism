@@ -8,9 +8,10 @@ import { CartItem } from "@/contexts/CartContext";
 interface ButtonCheckoutProps {
   cartItems: CartItem[];
   promoCode?: string;
+  freakCardEmail?: string;
 }
 
-export const ButtonCheckout = ({ cartItems, promoCode }: ButtonCheckoutProps) => {
+export const ButtonCheckout = ({ cartItems, promoCode, freakCardEmail }: ButtonCheckoutProps) => {
   const [isPending, startTransition] = useTransition();
 
   const handleCheckout = useCallback(async () => {
@@ -18,7 +19,7 @@ export const ButtonCheckout = ({ cartItems, promoCode }: ButtonCheckoutProps) =>
       const res = await fetch("/api/stripe/checkout_sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cartItems, promoCode }),
+        body: JSON.stringify({ cartItems, promoCode, freakCardEmail }),
       });
       if (!res.ok) {
         throw new Error(`Checkout failed (${res.status})`);
@@ -32,7 +33,7 @@ export const ButtonCheckout = ({ cartItems, promoCode }: ButtonCheckoutProps) =>
       console.error("Error creating checkout session:", error);
       toast.error("Failed to create checkout session");
     }
-  }, [cartItems, promoCode]);
+  }, [cartItems, promoCode, freakCardEmail]);
 
   return (
     <button

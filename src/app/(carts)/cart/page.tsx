@@ -7,7 +7,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { productHref } from "@/app/actions";
 
 const ButtonCheckout = dynamic(
   () => import("@/components/cart/ButtonCheckout"),
@@ -21,10 +22,25 @@ const ButtonCheckout = dynamic(
   }
 );
 
+// Promo codes are uppercase alphanumeric, 3-20 chars — reject anything else before hitting the API.
+const PROMO_RE = /^[A-Z0-9]{3,20}$/;
+
 export default function CartPage() {
   const { cart, removeFromCart, decrementQuantity, addToCart, total } = useCart();
   const { t, i18n } = useTranslation();
   const [promoCode, setPromoCode] = useState<string>("");
+  const [freakCardEmail, setFreakCardEmail] = useState<string>("");
+  // Avoid flashing "empty cart" before localStorage has been read by CartContext.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => { setHydrated(true); }, []);
+
+  if (!hydrated) {
+    return (
+      <div className="pt-12 flex items-center justify-center min-h-[40vh]">
+        <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin opacity-40" />
+      </div>
+    );
+  }
 
   return (
     <div className="pt-12">
@@ -48,7 +64,7 @@ export default function CartPage() {
               className="flex justify-between border border-solid border-border-primary rounded-md overflow-hidden flex-row sm:flex-col"
             >
               <Link
-                href={`/products/${item._id}`}
+                href={productHref(item._id)}
                 className="w-6/12 sm:w-full hover:scale-105 transition-all"
               >
                 <div className="relative w-full h-32 sm:h-48">
@@ -63,7 +79,7 @@ export default function CartPage() {
               </Link>
               <div className="w-6/12 sm:w-full flex justify-between flex-col gap-2.5 p-3.5 bg-background-secondary z-10">
                 <div className="flex justify-between w-full">
-                  <Link href={`/products/${item._id}`} className="w-10/12">
+                  <Link href={productHref(item._id)} className="w-10/12">
                     <h2 className="text-sm font-semibold truncate">{item.name}</h2>
                   </Link>
                   <button
@@ -152,7 +168,7 @@ export default function CartPage() {
             </div>
           ))
         )}
-        <div className="fixed left-[50%] translate-x-[-50%] bottom-4 w-[90%] z-10 sm:w-[420px] rounded-xl overflow-hidden flex flex-col bg-black border border-solid border-border-primary h-min">
+        <div className="fixed left-[50%] translate-x-[-50%] bottom-4 pb-[env(safe-area-inset-bottom)] w-[90%] z-10 sm:w-[420px] rounded-xl overflow-hidden flex flex-col bg-black border border-solid border-border-primary h-min">
           <div className="flex items-center gap-2 p-2.5 border-b border-border-primary bg-background-secondary">
             <span className="text-sm whitespace-nowrap px-1">
               {(t('cartPage.promo.label') !== 'cartPage.promo.label')
@@ -162,12 +178,29 @@ export default function CartPage() {
             <input
               type="text"
               value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value.trim())}
+              onChange={(e) => {
+                const v = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 20);
+                setPromoCode(v);
+              }}
               placeholder={(t('cartPage.promo.placeholder') !== 'cartPage.promo.placeholder')
                 ? t('cartPage.promo.placeholder')
                 : (i18n.language === 'pt' ? 'Insira o código promocional' : 'Enter promo code')}
               className="flex-1 bg-transparent border border-border-primary rounded px-3 py-2 text-sm placeholder:text-[#777] focus:outline-none focus:border-border-secondary"
               aria-label={(i18n.language === 'pt' ? 'Código promocional' : 'Promo code')}
+            />
+          </div>
+          <div className="flex items-center gap-2 p-2.5 border-b border-border-primary bg-background-secondary">
+            <span className="text-sm whitespace-nowrap px-1">
+              {i18n.language === 'pt' ? 'É membro FREAK CARD?' : 'FREAK CARD member?'}
+            </span>
+            <input
+              type="email"
+              value={freakCardEmail}
+              onChange={(e) => setFreakCardEmail(e.target.value.trim().toLowerCase())}
+              placeholder={i18n.language === 'pt' ? 'Email da sua conta (ganha pontos)' : 'Your account email (earn points)'}
+              className="flex-1 bg-transparent border border-border-primary rounded px-3 py-2 text-sm placeholder:text-[#777] focus:outline-none focus:border-border-secondary"
+              aria-label={i18n.language === 'pt' ? 'Email FREAK CARD' : 'FREAK CARD email'}
+              autoComplete="email"
             />
           </div>
           <div className="flex">
@@ -179,7 +212,11 @@ export default function CartPage() {
               <span className="text-xs">{t('cartPage.total.tax')}</span>
             </div>
             <div className="w-1/2 border-l border-solid bg-background-secondary border-border-primary">
-              <ButtonCheckout cartItems={cart} promoCode={promoCode || undefined} />
+              <ButtonCheckout
+                cartItems={cart}
+                promoCode={promoCode && PROMO_RE.test(promoCode) ? promoCode : undefined}
+                freakCardEmail={freakCardEmail || undefined}
+              />
             </div>
           </div>
         </div>

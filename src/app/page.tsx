@@ -26,6 +26,7 @@ const Home = async () => {
       <section className="min-h-[60vh] sm:min-h-[50vh] flex flex-col items-center justify-center px-4 py-8 space-y-6">
         <div className="w-full max-w-2xl">
           <iframe
+            title="Localização da loja Freak Minimalism em Montijo"
             width="100%"
             height="400"
             style={{ border: 0, borderRadius: '0.5rem' }}

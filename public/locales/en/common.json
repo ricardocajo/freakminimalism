@@ -173,5 +173,10 @@
       "title": "Tracking Your Order",
       "description": "Once your order is shipped, you'll receive a tracking number via email. You can track your package using this number on the carrier's website."
     }
+  },
+  "successPage": {
+    "title": "Payment successful!",
+    "description": "Thank you for your purchase. You will be redirected to the home page shortly.",
+    "toast": "Payment successful! Your order has been placed."
   }
 }

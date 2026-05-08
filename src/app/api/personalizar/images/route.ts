@@ -4,14 +4,18 @@ import fs from "fs/promises";
 
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif"]);
 
-// Allow letters, numbers, spaces, dots, underscores and dashes. Reject "."/".."
-// and anything with slashes. Combined with the resolved-path guard below this
-// stops path traversal while supporting real folder names like "MANGA CUMPRIDA"
-// or "POLAR GAMA WOMEN".
-const SAFE_SEGMENT = /^[a-zA-Z0-9 ._-]+$/;
+// Allow letters, numbers, spaces, dots, underscores and dashes. Must START and END
+// with an alphanumeric character so " hidden" / "name " / ".hidden" can't slip through.
+// Reject any "."/".." segment and anything with slashes.
+const SAFE_SEGMENT = /^[A-Za-z0-9](?:[A-Za-z0-9 ._-]*[A-Za-z0-9])?$/;
+const MAX_SEGMENT_LEN = 64;
 
 const isSafe = (segment: string | null): segment is string =>
-  !!segment && SAFE_SEGMENT.test(segment) && segment !== "." && segment !== "..";
+  !!segment &&
+  segment.length <= MAX_SEGMENT_LEN &&
+  SAFE_SEGMENT.test(segment) &&
+  segment !== "." &&
+  segment !== "..";
 
 export async function GET(request: Request) {
   try {
@@ -65,7 +69,15 @@ export async function GET(request: Request) {
       return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
     };
 
-    return NextResponse.json({ images: entries.sort(preferredFirst) });
+    return NextResponse.json(
+      { images: entries.sort(preferredFirst) },
+      {
+        headers: {
+          // Cache aggressively at the CDN — these directories rarely change. Bust by deploying.
+          "Cache-Control": "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800",
+        },
+      },
+    );
   } catch {
     return NextResponse.json({ error: "Unexpected error" }, { status: 500 });
   }
