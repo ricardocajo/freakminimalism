@@ -6,6 +6,7 @@ import { useCart } from "@/contexts/CartContext";
 import { Product, CartItem } from "@/types/types";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { resolveLang } from "@/libs/utils";
 
 interface AddToCartProps {
   product: Product;
@@ -30,7 +31,7 @@ export const AddToCart = ({
 
     const cartItem: CartItem = {
       _id: product._id,
-      name: product.translations[i18n.language as 'en' | 'pt'].name,
+      name: product.translations[resolveLang(i18n.language)].name,
       price: product.price,
       discountPrice: product.discountPrice,
       color: selectedColor,

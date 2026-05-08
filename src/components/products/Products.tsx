@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Images } from "./Images";
 import { Product } from "@/types/types";
 import { useTranslation } from "react-i18next";
+import { resolveLang } from "@/libs/utils";
 
 interface ProductsProps {
   products: Product[];
@@ -12,7 +13,7 @@ interface ProductsProps {
 
 export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
   const { t, i18n } = useTranslation();
-  const language = i18n.language as "en" | "pt";
+  const language = resolveLang(i18n.language);
   const showCustomization =
     extraClassname.startsWith("category-") || extraClassname === "";
 

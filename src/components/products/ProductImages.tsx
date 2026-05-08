@@ -3,6 +3,7 @@
 import { Images } from "./Images";
 import { Product } from "@/types/types";
 import { useTranslation } from "react-i18next";
+import { resolveLang } from "@/libs/utils";
 
 interface ProductImagesProps {
   product: Product;
@@ -10,7 +11,7 @@ interface ProductImagesProps {
 
 export const ProductImages = ({ product }: ProductImagesProps) => {
   const { i18n } = useTranslation();
-  const language = i18n.language as "en" | "pt";
+  const language = resolveLang(i18n.language);
   const alt = product.translations[language].name;
 
   if (!product.images || product.images.length === 0) {

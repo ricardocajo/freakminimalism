@@ -7,6 +7,7 @@ import { Product } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { resolveLang } from "@/libs/utils";
 
 const normalizeText = (text: string): string => {
   if (!text) return "";
@@ -18,7 +19,7 @@ const SearchContent = () => {
   const query = searchParams.get("q") || "";
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const { t, i18n } = useTranslation("common");
-  const language = (i18n.language as "en" | "pt") || "pt";
+  const language = resolveLang(i18n.language);
 
   useEffect(() => {
     const normalizedSearch = normalizeText(query.trim());

@@ -13,6 +13,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { colorMapping } from "@/helpers/colorMapping";
+import { resolveLang } from "@/libs/utils";
 
 interface SingleProductProps {
   product: Product;
@@ -22,7 +23,7 @@ const toCssColor = (color: string) => colorMapping[color] ?? color;
 
 export const SingleProduct = ({ product }: SingleProductProps) => {
   const { t, i18n } = useTranslation();
-  const language = i18n.language as "en" | "pt";
+  const language = resolveLang(i18n.language);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState<string | null>(
     product.sizes.length ? product.sizes[0] : null,
