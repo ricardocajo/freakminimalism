@@ -2,10 +2,8 @@ import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 import { products } from '@/data/products';
 
-// API version pin is kept for backwards-compat with whichever Stripe API revision
-// the account is using. Bump this in lockstep with the loyalty webhook when you upgrade.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-08-16',
+  apiVersion: '2025-08-27.basil',
 });
 
 // Server-side whitelist of valid Stripe price IDs sourced from the static catalog.
