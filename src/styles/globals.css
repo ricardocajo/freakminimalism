@@ -144,6 +144,18 @@ main {
   }
 }
 
+/* Game playfield height. dvh keeps the whole field on screen as mobile browser
+ * chrome collapses; the vh rule is the fallback for Safari below 15.4. */
+.fm-game-field {
+  height: min(72vh, 700px);
+}
+
+@supports (height: 1dvh) {
+  .fm-game-field {
+    height: min(72dvh, 700px);
+  }
+}
+
 /* Scoped text outline for About page to ensure readability on all backgrounds */
 .about-contrast h1,
 .about-contrast p {

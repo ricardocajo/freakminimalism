@@ -90,6 +90,11 @@ export const Navbar = () => {
               </Link>
             </li>
             <li className="flex items-center justify-center">
+              <Link href="/game" onClick={closeHeader}>
+                {label("navbar.game", "Game")}
+              </Link>
+            </li>
+            <li className="flex items-center justify-center">
               <Link href={linksData[0].path} onClick={closeHeader}>
                 {linksData[0].name}
               </Link>

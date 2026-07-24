@@ -8,6 +8,7 @@
   },
   "navbar": {
     "about": "About",
+    "game": "Game",
     "art": "Art",
     "3dworks": "3D Works",
     "hats": "Hats",
@@ -178,5 +179,23 @@
     "title": "Payment successful!",
     "description": "Thank you for your purchase. You will be redirected to the home page shortly.",
     "toast": "Payment successful! Your order has been placed."
+  },
+  "game": {
+    "title": "KEEP IT MINIMAL",
+    "tagline": "Noise falls. Remove it. Keep what is essential.",
+    "ruleNoise": "Tap the noise to clear it",
+    "ruleProduct": "Never tap a product — let it pass",
+    "play": "Play",
+    "again": "Again",
+    "shop": "Shop",
+    "score": "Score",
+    "best": "Best",
+    "newBest": "New personal best",
+    "loading": "Loading…",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "overProduct": "You deleted something essential",
+    "overClutter": "Too much noise",
+    "ownItInstead": "Own it instead"
   }
 }

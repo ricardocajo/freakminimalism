@@ -8,6 +8,7 @@
   },
   "navbar": {
     "about": "Sobre",
+    "game": "Jogo",
     "art": "Arte",
     "3dworks": "Trabalhos 3D",
     "hats": "Chapéus",
@@ -178,5 +179,23 @@
     "title": "Pagamento efetuado com sucesso!",
     "description": "Obrigado pela tua compra. Vais ser redirecionado para a página inicial em breve.",
     "toast": "Pagamento efetuado! A tua encomenda foi recebida."
+  },
+  "game": {
+    "title": "KEEP IT MINIMAL",
+    "tagline": "O ruído cai. Elimina-o. Fica só com o essencial.",
+    "ruleNoise": "Toca no ruído para o eliminar",
+    "ruleProduct": "Nunca toques num produto — deixa-o passar",
+    "play": "Jogar",
+    "again": "Outra vez",
+    "shop": "Loja",
+    "score": "Pontos",
+    "best": "Recorde",
+    "newBest": "Novo recorde pessoal",
+    "loading": "A carregar…",
+    "mute": "Silenciar",
+    "unmute": "Ativar som",
+    "overProduct": "Eliminaste algo essencial",
+    "overClutter": "Ruído a mais",
+    "ownItInstead": "Fica com ele"
   }
 }
