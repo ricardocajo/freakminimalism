@@ -667,9 +667,12 @@ export default function KeepItMinimal() {
                     href={killed.href}
                     className="group mt-1 flex items-center gap-3 rounded-lg border border-white/15 bg-white/5 p-2 pr-4 transition hover:border-white/40"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {/* The preloaded thumbnail, not the full packshot: this
+                      * renders the instant you lose, and a cold fetch of the
+                      * original would leave an empty box on a phone.
+                      * eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={killed.src}
+                      src={killed.thumb}
                       alt={killed.name[lang]}
                       className="h-12 w-12 object-contain"
                     />

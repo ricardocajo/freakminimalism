@@ -22,12 +22,17 @@ export const POINTS_PER_CLEAR = 10;
 export const COMBO_STEP = 6;
 export const COMBO_MAX = 5;
 
-/** Difficulty ramps with elapsed seconds and then plateaus. */
+/**
+ * Difficulty ramps with elapsed seconds and then plateaus. The opening is
+ * deliberately calm; the ramp is what carries the run. Top speed is 480
+ * units/s — an entity crosses the 700-unit field in 1.5s — and the field
+ * reaches it at 100s.
+ */
 export const spawnInterval = (elapsed: number) =>
-  Math.max(0.34, 1.15 - elapsed * 0.01);
+  Math.max(0.26, 1.15 - elapsed * 0.018);
 
 export const fallSpeed = (elapsed: number) =>
-  95 + Math.min(elapsed, 100) * 1.45;
+  110 + Math.min(elapsed, 100) * 3.7;
 
 export const productChance = (elapsed: number) =>
   Math.min(0.32, 0.22 + elapsed * 0.001);
