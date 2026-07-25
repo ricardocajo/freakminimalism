@@ -51,9 +51,16 @@ export interface Sprite {
  * across the catalogue) is pure waste on mobile. Next's optimiser serves a
  * 128px variant instead; it is 12 unique source images, well inside the free
  * tier's transformation budget, and cached from then on.
+ *
+ * Both parameters are constrained by allowlists that only production enforces
+ * (dev serves anything, so a bad value here fails silently until deploy):
+ *   w  must appear in images.imageSizes/deviceSizes — 128 is a default entry.
+ *   q  must appear in images.qualities — that defaults to [75] alone, so any
+ *      other value returns 400 and every product renders as an empty outline.
+ * Change either only alongside a matching next.config.js entry.
  */
 const thumbUrl = (src: string) =>
-  `/_next/image?url=${encodeURIComponent(src)}&w=128&q=70`;
+  `/_next/image?url=${encodeURIComponent(src)}&w=128&q=75`;
 
 /**
  * Playable inventory is derived from the real catalogue, so the game updates
