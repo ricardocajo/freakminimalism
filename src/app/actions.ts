@@ -1,12 +1,18 @@
 import { Product } from "@/types/types";
 import { products as productData, storefrontProducts } from "@/data/products";
+import { mixProducts, mixProductsRotated } from "@/data/mixProducts";
 
 export const products: Product[] = productData;
 
-// Drawn from storefrontProducts so an internal test product can never surface
-// in a "you might also like" strip on a real product page.
+// Drawn from storefrontProducts, so test products follow the same visibility
+// switch as every other listing. Rotated by the current product's ID so
+// different product pages suggest different pieces instead of every page
+// showing the same first six.
 export const getRandomProducts = (productId: string) =>
-  storefrontProducts.filter((product) => product._id !== productId).slice(0, 6);
+  mixProductsRotated(
+    storefrontProducts.filter((product) => product._id !== productId),
+    productId,
+  ).slice(0, 6);
 
 // Map URL slugs to the category tags used in products.ts, so we don't have to
 // rename the source data when the route name differs (e.g. /partnerships → parcerias).
@@ -17,8 +23,12 @@ const categorySlugAlias: Record<string, string> = {
 export const getCategoryProducts = (category: string) => {
   const slug = category.replace("category-", "").toLowerCase();
   const resolved = categorySlugAlias[slug] ?? slug;
-  return products.filter((product) =>
-    product.categories.some((cat) => cat.toLowerCase() === resolved),
+  // Mixed as well: /new holds nearly the whole catalogue, and even a single
+  // family reads better with its sub-groups spread out.
+  return mixProducts(
+    products.filter((product) =>
+      product.categories.some((cat) => cat.toLowerCase() === resolved),
+    ),
   );
 };
 

@@ -1,4 +1,5 @@
 import type { Product } from "@/types/types";
+import { mixProducts } from "@/data/mixProducts";
 
 // Source of truth for the catalogue. Every `_id` must be the Stripe Price ID
 // for that product — it is passed straight to Stripe Checkout as the line item.
@@ -522,9 +523,10 @@ export const products: Product[] = [
   {
     // ---------------------------------------------------------------------
     // END-TO-END TEST PRODUCT
-    // Not shown on the home page or in search (see storefrontProducts below),
-    // but reachable directly at /test/<_id> so a real Stripe checkout can be
-    // run against it. €0.50 is Stripe's minimum chargeable amount in EUR.
+    // Visible on the storefront and pinned first while SHOW_TEST_PRODUCTS is
+    // on (see below), so a real Stripe checkout can be run against it.
+    // €0.50 is Stripe's minimum chargeable amount in EUR. Delete this entry
+    // once the test is done.
     // ---------------------------------------------------------------------
     _id: "price_1UA8kNCTQhRcTCnZTD3lJs5Y",
     translations: {
@@ -541,9 +543,19 @@ export const products: Product[] = [
   },
 ];
 
-// Everything except internal test products. Use this for any customer-facing
-// listing (home page, search); `products` stays complete so direct product
-// URLs and generateStaticParams still resolve the test product.
-export const storefrontProducts: Product[] = products.filter(
-  (product) => !product.categories.includes("test"),
-);
+// TEMPORARY — remove once the end-to-end checkout test is done.
+// While true, the €0.50 test product is shown on the storefront and pinned to
+// the front of every listing so it is easy to find. Set it back to false (or
+// just delete the test entry from `products`) and the storefront hides it again.
+const SHOW_TEST_PRODUCTS = true;
+
+const isTest = (product: Product) => product.categories.includes("test");
+
+// Ordered for display rather than for maintenance: mixProducts interleaves the
+// categories so the grid never shows one solid block per family. Use this for
+// any customer-facing listing (home page, search); `products` stays complete and
+// in source order so direct product URLs and generateStaticParams keep working.
+export const storefrontProducts: Product[] = [
+  ...(SHOW_TEST_PRODUCTS ? products.filter(isTest) : []),
+  ...mixProducts(products.filter((product) => !isTest(product))),
+];

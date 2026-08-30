@@ -11,6 +11,12 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'pt',
+    // Node 21+ exposes a global `navigator`, and Node reports `en-US`. That
+    // makes the *browser* language detector fire during SSG and resolve to
+    // English, so every prerendered page shipped English product names inside
+    // a `<html lang="pt">` document. Pin the server render to Portuguese; the
+    // browser still detects normally on hydration.
+    ...(typeof window === 'undefined' ? { lng: 'pt' } : {}),
     supportedLngs: SUPPORTED as unknown as string[],
     nonExplicitSupportedLngs: true, // map en-US → en, pt-PT → pt etc.
     load: 'languageOnly',
