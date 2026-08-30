@@ -25,10 +25,19 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   if (!product) {
     return { title: "Product not found" };
   }
-  // Default metadata to English; the rendered UI hydrates with the user's
-  // language client-side.
-  const { name, description } = product.translations.en;
-  return { title: name, description: description || undefined };
+  // Metadata is Portuguese: it is what search engines index, what the browser
+  // tab shows and what social shares preview, and the storefront's audience is
+  // Portuguese. The UI itself still hydrates to the visitor's language.
+  const { name, description } = product.translations.pt;
+  return {
+    title: name,
+    description: description || undefined,
+    // Internal test products are reachable by direct URL so we can run real
+    // checkouts against them — they must never end up in a search index.
+    ...(product.categories.includes("test")
+      ? { robots: { index: false, follow: false } }
+      : {}),
+  };
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {

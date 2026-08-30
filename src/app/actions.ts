@@ -1,10 +1,12 @@
 import { Product } from "@/types/types";
-import { products as productData } from "@/data/products";
+import { products as productData, storefrontProducts } from "@/data/products";
 
 export const products: Product[] = productData;
 
+// Drawn from storefrontProducts so an internal test product can never surface
+// in a "you might also like" strip on a real product page.
 export const getRandomProducts = (productId: string) =>
-  products.filter((product) => product._id !== productId).slice(0, 6);
+  storefrontProducts.filter((product) => product._id !== productId).slice(0, 6);
 
 // Map URL slugs to the category tags used in products.ts, so we don't have to
 // rename the source data when the route name differs (e.g. /partnerships → parcerias).

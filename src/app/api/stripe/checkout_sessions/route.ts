@@ -83,6 +83,36 @@ export async function POST(request: Request) {
         ? freakCardEmail.trim().toLowerCase()
         : undefined;
 
+    // Internal end-to-end test products ship nothing, so charging the €5.50 PT
+    // shipping rate on them would make a €0.50 test cost €6.00. Only skip it
+    // when the cart is *exclusively* test items — a mixed cart still ships.
+    const isTestOnlyCart = Array.from(aggregated.keys()).every((priceId) =>
+      products.find((p) => p._id === priceId)?.categories.includes('test'),
+    );
+
+    const shipping: Pick<
+      Stripe.Checkout.SessionCreateParams,
+      'shipping_address_collection' | 'shipping_options'
+    > = isTestOnlyCart
+      ? {}
+      : {
+          shipping_address_collection: {
+            allowed_countries: ['PT'],
+          },
+          shipping_options: [
+            {
+              shipping_rate_data: {
+                type: 'fixed_amount',
+                fixed_amount: {
+                  amount: 550,
+                  currency: 'eur',
+                },
+                display_name: 'Shipping',
+              },
+            },
+          ],
+        };
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
@@ -90,21 +120,7 @@ export async function POST(request: Request) {
       discounts,
       ...(trimmedEmail ? { customer_email: trimmedEmail } : {}),
       billing_address_collection: 'required',
-      shipping_address_collection: {
-        allowed_countries: ['PT'],
-      },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: {
-              amount: 550,
-              currency: 'eur',
-            },
-            display_name: 'Shipping',
-          },
-        },
-      ],
+      ...shipping,
       // Metadata flows through to the webhook so the loyalty side knows this came
       // from the storefront (vs. a subscription invoice on the FREAK CARD site).
       metadata: {

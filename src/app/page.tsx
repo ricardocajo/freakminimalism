@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { products } from '@/data/products';
+import { storefrontProducts } from '@/data/products';
 import { Products } from "../components/products/Products";
 import ProductSkeleton from "@/components/skeletons/ProductSkeleton";
 
@@ -81,7 +81,7 @@ const Home = async () => {
 };
 
 const AllProducts = () => {
-  const productsData = products;
+  const productsData = storefrontProducts;
 
   return <Products products={productsData} extraClassname="" />;
 };

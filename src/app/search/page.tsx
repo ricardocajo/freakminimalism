@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { products as allProducts } from "@/data/products";
+import { storefrontProducts as allProducts } from "@/data/products";
 import { Product } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";

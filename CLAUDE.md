@@ -89,6 +89,24 @@ interface Product {
 - Success URL includes `?session_id={CHECKOUT_SESSION_ID}` — the success page validates this param before clearing the cart. Direct `/success` visits redirect home.
 - Required env vars: `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_SITE_URL`
 
+### Local Stripe access (for scripted catalogue changes)
+
+Secrets live only in `.env.local` (gitignored). `.env.example` documents the
+required vars and the exact restricted-key scopes. The npm scripts load
+`.env.local` via Node's `--env-file-if-exists`, so no shell exporting is needed:
+
+```
+npm run stripe:whoami                       # verify key, account, and scopes
+npm run stripe:whoami -- --probe-write      # also test Products write (creates + deletes a throwaway product)
+npm run stripe:seed                         # dry run: what would be created
+npm run stripe:seed:execute                 # create Products + Prices, write IDs back into products.ts
+```
+
+- Use a **restricted key** (`rk_live_…`), not the full `sk_live_…`. Scopes: Products write, Prices write, Checkout Sessions write, Coupons read, Promotion codes read.
+- `src/data/products.ts` holds **livemode** price IDs, so seeding the catalogue needs a live-mode key. The scripts print a LIVE/TEST banner before doing anything.
+- [scripts/seed-stripe.mjs](scripts/seed-stripe.mjs) is idempotent — it tags products with `metadata.slug` and reuses matches instead of duplicating.
+- The Stripe MCP plugin is an alternative path but needs OAuth from an interactive session (`/mcp`); the scripts above work without it.
+
 ## Cart
 
 - Context: [src/contexts/CartContext.tsx](src/contexts/CartContext.tsx)
@@ -168,8 +186,10 @@ After editing `package.json` (e.g. bumping `stripe` version), run `npm install` 
 
 1. Get the Stripe Price ID from the Stripe dashboard.
 2. Add an entry to `src/data/products.ts` with `_id` set to that price ID.
-3. Add product images to `public/images/<category>/`.
+3. Add product images to `public/images/products/<slug>/`, numbered `1.webp`, `2.webp`, ... — one folder per product. Source photos are converted with sharp: `.rotate()` (bakes in EXIF orientation), resized to 2400px on the long side, WebP quality 90. That lands ~150-500KB per image and matches the `aspect-[2/3]` product grid at 1600x2400.
 4. If it belongs to a new category, add nav links in the Navbar and a `categorySlugAlias` entry in `actions.ts` if the URL slug differs from the category tag.
+
+Products tagged with the `test` category are excluded from `storefrontProducts` (used by the home page and search) but stay in `products`, so they keep a working direct URL at `/test/<price-id>` for end-to-end checkout tests.
 
 ## Common Gotchas
 
