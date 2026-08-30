@@ -6,6 +6,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-08-27.basil',
 });
 
+// A trailing slash on NEXT_PUBLIC_SITE_URL would produce `…com//success`, which
+// only works because the host happens to 308 it back. Normalise here so the
+// redirect is correct whatever shape the env var is configured in.
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? '').replace(/\/+$/, '');
+
 // Server-side whitelist of valid Stripe price IDs sourced from the static catalog.
 // Prevents a manipulated client from swapping in arbitrary prices on this account.
 const VALID_PRICE_IDS = new Set(products.map(p => p._id));
@@ -127,8 +132,8 @@ export async function POST(request: Request) {
         source: 'freakminimalism',
         ...(trimmedEmail ? { freak_card_email: trimmedEmail } : {}),
       },
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cart`,
+      success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}/cart`,
     });
 
     return NextResponse.json({ url: session.url });

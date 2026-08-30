@@ -2,7 +2,6 @@
 
 import { useCart } from "@/contexts/CartContext";
 import { CartItem } from "@/contexts/CartContext";
-import { ProductCartInfo } from "@/components/cart/ProductCartInfo";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Image from "next/image";

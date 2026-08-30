@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "stripe:whoami": "node --env-file-if-exists=.env.local scripts/stripe-whoami.mjs",
     "stripe:seed": "node --env-file-if-exists=.env.local scripts/seed-stripe.mjs",
     "stripe:seed:execute": "node --env-file-if-exists=.env.local scripts/seed-stripe.mjs --execute"

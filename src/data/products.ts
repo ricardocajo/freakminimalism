@@ -520,42 +520,17 @@ export const products: Product[] = [
     colors: ["Black"],
     sizes: ["M"],
   },
-  {
-    // ---------------------------------------------------------------------
-    // END-TO-END TEST PRODUCT
-    // Visible on the storefront and pinned first while SHOW_TEST_PRODUCTS is
-    // on (see below), so a real Stripe checkout can be run against it.
-    // €0.50 is Stripe's minimum chargeable amount in EUR. Delete this entry
-    // once the test is done.
-    // ---------------------------------------------------------------------
-    _id: "price_1UA8kNCTQhRcTCnZTD3lJs5Y",
-    translations: {
-      en: { name: "E2E Test Product", description: "Internal test product. Do not order.", composition: "", care: "" },
-      pt: { name: "Produto de Teste E2E", description: "Produto de teste interno. Não encomendar.", composition: "", care: "" },
-    },
-    price: 0.5,
-    categories: ["test"],
-    images: [
-      "/images/products/fm-hat/1.webp",
-    ],
-    colors: ["Black"],
-    sizes: ["Tamanho Único"],
-  },
 ];
-
-// TEMPORARY — remove once the end-to-end checkout test is done.
-// While true, the €0.50 test product is shown on the storefront and pinned to
-// the front of every listing so it is easy to find. Set it back to false (or
-// just delete the test entry from `products`) and the storefront hides it again.
-const SHOW_TEST_PRODUCTS = true;
-
-const isTest = (product: Product) => product.categories.includes("test");
 
 // Ordered for display rather than for maintenance: mixProducts interleaves the
 // categories so the grid never shows one solid block per family. Use this for
 // any customer-facing listing (home page, search); `products` stays complete and
 // in source order so direct product URLs and generateStaticParams keep working.
-export const storefrontProducts: Product[] = [
-  ...(SHOW_TEST_PRODUCTS ? products.filter(isTest) : []),
-  ...mixProducts(products.filter((product) => !isTest(product))),
-];
+//
+// Anything tagged `test` is excluded: add such an entry to run a real checkout
+// against a cheap product without exposing it to customers. It stays reachable
+// at /test/<price-id>, is left out of "you might also like", renders
+// noindex/nofollow, and is exempt from the shipping rate.
+export const storefrontProducts: Product[] = mixProducts(
+  products.filter((product) => !product.categories.includes("test")),
+);

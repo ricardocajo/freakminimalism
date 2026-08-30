@@ -1,6 +1,7 @@
 "use client";
 
 import { Images } from "./Images";
+import { MobileGallery } from "./MobileGallery";
 import { Product } from "@/types/types";
 import { useTranslation } from "react-i18next";
 import { resolveLang } from "@/libs/utils";
@@ -20,21 +21,9 @@ export const ProductImages = ({ product }: ProductImagesProps) => {
 
   return (
     <div className="flex flex-wrap justify-between">
-      {/* Mobile: single hero image */}
+      {/* Phone: swipeable track carrying every image */}
       <div className="grow-999 basis-0 lg:hidden">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <div className="relative w-[280px] rounded-md overflow-hidden">
-            <Images
-              src={product.images[0]}
-              alt={alt}
-              width={560}
-              height={840}
-              priority
-              sizes="(max-width: 640px) 80vw, 280px"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
+        <MobileGallery images={product.images} alt={alt} />
       </div>
 
       {/* Desktop: two-column gallery of all images */}
