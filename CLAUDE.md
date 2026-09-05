@@ -152,7 +152,7 @@ The storefront connects to the **FREAK CARD** loyalty app (repo: `~/Documents/FR
 2. On checkout, `freakCardEmail` is sent to `/api/stripe/checkout_sessions` as part of the request body.
 3. The checkout route sets `customer_email: freakCardEmail` and `metadata.source: 'freakminimalism'` on the Stripe Session.
 4. Stripe fires `checkout.session.completed` to the FREAK CARD Supabase Edge Function (`stripe-webhook` v2).
-5. The webhook calls the `attribute_purchase(session_id, email, amount_eur)` RPC, which finds the matching FREAK CARD profile by email and awards **5 points per €**.
+5. The webhook inserts a `purchases` row, then calls `attribute_purchase(p_purchase_id)`. That RPC resolves the member from `metadata.freak_user_id` when the cart forwarded a signed-in member's uuid, and falls back to matching `customer_email` for guests. It awards **5 points per €**.
 
 ### Key files in this repo
 
