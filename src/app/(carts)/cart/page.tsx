@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { productHref } from "@/app/actions";
+import { readMemberCookie, clearMemberCookie, type FreakCardMember } from "@/lib/freakCard";
 
 const ButtonCheckout = dynamic(
   () => import("@/components/cart/ButtonCheckout"),
@@ -29,9 +30,20 @@ export default function CartPage() {
   const { t, i18n } = useTranslation();
   const [promoCode, setPromoCode] = useState<string>("");
   const [freakCardEmail, setFreakCardEmail] = useState<string>("");
+  // Signed-in FREAK CARD member, if the card app left an identity cookie on the
+  // shared parent domain. Lets us attribute points without asking them to retype.
+  const [member, setMember] = useState<FreakCardMember | null>(null);
   // Avoid flashing "empty cart" before localStorage has been read by CartContext.
   const [hydrated, setHydrated] = useState(false);
-  useEffect(() => { setHydrated(true); }, []);
+  useEffect(() => {
+    setMember(readMemberCookie());
+    setHydrated(true);
+  }, []);
+
+  const forgetMember = () => {
+    clearMemberCookie();
+    setMember(null);
+  };
 
   if (!hydrated) {
     return (
@@ -188,20 +200,46 @@ export default function CartPage() {
               aria-label={(i18n.language === 'pt' ? 'Código promocional' : 'Promo code')}
             />
           </div>
-          <div className="flex items-center gap-2 p-2.5 border-b border-border-primary bg-background-secondary">
-            <span className="text-sm whitespace-nowrap px-1">
-              {i18n.language === 'pt' ? 'É membro FREAK CARD?' : 'FREAK CARD member?'}
-            </span>
-            <input
-              type="email"
-              value={freakCardEmail}
-              onChange={(e) => setFreakCardEmail(e.target.value.trim().toLowerCase())}
-              placeholder={i18n.language === 'pt' ? 'Email da sua conta (ganha pontos)' : 'Your account email (earn points)'}
-              className="flex-1 bg-transparent border border-border-primary rounded px-3 py-2 text-sm placeholder:text-[#777] focus:outline-none focus:border-border-secondary"
-              aria-label={i18n.language === 'pt' ? 'Email FREAK CARD' : 'FREAK CARD email'}
-              autoComplete="email"
-            />
-          </div>
+          {member ? (
+            <div className="flex items-center gap-2 p-2.5 border-b border-border-primary bg-background-secondary">
+              <span className="text-sm px-1 flex-1 min-w-0">
+                {i18n.language === 'pt' ? 'A ganhar pontos como ' : 'Earning points as '}
+                <span className="opacity-70 break-all">{member.email}</span>
+              </span>
+              <button
+                type="button"
+                onClick={forgetMember}
+                className="text-xs underline opacity-60 hover:opacity-100 whitespace-nowrap"
+              >
+                {i18n.language === 'pt' ? 'Não sou eu' : 'Not me'}
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-1.5 p-2.5 border-b border-border-primary bg-background-secondary">
+              <div className="flex items-center gap-2">
+                <span className="text-sm whitespace-nowrap px-1">
+                  {i18n.language === 'pt' ? 'É membro FREAK CARD?' : 'FREAK CARD member?'}
+                </span>
+                <input
+                  type="email"
+                  value={freakCardEmail}
+                  onChange={(e) => setFreakCardEmail(e.target.value.trim().toLowerCase())}
+                  placeholder={i18n.language === 'pt' ? 'Email da sua conta (ganha pontos)' : 'Your account email (earn points)'}
+                  className="flex-1 bg-transparent border border-border-primary rounded px-3 py-2 text-sm placeholder:text-[#777] focus:outline-none focus:border-border-secondary"
+                  aria-label={i18n.language === 'pt' ? 'Email FREAK CARD' : 'FREAK CARD email'}
+                  autoComplete="email"
+                />
+              </div>
+              <a
+                href="https://cliente.freak-minimalism.com/login.html"
+                className="text-xs underline opacity-60 hover:opacity-100 px-1"
+              >
+                {i18n.language === 'pt'
+                  ? 'Entrar no FREAK CARD para ganhar pontos automaticamente'
+                  : 'Sign in to FREAK CARD to earn points automatically'}
+              </a>
+            </div>
+          )}
           <div className="flex">
             <div className="flex flex-col p-2.5 justify-center w-1/2 gap-2 text-center">
               <div className="flex gap-2.5 justify-center text-sm">
@@ -214,7 +252,8 @@ export default function CartPage() {
               <ButtonCheckout
                 cartItems={cart}
                 promoCode={promoCode && PROMO_RE.test(promoCode) ? promoCode : undefined}
-                freakCardEmail={freakCardEmail || undefined}
+                freakCardEmail={member?.email || freakCardEmail || undefined}
+                freakCardUserId={member?.id}
               />
             </div>
           </div>

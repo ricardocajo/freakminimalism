@@ -15,6 +15,10 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? '').replace(/\/+$/, '');
 // Prevents a manipulated client from swapping in arbitrary prices on this account.
 const VALID_PRICE_IDS = new Set(products.map(p => p._id));
 
+// FREAK CARD user ids are Postgres uuids — anything else is discarded rather than
+// forwarded to Stripe, so a tampered cookie can't inject arbitrary metadata.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 const MAX_LINE_ITEMS = 50;
 const MAX_QUANTITY_PER_ITEM = 20;
 
@@ -25,7 +29,7 @@ interface IncomingCartItem {
 
 export async function POST(request: Request) {
   try {
-    const { cartItems, promoCode, freakCardEmail } = await request.json();
+    const { cartItems, promoCode, freakCardEmail, freakCardUserId } = await request.json();
 
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
       return NextResponse.json({ error: 'empty_cart' }, { status: 400 });
@@ -88,6 +92,14 @@ export async function POST(request: Request) {
         ? freakCardEmail.trim().toLowerCase()
         : undefined;
 
+    // When the shopper is signed in on the FREAK CARD app, the cart forwards their
+    // user id. Matching on the id instead of the email makes attribution immune to
+    // typos and to checking out with a different Stripe email.
+    const memberId =
+      typeof freakCardUserId === 'string' && UUID_RE.test(freakCardUserId)
+        ? freakCardUserId.toLowerCase()
+        : undefined;
+
     // Internal end-to-end test products ship nothing, so charging the €5.50 PT
     // shipping rate on them would make a €0.50 test cost €6.00. Only skip it
     // when the cart is *exclusively* test items — a mixed cart still ships.
@@ -131,6 +143,7 @@ export async function POST(request: Request) {
       metadata: {
         source: 'freakminimalism',
         ...(trimmedEmail ? { freak_card_email: trimmedEmail } : {}),
+        ...(memberId ? { freak_user_id: memberId } : {}),
       },
       success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/cart`,

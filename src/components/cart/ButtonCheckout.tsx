@@ -9,9 +9,10 @@ interface ButtonCheckoutProps {
   cartItems: CartItem[];
   promoCode?: string;
   freakCardEmail?: string;
+  freakCardUserId?: string;
 }
 
-export const ButtonCheckout = ({ cartItems, promoCode, freakCardEmail }: ButtonCheckoutProps) => {
+export const ButtonCheckout = ({ cartItems, promoCode, freakCardEmail, freakCardUserId }: ButtonCheckoutProps) => {
   const [isPending, startTransition] = useTransition();
 
   const handleCheckout = useCallback(async () => {
@@ -19,7 +20,7 @@ export const ButtonCheckout = ({ cartItems, promoCode, freakCardEmail }: ButtonC
       const res = await fetch("/api/stripe/checkout_sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cartItems, promoCode, freakCardEmail }),
+        body: JSON.stringify({ cartItems, promoCode, freakCardEmail, freakCardUserId }),
       });
       if (!res.ok) {
         throw new Error(`Checkout failed (${res.status})`);
@@ -33,7 +34,7 @@ export const ButtonCheckout = ({ cartItems, promoCode, freakCardEmail }: ButtonC
       console.error("Error creating checkout session:", error);
       toast.error("Failed to create checkout session");
     }
-  }, [cartItems, promoCode, freakCardEmail]);
+  }, [cartItems, promoCode, freakCardEmail, freakCardUserId]);
 
   return (
     <button
