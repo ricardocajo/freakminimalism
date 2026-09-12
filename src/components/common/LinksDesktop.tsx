@@ -15,6 +15,31 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
+// The collections panel is grouped rather than listed flat: everything you
+// wear on one side, everything we make on the other. Order inside each group
+// goes from the biggest family to the smallest.
+const CATEGORY_GROUPS = [
+  {
+    titleKey: "navbar.groupWear",
+    items: [
+      { href: "/woman", key: "woman" },
+      { href: "/man", key: "man" },
+      { href: "/kids", key: "kids" },
+      { href: "/hats", key: "hats" },
+      { href: "/accessories", key: "accessories" },
+    ],
+  },
+  {
+    titleKey: "navbar.groupCreations",
+    items: [
+      { href: "/art", key: "art" },
+      { href: "/handcraft", key: "handcraft" },
+      { href: "/3dworks", key: "3dworks" },
+      { href: "/partnerships", key: "partnerships" },
+    ],
+  },
+];
+
 export function LinksDesktop() {
   const { t } = useTranslation('common');
   return (
@@ -41,50 +66,58 @@ export function LinksDesktop() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>{t('navbar.collections')}</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
+            <div className="grid gap-3 p-4 md:w-[520px] lg:w-[620px] lg:grid-cols-[.85fr_1fr]">
+              {/* Two calls to action sharing the space the single "view all"
+                  tile used to take up on its own. */}
+              <div className="grid grid-rows-[1fr_auto] gap-3">
                 <NavigationMenuLink asChild>
                   <Link
-                    className="flex flex-col justify-end w-full h-full p-6 no-underline rounded-md outline-none select-none from-muted/50 to-muted focus:shadow-md bg-center bg-[url('/main-image.webp')]"
+                    className="relative flex flex-col justify-end w-full min-h-[150px] p-6 overflow-hidden no-underline rounded-md outline-none select-none focus:shadow-md bg-center bg-cover bg-[url('/main-image.webp')]"
                     href="/"
                   >
-                    <div className="mt-4 mb-1 text-sm font-medium">
+                    {/* The photo is busy — a scrim keeps the label readable. */}
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10"
+                    />
+                    <div className="relative mb-1 text-sm font-medium">
                       {t('navbar.viewAll')}
                     </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
+                    <p className="relative text-sm leading-tight text-[#D4D4D4]">
                       {t('navbar.discoverWardrobe')}
                     </p>
                   </Link>
                 </NavigationMenuLink>
-              </li>
-              <ListItem href="/new" title={t('navbar.new')}>
-                {t('navbar.newDescription')}
-              </ListItem>
-              <ListItem href="/art" title={t('navbar.art')}>
-                {t('navbar.artDescription')}
-              </ListItem>
-              <ListItem href="/3dworks" title={t('navbar.3dworks')}>
-                {t('navbar.3dworksDescription')}
-              </ListItem>
-              <ListItem href="/hats" title={t('navbar.hats')}>
-                {t('navbar.hatsDescription')}
-              </ListItem>
-              <ListItem href="/kids" title={t('navbar.kids')}>
-                {t('navbar.kidsDescription')}
-              </ListItem>
-              <ListItem href="/accessories" title={t('navbar.accessories')}>
-                {t('navbar.accessoriesDescription')}
-              </ListItem>
-              <ListItem href="/woman" title={t('navbar.woman')}>
-                {t('navbar.womanDescription')}
-              </ListItem>
-              <ListItem href="/man" title={t('navbar.man')}>
-                {t('navbar.manDescription')}
-              </ListItem>
-              <ListItem href="/partnerships" title={t('navbar.partnerships')}>
-                {t('navbar.partnershipsDescription')}
-              </ListItem>
-            </ul>
+                <NavigationMenuLink asChild>
+                  <Link
+                    className="flex flex-col justify-end w-full p-4 no-underline rounded-md outline-none select-none border border-solid border-[#2E2E2E] bg-[#161616] transition-colors hover:bg-[#1F1F1F] focus:shadow-md"
+                    href="/customize"
+                  >
+                    <div className="mb-1 text-sm font-medium uppercase">
+                      {t('navbar.customize')}
+                    </div>
+                    <p className="text-sm leading-tight text-muted-foreground text-[#A1A1A1]">
+                      {t('navbar.customizeDescription')}
+                    </p>
+                  </Link>
+                </NavigationMenuLink>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {CATEGORY_GROUPS.map((group) => (
+                  <div key={group.titleKey}>
+                    <p className="px-3 pb-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[#7A7A7A]">
+                      {t(group.titleKey)}
+                    </p>
+                    <ul>
+                      {group.items.map((item) => (
+                        <ListItem key={item.href} href={item.href} title={t(`navbar.${item.key}`)} />
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -95,24 +128,19 @@ export function LinksDesktop() {
 const ListItem = React.forwardRef<
   React.ElementRef<typeof Link>,
   React.ComponentPropsWithoutRef<typeof Link>
->(({ className, title, children, ...props }, ref) => {
+>(({ className, title, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
         <Link
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:bg-[#1F1F1F]",
+            "block select-none rounded-md px-3 py-2 text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-[#1F1F1F] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none text-[]">
-            {title}
-          </div>
-          <p className="text-sm leading-snug line-clamp-2 text-muted-foreground text-[#A1A1A1]">
-            {children}
-          </p>
+          {title}
         </Link>
       </NavigationMenuLink>
     </li>

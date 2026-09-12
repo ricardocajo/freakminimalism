@@ -30,14 +30,14 @@ export const Navbar = () => {
 
   const linksData = [
     { path: "/about", name: label("navbar.about", "About") },
-    { path: "/new", name: label("navbar.new", "New") },
-    { path: "/art", name: label("navbar.art", "Art") },
-    { path: "/3dworks", name: label("navbar.3dworks", "3D Works") },
-    { path: "/hats", name: label("navbar.hats", "Hats") },
-    { path: "/kids", name: label("navbar.kids", "Kids") },
-    { path: "/accessories", name: label("navbar.accessories", "Accessories") },
     { path: "/woman", name: label("navbar.woman", "Woman") },
     { path: "/man", name: label("navbar.man", "Man") },
+    { path: "/kids", name: label("navbar.kids", "Kids") },
+    { path: "/hats", name: label("navbar.hats", "Hats") },
+    { path: "/accessories", name: label("navbar.accessories", "Accessories") },
+    { path: "/art", name: label("navbar.art", "Art") },
+    { path: "/handcraft", name: label("navbar.handcraft", "Handcraft") },
+    { path: "/3dworks", name: label("navbar.3dworks", "3D Works") },
     { path: "/partnerships", name: label("navbar.partnerships", "Partnerships") },
   ];
 
@@ -102,6 +102,11 @@ export const Navbar = () => {
             <li className="flex items-center justify-center">
               <Link href="/" onClick={closeHeader}>
                 {label("cartPage.viewAll", "VIEW ALL")}
+              </Link>
+            </li>
+            <li className="flex items-center justify-center">
+              <Link href="/customize" onClick={closeHeader}>
+                {label("navbar.customize", "Customize")}
               </Link>
             </li>
             {linksData.slice(1).map((link) => (

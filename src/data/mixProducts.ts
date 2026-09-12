@@ -21,7 +21,7 @@ import { Product } from "@/types/types";
 
 // Tags that describe every product rather than a real product family — useless
 // for grouping, so they are skipped when picking a product's mix bucket.
-const GENERIC_CATEGORIES = new Set(["new", "test", "parcerias"]);
+const GENERIC_CATEGORIES = new Set(["test", "parcerias"]);
 
 // FNV-1a, folded into [0, 1). Stable for a given string, well spread for the
 // near-identical Stripe price IDs we use as product keys.

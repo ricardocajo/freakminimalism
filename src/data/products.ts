@@ -11,7 +11,7 @@ export const products: Product[] = [
       pt: { name: "Cinzeiro Folha 3D", description: "", composition: "", care: "" },
     },
     price: 10,
-    categories: ["3dworks", "new"],
+    categories: ["3dworks"],
     images: [
       "/images/products/ashtray-set-1/1.webp",
       "/images/products/ashtray-set-1/2.webp",
@@ -26,7 +26,7 @@ export const products: Product[] = [
       pt: { name: "Cinzeiro Pentagrama 3D", description: "", composition: "", care: "" },
     },
     price: 13,
-    categories: ["3dworks", "new"],
+    categories: ["3dworks"],
     images: [
       "/images/products/ashtray-set-2/1.webp",
       "/images/products/ashtray-set-2/2.webp",
@@ -41,7 +41,7 @@ export const products: Product[] = [
       pt: { name: "Caixa Hexagonal 3D", description: "", composition: "", care: "" },
     },
     price: 15,
-    categories: ["3dworks", "new"],
+    categories: ["3dworks"],
     images: [
       "/images/products/box-set-1/1.webp",
       "/images/products/box-set-1/2.webp",
@@ -56,7 +56,7 @@ export const products: Product[] = [
       pt: { name: "Suporte de Palhetas 3D", description: "", composition: "", care: "" },
     },
     price: 10,
-    categories: ["3dworks", "new"],
+    categories: ["3dworks"],
     images: [
       "/images/products/guitar-picks/1.webp",
       "/images/products/guitar-picks/2.webp",
@@ -71,7 +71,7 @@ export const products: Product[] = [
       pt: { name: "Reco-Reco Sapo 3D", description: "", composition: "", care: "" },
     },
     price: 10,
-    categories: ["3dworks", "new"],
+    categories: ["3dworks"],
     images: [
       "/images/products/reco-reco/1.webp",
       "/images/products/reco-reco/2.webp",
@@ -86,7 +86,7 @@ export const products: Product[] = [
       pt: { name: "Avental Montijo", description: "", composition: "", care: "" },
     },
     price: 13,
-    categories: ["accessories", "new"],
+    categories: ["accessories"],
     images: [
       "/images/products/montijo-apron/1.webp",
       "/images/products/montijo-apron/2.webp",
@@ -101,7 +101,7 @@ export const products: Product[] = [
       pt: { name: "Boné Borboleta", description: "", composition: "", care: "" },
     },
     price: 20,
-    categories: ["hats", "new"],
+    categories: ["hats"],
     images: [
       "/images/products/butterfly-hat/1.webp",
       "/images/products/butterfly-hat/2.webp",
@@ -116,7 +116,7 @@ export const products: Product[] = [
       pt: { name: "Boné FM", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["hats", "new"],
+    categories: ["hats"],
     images: [
       "/images/products/fm-hat/1.webp",
       "/images/products/fm-hat/2.webp",
@@ -127,11 +127,11 @@ export const products: Product[] = [
   {
     _id: "price_1T3fFPCTQhRcTCnZ3aaI3igs",
     translations: {
-      en: { name: "MandalaKaos Baseline Hat", description: "", composition: "", care: "" },
-      pt: { name: "Chapéu MandalaKaos Baseline", description: "", composition: "", care: "" },
+      en: { name: "MandalaKaos Baseline Panama Hat", description: "", composition: "", care: "" },
+      pt: { name: "Panamá MandalaKaos Baseline", description: "", composition: "", care: "" },
     },
     price: 18,
-    categories: ["hats", "parcerias", "new"],
+    categories: ["hats", "parcerias"],
     images: [
       "/images/products/mandalakaos-baseline-hat/1.webp",
       "/images/products/mandalakaos-baseline-hat/2.webp",
@@ -142,11 +142,11 @@ export const products: Product[] = [
   {
     _id: "price_1UA9cOCTQhRcTCnZE80dbic3",
     translations: {
-      en: { name: "MandalaKaos Bucket Hat", description: "", composition: "", care: "" },
-      pt: { name: "Chapéu MandalaKaos", description: "", composition: "", care: "" },
+      en: { name: "MandalaKaos Panama Hat", description: "", composition: "", care: "" },
+      pt: { name: "Panamá MandalaKaos", description: "", composition: "", care: "" },
     },
     price: 18,
-    categories: ["hats", "parcerias", "new"],
+    categories: ["hats", "parcerias"],
     images: [
       "/images/products/mandalakaos-hat-set-1/1.webp",
       "/images/products/mandalakaos-hat-set-1/2.webp",
@@ -157,11 +157,11 @@ export const products: Product[] = [
   {
     _id: "price_1T3f5kCTQhRcTCnZzgLMsVcW",
     translations: {
-      en: { name: "Pokemon Bucket Hat", description: "", composition: "", care: "" },
-      pt: { name: "Chapéu Pokemon", description: "", composition: "", care: "" },
+      en: { name: "Pokemon Panama Hat", description: "", composition: "", care: "" },
+      pt: { name: "Panamá Pokemon", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["hats", "new"],
+    categories: ["hats"],
     images: [
       "/images/products/pokemon-hat/1.webp",
       "/images/products/pokemon-hat/2.webp",
@@ -176,7 +176,7 @@ export const products: Product[] = [
       pt: { name: "Boné Unicórnio", description: "", composition: "", care: "" },
     },
     price: 10,
-    categories: ["hats", "new"],
+    categories: ["hats", "kids"],
     images: [
       "/images/products/unicorn-hat/1.webp",
       "/images/products/unicorn-hat/2.webp",
@@ -191,7 +191,7 @@ export const products: Product[] = [
       pt: { name: "Boné Asas", description: "", composition: "", care: "" },
     },
     price: 16,
-    categories: ["hats", "new"],
+    categories: ["hats"],
     images: [
       "/images/products/wings-hat/1.webp",
       "/images/products/wings-hat/2.webp",
@@ -208,7 +208,7 @@ export const products: Product[] = [
       pt: { name: "Gorro FREAK", description: "", composition: "", care: "" },
     },
     price: 10,
-    categories: ["hats", "new"],
+    categories: ["hats"],
     images: [
       "/images/products/freak-beanie/1.webp",
       "/images/products/freak-beanie/2.webp",
@@ -223,7 +223,7 @@ export const products: Product[] = [
       pt: { name: "Gorro FREAK Goggles", description: "", composition: "", care: "" },
     },
     price: 10,
-    categories: ["hats", "new"],
+    categories: ["hats"],
     images: [
       "/images/products/freak-beanie-set-1/1.webp",
       "/images/products/freak-beanie-set-1/2.webp",
@@ -234,11 +234,11 @@ export const products: Product[] = [
   {
     _id: "price_1UA9cTCTQhRcTCnZIjUQ6TD7",
     translations: {
-      en: { name: "Courage Dog Hoodie", description: "", composition: "", care: "" },
-      pt: { name: "Hoodie Courage Dog", description: "", composition: "", care: "" },
+      en: { name: "Velhote Hoodie", description: "", composition: "", care: "" },
+      pt: { name: "Hoodie Velhote", description: "", composition: "", care: "" },
     },
     price: 36,
-    categories: ["woman", "new"],
+    categories: ["man"],
     images: [
       "/images/products/courage-dog-hoodie/1.webp",
       "/images/products/courage-dog-hoodie/2.webp",
@@ -253,7 +253,7 @@ export const products: Product[] = [
       pt: { name: "Hoodie Fading Smile", description: "", composition: "", care: "" },
     },
     price: 36,
-    categories: ["man", "new"],
+    categories: ["man"],
     images: [
       "/images/products/fading-smile-hoodie/1.webp",
       "/images/products/fading-smile-hoodie/2.webp",
@@ -268,7 +268,7 @@ export const products: Product[] = [
       pt: { name: "Hoodie Nami", description: "", composition: "", care: "" },
     },
     price: 36,
-    categories: ["woman", "new"],
+    categories: ["woman"],
     images: [
       "/images/products/nami-hoodie/1.webp",
       "/images/products/nami-hoodie/2.webp",
@@ -283,7 +283,7 @@ export const products: Product[] = [
       pt: { name: "Hoodie Sol e Lua", description: "", composition: "", care: "" },
     },
     price: 36,
-    categories: ["man", "new"],
+    categories: ["woman"],
     images: [
       "/images/products/sun-moon-hoodie/1.webp",
       "/images/products/sun-moon-hoodie/2.webp",
@@ -298,7 +298,7 @@ export const products: Product[] = [
       pt: { name: "Porta-Chaves MandalaKaos", description: "", composition: "", care: "" },
     },
     price: 7.5,
-    categories: ["accessories", "parcerias", "new"],
+    categories: ["accessories", "parcerias"],
     images: [
       "/images/products/mandalakaos-keychain/1.webp",
       "/images/products/mandalakaos-keychain/2.webp",
@@ -313,7 +313,7 @@ export const products: Product[] = [
       pt: { name: "Conjunto Courage Dog 1", description: "", composition: "", care: "" },
     },
     price: 45,
-    categories: ["man", "new"],
+    categories: ["man"],
     images: [
       "/images/products/courage-dog-set-1/1.webp",
       "/images/products/courage-dog-set-1/2.webp",
@@ -328,25 +328,10 @@ export const products: Product[] = [
       pt: { name: "Conjunto Courage Dog 2", description: "", composition: "", care: "" },
     },
     price: 45,
-    categories: ["man", "new"],
+    categories: ["man"],
     images: [
       "/images/products/courage-dog-set-2/1.webp",
       "/images/products/courage-dog-set-2/2.webp",
-    ],
-    colors: ["Black"],
-    sizes: ["M"],
-  },
-  {
-    _id: "price_1RcpI3CTQhRcTCnZFQ6MZ9hX",
-    translations: {
-      en: { name: "Naruto Team 7 Sweatshirt", description: "", composition: "", care: "" },
-      pt: { name: "Sweat Naruto Equipa 7", description: "", composition: "", care: "" },
-    },
-    price: 27.75,
-    categories: ["man", "new"],
-    images: [
-      "/images/products/konoha-sweatshirt/1.webp",
-      "/images/products/konoha-sweatshirt/2.webp",
     ],
     colors: ["Black"],
     sizes: ["M"],
@@ -358,7 +343,7 @@ export const products: Product[] = [
       pt: { name: "Hoodie Wonder Woman", description: "", composition: "", care: "" },
     },
     price: 36,
-    categories: ["woman", "new"],
+    categories: ["woman"],
     images: [
       "/images/products/wonder-woman-sweatshirt/1.webp",
       "/images/products/wonder-woman-sweatshirt/2.webp",
@@ -373,7 +358,7 @@ export const products: Product[] = [
       pt: { name: "Toalha MandalaKaos", description: "", composition: "", care: "" },
     },
     price: 37,
-    categories: ["accessories", "parcerias", "new"],
+    categories: ["accessories", "parcerias"],
     images: [
       "/images/products/mandalakaos-towel/1.webp",
       "/images/products/mandalakaos-towel/2.webp",
@@ -390,7 +375,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Freedom", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["woman", "new"],
+    categories: ["woman"],
     images: [
       "/images/products/freedom-tshirt/1.webp",
       "/images/products/freedom-tshirt/2.webp",
@@ -405,7 +390,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt F.T.C.", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["man", "new"],
+    categories: ["man"],
     images: [
       "/images/products/ftc-tshirt/1.webp",
       "/images/products/ftc-tshirt/2.webp",
@@ -420,7 +405,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Máscara Japonesa", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["woman", "new"],
+    categories: ["woman"],
     images: [
       "/images/products/japan-mask-tshirt/1.webp",
       "/images/products/japan-mask-tshirt/2.webp",
@@ -435,7 +420,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Minnie", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["woman", "new"],
+    categories: ["kids"],
     images: [
       "/images/products/minnie-tshirt/1.webp",
       "/images/products/minnie-tshirt/2.webp",
@@ -450,7 +435,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Montijo", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["man", "new"],
+    categories: ["man"],
     images: [
       "/images/products/montijo-tshirt/1.webp",
       "/images/products/montijo-tshirt/2.webp",
@@ -467,7 +452,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Nezuko", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["woman", "new"],
+    categories: ["woman"],
     images: [
       "/images/products/nezuko-tshirt/1.webp",
       "/images/products/nezuko-tshirt/2.webp",
@@ -482,7 +467,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Solo Leveling", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["man", "new"],
+    categories: ["man"],
     images: [
       "/images/products/solo-leveling-tshirt/1.webp",
       "/images/products/solo-leveling-tshirt/2.webp",
@@ -497,7 +482,7 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Substance Abuser", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["man", "new"],
+    categories: ["man"],
     images: [
       "/images/products/substance-abuser-tshirt/1.webp",
       "/images/products/substance-abuser-tshirt/2.webp",
@@ -512,13 +497,103 @@ export const products: Product[] = [
       pt: { name: "T-Shirt Girassol", description: "", composition: "", care: "" },
     },
     price: 17,
-    categories: ["woman", "new"],
+    categories: ["woman"],
     images: [
       "/images/products/sunflower-tshirt/1.webp",
       "/images/products/sunflower-tshirt/2.webp",
     ],
     colors: ["Black"],
     sizes: ["M"],
+  },
+  {
+    _id: "price_1UEpN8CTQhRcTCnZRFdNcLLf",
+    translations: {
+      en: { name: "Montijo Tote Bag", description: "", composition: "", care: "" },
+      pt: { name: "Tote Bag Montijo", description: "", composition: "", care: "" },
+    },
+    price: 10,
+    categories: ["accessories"],
+    images: [
+      "/images/products/montijo-totebag/1.webp",
+      "/images/products/montijo-totebag/2.webp",
+    ],
+    colors: ["Black"],
+    sizes: ["Tamanho Único"],
+  },
+  {
+    _id: "price_1UEpN9CTQhRcTCnZ5dLMtRT0",
+    translations: {
+      en: { name: "Feather Earring", description: "", composition: "", care: "" },
+      pt: { name: "Brinco Pena", description: "", composition: "", care: "" },
+    },
+    price: 5,
+    categories: ["artesanato"],
+    images: [
+      "/images/products/feather-earring/1.webp",
+      "/images/products/feather-earring/2.webp",
+    ],
+    colors: ["Pink"],
+    sizes: ["Tamanho Único"],
+  },
+  {
+    _id: "price_1UEpNACTQhRcTCnZggfFb7bX",
+    translations: {
+      en: { name: "Medium Dreamcatcher", description: "", composition: "", care: "" },
+      pt: { name: "Espanta-Espíritos Médio", description: "", composition: "", care: "" },
+    },
+    price: 10,
+    categories: ["artesanato"],
+    images: [
+      "/images/products/dreamcatcher-medium/1.webp",
+      "/images/products/dreamcatcher-medium/2.webp",
+    ],
+    colors: ["Purple"],
+    sizes: ["Tamanho Único"],
+  },
+  {
+    _id: "price_1UEpNBCTQhRcTCnZZX0dcdRD",
+    translations: {
+      en: { name: "Beaded Bracelet", description: "", composition: "", care: "" },
+      pt: { name: "Pulseira de Contas", description: "", composition: "", care: "" },
+    },
+    price: 2.5,
+    categories: ["artesanato"],
+    images: [
+      "/images/products/beaded-bracelet/1.webp",
+      "/images/products/beaded-bracelet/2.webp",
+    ],
+    colors: ["Purple"],
+    sizes: ["Tamanho Único"],
+  },
+  {
+    _id: "price_1UEpNCCTQhRcTCnZ18VuBgyN",
+    translations: {
+      en: { name: "Painting “04.44”", description: "", composition: "", care: "" },
+      pt: { name: "Pintura «04.44»", description: "", composition: "", care: "" },
+    },
+    price: 77,
+    categories: ["art"],
+    images: [
+      "/images/products/painting-0444/1.webp",
+      "/images/products/painting-0444/2.webp",
+    ],
+    colors: ["Teal"],
+    sizes: ["Tamanho Único"],
+  },
+  {
+    _id: "price_1UEpNDCTQhRcTCnZVzw3sfYC",
+    translations: {
+      en: { name: "Painting “-”", description: "", composition: "", care: "" },
+      pt: { name: "Pintura «-»", description: "", composition: "", care: "" },
+    },
+    price: 90,
+    categories: ["art"],
+    images: [
+      "/images/products/painting-dash/1.webp",
+      "/images/products/painting-dash/2.webp",
+    ],
+    colors: ["Green"],
+    sizes: ["Tamanho Único"],
   },
 ];
 

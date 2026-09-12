@@ -75,7 +75,7 @@ export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
                 </span>
               )}
               <Link
-                href={`/${product.categories[0] || "new"}/${product._id}`}
+                href={`/${product.categories[0] || "shop"}/${product._id}`}
                 aria-label={name}
                 className="flex flex-col overflow-hidden"
               >
@@ -90,7 +90,7 @@ export const Products = ({ products, extraClassname = "" }: ProductsProps) => {
                 </div>
               </Link>
               <div className="flex flex-col gap-1.5 px-3.5 py-3 border-t border-border-primary">
-                <Link href={`/${product.categories[0] || "new"}/${product._id}`} className="min-w-0">
+                <Link href={`/${product.categories[0] || "shop"}/${product._id}`} className="min-w-0">
                   <h2 className="text-sm font-semibold truncate">{name}</h2>
                 </Link>
                 {hasDiscount ? (

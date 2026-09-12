@@ -100,7 +100,18 @@ npm run stripe:whoami                       # verify key, account, and scopes
 npm run stripe:whoami -- --probe-write      # also test Products write (creates + deletes a throwaway product)
 npm run stripe:seed                         # dry run: what would be created
 npm run stripe:seed:execute                 # create Products + Prices, write IDs back into products.ts
+npm run stripe:names                        # dry run: Stripe product names that drifted from products.ts
+npm run stripe:names:execute                # push renames to Stripe
 ```
+
+Stripe's Product name — not the one in `products.ts` — is what the customer
+reads on the Checkout page and on their receipt, so **renaming a product in
+`products.ts` is only half the job**: run `stripe:names:execute` after.
+[scripts/sync-stripe-names.mjs](scripts/sync-stripe-names.mjs) resolves each
+Price ID to its Product and updates any name that has drifted.
+
+When a product sells out and leaves the catalogue, archive it in Stripe
+(`products.update(id, { active: false })`) so it stops showing up there.
 
 - Use a **restricted key** (`rk_live_…`), not the full `sk_live_…`. Scopes: Products write, Prices write, Checkout Sessions write, Coupons read, Promotion codes read.
 - `src/data/products.ts` holds **livemode** price IDs, so seeding the catalogue needs a live-mode key. The scripts print a LIVE/TEST banner before doing anything.
@@ -117,9 +128,9 @@ npm run stripe:seed:execute                 # create Products + Prices, write ID
 
 ## Routing & Categories
 
-URL slugs are mapped to category tags in [src/app/actions.ts](src/app/actions.ts) via `categorySlugAlias`. Currently: `/partnerships` → `parcerias`. Add new aliases here when the URL name differs from the category tag in `products.ts`.
+URL slugs are mapped to category tags in [src/app/actions.ts](src/app/actions.ts) via `categorySlugAlias`. Currently: `/partnerships` → `parcerias`, `/handcraft` → `artesanato`. Add new aliases here when the URL name differs from the category tag in `products.ts`.
 
-The `[category]` segment is cosmetic for product pages — lookup is by `[id]` (Stripe price ID) only. `generateStaticParams` pre-renders all 12 product pages at build time.
+The `[category]` segment is cosmetic for product pages — lookup is by `[id]` (Stripe price ID) only. `generateStaticParams` pre-renders every product page at build time.
 
 ## i18n
 
@@ -184,10 +195,12 @@ After editing `package.json` (e.g. bumping `stripe` version), run `npm install` 
 
 ## Adding a New Product
 
-1. Get the Stripe Price ID from the Stripe dashboard.
-2. Add an entry to `src/data/products.ts` with `_id` set to that price ID.
-3. Add product images to `public/images/products/<slug>/`, numbered `1.webp`, `2.webp`, ... — one folder per product. Source photos are converted with sharp: `.rotate()` (bakes in EXIF orientation), resized to 2400px on the long side, WebP quality 90. That lands ~150-500KB per image and matches the `aspect-[2/3]` product grid at 1600x2400.
-4. If it belongs to a new category, add nav links in the Navbar and a `categorySlugAlias` entry in `actions.ts` if the URL slug differs from the category tag.
+1. Add an entry to `src/data/products.ts` with `_id` set to `price_TODO_<slug>`,
+   then run `npm run stripe:seed:execute` — it creates the Stripe Product +
+   Price and writes the real ID back. (Or paste an existing Price ID straight
+   from the Stripe dashboard.)
+2. Add product images to `public/images/products/<slug>/`, numbered `1.webp`, `2.webp`, ... — one folder per product. Source photos are converted with sharp: `.rotate()` (bakes in EXIF orientation), resized to 2400px on the long side, WebP quality 90. That lands ~150-500KB per image and matches the `aspect-[2/3]` product grid at 1600x2400.
+3. If it belongs to a new category, add nav links in the Navbar and a `categorySlugAlias` entry in `actions.ts` if the URL slug differs from the category tag.
 
 Products tagged with the `test` category are excluded from `storefrontProducts` (used by the home page and search) but stay in `products`, so they keep a working direct URL at `/test/<price-id>` for end-to-end checkout tests.
 

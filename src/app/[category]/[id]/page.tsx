@@ -14,7 +14,7 @@ export function generateStaticParams() {
   // cosmetic for product lookups (id is unique), so we use the first
   // category tag the product carries to produce a sensible URL.
   return products.map((p) => ({
-    category: (p.categories[0] || "new").toLowerCase(),
+    category: (p.categories[0] || "shop").toLowerCase(),
     id: p._id,
   }));
 }

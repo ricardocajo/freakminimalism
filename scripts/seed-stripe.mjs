@@ -34,10 +34,14 @@ const ONLY = args.find((a) => a.startsWith('--only='))?.slice('--only='.length);
  */
 async function loadProducts() {
   const src = fs.readFileSync(FILE, 'utf8');
-  const js = src
+  // products.ts also exports a derived, display-ordered copy built with the
+  // helpers it imports. Only the raw catalogue matters here, so those helpers
+  // are stubbed instead of dragging in a TypeScript toolchain to resolve them.
+  const stubs = 'const mixProducts = (list) => list;\nconst mixProductsRotated = (list) => list;\n';
+  const js = stubs.concat(src
     .replace(/^\s*import[^\n]*\n/gm, '')
     .replace(/:\s*Product\[\]/g, '')
-    .replace(/^export const/gm, 'const')
+    .replace(/^export const/gm, 'const'))
     .concat('\nexport { products };');
   const mod = await import('data:text/javascript;base64,' + Buffer.from(js).toString('base64'));
   return mod.products;

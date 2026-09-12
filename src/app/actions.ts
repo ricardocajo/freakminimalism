@@ -18,13 +18,14 @@ export const getRandomProducts = (productId: string) =>
 // rename the source data when the route name differs (e.g. /partnerships → parcerias).
 const categorySlugAlias: Record<string, string> = {
   partnerships: "parcerias",
+  handcraft: "artesanato",
 };
 
 export const getCategoryProducts = (category: string) => {
   const slug = category.replace("category-", "").toLowerCase();
   const resolved = categorySlugAlias[slug] ?? slug;
-  // Mixed as well: /new holds nearly the whole catalogue, and even a single
-  // family reads better with its sub-groups spread out.
+  // Mixed as well: even a single family reads better with its sub-groups
+  // spread out.
   return mixProducts(
     products.filter((product) =>
       product.categories.some((cat) => cat.toLowerCase() === resolved),
@@ -36,10 +37,11 @@ export const getProduct = (productId: string) =>
   products.find((product) => product._id === productId);
 
 // Canonical URL for a product detail page. The route is /[category]/[id],
-// so we need to pick a category for the path. Falls back to "new" if the
-// product is unknown or has no categories.
+// so we need to pick a category for the path. Falls back to "shop" if the
+// product is unknown or has no categories — the segment is cosmetic, so the
+// page still renders.
 export const productHref = (productId: string): string => {
   const product = getProduct(productId);
-  const category = product?.categories?.[0] || "new";
+  const category = product?.categories?.[0] || "shop";
   return `/${category}/${productId}`;
 };

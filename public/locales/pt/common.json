@@ -17,7 +17,6 @@
     "woman": "Mulher",
     "man": "Homem",
     "partnerships": "Parcerias",
-    "new": "Novidades",
     "collections": "Coleções",
     "viewAll": "VER TODOS",
     "discoverWardrobe": "Descobre a nossa coleção curada de produtos minimalistas para todas as ocasiões.",
@@ -29,7 +28,12 @@
     "womanDescription": "Moda minimalista para mulheres que combina estilo, conforto e elegância.",
     "manDescription": "Moda minimalista para homens que combina estilo, conforto e sofisticação.",
     "partnershipsDescription": "Explora as nossas colaborações com artistas e criadores talentosos.",
-    "newDescription": "Descobre os nossos produtos e coleções minimalistas mais recentes."
+    "handcraft": "Artesanato",
+    "handcraftDescription": "Peças feitas à mão, uma a uma, com tempo e atenção ao detalhe.",
+    "customize": "Personalizar",
+    "customizeDescription": "Cria a tua própria peça — diz-nos a tua ideia.",
+    "groupWear": "Para Vestir",
+    "groupCreations": "Criações"
   },
   "values": {
     "title": "Os Nossos Valores",

@@ -17,7 +17,6 @@
     "woman": "Woman",
     "man": "Man",
     "partnerships": "Partnerships",
-    "new": "New",
     "collections": "Collections",
     "viewAll": "VIEW ALL",
     "discoverWardrobe": "Discover our curated collection of minimalist products for every occasion.",
@@ -29,7 +28,12 @@
     "womanDescription": "Minimalist fashion for women that combines style, comfort, and elegance.",
     "manDescription": "Minimalist fashion for men that combines style, comfort, and sophistication.",
     "partnershipsDescription": "Explore our collaborations with talented artists and creators.",
-    "newDescription": "Discover our latest minimalist products and collections."
+    "handcraft": "Handcraft",
+    "handcraftDescription": "Hand-made pieces, one at a time, with time and attention to detail.",
+    "customize": "Customize",
+    "customizeDescription": "Make it your own — tell us your idea.",
+    "groupWear": "To Wear",
+    "groupCreations": "Creations"
   },
   "values": {
     "title": "Our Values",

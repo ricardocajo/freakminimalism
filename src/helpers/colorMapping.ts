@@ -11,4 +11,5 @@ export const colorMapping: ColorMapping = {
   "Light-blue": "rgb(170, 182, 187)",
   Grey: "#808080",
   "Navy-blue": "rgb(10, 8, 21)",
+  "Dark Grey": "rgb(63, 63, 63)",
 };
