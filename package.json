@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "swatches": "node scripts/build-color-swatches.mjs",
     "stripe:whoami": "node --env-file-if-exists=.env.local scripts/stripe-whoami.mjs",
     "stripe:seed": "node --env-file-if-exists=.env.local scripts/seed-stripe.mjs",
     "stripe:seed:execute": "node --env-file-if-exists=.env.local scripts/seed-stripe.mjs --execute",

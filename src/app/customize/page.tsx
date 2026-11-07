@@ -6,17 +6,32 @@ import { AlertTriangle, ChevronLeft, ChevronRight, Info, MessageCircle } from "l
 import {
   CATEGORIES,
   COLOR_CODE_MAP,
+  DEFAULT_FRONT_AREA_ID,
+  DEFAULT_SIZE,
+  GARMENT_SIZES,
+  PrintArea,
+  PrintProfile,
+  PrintSide,
   Subcategory,
   VIEW_LABEL_PT,
   VIEW_ORDER,
+  VIEW_TO_SIDE,
   View,
   WHATSAPP_PHONE,
   isModelWithDensity,
   isQueenPolarWithGama,
   parsePolarGWName,
   parseTeeName,
+  printAreaBox,
+  printAreaMm,
+  printProfileFor,
   prettyColorLabel,
+  simpleColorLabel,
 } from "./data";
+import SWATCHES from "./swatches.json";
+
+// Garment colour sampled from each photo by scripts/build-color-swatches.mjs.
+const swatchHex = (key: string): string | undefined => (SWATCHES as Record<string, string>)[key];
 
 type ImageMode = "density" | "gama" | "simple";
 type NameMode = "brand_color_view" | "polar_gw";
@@ -71,11 +86,108 @@ const WhatsAppButton = ({
   </button>
 );
 
+type ColorOption = { value: string; label: string; hex?: string };
+
+// Round colour buttons with the chosen colour's name above them.
+const ColorSwatches = ({
+  options,
+  value,
+  onChange,
+}: {
+  options: ColorOption[];
+  value: string | null;
+  onChange: (value: string) => void;
+}) => {
+  const current = options.find((o) => o.value === value);
+  return (
+    <div>
+      <p className="block text-sm font-medium text-[#D4D4D4] mb-2">
+        Cor
+        {current ? <span className="ml-2 font-normal text-[#A1A1A1]">{current.label}</span> : null}
+      </p>
+      {options.length === 0 ? (
+        <p className="text-sm text-[#7F7F7F]">Sem cores disponíveis</p>
+      ) : (
+        <div
+          role="radiogroup"
+          aria-label="Cor"
+          className="grid grid-cols-[repeat(auto-fill,minmax(2.25rem,1fr))] justify-items-center gap-2.5"
+        >
+          {options.map((o) => {
+            const active = o.value === value;
+            return (
+              <button
+                key={o.value}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                aria-label={o.label}
+                title={o.label}
+                onClick={() => onChange(o.value)}
+                className={`relative h-9 w-9 shrink-0 rounded-full border border-white/25 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.25)] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4fbbd6] ${
+                  active
+                    ? "ring-2 ring-[#4fbbd6] ring-offset-2 ring-offset-[#111] scale-105"
+                    : "hover:scale-110"
+                }`}
+                style={{
+                  background:
+                    o.hex ??
+                    "repeating-linear-gradient(45deg, #2a2a2a 0 4px, #3a3a3a 4px 8px)",
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Picks one embroidery area for one side of the garment ("" = none).
+const AreaSelect = ({
+  profile,
+  side,
+  value,
+  size,
+  className,
+  onChange,
+}: {
+  profile: PrintProfile;
+  side: PrintSide;
+  value: string;
+  size: string;
+  className: string;
+  onChange: (id: string) => void;
+}) => (
+  <select className={className} value={value} onChange={(e) => onChange(e.target.value)}>
+    <option value="">Sem bordado {side === "Frente" ? "na frente" : "nas costas"}</option>
+    {profile.areas.filter((a) => a.side === side).map((a) => {
+      const mm = printAreaMm(profile, a, size);
+      return (
+        <option key={a.id} value={a.id}>
+          {a.label} — {mm.width} × {mm.height} mm
+        </option>
+      );
+    })}
+  </select>
+);
+
 // Main page ---------------------------------------------------------------
 
+const cycleView = (view: View, delta: number) =>
+  VIEW_ORDER[(VIEW_ORDER.indexOf(view) + delta + VIEW_ORDER.length) % VIEW_ORDER.length];
+const flipSide = (side: PrintSide): PrintSide => (side === "Frente" ? "Trás" : "Frente");
+
+const DEFAULT_CATEGORY_INDEX = CATEGORIES.findIndex((c) => c.name === "King");
+
 export default function CustomizePage() {
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(null);
+  // Open on King → T-Shirt so the photo and print area are visible straight away.
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(
+    DEFAULT_CATEGORY_INDEX >= 0 ? DEFAULT_CATEGORY_INDEX : null,
+  );
+  const [selectedSubcategory, setSelectedSubcategory] = useState<Subcategory | null>(
+    CATEGORIES[DEFAULT_CATEGORY_INDEX]?.subcategories.find((s) => s.name === "T-Shirt") ?? null,
+  );
 
   const [customMessage, setCustomMessage] = useState("");
   const [patchDimensions, setPatchDimensions] = useState({ width: "", height: "" });
@@ -86,46 +198,78 @@ export default function CustomizePage() {
   const [imageMode, setImageMode] = useState<ImageMode>("simple");
   const [imageFolderPrefix, setImageFolderPrefix] = useState<string>("");
   const [imageNameMode, setImageNameMode] = useState<NameMode>("brand_color_view");
+  // Folder the images were found in; differs from the model for QUEEN/POLAR,
+  // whose photos live under "POLAR GAMA WOMEN".
+  const [imageModelDir, setImageModelDir] = useState<string>("");
 
   const [currentCatModel, setCurrentCatModel] = useState<{ cat: string; model: string } | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [density, setDensity] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedView, setSelectedView] = useState<View>("Front");
-  const [embroideryPosition, setEmbroideryPosition] = useState<"Frente" | "Trás">("Frente");
-  const [selectedSize, setSelectedSize] = useState<string>("");
+  // Side shown for single-photo products (no back photo): the back is an
+  // approximate view built from the front photo.
+  const [simpleSide, setSimpleSide] = useState<PrintSide>("Frente");
+  // Front and back embroidery are chosen independently; "" means none.
+  const [frontAreaId, setFrontAreaId] = useState<string>(DEFAULT_FRONT_AREA_ID);
+  const [backAreaId, setBackAreaId] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>(DEFAULT_SIZE);
   const [customizationDetails, setCustomizationDetails] = useState<string>("");
 
-  const isChapeus =
-    selectedCategory !== null && CATEGORIES[selectedCategory]?.name === "Chapéus";
+  // Embroidery areas and photo scale for the selected product family.
+  const [, pathCat, pathModel] = selectedSubcategory?.path.split("/").filter(Boolean) ?? [];
+  const profile = printProfileFor(pathCat, pathModel);
+  const isOneSize = !profile.sized;
+  const hasBackAreas = profile.areas.some((a) => a.side === "Trás");
+
+  // An id from another family (e.g. "frente-media" on a hat) falls back to
+  // that family's first area on the same side; "" stays "no embroidery".
+  const resolveArea = (side: PrintSide, id: string) => {
+    if (!id) return undefined;
+    const onSide = profile.areas.filter((a) => a.side === side);
+    return onSide.find((a) => a.id === id) ?? onSide[0];
+  };
+  const frontArea = resolveArea("Frente", frontAreaId);
+  const backArea = resolveArea("Trás", backAreaId);
+  const chosenAreas = [frontArea, backArea].filter((a): a is PrintArea => Boolean(a));
+  const areaMm = (area: PrintArea) => printAreaMm(profile, area, selectedSize);
+  const areaText = (area: PrintArea) => {
+    const mm = areaMm(area);
+    return `${area.side} — ${area.label} (${mm.width} × ${mm.height} mm)`;
+  };
+
+  // Switching product resets the per-product fields.
+  const selectSubcategory = (sub: Subcategory | null) => {
+    if (sub !== selectedSubcategory) {
+      setCustomizationDetails("");
+      setSelectedSize(DEFAULT_SIZE);
+      setFrontAreaId(DEFAULT_FRONT_AREA_ID);
+      setBackAreaId("");
+      setSimpleSide("Frente");
+      // Fabric weight belongs to the previous product (e.g. T-shirt 150 g/m²);
+      // the image effect sets the right default for products that have one.
+      setDensity(null);
+    }
+    setSelectedSubcategory(sub);
+  };
 
   const handleCategorySelect = (index: number) => {
     if (selectedCategory === index) {
       setSelectedCategory(null);
-      setSelectedSubcategory(null);
+      selectSubcategory(null);
       return;
     }
     setSelectedCategory(index);
-    setSelectedSubcategory(CATEGORIES[index]?.subcategories[0] ?? null);
+    selectSubcategory(CATEGORIES[index]?.subcategories[0] ?? null);
   };
 
-  const goPrevView = () =>
-    setSelectedView((prev) => {
-      const idx = VIEW_ORDER.indexOf(prev);
-      return VIEW_ORDER[(idx + VIEW_ORDER.length - 1) % VIEW_ORDER.length];
-    });
-  const goNextView = () =>
-    setSelectedView((prev) => {
-      const idx = VIEW_ORDER.indexOf(prev);
-      return VIEW_ORDER[(idx + 1) % VIEW_ORDER.length];
-    });
+  // Products with front/side/back photos cycle through them; single-photo
+  // products flip between the front and the approximate back.
+  const stepView = (delta: number) => {
+    if (hasViews) setSelectedView((prev) => cycleView(prev, delta));
+    else setSimpleSide(flipSide);
+  };
 
-  // Reset per-product fields when the user picks a different subcategory.
-  useEffect(() => {
-    setSelectedSize("");
-    setCustomizationDetails("");
-    setEmbroideryPosition("Frente");
-  }, [selectedSubcategory]);
 
   // Fetch image set for the current subcategory/density -------------------
   useEffect(() => {
@@ -186,6 +330,7 @@ export default function CustomizePage() {
         let localMode: ImageMode = "simple";
         let localNameMode: NameMode = "brand_color_view";
         let localPrefix = "";
+        let localModelDir = model;
 
         if (isTShirtWithDensity && effectiveDensity) {
           imgs = await fetchJson(buildUrl({ density: effectiveDensity }));
@@ -219,6 +364,7 @@ export default function CustomizePage() {
             localMode = "gama";
             localNameMode = "polar_gw";
             localPrefix = "300/";
+            localModelDir = altModel;
           } else {
             const altBase = await fetchJson(
               `/api/personalizar/images?${new URLSearchParams({
@@ -231,6 +377,7 @@ export default function CustomizePage() {
               localMode = "gama";
               localNameMode = "polar_gw";
               localPrefix = "";
+              localModelDir = altModel;
             }
           }
         }
@@ -251,6 +398,7 @@ export default function CustomizePage() {
         setImageMode(localMode);
         setImageFolderPrefix(localPrefix);
         setImageNameMode(localNameMode);
+        setImageModelDir(localModelDir);
 
         if (localMode === "density") {
           const valid = imgs.map(parseTeeName).filter(Boolean) as NonNullable<ReturnType<typeof parseTeeName>>[];
@@ -314,10 +462,16 @@ export default function CustomizePage() {
     };
   }, [selectedSubcategory, density]);
 
+  // Products with front/side/back photos (density/gama modes).
+  const hasViews = imageMode === "density" || imageMode === "gama";
+  const parseImageName = imageNameMode === "polar_gw" ? parsePolarGWName : parseTeeName;
+  // Arrows/keys switch views when there is a photo and more than one side to show.
+  const canChangeView = !!selectedImage && (hasViews || hasBackAreas);
+
   // Keep selectedImage in sync when color/view changes in density/gama modes.
   useEffect(() => {
     if (!currentCatModel) return;
-    if (imageMode !== "density" && imageMode !== "gama") return;
+    if (!hasViews) return;
     if (productImages.length === 0 || !selectedColor) return;
 
     const order: View[] = [selectedView, "Front", "Side", "Back"];
@@ -333,29 +487,71 @@ export default function CustomizePage() {
       }
     }
     setSelectedImage(chosen);
-  }, [selectedColor, selectedView, productImages, currentCatModel, imageMode, imageNameMode]);
+  }, [selectedColor, selectedView, productImages, currentCatModel, hasViews, imageNameMode]);
 
   // Keyboard navigation for views (when a density/gama image is visible).
   const imageViewerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (imageMode !== "density" && imageMode !== "gama") return;
-      if (!selectedImage) return;
-      if (e.key === "ArrowLeft") goPrevView();
-      if (e.key === "ArrowRight") goNextView();
+      if (!canChangeView) return;
+      const delta = e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0;
+      if (!delta) return;
+      if (hasViews) setSelectedView((prev) => cycleView(prev, delta));
+      else setSimpleSide(flipSide);
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [imageMode, selectedImage]);
+  }, [canChangeView, hasViews]);
+
+  const handleAreaChange = (side: PrintSide, id: string) => {
+    if (side === "Frente") setFrontAreaId(id);
+    else setBackAreaId(id);
+    if (!id) return;
+    if (hasViews) setSelectedView(side === "Trás" ? "Back" : "Front");
+    else setSimpleSide(side);
+  };
+  // Areas on the side of the garment actually in the photo. The sync effect
+  // falls back to the front shot when a colour has no back photo, so read the
+  // view from the shown file, not from selectedView.
+  const shownView = selectedImage && hasViews ? parseImageName(selectedImage)?.view : undefined;
+  const photoSide: PrintSide | null = !selectedImage
+    ? null
+    : hasViews
+      ? (shownView && VIEW_TO_SIDE[shownView]) ?? null
+      : simpleSide;
+  const visibleAreas = chosenAreas.filter((a) => a.side === photoSide);
+  // Single-photo product showing its back: the front photo, blurred so the
+  // front details (zip, pocket, drawstrings) don't read as the back.
+  const approxBack = !hasViews && photoSide === "Trás";
 
   const availableColors = useMemo(() => {
-    const parser = imageNameMode === "polar_gw" ? parsePolarGWName : parseTeeName;
     const colors = productImages
-      .map(parser)
-      .filter((p): p is NonNullable<ReturnType<typeof parser>> => Boolean(p))
+      .map(parseImageName)
+      .filter((p): p is NonNullable<ReturnType<typeof parseImageName>> => Boolean(p))
       .map((p) => p.color);
     return Array.from(new Set(colors));
-  }, [productImages, imageNameMode]);
+  }, [productImages, parseImageName]);
+
+  // Swatch options. Products with views key colours by name (swatch from the
+  // colour's front photo); single-photo products key them by file.
+  const imageDir = currentCatModel
+    ? `${currentCatModel.cat}/${imageModelDir || currentCatModel.model}/${imageFolderPrefix}`
+    : "";
+  const colorOptions: ColorOption[] = hasViews
+    ? availableColors.map((color) => {
+        const forColor = productImages.filter((n) => parseImageName(n)?.color === color);
+        // Front photo's colour; colours with only back/side photos use those.
+        const front = forColor.find((n) => parseImageName(n)?.view === "Front");
+        const hex = [front, ...forColor]
+          .map((n) => (n ? swatchHex(imageDir + n) : undefined))
+          .find(Boolean);
+        return { value: color, label: prettyColorLabel(color), hex };
+      })
+    : productImages.map((file) => ({
+        value: file,
+        label: simpleColorLabel(file),
+        hex: swatchHex(imageDir + file),
+      }));
 
   const handleWhatsAppOrder = () => {
     if (selectedCategory === null) return;
@@ -387,16 +583,14 @@ export default function CustomizePage() {
                 : "300 g/m²"
               : `${effective} g/m²`
         : null;
-      const cor = selectedColor
-        ? selectedColor
-        : selectedImage
-          ? selectedImage.replace(/\.[^.]+$/, "")
-          : null;
+      // Single-photo products: the colour is the chosen file (selectedColor
+      // only ever held the first one).
+      const cor = hasViews ? selectedColor : selectedImage ? simpleColorLabel(selectedImage) : null;
       const isQueenPolar =
         selectedSubcategory.path.split("/").filter(Boolean)[1] === "QUEEN" &&
         selectedSubcategory.path.split("/").filter(Boolean)[2] === "POLAR";
 
-      const sizeLine = isChapeus ? "Tamanho único" : selectedSize;
+      const sizeLine = isOneSize ? "Tamanho único" : selectedSize;
       const trimmedDetails = customizationDetails.trim();
 
       message =
@@ -407,7 +601,9 @@ export default function CustomizePage() {
         (dens ? `Densidade: ${dens}\n` : "") +
         (cor ? `Cor/Imagem: ${prettyColorLabel(cor)}\n` : "") +
         (sizeLine ? `Tamanho: ${sizeLine}\n` : "") +
-        `Posição do bordado: ${embroideryPosition}\n` +
+        (chosenAreas.length
+          ? chosenAreas.map((a) => `Bordado: ${areaText(a)}\n`).join("")
+          : `Bordado: posição a definir\n`) +
         (trimmedDetails ? `\nDetalhes da personalização:\n${trimmedDetails}\n` : "") +
         `\nPor favor, envie mais informações sobre como proceder com a personalização.`;
     } else {
@@ -459,7 +655,7 @@ export default function CustomizePage() {
                           return (
                             <button
                               key={subcategory.path}
-                              onClick={() => setSelectedSubcategory(subcategory)}
+                              onClick={() => selectSubcategory(subcategory)}
                               className={`block w-full text-left py-1.5 px-3 text-sm rounded-md transition-colors ${
                                 isSubActive
                                   ? "bg-[#0f2a3c] text-[#6fc8e4] font-medium"
@@ -605,27 +801,65 @@ export default function CustomizePage() {
                   <div
                     ref={imageViewerRef}
                     className="relative bg-[#0a0a0a] border border-border-primary rounded-lg aspect-square flex items-center justify-center overflow-hidden"
+                    style={{ containerType: "inline-size" }}
                   >
                     {currentCatModel && selectedImage ? (
                       <Image
-                        src={`/images/personalizar/${currentCatModel.cat}/${currentCatModel.model}/${imageFolderPrefix}${selectedImage}`}
+                        src={`/images/personalizar/${currentCatModel.cat}/${imageModelDir || currentCatModel.model}/${imageFolderPrefix}${selectedImage}`}
                         alt={`${selectedSubcategory.name} - ${CATEGORIES[selectedCategory!].name}`}
                         width={500}
                         height={500}
-                        className="w-full h-full object-contain"
+                        className={`w-full h-full object-contain transition-[filter] duration-300 ${
+                          approxBack ? "blur-[3px] brightness-95" : ""
+                        }`}
                         quality={80}
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
                       <span className="text-[#7F7F7F] text-sm">Imagem do produto</span>
                     )}
-                    {currentCatModel &&
-                      (imageMode === "density" || imageMode === "gama") &&
-                      selectedImage && (
+                    {visibleAreas.map((area) => {
+                      const box = printAreaBox(profile, area, selectedSize);
+                      const mm = areaMm(area);
+                      // Small boxes (Nuca, Peito S) can't fit the label: put it underneath.
+                      const labelInside = box.width >= 10 && box.height >= 7;
+                      return (
+                        <div
+                          key={area.id}
+                          aria-hidden="true"
+                          className="pointer-events-none absolute flex items-center justify-center bg-[#22ff22]/60 border-2 border-[#00c800] transition-all duration-300"
+                          style={{
+                            left: `${box.left}%`,
+                            top: `${box.top}%`,
+                            width: `${box.width}%`,
+                            height: `${box.height}%`,
+                          }}
+                        >
+                          <span
+                            className={`font-semibold leading-tight text-center whitespace-nowrap ${
+                              labelInside
+                                ? "text-black/80 px-0.5"
+                                : "absolute top-full mt-1 left-1/2 -translate-x-1/2 rounded bg-black/75 px-1.5 py-0.5 text-[#7dff7d]"
+                            }`}
+                            style={{ fontSize: "clamp(8px, 2.4cqw, 14px)" }}
+                          >
+                            {mm.width}×{mm.height}
+                            {labelInside ? <br /> : " "}
+                            mm
+                          </span>
+                        </div>
+                      );
+                    })}
+                    {approxBack && (
+                      <span className="absolute top-2 right-2 rounded bg-black/75 px-2 py-1 text-[11px] text-white">
+                        Costas · vista aproximada
+                      </span>
+                    )}
+                    {currentCatModel && canChangeView && (
                         <>
                           <button
                             type="button"
-                            onClick={goPrevView}
+                            onClick={() => stepView(-1)}
                             className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white rounded-full p-2.5 shadow-lg transition-colors"
                             aria-label="Vista anterior"
                           >
@@ -633,7 +867,7 @@ export default function CustomizePage() {
                           </button>
                           <button
                             type="button"
-                            onClick={goNextView}
+                            onClick={() => stepView(1)}
                             className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white rounded-full p-2.5 shadow-lg transition-colors"
                             aria-label="Vista seguinte"
                           >
@@ -642,13 +876,27 @@ export default function CustomizePage() {
                         </>
                       )}
                   </div>
-                  {currentCatModel &&
-                    (imageMode === "density" || imageMode === "gama") &&
-                    selectedImage && (
-                      <div className="mt-2 text-xs text-[#A1A1A1]">
-                        Vista: {VIEW_LABEL_PT[selectedView]}
-                      </div>
-                    )}
+                  {currentCatModel && canChangeView && (
+                    <div className="mt-2 text-xs text-[#A1A1A1]">
+                      Vista:{" "}
+                      {hasViews
+                        ? VIEW_LABEL_PT[selectedView]
+                        : approxBack
+                          ? "Costas (aproximada — sem foto das costas)"
+                          : "Frente"}
+                    </div>
+                  )}
+                  <div className="mt-2 space-y-1 text-xs text-[#A1A1A1]">
+                    {chosenAreas.length === 0 && <p>Sem bordado selecionado</p>}
+                    {chosenAreas.map((area) => (
+                      <p key={area.id} className="flex items-start gap-2">
+                        <span className="inline-block shrink-0 mt-0.5 w-3 h-3 bg-[#22ff22]/60 border border-[#00c800]" />
+                        <span>
+                          Bordado: {areaText(area)}
+                        </span>
+                      </p>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="md:w-1/2">
@@ -685,52 +933,15 @@ export default function CustomizePage() {
                             </div>
                           )}
 
-                        {currentCatModel && (imageMode === "density" || imageMode === "gama") ? (
-                          <div>
-                            <label className={labelBase}>Cor</label>
-                            <select
-                              className={selectBase}
-                              value={selectedColor ?? ""}
-                              onChange={(e) => setSelectedColor(e.target.value)}
-                              disabled={productImages.length === 0}
-                            >
-                              <option value="" disabled>
-                                {productImages.length > 0 ? "Selecione uma cor" : "Sem cores disponíveis"}
-                              </option>
-                              {availableColors.map((color) => (
-                                <option key={color} value={color}>
-                                  {color}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        ) : (
-                          <div>
-                            <label className={labelBase}>Cor</label>
-                            <select
-                              className={selectBase}
-                              value={selectedImage ?? ""}
-                              onChange={(e) => setSelectedImage(e.target.value)}
-                              disabled={productImages.length === 0}
-                            >
-                              <option value="" disabled>
-                                {productImages.length > 0 ? "Selecione uma cor" : "Sem cores disponíveis"}
-                              </option>
-                              {productImages.map((img) => {
-                                const code = img.replace(/\.[^.]+$/, "");
-                                return (
-                                  <option key={img} value={img}>
-                                    {COLOR_CODE_MAP[code] || code}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-                        )}
+                        <ColorSwatches
+                          options={colorOptions}
+                          value={hasViews ? selectedColor : selectedImage}
+                          onChange={hasViews ? setSelectedColor : setSelectedImage}
+                        />
 
                         <div>
                           <label className={labelBase}>Tamanho</label>
-                          {isChapeus ? (
+                          {isOneSize ? (
                             <div className="w-full border border-border-primary rounded-md p-2 bg-[#0a0a0a] text-sm text-[#A1A1A1]">
                               Tamanho único
                             </div>
@@ -741,34 +952,40 @@ export default function CustomizePage() {
                               value={selectedSize}
                               onChange={(e) => setSelectedSize(e.target.value)}
                             >
-                              <option value="" disabled>
-                                Selecione um tamanho
-                              </option>
-                              <option value="Pequeno (S)">Pequeno (S)</option>
-                              <option value="Médio (M)">Médio (M)</option>
-                              <option value="Grande (L)">Grande (L)</option>
-                              <option value="Extra Grande (XL)">Extra Grande (XL)</option>
+                              {GARMENT_SIZES.map((size) => (
+                                <option key={size} value={size}>
+                                  {size}
+                                </option>
+                              ))}
                             </select>
                           )}
                         </div>
 
                         <div>
-                          <label className={labelBase}>Posição do Bordado</label>
-                          {isChapeus ? (
-                            <div className="w-full border border-border-primary rounded-md p-2 bg-[#0a0a0a] text-sm text-[#A1A1A1]">
-                              Frente
-                            </div>
-                          ) : (
-                            <select
-                              className={selectBase}
-                              value={embroideryPosition}
-                              onChange={(e) => setEmbroideryPosition(e.target.value as "Frente" | "Trás")}
-                            >
-                              <option value="Frente">Frente</option>
-                              <option value="Trás">Trás</option>
-                            </select>
-                          )}
+                          <label className={labelBase}>Bordado na Frente</label>
+                          <AreaSelect
+                            profile={profile}
+                            side="Frente"
+                            value={frontArea?.id ?? ""}
+                            size={selectedSize}
+                            className={selectBase}
+                            onChange={(id) => handleAreaChange("Frente", id)}
+                          />
                         </div>
+
+                        {hasBackAreas && (
+                          <div>
+                            <label className={labelBase}>Bordado nas Costas</label>
+                            <AreaSelect
+                              profile={profile}
+                              side="Trás"
+                              value={backArea?.id ?? ""}
+                              size={selectedSize}
+                              className={selectBase}
+                              onChange={(id) => handleAreaChange("Trás", id)}
+                            />
+                          </div>
+                        )}
 
                         <div>
                           <label className={labelBase}>Detalhes da Personalização</label>

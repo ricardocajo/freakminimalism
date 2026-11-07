@@ -184,3 +184,124 @@ export const parsePolarGWName = (name: string) => {
   const color = m[1].replace(/_/g, " ");
   return { color, view };
 };
+
+// Print/embroidery areas ---------------------------------------------------
+//
+// Each area is a real size in mm plus where it sits on the product photo, so
+// the customize page can draw it as a green box over the image. Positions are
+// percentages of the (square, product-centred) supplier photos.
+
+export type PrintSide = "Frente" | "Trás";
+
+const round5 = (n: number) => Math.round(n / 5) * 5;
+
+export type PrintArea = {
+  id: string;
+  label: string;
+  side: PrintSide;
+  /** Size M, in mm. */
+  widthMm: number;
+  heightMm: number;
+  centerX: number;
+  top: number;
+};
+
+export type GarmentSize = "Pequeno (S)" | "Médio (M)" | "Grande (L)" | "Extra Grande (XL)";
+export const GARMENT_SIZES: GarmentSize[] = ["Pequeno (S)", "Médio (M)", "Grande (L)", "Extra Grande (XL)"];
+export const DEFAULT_SIZE: GarmentSize = "Médio (M)";
+
+// Bigger garments take a bigger print, so each size scales the area. The photo
+// is always the same garment, so the green box visibly grows from S to XL.
+const SIZE_FACTOR: Record<string, number> = {
+  "Pequeno (S)": 0.85,
+  "Médio (M)": 1,
+  "Grande (L)": 1.15,
+  "Extra Grande (XL)": 1.3,
+};
+
+/**
+ * How a product family is embroidered and photographed.
+ * `mmToPercent`: % of image width per mm, measured on the size-M photos
+ * (adult tee: ~500mm chest spans ~36% of the image).
+ * `sized`: false for one-size products (hats), which skip the S–XL scaling.
+ */
+export type PrintProfile = {
+  areas: PrintArea[];
+  mmToPercent: number;
+  sized: boolean;
+};
+
+const ADULT_AREAS: PrintArea[] = [
+  { id: "peito", label: "Peito", side: "Frente", widthMm: 100, heightMm: 120, centerX: 58, top: 24 },
+  { id: "frente-media", label: "Frente média", side: "Frente", widthMm: 240, heightMm: 300, centerX: 50, top: 24 },
+  { id: "frente-grande", label: "Frente grande", side: "Frente", widthMm: 300, heightMm: 400, centerX: 50, top: 24 },
+  { id: "nuca", label: "Nuca", side: "Trás", widthMm: 80, heightMm: 40, centerX: 50, top: 18 },
+  { id: "costas-media", label: "Costas média", side: "Trás", widthMm: 260, heightMm: 320, centerX: 50, top: 22 },
+  { id: "costas-grande", label: "Costas grande", side: "Trás", widthMm: 340, heightMm: 450, centerX: 50, top: 22 },
+];
+
+// Derive a family's areas from the adult set: smaller mm, shifted down.
+const scaledAreas = (factor: number, topShift: number): PrintArea[] =>
+  ADULT_AREAS.map((a) => ({
+    ...a,
+    widthMm: round5(a.widthMm * factor),
+    heightMm: round5(a.heightMm * factor),
+    top: a.top + topShift,
+  }));
+
+const ADULT: PrintProfile = { areas: ADULT_AREAS, mmToPercent: 36 / 500, sized: true };
+// Women's cut: narrower body (~450mm) in the same frame, neckline a bit lower.
+const QUEEN: PrintProfile = { areas: scaledAreas(0.9, 2), mmToPercent: 33 / 450, sized: true };
+// Kids: ~380mm chest fills ~39% of the photo, collar sits lower in the frame.
+const KID: PrintProfile = { areas: scaledAreas(0.7, 4), mmToPercent: 39 / 380, sized: true };
+// Trousers: a single thigh area on the wearer's left leg.
+const TROUSERS: PrintProfile = {
+  areas: [{ id: "perna", label: "Perna", side: "Frente", widthMm: 80, heightMm: 80, centerX: 59, top: 27 }],
+  mmToPercent: 32 / 300,
+  sized: true,
+};
+// Hats are one size; the front panel is roughly the same spot in every photo.
+const HAT: PrintProfile = {
+  areas: [{ id: "chapeu-frente", label: "Painel frontal", side: "Frente", widthMm: 100, heightMm: 50, centerX: 48, top: 35 }],
+  mmToPercent: 18 / 100,
+  sized: false,
+};
+
+const KID_HATS = new Set(["SNAPBACK", "FRASER", "PANAMA"]);
+
+export const printProfileFor = (cat?: string, model?: string): PrintProfile => {
+  if (cat === "CHAPEUS" || (cat === "KID" && model && KID_HATS.has(model))) return HAT;
+  if (cat === "KID" && model === "CALCAS") return TROUSERS;
+  if (cat === "KID") return KID;
+  if (cat === "QUEEN") return QUEEN;
+  return ADULT;
+};
+
+export const DEFAULT_FRONT_AREA_ID = "frente-media";
+
+
+// Real print size (mm) of an area for a garment size.
+export const printAreaMm = (profile: PrintProfile, area: PrintArea, size: string) => {
+  const f = profile.sized ? SIZE_FACTOR[size] ?? 1 : 1;
+  return { width: round5(area.widthMm * f), height: round5(area.heightMm * f) };
+};
+
+// Box for an area as percentages of the square product image.
+export const printAreaBox = (profile: PrintProfile, area: PrintArea, size: string) => {
+  const mm = printAreaMm(profile, area, size);
+  const width = mm.width * profile.mmToPercent;
+  return { left: area.centerX - width / 2, top: area.top, width, height: mm.height * profile.mmToPercent };
+};
+
+export const VIEW_TO_SIDE: Partial<Record<View, PrintSide>> = { Front: "Frente", Back: "Trás" };
+
+// Readable colour name for a single-photo product file: supplier code
+// ("64.png", "bc560103_00.jpg") → COLOR_CODE_MAP, otherwise the file name
+// split into words ("AzulAcinzentado.png" → "Azul Acinzentado").
+export const simpleColorLabel = (file: string) => {
+  const base = file.replace(/\.[^.]+$/, "").trim();
+  const code = base.toUpperCase().match(/(?:^|_)([0-9A-Z]{2})(?:_\d+)?$/)?.[1];
+  if (COLOR_CODE_MAP[base.toUpperCase()]) return COLOR_CODE_MAP[base.toUpperCase()];
+  if (code && COLOR_CODE_MAP[code]) return COLOR_CODE_MAP[code];
+  return prettyColorLabel(base.replace(/([a-z])([A-Z])/g, "$1 $2"));
+};
