@@ -11,12 +11,12 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'pt',
-    // Node 21+ exposes a global `navigator`, and Node reports `en-US`. That
-    // makes the *browser* language detector fire during SSG and resolve to
-    // English, so every prerendered page shipped English product names inside
-    // a `<html lang="pt">` document. Pin the server render to Portuguese; the
-    // browser still detects normally on hydration.
-    ...(typeof window === 'undefined' ? { lng: 'pt' } : {}),
+    // Always start in Portuguese, on the server *and* the client's first
+    // render, so hydration matches the prerendered HTML. (Node 21+ also has a
+    // global `navigator` reporting en-US, which would make SSG detect
+    // English.) I18nProvider switches to the visitor's saved/browser language
+    // right after hydration.
+    lng: 'pt',
     supportedLngs: SUPPORTED as unknown as string[],
     nonExplicitSupportedLngs: true, // map en-US → en, pt-PT → pt etc.
     load: 'languageOnly',
@@ -34,7 +34,9 @@ i18n
       // Detection order — first hit wins. localStorage persists user choice
       // across reloads; navigator detects first-visit preference.
       order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage'],
+      // No automatic caching: init pins 'pt' (see `lng`), which would be
+      // saved as if the visitor chose it. I18nProvider saves real changes.
+      caches: [],
       lookupLocalStorage: 'i18nextLng',
     },
     react: {
