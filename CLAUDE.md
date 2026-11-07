@@ -136,6 +136,7 @@ The `[category]` segment is cosmetic for product pages — lookup is by `[id]` (
 
 - Config: [src/i18n.ts](src/i18n.ts) — translations are bundled (not fetched at runtime)
 - Locale files: `public/locales/en/translation.json` and `public/locales/pt/translation.json`
+- First render is always Portuguese (server and client) so hydration matches; `I18nProvider` switches to the saved/browser language once the page has loaded and is idle, and saves later changes to `localStorage` (`i18nextLng`). Switching earlier makes the streamed Suspense boundaries (Navbar, product grid) fail hydration.
 - `useTranslation()` can only be used in client components. Server components must use English fallbacks or extract translated parts into small `"use client"` child components (see `YouMightAlsoLike.tsx` pattern).
 - The `Navbar` is wrapped in `<Suspense>` in layout.tsx because it uses `useSearchParams()` (required since Next 14.2).
 
@@ -149,7 +150,9 @@ The `[category]` segment is cosmetic for product pages — lookup is by `[id]` (
 ## Design Constraints
 
 - Background: `fundo.jpeg` with a darkening gradient overlay (defined in `globals.css`). Do not remove this.
-- The hero section on the home page (`/`) uses a flyer image — do not modify it.
+- The home page (`/`) has no hero: the tagline bar sits directly above the product grid so products show first on desktop and mobile. (The storefront photo/address block was removed on purpose; `public/images/storefront.webp` is kept if it's ever wanted back.)
+- Customize page: the green print-area box over the product photo comes from `printProfileFor(cat, model)` in `customize/data.ts`. Each profile (adult, Queen, Kid, trousers, hat) has its own areas (mm at size M, position as % of the square supplier photo) and an mm→% scale; sized profiles grow with S–XL. Kid Snapback/Fraser/Panama use the hat profile. Single-photo products (Hood, Sweat, Zipp, Hooded Kids, Zipp Kids) have no back photo: the arrows flip to an approximate back (front photo blurred, badge "vista aproximada") so back areas can still be shown.
+- Customize colour picker shows swatches whose colours come from `customize/swatches.json`, sampled from the photos by `scripts/build-color-swatches.mjs`. **After adding or replacing photos in `public/images/personalizar/`, first run `node scripts/darken-personalizar-photos.mjs` (black background, removes the supplier logo, shrinks to 1600px; preview with `--out DIR`, check any photos it lists as suspicious), then `npm run swatches`** (a colour without an entry shows a striped placeholder). Photos in front/side/back folders must be named `<Model>_<Colour>_Front|Side|Back.jpg` (or `_F/_L/_C`); a misnamed front photo isn't found by the page.
 - Cart icon is a PNG shopping bag (`/images/cart.png`). Keep it; use `drop-shadow` for polish.
 - Color scheme: dark site, all new UI should follow dark theme conventions.
 
